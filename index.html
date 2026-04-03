@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MILANAC V42 - OFFICIAL</title>
+    <title>MILANAC V43 - OFFICIAL</title>
     <style>
         :root { --red: #C61C23; --bg: #000; --card: #121212; --gold: #D4AF37; --grass: #2e7d32; }
         body, html { margin: 0; padding: 0; background: #000; color: white; font-family: 'Segoe UI', sans-serif; height: 100vh; overflow: hidden; }
@@ -16,10 +16,10 @@
         .container { height: calc(100vh - 60px); overflow-y: auto; padding: 15px; box-sizing: border-box; }
         .page { display: none; } .active { display: block; }
 
-        /* CAMPO DA CALCIO FULL CSS */
-        #pitch-wrapper { width: 100%; display: flex; justify-content: center; padding: 10px 0; }
+        /* CAMPO DA CALCIO OTTIMIZZATO PER SCHERMO INTERO */
+        #pitch-wrapper { width: 100%; display: flex; justify-content: center; padding: 5px 0; }
         #pitch-box { 
-            width: 95%; height: 480px; background-color: var(--grass); border: 2px solid #fff; border-radius: 4px; 
+            width: 100%; height: 440px; background-color: var(--grass); border: 2px solid #fff; border-radius: 4px; 
             position: relative; overflow: hidden; touch-action: none;
             background-image: repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(0,0,0,0.03) 40px, rgba(0,0,0,0.03) 80px);
         }
@@ -33,7 +33,7 @@
         /* GIOCATORI */
         .player-token { position: absolute; text-align: center; z-index: 100; width: 55px; }
         .shirt { width: 38px; height: 38px; background: #000; border: 2px solid var(--red); border-radius: 50%; color: #fff; font-weight: 900; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 4px 6px rgba(0,0,0,0.4); font-size: 15px; }
-        .p-name { background: rgba(0,0,0,0.8); color: #fff; font-size: 9px; font-weight: bold; padding: 2px 4px; border-radius: 2px; margin-top: 2px; display: inline-block; white-space: nowrap; text-transform: uppercase; }
+        .p-name { background: rgba(0,0,0,0.85); color: #fff; font-size: 9px; font-weight: bold; padding: 2px 4px; border-radius: 2px; margin-top: 2px; display: inline-block; white-space: nowrap; text-transform: uppercase; }
 
         /* CARDS & UI */
         .card { background: var(--card); border-radius: 8px; padding: 12px; margin-bottom: 12px; border-left: 4px solid var(--red); }
@@ -52,7 +52,7 @@
         <div id="nav" class="nav">
             <button onclick="showPage('home')">SQUADRA</button>
             <button onclick="showPage('lavagna')">LAVAGNA</button>
-            <button onclick="showPage('stats')">CLASSIFICHE & ALBO</button>
+            <button onclick="showPage('stats')">CLASSIFICHE</button>
             <button onclick="showPage('news')">NOTIZIE</button>
             <button onclick="showPage('admin')">ADMIN</button>
         </div>
@@ -77,6 +77,7 @@
                     <div id="players-on-pitch"></div>
                 </div>
             </div>
+            <p style="text-align:center; font-size:11px; color:#555;">Trascina i numeri per posizionare i giocatori</p>
         </div>
 
         <div id="page-stats" class="page">
@@ -93,21 +94,22 @@
 
         <div id="page-admin" class="page">
             <h1>PANNELLO ADMIN</h1>
-            <input type="password" id="adm-pass" placeholder="Password">
-            <button class="btn-p" onclick="login()">ACCEDI</button>
+            <input type="password" id="adm-pass" placeholder="Password Admin">
+            <button class="btn-p" onclick="login()">ACCEDI AI SISTEMI</button>
             <div id="adm-box" style="display:none; margin-top:20px;">
                 <div class="card">
                     <h3>NUOVO GIOCATORE</h3>
-                    <input type="text" id="g-n" placeholder="Nome">
-                    <input type="number" id="g-num" placeholder="Numero">
-                    <button class="btn-p" onclick="addG()">AGGIUNGI</button>
+                    <input type="text" id="g-n" placeholder="Nome Cognome">
+                    <input type="number" id="g-num" placeholder="Numero Maglia">
+                    <button class="btn-p" onclick="addG()">REGISTRA GIOCATORE</button>
                 </div>
                 <div class="card">
                     <h3>PUBBLICA NOTIZIA</h3>
-                    <input type="text" id="n-t" placeholder="Titolo">
-                    <textarea id="n-c" placeholder="Testo news..."></textarea>
-                    <button class="btn-p" onclick="addN()">PUBBLICA</button>
+                    <input type="text" id="n-t" placeholder="Titolo Comunicato">
+                    <textarea id="n-c" rows="3" placeholder="Contenuto della notizia..."></textarea>
+                    <button class="btn-p" onclick="addN()">PUBBLICA NEWS</button>
                 </div>
+                <h3 style="color:var(--red); text-align:center;">GESTIONE ROSA</h3>
                 <div id="adm-list-giocatori"></div>
             </div>
         </div>
@@ -123,17 +125,17 @@
 
         function addG() { 
             const n = document.getElementById('g-n').value, num = document.getElementById('g-num').value;
-            if(n && num) { db.ps.push({id:Date.now(), n, num, g:0, a:0, p:0, v:[], in:false}); save(); } 
+            if(n && num) { db.ps.push({id:Date.now(), n, num, g:0, a:0, p:0, v:[], in:false}); document.getElementById('g-n').value=''; document.getElementById('g-num').value=''; save(); } 
         }
         function addN() {
             const t = document.getElementById('n-t').value, c = document.getElementById('n-c').value;
-            if(t && c) { db.ns.unshift({id:Date.now(), t, c, d:new Date().toLocaleDateString()}); save(); }
+            if(t && c) { db.ns.unshift({id:Date.now(), t, c, d:new Date().toLocaleDateString()}); document.getElementById('n-t').value=''; document.getElementById('n-c').value=''; save(); }
         }
 
         function setVoti(id) {
             let vts = [];
             for(let i=1; i<=5; i++) {
-                let v = prompt("Voto Admin " + i);
+                let v = prompt("Admin " + i + " - Inserisci Voto:");
                 if(v) vts.push(parseFloat(v.replace(',','.')));
             }
             if(vts.length) {
@@ -144,61 +146,61 @@
         }
 
         function render() {
-            // Rosa Home
+            // Home / Squadra
             document.getElementById('lista-giocatori').innerHTML = db.ps.map(p => {
                 const m = p.v.length ? p.v[p.v.length-1] : "N/D";
                 return `<div class="card">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <b>#${p.num} ${p.n.toUpperCase()}</b> 
-                        <span class="gold-text">Ø ${m}</span>
+                        <span class="gold-text">ULTIMO: ${m}</span>
                     </div>
                     <div class="stats-grid">
                         <span>P: ${p.p}</span> <span>G: ${p.g}</span> <span>A: ${p.a}</span>
                     </div>
                     <button class="btn-p" onclick="db.ps.find(x=>x.id===${p.id}).in=!db.ps.find(x=>x.id===${p.id}).in; save();" 
-                    style="margin-top:10px; height:38px; font-size:11px; background:${p.in?'var(--red)':'#222'}">${p.in?'IN CAMPO':'CONVOCA'}</button>
+                    style="margin-top:10px; height:38px; font-size:11px; background:${p.in?'var(--red)':'#222'}">${p.in?'CONVOCATO':'ASSENTE'}</button>
                 </div>`;
             }).join('');
 
-            // Lavagna
+            // Lavagna (Tutto il campo visibile)
             const pitch = document.getElementById('players-on-pitch'); pitch.innerHTML = '';
             db.ps.filter(p => p.in).forEach((p, i) => {
                 const tok = document.createElement('div');
                 tok.className = 'player-token';
                 tok.innerHTML = `<div class="shirt">${p.num}</div><div class="p-name">${p.n.split(' ')[0]}</div>`;
-                tok.style.left = '20px'; tok.style.top = (i * 45 + 30) + 'px';
+                tok.style.left = '10px'; tok.style.top = (i * 42 + 20) + 'px';
                 pitch.appendChild(tok);
                 tok.addEventListener('touchmove', e => {
                     e.preventDefault(); let t = e.touches[0]; let r = document.getElementById('pitch-box').getBoundingClientRect();
-                    tok.style.left = (t.pageX - r.left - 25) + 'px'; tok.style.top = (t.pageY - r.top - 20) + 'px';
+                    tok.style.left = (t.pageX - r.left - 27) + 'px'; tok.style.top = (t.pageY - r.top - 20) + 'px';
                 }, {passive: false});
             });
 
             // Notizie
-            document.getElementById('lista-news').innerHTML = db.ns.length ? db.ns.map(n => `
+            document.getElementById('lista-news').innerHTML = db.ns.map(n => `
                 <div class="card">
                     <small class="gold-text">${n.d}</small>
                     <h3 style="margin:5px 0;">${n.t.toUpperCase()}</h3>
-                    <p style="color:#ccc; font-size:14px;">${n.c}</p>
-                </div>`).join('') : '<p style="text-align:center; color:#555;">Nessuna notizia presente</p>';
-
-            // Ranking & Albo
-            document.getElementById('ranking-list').innerHTML = [...db.ps].sort((a,b)=>(b.g+b.a)-(a.g+a.a)).map(p => `
-                <div class="card" style="display:flex; justify-content:space-between;">
-                    <span>#${p.num} ${p.n}</span> <b>${p.g+p.a} PT</b>
+                    <p style="color:#ccc; font-size:14px; line-height:1.4;">${n.c}</p>
                 </div>`).join('');
 
-            // Admin
+            // Ranking
+            document.getElementById('ranking-list').innerHTML = [...db.ps].sort((a,b)=>(b.g+b.a)-(a.g+a.a)).map(p => `
+                <div class="card" style="display:flex; justify-content:space-between;">
+                    <span>#${p.num} ${p.n}</span> <b>${p.g+p.a} PUNTI</b>
+                </div>`).join('');
+
+            // Admin List (con Tasto Rimuovi)
             document.getElementById('adm-list-giocatori').innerHTML = db.ps.map(p => `
                 <div class="card">
                     <b>${p.n} (#${p.num})</b>
                     <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:5px; margin-top:5px;">
-                        <input type="number" onchange="db.ps.find(x=>x.id===${p.id}).p=parseInt(this.value);save()" value="${p.p}">
-                        <input type="number" onchange="db.ps.find(x=>x.id===${p.id}).g=parseInt(this.value);save()" value="${p.g}">
-                        <input type="number" onchange="db.ps.find(x=>x.id===${p.id}).a=parseInt(this.value);save()" value="${p.a}">
+                        <input type="number" onchange="db.ps.find(x=>x.id===${p.id}).p=parseInt(this.value);save()" value="${p.p}" placeholder="P">
+                        <input type="number" onchange="db.ps.find(x=>x.id===${p.id}).g=parseInt(this.value);save()" value="${p.g}" placeholder="G">
+                        <input type="number" onchange="db.ps.find(x=>x.id===${p.id}).a=parseInt(this.value);save()" value="${p.a}" placeholder="A">
                     </div>
-                    <button onclick="setVoti(${p.id})" style="background:var(--gold); color:#000; padding:10px; border:none; width:100%; font-weight:bold; border-radius:4px;">CALCOLA MEDIA 5 ADMIN</button>
-                    <button onclick="if(confirm('Eliminare?')){db.ps=db.ps.filter(x=>x.id!==${p.id});save()}" style="color:red; background:none; border:none; width:100%; margin-top:10px; font-size:11px;">ELIMINA GIOCATORE</button>
+                    <button onclick="setVoti(${p.id})" style="background:var(--gold); color:#000; padding:10px; border:none; width:100%; font-weight:bold; border-radius:4px; margin-top:5px; cursor:pointer;">MEDIA 5 ADMIN</button>
+                    <button onclick="if(confirm('Eliminare definitivamente ${p.n}?')){db.ps=db.ps.filter(x=>x.id!==${p.id});save()}" style="color:red; background:none; border:1px solid red; width:100%; margin-top:10px; padding:5px; border-radius:4px; font-size:11px; cursor:pointer;">RIMUOVI GIOCATORE</button>
                 </div>`).join('');
         }
         render();
