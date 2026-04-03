@@ -246,7 +246,7 @@
                         <button class="btn-v btn-plus" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].v_adm['${activeAdm}']+=0.5; sync()">+</button>
                     </div>
                     <div class="stat-row">
-                        <span>⚽ Gol: ${p.g||0}</span> <div><button class="btn-v btn-minus" onclick="updateStat(${p.id},'g',-1)">-</button><button class="btn-v btn-plus" onclick="updateStat(${p.id},'g',1)">+</button></div>
+                        <span>⚽ Goal: ${p.g||0}</span> <div><button class="btn-v btn-minus" onclick="updateStat(${p.id},'g',-1)">-</button><button class="btn-v btn-plus" onclick="updateStat(${p.id},'g',1)">+</button></div>
                     </div>
                     <div class="stat-row">
                         <span>👟 Assist: ${p.a||0}</span> <div><button class="btn-v btn-minus" onclick="updateStat(${p.id},'a',-1)">-</button><button class="btn-v btn-plus" onclick="updateStat(${p.id},'a',1)">+</button></div>
@@ -295,7 +295,7 @@
 
         function openP(id) {
             const p = data.ps.find(x=>x.id==id); document.getElementById('m-nome').innerText = p.n;
-            document.getElementById('m-stats').innerHTML = `⚽ GOL: ${p.g||0} | 👟 ASSIST: ${p.a||0} | 🟨: ${p.yl||0} | 🟥: ${p.rd||0} <br>🏆 MVP: ${p.mvp} | POS: ${p.r}`;
+            document.getElementById('m-stats').innerHTML = `⚽ GOAL: ${p.g||0} | 👟 ASSIST: ${p.a||0} | 🟨: ${p.yl||0} | 🟥: ${p.rd||0} <br>🏆 MVP: ${p.mvp} | POS: ${p.r}`;
             document.getElementById('modal-player').style.display='flex';
         }
     </script>
