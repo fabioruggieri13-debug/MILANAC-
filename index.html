@@ -2,167 +2,100 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MILANAC Pro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MILANAC ULTIMATE</title>
     <style>
-        :root { --neon: #ff0000; --bg: #000000; --card: #121212; --field: #0a2e18; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; padding: 0; overflow: hidden; height: 100vh; }
+        body { font-family: sans-serif; background: #000; color: #fff; margin: 0; padding: 10px; }
+        .neon-title { color: #ff0000; text-align: center; text-shadow: 0 0 10px #ff0000; font-size: 2rem; }
+        section { background: #111; border: 1px solid #333; border-radius: 15px; padding: 15px; margin-bottom: 30px; }
+        h2 { color: #ff0000; border-bottom: 1px solid #333; padding-bottom: 5px; text-transform: uppercase; font-size: 1rem; }
         
-        /* Navigazione */
-        .tab-bar { position: fixed; bottom: 0; width: 100%; background: #111; display: flex; border-top: 1px solid #333; height: 70px; z-index: 1000; padding-bottom: env(safe-area-inset-bottom); }
-        .tab-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #777; text-decoration: none; font-size: 10px; font-weight: bold; }
-        .tab-item.active { color: var(--neon); }
-        .tab-icon { font-size: 22px; margin-bottom: 3px; }
+        /* Campo Tattico sempre visibile */
+        #campo { width: 100%; height: 400px; background: #0a2e18; border: 2px solid #fff; position: relative; border-radius: 10px; overflow: hidden; touch-action: none; }
+        .pedina { width: 45px; height: 45px; background: #ff0000; color: #fff; border-radius: 50%; position: absolute; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid #fff; z-index: 10; font-size: 10px; }
 
-        /* Contenitore Pagine */
-        .content { height: calc(100vh - 70px); overflow-y: auto; padding: 15px; box-sizing: border-box; }
-        .page { display: none; }
-        .page.active { display: block; }
-
-        /* Card e UI */
-        .card { background: var(--card); border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid #222; }
-        h1 { color: var(--neon); text-align: center; margin: 10px 0; font-size: 1.5rem; letter-spacing: 2px; }
-        button { background: var(--neon); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; width: 100%; cursor: pointer; }
-        
-        /* Campo Tattico */
-        #tacticalField { width: 100%; height: 70vh; background: var(--field); border-radius: 10px; position: relative; border: 2px solid #ffffff33; overflow: hidden; touch-action: none; }
-        .player-token { width: 44px; height: 44px; background: var(--neon); color: white; border-radius: 50%; position: absolute; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; border: 2px solid white; z-index: 10; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-
-        /* Liste */
-        .row { display: flex; justify-content: space-between; align-items: center; background: #1a1a1a; padding: 12px; border-radius: 8px; margin-bottom: 8px; border-left: 3px solid #333; }
-        .row.present { border-left-color: var(--neon); }
-        .btn-status { width: auto; padding: 6px 12px; font-size: 10px; }
+        input, select, button { width: 100%; padding: 15px; margin: 10px 0; border-radius: 10px; border: none; font-size: 1rem; }
+        button { background: #ff0000; color: #fff; font-weight: bold; }
+        .player-row { display: flex; justify-content: space-between; align-items: center; background: #222; padding: 10px; border-radius: 8px; margin-bottom: 5px; }
     </style>
 </head>
 <body>
 
-    <div class="content">
-        <div id="page-hub" class="page active">
-            <h1>MILANAC HUB</h1>
-            <div class="card">
-                <h2 style="font-size: 14px; margin-top:0">APPELLO RAPIDO</h2>
-                <div id="list-hub"></div>
-            </div>
-        </div>
+    <h1 class="neon-title">MILANAC</h1>
 
-        <div id="page-tactic" class="page">
-            <div id="tacticalField"></div>
-            <button onclick="render()" style="margin-top:10px; background:#333">RESET POSIZIONI</button>
-        </div>
+    <section>
+        <h2>1. AGGIUNGI GIOCATORI</h2>
+        <input type="text" id="nome" placeholder="Nome Gamertag">
+        <select id="ruolo"><option>ATT</option><option>CC</option><option>DIF</option><option>POR</option></select>
+        <button onclick="aggiungi()">AGGIUNGI ORA</button>
+    </section>
 
-        <div id="page-rosa" class="page">
-            <h1>LA ROSA</h1>
-            <div id="list-rosa" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"></div>
-        </div>
+    <section>
+        <h2>2. CHI C'È STASERA?</h2>
+        <div id="lista-appello"></div>
+    </section>
 
-        <div id="page-admin" class="page">
-            <h1>GESTIONE</h1>
-            <div class="card">
-                <input type="text" id="new-name" placeholder="Gamertag" style="width:100%; padding:12px; margin-bottom:10px; border-radius:8px; border:none; background:#222; color:white">
-                <select id="new-role" style="width:100%; padding:12px; margin-bottom:10px; border-radius:8px; background:#222; color:white; border:none">
-                    <option value="ATT">ATT</option><option value="CC">CC</option><option value="DIF">DIF</option><option value="POR">POR</option>
-                </select>
-                <button onclick="addPlayer()">AGGIUNGI PLAYER</button>
-            </div>
-            <div id="list-admin"></div>
-        </div>
-    </div>
-
-    <div class="tab-bar">
-        <div class="tab-item active" onclick="nav('hub')"><span class="tab-icon">🏠</span>HUB</div>
-        <div class="tab-item" onclick="nav('tactic')"><span class="tab-icon">📋</span>TATTICA</div>
-        <div class="tab-item" onclick="nav('rosa')"><span class="tab-icon">👤</span>ROSA</div>
-        <div class="tab-item" onclick="nav('admin')"><span class="tab-icon">⚙️</span>ADMIN</div>
-    </div>
+    <section>
+        <h2>3. LAVAGNA TATTICA</h2>
+        <div id="campo"></div>
+        <p style="font-size: 10px; color: #888;">Trascina i nomi sul campo verde.</p>
+    </section>
 
     <script>
-        let players = JSON.parse(localStorage.getItem('milanac_db') || "[]");
+        let rosa = JSON.parse(localStorage.getItem('milanac_v5') || "[]");
 
-        function nav(id) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
-            document.getElementById('page-'+id).classList.add('active');
-            event.currentTarget.classList.add('active');
-            render();
-        }
-
-        function addPlayer() {
-            const n = document.getElementById('new-name').value;
-            const r = document.getElementById('new-role').value;
+        function aggiungi() {
+            const n = document.getElementById('nome').value;
             if(!n) return;
-            players.push({ id: Date.now(), name: n, role: r, in: false });
-            document.getElementById('new-name').value = "";
-            save();
+            rosa.push({ id: Date.now(), n, r: document.getElementById('ruolo').value, attivo: false });
+            document.getElementById('nome').value = "";
+            salva();
         }
 
         function toggle(id) {
-            const p = players.find(x => x.id === id);
-            p.in = !p.in;
-            save();
+            const p = rosa.find(x => x.id === id);
+            p.attivo = !p.attivo;
+            salva();
         }
 
-        function del(id) {
-            players = players.filter(p => p.id !== id);
-            save();
+        function salva() {
+            localStorage.setItem('milanac_v5', JSON.stringify(rosa));
+            aggiorna();
         }
 
-        function save() {
-            localStorage.setItem('milanac_db', JSON.stringify(players));
-            render();
-        }
-
-        function render() {
-            // HUB
-            document.getElementById('list-hub').innerHTML = players.map(p => `
-                <div class="row ${p.in?'present':''}">
-                    <span>${p.name} <small>(${p.role})</small></span>
-                    <button class="btn-status" onclick="toggle(${p.id})" style="background:${p.in?'#ff0000':'#333'}">${p.in?'IN':'OUT'}</button>
+        function aggiorna() {
+            // Lista Appello
+            document.getElementById('lista-appello').innerHTML = rosa.map(p => `
+                <div class="player-row">
+                    <span>${p.n} (${p.r})</span>
+                    <button style="width:auto; padding:5px 20px; background:${p.attivo?'#ff0000':'#444'}" onclick="toggle(${p.id})">
+                        ${p.attivo ? 'IN CAMPO' : 'ASSENTE'}
+                    </button>
                 </div>
-            `).join('');
+            `).join('') || "Nessun giocatore. Aggiungilo sopra!";
 
-            // TATTICA
-            const field = document.getElementById('tacticalField');
-            field.innerHTML = '';
-            players.filter(p => p.in).forEach((p, i) => {
-                const div = document.createElement('div');
-                div.className = 'player-token';
-                div.innerText = p.name.substring(0,3).toUpperCase();
-                div.style.left = '20px';
-                div.style.top = (i * 50 + 20) + 'px';
-                field.appendChild(div);
-                dragElement(div);
+            // Campo
+            const campo = document.getElementById('campo');
+            campo.innerHTML = '';
+            rosa.filter(p => p.attivo).forEach((p, i) => {
+                const d = document.createElement('div');
+                d.className = 'pedina';
+                d.innerText = p.n.substring(0,3).toUpperCase();
+                d.style.left = '10px';
+                d.style.top = (i * 50 + 10) + 'px';
+                campo.appendChild(d);
+                
+                // Movimento
+                d.ontouchmove = e => {
+                    e.preventDefault();
+                    let t = e.touches[0];
+                    let rect = campo.getBoundingClientRect();
+                    d.style.left = (t.pageX - rect.left - 22) + 'px';
+                    d.style.top = (t.pageY - rect.top - 22) + 'px';
+                };
             });
-
-            // ROSA
-            document.getElementById('list-rosa').innerHTML = players.map(p => `
-                <div class="card" style="text-align:center; margin-bottom:0">
-                    <div style="font-size:24px">👤</div>
-                    <div style="font-size:12px; font-weight:bold">${p.name}</div>
-                    <div style="font-size:10px; color:red">${p.role}</div>
-                </div>
-            `).join('');
-
-            // ADMIN
-            document.getElementById('list-admin').innerHTML = players.map(p => `
-                <div class="row">
-                    <span>${p.name}</span>
-                    <button onclick="del(${p.id})" style="width:auto; background:#444; padding:5px 10px">ELIMINA</button>
-                </div>
-            `).join('');
         }
-
-        function dragElement(el) {
-            let x = 0, y = 0;
-            el.ontouchmove = e => {
-                e.preventDefault();
-                let t = e.touches[0];
-                let b = document.getElementById('tacticalField').getBoundingClientRect();
-                el.style.left = (t.pageX - b.left - 22) + 'px';
-                el.style.top = (t.pageY - b.top - 22) + 'px';
-            };
-        }
-
-        window.onload = render;
+        window.onload = aggiorna;
     </script>
 </body>
 </html>
