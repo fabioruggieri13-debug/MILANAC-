@@ -81,10 +81,11 @@
 
     <nav class="sidebar">
         <button onclick="go('rosa')">🛡️ Rosa</button>
-        <button onclick="go('tattiche')">📋 Formazione</button>
+        <button onclick="go('tattica')">📋 Formazione</button>
+        <button onclick="go('calendario')">📅 Calendario Partite</button>
         <button onclick="go('news')">📰 News & Comunicati</button>
         <button onclick="go('mercato')">💰 Mercato</button>
-        <button onclick="go('partite')">🏟️ Partite</button>
+        <button onclick="go('partite')">🏟️ Risultati Partite</button>
         <button onclick="go('premi')">🏆 Premi</button>
         <button onclick="goAdmin()">⚙️ Area Admin</button>
         <button onclick="document.querySelector('.sidebar').classList.remove('active')">Chiudi</button>
@@ -119,14 +120,24 @@
             </div>
         </div>
 
+        <div id="p-calendario" class="page">
+            <h3 style="color:var(--oro)">CALENDARIO PROSSIME PARTITE</h3>
+            <div class="card">
+                <input type="text" id="cal-avv" placeholder="Avversario">
+                <input type="datetime-local" id="cal-data">
+                <button class="btn-main" onclick="addCalendarEvent()">AGGIUNGI A CALENDARIO</button>
+            </div>
+            <div id="l-calendario"></div>
+        </div>
+
         <div id="p-mercato" class="page"><h3>VALORI DI MERCATO</h3><div id="l-mercato"></div></div>
 
         <div id="p-partite" class="page">
-            <h3>GESTIONE PARTITE</h3>
+            <h3>RISULTATI PARTITE</h3>
             <div class="card">
                 <input type="text" id="m-avv" placeholder="Avversario">
                 <input type="text" id="m-ris" placeholder="Risultato">
-                <button class="btn-main" onclick="addMatch()">AGGIUNGI PARTITA</button>
+                <button class="btn-main" onclick="addMatch()">AGGIUNGI RISULTATO</button>
             </div>
             <div id="l-partite"></div>
         </div>
@@ -163,7 +174,7 @@
     <script>
         const firebaseConfig = { apiKey: "AIzaSyDbO_AxHKz1avQpYscoSSLpEfmFaL8MRGg", authDomain: "milanac-proclub.firebaseapp.com", projectId: "milanac-proclub", storageBucket: "milanac-proclub.firebasestorage.app", messagingSenderId: "61702234008", appId: "1:61702234008:web:aa597d8600d0a8251895ed" };
         firebase.initializeApp(firebaseConfig); const db = firebase.firestore();
-        let data = { ps: [], mod: '4-4-2', matches: [], news: [] };
+        let data = { ps: [], mod: '4-4-2', matches: [], news: [], calendar: [] };
         
         const PASS = "milanac"; 
 
@@ -207,13 +218,26 @@
             if(avv&&ris){ if(!data.matches) data.matches=[]; data.matches.unshift({avv, ris, d: new Date().toLocaleDateString()}); sync(); }
         }
 
+        function addCalendarEvent() {
+            const avv = document.getElementById('cal-avv').value;
+            const dataOra = document.getElementById('cal-data').value;
+            if(avv && dataOra) {
+                if(!data.calendar) data.calendar = [];
+                data.calendar.push({avv, dt: dataOra});
+                data.calendar.sort((a,b) => new Date(a.dt) - new Date(b.dt));
+                sync();
+                document.getElementById('cal-avv').value = '';
+                document.getElementById('cal-data').value = '';
+            }
+        }
+
         function addNews() {
             const txt = document.getElementById('news-text').value;
             if(txt){ if(!data.news) data.news=[]; data.news.unshift({txt, d: new Date().toLocaleString()}); sync(); document.getElementById('news-text').value=''; }
         }
 
         function render() {
-            let hR="", hA="", hMk="", hP="", hMatch="", hNews="", hMod="";
+            let hR="", hA="", hMk="", hP="", hMatch="", hNews="", hMod="", hCal="";
             const activeAdm = document.getElementById('active-admin').value;
 
             // Logica Badge
@@ -284,10 +308,21 @@
 
             (data.matches || []).forEach((m,idx) => { hMatch += `<div class="card"><b>${m.d}</b>: ${m.ris} vs ${m.avv} <button style="background:none; border:none; float:right" onclick="data.matches.splice(${idx},1); sync()">🗑️</button></div>`; });
             (data.news || []).forEach((n,idx) => { hNews += `<div class="card"><small>${n.d}</small><p>${n.txt}</p><button style="background:none; border:none; color:red" onclick="data.news.splice(${idx},1); sync()">🗑️ Elimina</button></div>`; });
+            
+            (data.calendar || []).forEach((c,idx) => {
+                const dateObj = new Date(c.dt);
+                const formatData = dateObj.toLocaleDateString() + " ore " + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                hCal += `<div class="card">
+                    <span style="color:var(--oro)">${formatData}</span><br>
+                    <b>${c.avv}</b>
+                    <button style="background:none; border:none; float:right; color:red" onclick="data.calendar.splice(${idx},1); sync()">🗑️</button>
+                </div>`;
+            });
 
             document.getElementById('l-rosa').innerHTML = hR; document.getElementById('l-admin').innerHTML = hA;
             document.getElementById('l-mercato').innerHTML = hMk; document.getElementById('l-partite').innerHTML = hMatch;
             document.getElementById('l-news').innerHTML = hNews; document.getElementById('l-premi').innerHTML = hP;
+            document.getElementById('l-calendario').innerHTML = hCal;
 
             const pl = document.getElementById('pitch-players'); pl.innerHTML = "";
             data.ps.filter(p => p.convocato).forEach(p => {
