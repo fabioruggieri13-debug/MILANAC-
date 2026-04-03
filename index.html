@@ -3,45 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MILANAC ULTIMATE</title>
+    <title>MILANAC ULTIMATE V37</title>
     <style>
         :root { --red: #C61C23; --bg: #000; --card: #121212; --gold: #D4AF37; }
-        body, html { margin: 0; padding: 0; background: #000; color: white; font-family: 'Segoe UI', sans-serif; height: 100vh; overflow: hidden; }
+        body, html { margin: 0; padding: 0; background: #000; color: white; font-family: 'Segoe UI', Roboto, sans-serif; height: 100vh; overflow: hidden; }
 
         /* INTRO */
-        #intro { position: fixed; inset: 0; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; }
-        .logo-title { font-size: 4rem; font-weight: 900; color: var(--red); letter-spacing: -2px; }
-        .btn-enter { background: var(--red); color: white; border: none; padding: 20px 40px; font-size: 1rem; font-weight: 900; border-radius: 4px; cursor: pointer; text-transform: uppercase; margin-top: 30px; }
+        #intro { position: fixed; inset: 0; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: 0.5s; }
+        .logo-title { font-size: 4rem; font-weight: 900; color: var(--red); letter-spacing: -2px; text-shadow: 0 0 20px rgba(198,28,35,0.4); }
+        .btn-enter { background: var(--red); color: white; border: none; padding: 20px 50px; font-size: 1rem; font-weight: 900; border-radius: 4px; cursor: pointer; text-transform: uppercase; margin-top: 30px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-        /* HEADER & NAV */
+        /* NAV */
         header { height: 65px; background: #080808; border-bottom: 2px solid var(--red); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; box-sizing: border-box; }
-        .burger { font-size: 30px; color: var(--red); cursor: pointer; }
-        .nav { position: absolute; top: 65px; right: 0; background: #0a0a0a; width: 250px; display: none; flex-direction: column; border-left: 2px solid var(--red); z-index: 9999; }
-        .nav button { background: none; border: none; color: white; padding: 18px; text-align: left; border-bottom: 1px solid #1a1a1a; font-weight: 900; text-transform: uppercase; font-size: 13px; }
+        .burger { font-size: 32px; color: var(--red); cursor: pointer; }
+        .nav { position: absolute; top: 65px; right: 0; background: #0a0a0a; width: 260px; display: none; flex-direction: column; border-left: 2px solid var(--red); z-index: 9999; box-shadow: -10px 10px 30px rgba(0,0,0,0.5); }
+        .nav button { background: none; border: none; color: white; padding: 18px; text-align: left; border-bottom: 1px solid #1a1a1a; font-weight: 900; text-transform: uppercase; font-size: 14px; }
 
         .container { height: calc(100vh - 65px); overflow-y: auto; padding: 15px; box-sizing: border-box; }
         .page { display: none; } .active { display: block; }
 
-        /* CAMPO REALE */
+        /* CAMPO REALE PROFESSIONALE */
         #pitch-box { 
-            width: 100%; height: 500px; background-color: #1b3d21; border: 2px solid #333; border-radius: 8px; 
+            width: 100%; height: 520px; background-color: #1b3d21; border: 2px solid #fff; border-radius: 8px; 
             position: relative; overflow: hidden; touch-action: none; 
             background-image: url('https://i.imgur.com/8N4R76R.png'); background-size: cover; background-position: center;
         }
-        .player-token { position: absolute; text-align: center; z-index: 100; width: 60px; }
-        .shirt { width: 35px; height: 35px; background: #000; border: 2px solid var(--red); border-radius: 50%; color: #fff; font-weight: 900; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
-        .p-name { background: rgba(0,0,0,0.8); color: #fff; font-size: 9px; font-weight: bold; padding: 2px 4px; border-radius: 2px; margin-top: 3px; display: inline-block; white-space: nowrap; }
+        .player-token { position: absolute; text-align: center; z-index: 100; width: 60px; transition: transform 0.1s; }
+        .shirt { width: 40px; height: 40px; background: #000; border: 2px solid var(--red); border-radius: 50%; color: #fff; font-weight: 900; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 5px 15px rgba(0,0,0,0.6); font-size: 18px; }
+        .p-name { background: rgba(0,0,0,0.85); color: #fff; font-size: 10px; font-weight: bold; padding: 3px 6px; border-radius: 3px; margin-top: 4px; display: inline-block; white-space: nowrap; text-transform: uppercase; border: 1px solid #333; }
 
-        /* CARDS */
-        .card { background: var(--card); border-radius: 8px; padding: 15px; margin-bottom: 12px; border-left: 4px solid var(--red); }
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; text-align: center; background: #080808; padding: 10px; border-radius: 4px; }
-        .stat-val { display: block; font-size: 18px; font-weight: 900; color: var(--red); }
-        .stat-lbl { font-size: 9px; color: #555; text-transform: uppercase; }
-
-        .btn-p { background: var(--red); color: white; border: none; padding: 15px; border-radius: 4px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; }
-        input, textarea { width: 100%; padding: 12px; background: #0a0a0a; border: 1px solid #333; color: #fff; margin-bottom: 10px; border-radius: 4px; box-sizing: border-box; }
-        h1 { font-weight: 900; color: var(--red); text-align: center; font-size: 1.4rem; text-transform: uppercase; }
+        /* CARDS & STATS */
+        .card { background: var(--card); border-radius: 8px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--red); position: relative; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; text-align: center; background: #080808; padding: 12px; border-radius: 6px; }
+        .stat-val { display: block; font-size: 22px; font-weight: 900; color: var(--red); }
+        .stat-lbl { font-size: 10px; color: #666; text-transform: uppercase; font-weight: bold; }
         .gold-text { color: var(--gold); font-weight: 900; }
+
+        .btn-p { background: var(--red); color: white; border: none; padding: 16px; border-radius: 4px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; letter-spacing: 1px; }
+        input, textarea { width: 100%; padding: 14px; background: #0a0a0a; border: 1px solid #333; color: #fff; margin-bottom: 12px; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
+        h1 { font-weight: 900; color: var(--red); text-align: center; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; }
     </style>
 </head>
 <body>
@@ -52,59 +53,61 @@
     </div>
 
     <header>
-        <div style="color: var(--red); font-weight: 900; font-size: 22px;">MILANAC</div>
+        <div style="color: var(--red); font-weight: 900; font-size: 24px; letter-spacing: 2px;">MILANAC</div>
         <div class="burger" onclick="toggleNav()">☰</div>
         <div id="nav" class="nav">
-            <button onclick="showPage('home')">SQUADRA</button>
+            <button onclick="showPage('home')">LA ROSA</button>
             <button onclick="showPage('lavagna')">LAVAGNA TATTICA</button>
             <button onclick="showPage('stats')">CLASSIFICHE & ALBO</button>
             <button onclick="showPage('news')">NOTIZIE</button>
-            <button onclick="showPage('admin')">ADMIN</button>
+            <button onclick="showPage('admin')">AREA ADMIN</button>
         </div>
     </header>
 
     <div class="container">
         <div id="page-home" class="page active">
-            <h1>LA ROSA</h1>
+            <h1>SQUADRA UFFICIALE</h1>
             <div id="lista-giocatori"></div>
         </div>
 
         <div id="page-lavagna" class="page">
-            <h1>SCHIERAMENTO</h1>
+            <h1>SCHIERAMENTO TATTICO</h1>
             <div id="pitch-box">
                 <div id="players-on-pitch"></div>
             </div>
-            <p style="text-align:center; font-size:11px; color:#444; margin-top:10px;">Muovi i numeri sulla lavagna</p>
+            <p style="text-align:center; font-size:12px; color:#555; margin-top:15px; font-style:italic;">Trascina i numeri per posizionare i giocatori sul campo</p>
         </div>
 
         <div id="page-stats" class="page">
-            <h1>CLASSIFICA PUNTI</h1>
+            <h1>RANKING PUNTI (G+A)</h1>
             <div id="ranking-list"></div>
-            <h1 style="margin-top:30px;">ALBO D'ORO</h1>
+            <h1 style="margin-top:40px;">ALBO D'ORO</h1>
             <div id="albo-list"></div>
         </div>
 
         <div id="page-news" class="page">
-            <h1>COMUNICATI</h1>
+            <h1>COMUNICATI CLUB</h1>
             <div id="lista-news"></div>
         </div>
 
         <div id="page-admin" class="page">
-            <h1>CONTROLLI ADMIN</h1>
-            <input type="password" id="adm-pass" placeholder="Password">
-            <button class="btn-p" onclick="login()">ACCEDI</button>
+            <h1>PANNELLO DI CONTROLLO</h1>
+            <div id="login-section">
+                <input type="password" id="adm-pass" placeholder="Password Admin">
+                <button class="btn-p" onclick="login()">ACCEDI AI SISTEMI</button>
+            </div>
             <div id="adm-box" style="display:none; margin-top:20px;">
                 <div class="card">
-                    <h3>NUOVO GIOCATORE</h3>
-                    <input type="text" id="g-n" placeholder="Nome">
-                    <input type="number" id="g-num" placeholder="Numero Maglia">
-                    <button class="btn-p" onclick="addG()">REGISTRA</button>
+                    <h3>REGISTRA GIOCATORE</h3>
+                    <input type="text" id="g-n" placeholder="Nome Cognome">
+                    <input type="number" id="g-num" placeholder="Numero di Maglia">
+                    <button class="btn-p" onclick="addG()">AGGIUNGI ALLA ROSA</button>
                 </div>
                 <div class="card">
-                    <h3>NEWS</h3>
-                    <input type="text" id="n-t" placeholder="Titolo">
-                    <textarea id="n-c" rows="2" placeholder="Testo..."></textarea>
-                    <button class="btn-p" onclick="addN()">PUBBLICA</button>
+                    <h3>PUBBLICA NEWS</h3>
+                    <input type="text" id="n-t" placeholder="Titolo Notizia">
+                    <textarea id="n-c" rows="3" placeholder="Contenuto del messaggio ufficiale..."></textarea>
+                    <button class="btn-p" onclick="addN()">INVIA COMUNICATO</button>
                 </div>
                 <div id="adm-list-giocatori"></div>
             </div>
@@ -112,45 +115,46 @@
     </div>
 
     <script>
-        // Database V36 con tutto dentro
-        let db = JSON.parse(localStorage.getItem('milanac_v36') || '{"ps":[], "ns":[], "albo":[]}');
+        // Database Integrale V37
+        let db = JSON.parse(localStorage.getItem('milanac_v37') || '{"ps":[], "ns":[], "albo":[]}');
 
         function toggleNav() { const n = document.getElementById('nav'); n.style.display = (n.style.display === 'flex') ? 'none' : 'flex'; }
         function showPage(p) { document.querySelectorAll('.page').forEach(x => x.classList.remove('active')); document.getElementById('page-'+p).classList.add('active'); toggleNav(); render(); }
-        function login() { if(document.getElementById('adm-pass').value === 'milan') document.getElementById('adm-box').style.display='block'; }
-        function save() { localStorage.setItem('milanac_v36', JSON.stringify(db)); render(); }
+        function login() { if(document.getElementById('adm-pass').value === 'milan') { document.getElementById('login-section').style.display='none'; document.getElementById('adm-box').style.display='block'; render(); } }
+        function save() { localStorage.setItem('milanac_v37', JSON.stringify(db)); render(); }
 
         function addG() { 
             const n = document.getElementById('g-n').value; 
             const num = document.getElementById('g-num').value;
-            if(n && num) { db.ps.push({id:Date.now(), n, num, g:0, a:0, p:0, v:[], in:false}); save(); } 
+            if(n && num) { db.ps.push({id:Date.now(), n, num, g:0, a:0, p:0, v:[], in:false}); document.getElementById('g-n').value=''; document.getElementById('g-num').value=''; save(); } 
         }
         function addN() { 
             const t = document.getElementById('n-t').value, c = document.getElementById('n-c').value;
-            if(t && c) { db.ns.unshift({id:Date.now(), t, c, d:new Date().toLocaleDateString()}); save(); } 
+            if(t && c) { db.ns.unshift({id:Date.now(), t, c, d:new Date().toLocaleDateString()}); document.getElementById('n-t').value=''; document.getElementById('n-c').value=''; save(); } 
         }
 
         function setVoti(id) {
             let voti = [];
             for(let i=1; i<=5; i++) {
-                let v = prompt("Voto Admin " + i + ":");
+                let v = prompt("Admin " + i + " - Inserisci Voto Partita:");
                 if(v) voti.push(parseFloat(v.replace(',','.')));
             }
             if(voti.length > 0) {
                 let media = (voti.reduce((a,b)=>a+b,0)/voti.length).toFixed(2);
                 db.ps.find(x=>x.id===id).v.push(parseFloat(media));
                 save();
+                alert("Media calcolata: " + media);
             }
         }
 
         function render() {
-            // Rosa Home
+            // Rosa Home con Media Voti Totale
             document.getElementById('lista-giocatori').innerHTML = db.ps.map(p => {
-                const m = p.v.length ? (p.v.reduce((a,b)=>a+b,0)/p.v.length).toFixed(2) : "-";
+                const m = p.v.length ? (p.v.reduce((a,b)=>a+b,0)/p.v.length).toFixed(2) : "N/D";
                 return `<div class="card">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <b style="font-size:1.2rem;">#${p.num} ${p.n.toUpperCase()}</b>
-                        <span class="gold-text">Ø ${m}</span>
+                        <b style="font-size:1.4rem;">#${p.num} ${p.n.toUpperCase()}</b>
+                        <span class="gold-text">MEDIA: ${m}</span>
                     </div>
                     <div class="stats-grid">
                         <div><span class="stat-val">${p.p}</span><span class="stat-lbl">Presenze</span></div>
@@ -158,17 +162,17 @@
                         <div><span class="stat-val">${p.a}</span><span class="stat-lbl">Assist</span></div>
                     </div>
                     <button class="btn-p" onclick="db.ps.find(x=>x.id===${p.id}).in=!db.ps.find(x=>x.id===${p.id}).in; save();" 
-                    style="margin-top:10px; height:40px; font-size:11px; background:${p.in?'var(--red)':'#222'}">${p.in?'CONVOCATO':'ASSENTE'}</button>
+                    style="margin-top:15px; height:45px; background:${p.in?'var(--red)':'#222'}">${p.in?'IN CAMPO':'CONVOCA'}</button>
                 </div>`;
             }).join('');
 
-            // Lavagna Tattica
+            // Lavagna Tattica con Cerchi e Numeri
             const pitch = document.getElementById('players-on-pitch'); pitch.innerHTML = '';
             db.ps.filter(p => p.in).forEach((p, i) => {
                 const tok = document.createElement('div');
                 tok.className = 'player-token';
-                tok.innerHTML = `<div class="shirt">${p.num}</div><div class="p-name">${p.n}</div>`;
-                tok.style.left = '20px'; tok.style.top = (i * 55 + 40) + 'px';
+                tok.innerHTML = `<div class="shirt">${p.num}</div><div class="p-name">${p.n.split(' ')[0]}</div>`;
+                tok.style.left = (20 + (i % 3) * 80) + 'px'; tok.style.top = (40 + Math.floor(i / 3) * 70) + 'px';
                 pitch.appendChild(tok);
                 tok.addEventListener('touchmove', e => {
                     e.preventDefault(); let t = e.touches[0]; let r = document.getElementById('pitch-box').getBoundingClientRect();
@@ -176,27 +180,32 @@
                 }, {passive: false});
             });
 
-            // Classifica
+            // Ranking Punti
             document.getElementById('ranking-list').innerHTML = [...db.ps].sort((a,b)=>(b.g+b.a)-(a.g+a.a)).map(p => `
-                <div class="card" style="display:flex; justify-content:space-between;">
-                    <span><b>#${p.num}</b> ${p.n.toUpperCase()}</span> <b>${p.g+p.a} PUNTI</b>
+                <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+                    <span><b>#${p.num}</b> ${p.n.toUpperCase()}</span> 
+                    <b style="font-size:1.2rem; color:var(--gold)">${p.g+p.a} PUNTI</b>
                 </div>`).join('');
 
             // Notizie
             document.getElementById('lista-news').innerHTML = db.ns.map(n => `
-                <div class="card"><small class="gold-text">${n.d}</small><h2>${n.t}</h2><p style="color:#aaa">${n.c}</p></div>`).join('');
+                <div class="card">
+                    <small class="gold-text">${n.d}</small>
+                    <h2 style="margin:5px 0; letter-spacing:1px;">${n.t.toUpperCase()}</h2>
+                    <p style="color:#aaa; line-height:1.5;">${n.c}</p>
+                </div>`).join('');
 
-            // Admin List
+            // Admin List con Gestione Statistiche e Voti
             document.getElementById('adm-list-giocatori').innerHTML = db.ps.map(p => `
                 <div class="card">
-                    <b>${p.n} (#${p.num})</b>
-                    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:5px; margin-top:10px;">
-                        <input type="number" onchange="db.ps.find(x=>x.id===${p.id}).p=parseInt(this.value);save()" value="${p.p}" placeholder="P">
-                        <input type="number" onchange="db.ps.find(x=>x.id===${p.id}).g=parseInt(this.value);save()" value="${p.g}" placeholder="G">
-                        <input type="number" onchange="db.ps.find(x=>x.id===${p.id}).a=parseInt(this.value);save()" value="${p.a}" placeholder="A">
+                    <b style="font-size:1.1rem;">${p.n} (#${p.num})</b>
+                    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:10px;">
+                        <input type="number" onchange="db.ps.find(x=>x.id===${p.id}).p=parseInt(this.value);save()" value="${p.p}" placeholder="Pres">
+                        <input type="number" onchange="db.ps.find(x=>x.id===${p.id}).g=parseInt(this.value);save()" value="${p.g}" placeholder="Goal">
+                        <input type="number" onchange="db.ps.find(x=>x.id===${p.id}).a=parseInt(this.value);save()" value="${p.a}" placeholder="Ass">
                     </div>
-                    <button onclick="setVoti(${p.id})" style="background:var(--gold); color:#000; padding:10px; border:none; width:100%; font-weight:bold; margin-bottom:5px;">VOTI 5 ADMIN</button>
-                    <button onclick="db.ps=db.ps.filter(x=>x.id!==${p.id});save()" style="color:red; background:none; border:none; width:100%; font-size:10px;">ELIMINA</button>
+                    <button onclick="setVoti(${p.id})" style="background:var(--gold); color:#000; padding:12px; border:none; width:100%; font-weight:bold; margin-top:5px; border-radius:4px;">INSERISCI VOTI (5 ADMIN)</button>
+                    <button onclick="if(confirm('Eliminare?')){db.ps=db.ps.filter(x=>x.id!==${p.id});save()}" style="color:red; background:none; border:none; width:100%; margin-top:12px; font-size:11px; text-decoration:underline;">ELIMINA GIOCATORE</button>
                 </div>`).join('');
         }
     </script>
