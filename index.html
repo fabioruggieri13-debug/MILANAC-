@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MILANAC PRO V82 - DRAG EDITION</title>
+    <title>MILANAC PRO V83 - STADIUM EDITION</title>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <style>
-        :root { --rosso: #C61C23; --oro: #D4AF37; --nero: #000; --erba: #2e7d32; }
+        :root { --rosso: #C61C23; --oro: #D4AF37; --nero: #000; --erba: #2e7d32; --linee: rgba(255,255,255,0.8); }
         body { margin: 0; background: var(--nero); color: white; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; touch-action: none; }
         
-        #intro { position: fixed; inset: 0; background: radial-gradient(circle, #300 0%, #000 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; animation: beat 1.5s infinite; }
-        @keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
-
+        #intro { position: fixed; inset: 0; background: radial-gradient(circle, #300 0%, #000 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; }
+        
         header { height: 60px; border-bottom: 2px solid var(--rosso); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; background: #000; z-index: 2000; position: relative; }
         .sidebar { position: fixed; top: 0; right: -100%; width: 280px; height: 100%; background: rgba(5,5,5,0.98); transition: 0.4s; z-index: 3000; border-left: 2px solid var(--rosso); padding-top: 60px; }
         .sidebar.active { right: 0; }
@@ -21,39 +20,39 @@
         .container { height: calc(100vh - 60px); overflow-y: auto; padding: 15px; box-sizing: border-box; }
         .page { display: none; } .page.active { display: block; }
 
-        /* CAMPO MIGLIORATO */
-        #pitch-container { width: 100%; position: relative; padding: 10px 0; touch-action: none; }
+        /* CAMPO PROFESSIONALE V83 */
+        #pitch-container { width: 100%; position: relative; padding: 5px 0; touch-action: none; }
         #pitch { 
-            width: 95%; aspect-ratio: 2/3; max-height: 70vh; margin: 0 auto; background: #2e7d32; 
-            border: 3px solid white; border-radius: 5px; position: relative; overflow: hidden;
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                repeating-linear-gradient(0deg, #2e7d32, #2e7d32 40px, #266b2a 40px, #266b2a 80px);
+            width: 95%; aspect-ratio: 2/3; max-height: 75vh; margin: 0 auto; background: var(--erba); 
+            border: 2px solid white; border-radius: 4px; position: relative; overflow: hidden;
+            background-image: repeating-linear-gradient(0deg, #2e7d32, #2e7d32 40px, #266b2a 40px, #266b2a 80px);
         }
-        #pitch::after { content: ""; position: absolute; top: 50%; width: 100%; height: 2px; background: rgba(255,255,255,0.5); }
-        .center-circle { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; border: 2px solid rgba(255,255,255,0.5); border-radius: 50%; }
+        
+        /* Linee del campo */
+        .p-line { position: absolute; border: 2px solid var(--linee); pointer-events: none; }
+        .mid-line { top: 50%; width: 100%; height: 0; border-top: 2px solid var(--linee); }
+        .mid-circle { top: 50%; left: 50%; width: 70px; height: 70px; border-radius: 50%; transform: translate(-50%, -50%); }
+        .box-top { top: -2px; left: 50%; width: 60%; height: 15%; transform: translateX(-50%); border-top: none; }
+        .box-bot { bottom: -2px; left: 50%; width: 60%; height: 15%; transform: translateX(-50%); border-bottom: none; }
+        .goal-bot { bottom: -2px; left: 50%; width: 30%; height: 6%; transform: translateX(-50%); border-bottom: none; }
 
-        /* PALLINI TRASCINABILI */
-        .player { 
-            position: absolute; width: 50px; text-align: center; cursor: move; z-index: 100;
-            user-select: none; touch-action: none;
-        }
-        .jersey { 
-            width: 40px; height: 40px; background: #000; border: 2px solid var(--rosso); 
-            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-            font-weight: 900; margin: 0 auto; box-shadow: 0 4px 10px rgba(0,0,0,0.5); color: var(--oro);
-        }
-        .p-name { background: rgba(0,0,0,0.8); font-size: 9px; padding: 2px 4px; border-radius: 3px; margin-top: 2px; display: inline-block; font-weight: bold; text-transform: uppercase; white-space: nowrap; }
+        /* GIOCATORI */
+        .player { position: absolute; width: 54px; text-align: center; cursor: move; z-index: 100; touch-action: none; transition: transform 0.1s; }
+        .jersey { width: 42px; height: 42px; background: #000; border: 2px solid var(--rosso); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; margin: 0 auto; box-shadow: 0 4px 10px rgba(0,0,0,0.5); color: var(--oro); font-size: 16px; }
+        .p-name { background: rgba(0,0,0,0.8); font-size: 10px; padding: 2px 5px; border-radius: 3px; margin-top: 3px; display: inline-block; font-weight: bold; text-transform: uppercase; white-space: nowrap; border: 1px solid #333; }
 
-        .card { background: #111; padding: 15px; margin-bottom: 12px; border-left: 5px solid var(--rosso); border-radius: 4px; }
+        .mod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 10px; }
+        .btn-mod { background: #000; border: 1px solid var(--oro); color: var(--oro); padding: 10px 0; font-weight: bold; border-radius: 4px; font-size: 10px; cursor: pointer; }
+        .btn-mod.active { background: var(--oro); color: #000; }
+        
         .btn-main { width: 100%; padding: 14px; background: var(--rosso); color: white; border: none; font-weight: bold; border-radius: 6px; text-transform: uppercase; cursor: pointer; }
-        input, select { width: 100%; padding: 12px; margin: 5px 0; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 4px; }
+        .card { background: #111; padding: 15px; margin-bottom: 12px; border-left: 5px solid var(--rosso); border-radius: 4px; }
     </style>
 </head>
 <body>
 
     <div id="intro">
-        <h1 style="color:var(--oro); font-size: 3rem; margin:0; font-weight:900;">MILANAC</h1>
+        <h1 style="color:var(--oro); font-size: 2.5rem; margin:0; font-weight:900;">MILANAC</h1>
         <p style="letter-spacing: 3px; font-weight: bold;">BENVENUTO NEL CLUB</p>
         <button class="btn-main" style="width:180px; border-radius:30px;" onclick="document.getElementById('intro').style.display='none'">ENTRA</button>
     </div>
@@ -77,28 +76,27 @@
         <div id="p-rosa" class="page active"><div id="l-rosa"></div></div>
         
         <div id="p-tattica" class="page">
-            <p style="text-align:center; font-size:12px; color:var(--oro)">Sposta i giocatori liberamente sul campo</p>
+            <div class="mod-grid" id="mod-btns"></div>
             <div id="pitch-container">
                 <div id="pitch">
-                    <div class="center-circle"></div>
+                    <div class="p-line mid-line"></div>
+                    <div class="p-line mid-circle"></div>
+                    <div class="p-line box-top"></div>
+                    <div class="p-line box-bot"></div>
+                    <div class="p-line goal-bot"></div>
                     <div id="pitch-players"></div>
                 </div>
             </div>
+            <p style="text-align:center; font-size:10px; color:var(--oro); margin-top:5px;">Trascina i giocatori per rifinire la posizione</p>
         </div>
 
-        <div id="p-mercato" class="page"><h3>MERCATO</h3><div id="l-mercato"></div></div>
-        <div id="p-partite" class="page">
-            <div class="card">
-                <input type="text" id="m-avv" placeholder="Avversario">
-                <input type="text" id="m-ris" placeholder="Risultato">
-                <button class="btn-main" onclick="addMatch()">SALVA</button>
-            </div>
-            <div id="l-partite"></div>
-        </div>
-        <div id="p-premi" class="page"><h3>PREMI</h3><div id="l-premi"></div></div>
+        <div id="p-mercato" class="page"><h3>VALORI MERCATO</h3><div id="l-mercato"></div></div>
+        <div id="p-partite" class="page"><h3>GESTIONE PARTITE</h3><div id="l-partite"></div></div>
+        <div id="p-premi" class="page"><h3>HALL OF FAME</h3><div id="l-premi"></div></div>
+        
         <div id="p-admin" class="page">
             <div class="card">
-                <input type="text" id="in-n" placeholder="Nome">
+                <input type="text" id="in-n" placeholder="Nome Giocatore">
                 <input type="number" id="in-m" placeholder="Numero">
                 <select id="in-r"><option>POR</option><option>DIF</option><option>CEN</option><option>ATT</option></select>
                 <button class="btn-main" onclick="addP()">AGGIUNGI</button>
@@ -110,37 +108,43 @@
     <script>
         const firebaseConfig = { apiKey: "AIzaSyDbO_AxHKz1avQpYscoSSLpEfmFaL8MRGg", authDomain: "milanac-proclub.firebaseapp.com", projectId: "milanac-proclub", storageBucket: "milanac-proclub.firebasestorage.app", messagingSenderId: "61702234008", appId: "1:61702234008:web:aa597d8600d0a8251895ed" };
         firebase.initializeApp(firebaseConfig); const db = firebase.firestore();
-        let data = { ps: [], matches: [] };
+        let data = { ps: [], mod: '4-4-2' };
 
-        db.collection("milanac").doc("v82_drag").onSnapshot(doc => { if(doc.exists) { data = doc.data(); render(); } });
-        function sync() { db.collection("milanac").doc("v82_drag").set(data); }
+        const modali = {
+            '4-4-2': [{x:43,y:85},{x:10,y:70},{x:33,y:72},{x:55,y:72},{x:78,y:70},{x:10,y:45},{x:33,y:48},{x:55,y:48},{x:78,y:45},{x:33,y:20},{x:55,y:20}],
+            '4-3-3': [{x:43,y:85},{x:10,y:70},{x:33,y:72},{x:55,y:72},{x:78,y:70},{x:25,y:48},{x:43,y:52},{x:62,y:48},{x:15,y:20},{x:43,y:15},{x:72,y:20}],
+            '3-5-2': [{x:43,y:85},{x:25,y:72},{x:43,y:72},{x:62,y:72},{x:5,y:45},{x:28,y:48},{x:43,y:48},{x:58,y:48},{x:82,y:45},{x:33,y:20},{x:55,y:20}],
+            '3-4-1-2': [{x:43,y:85},{x:25,y:72},{x:43,y:72},{x:62,y:72},{x:10,y:45},{x:33,y:48},{x:55,y:48},{x:78,y:45},{x:43,y:30},{x:33,y:15},{x:55,y:15}]
+        };
+
+        db.collection("milanac").doc("v83_stadium").onSnapshot(doc => { if(doc.exists) { data = doc.data(); render(); } });
+        function sync() { db.collection("milanac").doc("v83_stadium").set(data); }
 
         function go(p) { document.querySelectorAll('.page').forEach(x=>x.classList.remove('active')); document.getElementById('p-'+p).classList.add('active'); document.querySelector('.sidebar').classList.remove('active'); }
 
         function addP() {
             const n=document.getElementById('in-n').value, m=document.getElementById('in-m').value, r=document.getElementById('in-r').value;
-            if(n&&m){ data.ps.push({id:Date.now(), n, m, r, v:6.0, g:0, a:0, mvp:0, c:false, x:50, y:80}); sync(); }
+            if(n&&m){ data.ps.push({id:Date.now(), n, m, r, v:6.0, g:0, a:0, mvp:0, c:false, x:43, y:80}); sync(); }
         }
 
-        function addMatch() {
-            const avv=document.getElementById('m-avv').value, ris=document.getElementById('m-ris').value;
-            if(avv&&ris){ if(!data.matches) data.matches=[]; data.matches.unshift({avv, ris, d: new Date().toLocaleDateString()}); sync(); }
+        function setModulo(m) {
+            data.mod = m;
+            const conv = data.ps.filter(p => p.c);
+            conv.forEach((p, i) => { if(modali[m][i]) { p.x = modali[m][i].x; p.y = modali[m][i].y; } });
+            sync();
         }
 
         function render() {
-            let hR="", hA="", hMk="", hP="", hMatch="";
+            let hR="", hA="", hMk="", hP="", hBtns="";
             data.ps.forEach(p => {
-                const val = (10 + (p.v-6)*5 + p.g*2).toFixed(1);
-                hR += `<div class="card"><b>${p.n}</b> #${p.m} [${p.v}]<br><button class="btn-main" style="width:auto; padding:5px; background:${p.c?'green':'#333'}" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].c=!data.ps[i].c; sync()">${p.c?'IN CAMPO':'SCHIERA'}</button></div>`;
-                hMk += `<div class="card"><b>${p.n}</b> <span style="float:right">€${val}M</span></div>`;
-                hP += `<div class="card"><b>${p.n}</b> <span style="float:right">🏆 ${p.mvp||0} MVP</span></div>`;
-                hA += `<div class="card"><b>${p.n}</b><br><button onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].g++; sync()">G+</button> <button onclick="data.ps=data.ps.filter(x=>x.id!==${p.id}); sync()">ELIMINA</button></div>`;
+                hR += `<div class="card"><b>${p.n}</b> #${p.m}<br><button class="btn-main" style="width:auto; padding:5px 15px; margin-top:8px; background:${p.c?'green':'#333'}" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].c=!data.ps[i].c; sync()">${p.c?'IN CAMPO':'SCHIERA'}</button></div>`;
+                hA += `<div class="card">${p.n} <button onclick="data.ps=data.ps.filter(x=>x.id!==${p.id}); sync()">ELIMINA</button></div>`;
             });
-            (data.matches || []).forEach(m => { hMatch += `<div class="card">${m.d} - ${m.avv} (${m.ris})</div>`; });
-
-            document.getElementById('l-rosa').innerHTML = hR; document.getElementById('l-admin').innerHTML = hA;
-            document.getElementById('l-mercato').innerHTML = hMk; document.getElementById('l-premi').innerHTML = hP;
-            document.getElementById('l-partite').innerHTML = hMatch;
+            
+            Object.keys(modali).forEach(m => { hBtns += `<button class="btn-mod ${data.mod==m?'active':''}" onclick="setModulo('${m}')">${m}</button>`; });
+            document.getElementById('mod-btns').innerHTML = hBtns;
+            document.getElementById('l-rosa').innerHTML = hR;
+            document.getElementById('l-admin').innerHTML = hA;
 
             const pl = document.getElementById('pitch-players'); pl.innerHTML = "";
             data.ps.filter(p => p.c).forEach(p => {
@@ -148,25 +152,21 @@
                 d.style.left = p.x + "%"; d.style.top = p.y + "%";
                 d.innerHTML = `<div class="jersey">${p.m}</div><div class="p-name">${p.n}</div>`;
                 
-                // Logica Drag & Drop
                 let isDragging = false;
-                const startMove = (e) => { isDragging = true; };
+                const start = () => isDragging = true;
                 const move = (e) => {
                     if (!isDragging) return;
                     const rect = document.getElementById('pitch').getBoundingClientRect();
-                    const touch = e.touches ? e.touches[0] : e;
-                    let newX = ((touch.clientX - rect.left) / rect.width) * 100 - 5;
-                    let newY = ((touch.clientY - rect.top) / rect.height) * 100 - 5;
-                    p.x = Math.max(0, Math.min(90, newX));
-                    p.y = Math.max(0, Math.min(95, newY));
+                    const t = e.touches ? e.touches[0] : e;
+                    p.x = ((t.clientX - rect.left) / rect.width) * 100 - 7;
+                    p.y = ((t.clientY - rect.top) / rect.height) * 100 - 5;
                     d.style.left = p.x + "%"; d.style.top = p.y + "%";
                 };
-                const endMove = () => { if(isDragging) { isDragging = false; sync(); } };
+                const end = () => { if(isDragging) { isDragging = false; sync(); } };
 
-                d.addEventListener('mousedown', startMove); d.addEventListener('touchstart', startMove);
+                d.addEventListener('mousedown', start); d.addEventListener('touchstart', start);
                 window.addEventListener('mousemove', move); window.addEventListener('touchmove', move);
-                window.addEventListener('mouseup', endMove); window.addEventListener('touchend', endMove);
-                
+                window.addEventListener('mouseup', end); window.addEventListener('touchend', end);
                 pl.appendChild(d);
             });
         }
