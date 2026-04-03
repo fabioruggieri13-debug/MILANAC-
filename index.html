@@ -3,40 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MILANAC V83 - CLOUD</title>
+    <title>MILANAC V84 - FULL CLOUD</title>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <style>
-        :root { --rosso: #C61C23; --nero: #000; --scuro: #121212; --oro: #D4AF37; --erba: #2e7d32; --ciano: #00e5ff; }
+        :root { --rosso: #C61C23; --nero: #000; --scuro: #121212; --oro: #D4AF37; --erba: #2e7d32; --erba-scura: #1b5e20; --ciano: #00e5ff; }
         body, html { margin: 0; padding: 0; background: var(--nero); color: white; font-family: 'Segoe UI', sans-serif; height: 100vh; overflow: hidden; }
         #intro { position: fixed; inset: 0; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; text-align: center; }
         header { height: 65px; background: #080808; border-bottom: 2px solid var(--rosso); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; position: relative; z-index: 2000; }
         .burger { font-size: 30px; color: var(--rosso); cursor: pointer; }
         .nav-laterale { position: absolute; top: 65px; right: 0; background: #0a0a0a; width: 260px; display: none; flex-direction: column; border-left: 2px solid var(--rosso); height: calc(100vh - 65px); z-index: 1900; }
         .nav-laterale button { background: none; border: none; color: white; padding: 18px; text-align: left; border-bottom: 1px solid #1a1a1a; font-weight: bold; text-transform: uppercase; font-size: 11px; }
-        .area-principale { height: calc(100vh - 65px); overflow-y: auto; padding: 10px; }
+        .area-principale { height: calc(100vh - 65px); overflow-y: auto; padding: 10px; box-sizing: border-box; }
         .pagina { display: none; } .attiva { display: block; }
-        .scheda { background: var(--scuro); border-radius: 12px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--rosso); }
+        .scheda { background: var(--scuro); border-radius: 12px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--rosso); position: relative; }
         .titolo-ruolo { background: #1a1a1a; color: var(--oro); padding: 8px; margin: 15px 0; border-radius: 4px; font-weight: 900; text-align: center; border: 1px solid #333; }
-        .btn-milanac { background: var(--rosso); color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; }
+        #pitch { width: 90vw; height: 120vw; max-height: 450px; background: var(--erba); border: 2px solid #fff; border-radius: 5px; position: relative; margin: 10px auto; background-image: repeating-linear-gradient(0deg, var(--erba), var(--erba) 40px, var(--erba-scura) 40px, var(--erba-scura) 80px); }
+        .pedina { position: absolute; width: 45px; text-align: center; touch-action: none; cursor: move; }
+        .maglia { width: 35px; height: 35px; background: #000; border: 2px solid var(--rosso); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; margin: 0 auto; box-shadow: 0 4px 6px rgba(0,0,0,0.5); }
+        .nome-p { background: rgba(0,0,0,0.8); font-size: 8px; padding: 1px 3px; border-radius: 3px; margin-top: 2px; display: inline-block; }
+        .btn-milanac { background: var(--rosso); color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; margin-top: 5px; }
         input, select { width: 100%; padding: 12px; background: #0a0a0a; border: 1px solid #333; color: white; margin-bottom: 10px; border-radius: 6px; box-sizing: border-box; }
-        .prezzo { float: right; color: #4caf50; font-weight: 900; }
+        .tag-premio { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 900; margin-right: 5px; }
+        .potm { background: var(--oro); color: black; } .mvp { background: var(--ciano); color: black; }
     </style>
 </head>
 <body>
 
     <div id="intro">
-        <h1 style="color:var(--rosso); font-size: 2.5rem;">MILANAC PROCLUB</h1>
-        <p id="status">Sincronizzazione Cloud...</p>
-        <button id="btn-entra" class="btn-milanac" style="width:auto; padding: 10px 30px; display:none;" onclick="document.getElementById('intro').style.display='none'">ENTRA</button>
+        <h1 style="color:var(--rosso); font-size: 2.5rem; margin:0;">MILANAC PROCLUB</h1>
+        <p id="status">Connessione...</p>
+        <button id="btn-entra" class="btn-milanac" style="width:auto; padding: 10px 40px; display:none;" onclick="document.getElementById('intro').style.display='none'">ENTRA</button>
     </div>
 
     <header>
-        <div style="font-weight:900; color:var(--rosso); font-size:22px;">MILANAC</div>
+        <div style="font-weight:900; color:var(--rosso); font-size:20px;">MILANAC</div>
         <div class="burger" onclick="toggleNav()">☰</div>
         <nav id="nav" class="nav-laterale">
             <button onclick="vai('rosa')">La Squadra</button>
-            <button onclick="vai('partite')">Cronologia Partite</button>
+            <button onclick="vai('tattica')">Lavagna Tattica</button>
+            <button onclick="vai('partite')">Partite</button>
+            <button onclick="vai('mercato')">Valori Mercato</button>
+            <button onclick="vai('premi')">Premi</button>
             <button onclick="vai('admin')">Admin</button>
         </nav>
     </header>
@@ -44,24 +52,36 @@
     <div class="area-principale">
         <div id="p-rosa" class="pagina attiva"><h2 style="text-align:center">ROSA</h2><div id="lista-rosa"></div></div>
         
-        <div id="p-partite" class="pagina"><h2 style="text-align:center">PARTITE</h2><div id="lista-partite"></div></div>
+        <div id="p-tattica" class="pagina">
+            <h2 style="text-align:center">LAVAGNA</h2>
+            <div id="pitch"><div id="pedine-campo"></div></div>
+            <p style="font-size:10px; text-align:center; color:#888;">Trascina le pedine (solo convocati)</p>
+        </div>
+
+        <div id="p-partite" class="pagina"><h2 style="text-align:center">MATCH HISTORY</h2><div id="lista-partite"></div></div>
+
+        <div id="p-mercato" class="pagina"><h2 style="text-align:center">VALORI MERCATO</h2><div id="lista-mercato"></div></div>
+
+        <div id="p-premi" class="pagina"><h2 style="text-align:center; color:var(--oro)">HALL OF FAME</h2><div id="lista-premi"></div></div>
 
         <div id="p-admin" class="pagina">
-            <h2 style="text-align:center">ADMIN</h2>
-            <input type="password" id="pass-admin" placeholder="Password Admin">
+            <h2 style="text-align:center">ADMIN PANEL</h2>
+            <input type="password" id="pass-admin" placeholder="Password">
             <button class="btn-milanac" onclick="login()">ACCEDI</button>
             <div id="box-admin" style="display:none; margin-top:20px;">
                 <div class="scheda">
-                    <h3>AGGIUNGI PLAYER</h3>
+                    <h3>NUOVO PLAYER</h3>
                     <input type="text" id="n-nome" placeholder="Nome">
                     <input type="number" id="n-maglia" placeholder="N°">
-                    <select id="n-ruolo">
-                        <option value="POR">PORTIERE</option>
-                        <option value="DIF">DIFENSORE</option>
-                        <option value="CEN">CENTROCAMPISTA</option>
-                        <option value="ATT">ATTACCANTE</option>
-                    </select>
-                    <button class="btn-milanac" onclick="addP()">SALVA NEL CLOUD</button>
+                    <select id="n-ruolo"><option value="POR">POR</option><option value="DIF">DIF</option><option value="CEN">CEN</option><option value="ATT">ATT</option></select>
+                    <button class="btn-milanac" onclick="addP()">AGGIUNGI GIOCATORE</button>
+                </div>
+                <div class="scheda">
+                    <h3>REGISTRA MATCH</h3>
+                    <input type="text" id="m-avv" placeholder="Avversario">
+                    <input type="number" id="m-noi" placeholder="Gol Milanac">
+                    <input type="number" id="m-loro" placeholder="Gol Loro">
+                    <button class="btn-milanac" onclick="addM()">SALVA PARTITA</button>
                 </div>
                 <div id="adm-list"></div>
             </div>
@@ -69,7 +89,6 @@
     </div>
 
     <script>
-        // CONFIGURAZIONE MILANAC FABIO
         const firebaseConfig = {
             apiKey: "AIzaSyDbO_AxHKz1avQpYscoSSLpEfmFaL8MRGg",
             authDomain: "milanac-proclub.firebaseapp.com",
@@ -83,23 +102,19 @@
         const db = firebase.firestore();
         let clubData = { ps: [], ms: [] };
 
-        // SINCRONIZZAZIONE REAL-TIME
+        // Sincronizzazione Real-Time
         db.collection("milanac").doc("dati").onSnapshot((doc) => {
             if (doc.exists) {
                 clubData = doc.data();
                 render();
-                document.getElementById('status').innerText = "Cloud Online ✅";
+                document.getElementById('status').innerText = "Cloud Attivo ✅";
                 document.getElementById('btn-entra').style.display = "block";
             } else {
-                // Inizializza il database se è la primissima volta
                 db.collection("milanac").doc("dati").set({ps:[], ms:[]});
             }
-        }, (error) => {
-            document.getElementById('status').innerText = "Errore: Controlla Modalità Test su Firebase";
         });
 
         function sync() { db.collection("milanac").doc("dati").set(clubData); }
-
         function toggleNav() { const n = document.getElementById('nav'); n.style.display = (n.style.display==='flex')?'none':'flex'; }
         function vai(p) { document.querySelectorAll('.pagina').forEach(x=>x.classList.remove('attiva')); document.getElementById('p-'+p).classList.add('attiva'); toggleNav(); }
         function login() { if(document.getElementById('pass-admin').value === 'milan') document.getElementById('box-admin').style.display='block'; }
@@ -107,41 +122,76 @@
         function addP() {
             const n = document.getElementById('n-nome').value, m = document.getElementById('n-maglia').value, r = document.getElementById('n-ruolo').value;
             if(n && m) {
-                clubData.ps.push({id: Date.now(), n, m, r, g:0, a:0, p:0});
+                clubData.ps.push({id: Date.now(), n, m, r, g:0, a:0, p:0, potm:0, mvp:0, convocato:false, x:50, y:50});
                 sync();
-                alert("Giocatore aggiunto a tutti gli admin!");
+            }
+        }
+
+        function addM() {
+            const avv = document.getElementById('m-avv').value, noi = document.getElementById('m-noi').value, loro = document.getElementById('m-loro').value;
+            if(avv) {
+                clubData.ms.unshift({avv, noi, loro, d: new Date().toLocaleDateString()});
+                sync();
             }
         }
 
         function render() {
             const ruoli = ["POR", "DIF", "CEN", "ATT"];
             const labels = { POR: "PORTIERI", DIF: "DIFENSORI", CEN: "CENTROCAMPISTI", ATT: "ATTACCANTI" };
-            let htmlRosa = "";
+            
+            // Render Rosa e Mercato
+            let hRosa = "", hMercato = "", hPremi = "";
             ruoli.forEach(ruolo => {
                 const filtrati = clubData.ps.filter(p => p.r === ruolo);
-                if(filtrati.length > 0) {
-                    htmlRosa += `<div class="titolo-ruolo">${labels[ruolo]}</div>`;
+                if(filtrati.length) {
+                    hRosa += `<div class="titolo-ruolo">${labels[ruolo]}</div>`;
+                    hMercato += `<div class="titolo-ruolo">${labels[ruolo]}</div>`;
                     filtrati.forEach(p => {
-                        htmlRosa += `<div class="scheda"><span class="prezzo">#${p.m}</span><b>${p.n.toUpperCase()}</b></div>`;
+                        const val = (10 + (p.g*5) + (p.a*3) + (p.potm*10)).toFixed(1);
+                        hRosa += `<div class="scheda" onclick="p.convocato=!p.convocato; sync();" style="border-left-color:${p.convocato?'#4caf50':'#C61C23'}"><b>#${p.m} ${p.n.toUpperCase()}</b><br><small>${p.convocato?'CONVOCATO':'CLICCA PER CONVOCARE'}</small></div>`;
+                        hMercato += `<div class="scheda"><span style="float:right; color:#4caf50; font-weight:900;">€${val}M</span><b>#${p.m} ${p.n}</b></div>`;
+                        if(p.potm > 0 || p.mvp > 0) {
+                            hPremi += `<div class="scheda"><b>${p.n}</b><br>${p.potm?`<span class="tag-premio potm">POTM x${p.potm}</span>`:''}${p.mvp?`<span class="tag-premio mvp">MVP x${p.mvp}</span>`:''}</div>`;
+                        }
                     });
                 }
             });
-            document.getElementById('lista-rosa').innerHTML = htmlRosa || "<p style='text-align:center'>Nessun giocatore nel cloud.</p>";
+            document.getElementById('lista-rosa').innerHTML = hRosa;
+            document.getElementById('lista-mercato').innerHTML = hMercato;
+            document.getElementById('lista-premi').innerHTML = hPremi || "<p style='text-align:center'>Ancora nessun premio assegnato.</p>";
+            document.getElementById('lista-partite').innerHTML = clubData.ms.map(m => `<div class="scheda" style="text-align:center"><small>${m.d}</small><br><b>MILANAC ${m.noi} - ${m.loro} ${m.avv}</b></div>`).join('');
 
+            // Render Lavagna
+            const campo = document.getElementById('pedine-campo'); campo.innerHTML = '';
+            clubData.ps.filter(p => p.convocato).forEach(p => {
+                const div = document.createElement('div'); div.className = 'pedina';
+                div.style.left = p.x + '%'; div.style.top = p.y + '%';
+                div.innerHTML = `<div class="maglia">${p.m}</div><div class="nome-p">${p.n}</div>`;
+                div.ontouchmove = (e) => {
+                    e.preventDefault();
+                    let rect = document.getElementById('pitch').getBoundingClientRect();
+                    p.x = ((e.touches[0].pageX - rect.left - 22) / rect.width) * 100;
+                    p.y = ((e.touches[0].pageY - rect.top - 20) / rect.height) * 100;
+                    div.style.left = p.x + '%'; div.style.top = p.y + '%';
+                };
+                div.ontouchend = () => sync(); // Salva posizione nel cloud alla fine del tocco
+                campo.appendChild(div);
+            });
+
+            // Admin List
             document.getElementById('adm-list').innerHTML = clubData.ps.map(p => `
                 <div class="scheda">
-                    <b>${p.n}</b> 
-                    <button onclick="eliminaP(${p.id})" style="background:none; color:red; border:none; float:right">Elimina</button>
+                    <b>${p.n}</b> Maglia ${p.m}
+                    <div style="display:flex; gap:10px; margin-top:10px;">
+                        <button onclick="p.g++;sync()">+GOL</button>
+                        <button onclick="p.potm++;sync()">+POTM</button>
+                        <button onclick="eliminaP(${p.id})" style="color:red">ELIMINA</button>
+                    </div>
                 </div>
             `).join('');
         }
 
-        function eliminaP(id) {
-            if(confirm("Vuoi eliminarlo per tutti?")) {
-                clubData.ps = clubData.ps.filter(x => x.id !== id);
-                sync();
-            }
-        }
+        function eliminaP(id) { if(confirm("Eliminare dal Cloud?")) { clubData.ps = clubData.ps.filter(x => x.id !== id); sync(); } }
     </script>
 </body>
 </html>
