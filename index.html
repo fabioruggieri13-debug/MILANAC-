@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MILANAC V45</title>
+    <title>MILANAC V46</title>
     <style>
         :root { --red: #C61C23; --bg: #000; --card: #121212; --gold: #D4AF37; --grass: #2e7d32; }
         body, html { margin: 0; padding: 0; background: #000; color: white; font-family: 'Segoe UI', sans-serif; height: 100vh; overflow: hidden; }
 
         /* INTRO */
-        #intro { position: fixed; inset: 0; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: 0.6s; }
+        #intro { position: fixed; inset: 0; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; }
         .logo-title { font-size: 4rem; font-weight: 900; color: var(--red); text-shadow: 0 0 20px rgba(198,28,35,0.5); margin-bottom: 20px; }
         .btn-enter { background: var(--red); color: white; border: none; padding: 20px 50px; font-weight: 900; border-radius: 4px; animation: pulse 2s infinite; cursor: pointer; text-transform: uppercase; }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
@@ -32,21 +32,21 @@
 
         /* CARDS & SOCIAL */
         .card { background: var(--card); border-radius: 8px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--red); position: relative; }
-        .badge-mvp { position: absolute; top: -10px; right: 10px; background: var(--gold); color: black; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 900; }
-        .comment-box { background: #080808; padding: 10px; border-radius: 4px; margin-top: 10px; font-size: 12px; border-top: 1px solid #222; }
-        .btn-comment { background: none; border: 1px solid #444; color: #888; padding: 5px 10px; font-size: 10px; border-radius: 3px; cursor: pointer; margin-top: 5px; }
+        .badge-mvp { position: absolute; top: -10px; right: 10px; background: var(--gold); color: black; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 900; z-index: 5; }
+        .comment-box { background: #080808; padding: 8px; border-radius: 4px; margin-top: 8px; font-size: 12px; border-left: 2px solid #444; }
+        .btn-comment { background: #222; border: 1px solid #444; color: #fff; padding: 8px; font-size: 11px; border-radius: 4px; cursor: pointer; margin-top: 10px; width: 100%; font-weight: bold; }
         
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; text-align: center; font-weight: bold; color: #aaa; }
-        .btn-p { background: var(--red); color: white; border: none; padding: 15px; border-radius: 4px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; margin-top: 10px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; text-align: center; font-weight: bold; }
+        .btn-p { background: var(--red); color: white; border: none; padding: 15px; border-radius: 4px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; }
         input, textarea { width: 100%; padding: 12px; background: #0a0a0a; border: 1px solid #333; color: #fff; margin-bottom: 10px; border-radius: 4px; box-sizing: border-box; }
-        h1 { font-weight: 900; color: var(--red); text-align: center; text-transform: uppercase; letter-spacing: 1px; }
+        h1 { font-weight: 900; color: var(--red); text-align: center; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
     <div id="intro">
         <h1 class="logo-title">MILANAC</h1>
-        <button class="btn-enter" onclick="document.getElementById('intro').style.display='none'; render();">Scendi in Campo</button>
+        <button class="btn-enter" onclick="document.getElementById('intro').style.display='none'; render();">Entra</button>
     </div>
 
     <header>
@@ -66,41 +66,25 @@
             <h1>LA ROSA</h1>
             <div id="lista-giocatori"></div>
         </div>
-
         <div id="page-lavagna" class="page">
             <h1>TACTICS</h1>
-            <div id="pitch-box">
-                <div class="line-center"></div>
-                <div class="circle-center"></div>
-                <div id="players-on-pitch"></div>
-            </div>
+            <div id="pitch-box"><div class="line-center"></div><div class="circle-center"></div><div id="players-on-pitch"></div></div>
         </div>
-
         <div id="page-stats" class="page">
-            <h1>CLASSIFICA PUNTI</h1>
+            <h1>PUNTI TOTALI</h1>
             <div id="ranking-list"></div>
         </div>
-
         <div id="page-news" class="page">
-            <h1>NOTIZIE & COMMENTI</h1>
+            <h1>SOCIAL NEWS</h1>
             <div id="lista-news"></div>
         </div>
-
         <div id="page-admin" class="page">
             <h1>ADMIN AREA</h1>
             <input type="password" id="adm-pass" placeholder="Password">
             <button class="btn-p" onclick="login()">ACCEDI</button>
             <div id="adm-box" style="display:none; margin-top:20px;">
-                <div class="card">
-                    <input type="text" id="g-n" placeholder="Nome">
-                    <input type="number" id="g-num" placeholder="N. Maglia">
-                    <button class="btn-p" onclick="addG()">AGGIUNGI PLAYER</button>
-                </div>
-                <div class="card">
-                    <input type="text" id="n-t" placeholder="Titolo News">
-                    <textarea id="n-c" placeholder="Testo del comunicato..."></textarea>
-                    <button class="btn-p" onclick="addN()">PUBBLICA</button>
-                </div>
+                <div class="card"><input type="text" id="g-n" placeholder="Nome"><input type="number" id="g-num" placeholder="Numero"><button class="btn-p" onclick="addG()">AGGIUNGI</button></div>
+                <div class="card"><input type="text" id="n-t" placeholder="Titolo"><textarea id="n-c" placeholder="Testo..."></textarea><button class="btn-p" onclick="addN()">PUBBLICA</button></div>
                 <div id="adm-list-giocatori"></div>
             </div>
         </div>
@@ -108,55 +92,38 @@
 
     <script>
         let db = JSON.parse(localStorage.getItem('milanac_v37') || '{"ps":[], "ns":[]}');
+        
+        // CORREZIONE DATI: Assicura che le news abbiano i commenti
+        db.ns.forEach(n => { if(!n.comments) n.comments = []; });
 
         function toggleNav() { const n = document.getElementById('nav'); n.style.display = (n.style.display === 'flex') ? 'none' : 'flex'; }
-        function showPage(p) { document.querySelectorAll('.page').forEach(x => x.classList.remove('active')); document.getElementById('page-'+p).classList.add('active'); toggleNav(); render(); }
+        function showPage(p) { document.querySelectorAll('.page').forEach(x => x.classList.remove('active')); document.getElementById('page-'+p).classList.add('active'); if(n.style.display==='flex') toggleNav(); render(); }
         function login() { if(document.getElementById('adm-pass').value === 'milan') document.getElementById('adm-box').style.display='block'; }
         function save() { localStorage.setItem('milanac_v37', JSON.stringify(db)); render(); }
 
-        function addG() { 
-            const n = document.getElementById('g-n').value, num = document.getElementById('g-num').value;
-            if(n && num) { db.ps.push({id:Date.now(), n, num, g:0, a:0, p:0, v:[], in:false}); save(); } 
-        }
-        function addN() {
-            const t = document.getElementById('n-t').value, c = document.getElementById('n-c').value;
-            if(t && c) { db.ns.unshift({id:Date.now(), t, c, d:new Date().toLocaleDateString(), comments:[]}); save(); }
-        }
+        function addG() { const n = document.getElementById('g-n').value, num = document.getElementById('g-num').value; if(n && num) { db.ps.push({id:Date.now(), n, num, g:0, a:0, p:0, v:[], in:false}); save(); } }
+        function addN() { const t = document.getElementById('n-t').value, c = document.getElementById('n-c').value; if(t && c) { db.ns.unshift({id:Date.now(), t, c, d:new Date().toLocaleDateString(), comments:[]}); save(); } }
 
         function addComment(newsId) {
             let user = prompt("Tuo Nome:");
             let text = prompt("Commento:");
             if(user && text) {
-                db.ns.find(n => n.id === newsId).comments.push({user, text});
-                save();
-            }
-        }
-
-        function setVoti(id) {
-            let vts = [];
-            for(let i=1; i<=5; i++) {
-                let v = prompt("Voto Admin " + i);
-                if(v) vts.push(parseFloat(v.replace(',','.')));
-            }
-            if(vts.length) {
-                let media = (vts.reduce((a,b)=>a+b,0)/vts.length).toFixed(2);
-                db.ps.find(x=>x.id===id).v.push(parseFloat(media));
+                let news = db.ns.find(n => n.id === newsId);
+                if(!news.comments) news.comments = [];
+                news.comments.push({user, text});
                 save();
             }
         }
 
         function render() {
             // SQUADRA
-            document.getElementById('lista-giocatori').innerHTML = db.ps.map(p => {
-                const m = p.v.length ? p.v[p.v.length-1] : "-";
-                return `<div class="card">
+            document.getElementById('lista-giocatori').innerHTML = db.ps.map(p => `
+                <div class="card">
                     <b>#${p.num} ${p.n.toUpperCase()}</b>
                     <div class="stats-grid"><span>P: ${p.p}</span> <span>G: ${p.g}</span> <span>A: ${p.a}</span></div>
-                    <div style="margin-top:10px; font-size:12px; color:var(--gold)">ULTIMA PAGELLA: <b>${m}</b></div>
                     <button class="btn-p" onclick="db.ps.find(x=>x.id===${p.id}).in=!db.ps.find(x=>x.id===${p.id}).in; save();" 
-                    style="background:${p.in?'var(--red)':'#222'}">${p.in?'CONVOCATO':'ASSENTE'}</button>
-                </div>`;
-            }).join('');
+                    style="margin-top:10px; background:${p.in?'var(--red)':'#222'}">${p.in?'IN CAMPO':'ASSENTE'}</button>
+                </div>`).join('');
 
             // LAVAGNA
             const pitch = document.getElementById('players-on-pitch'); pitch.innerHTML = '';
@@ -172,22 +139,20 @@
                 }, {passive: false});
             });
 
-            // NEWS & COMMENTI
-            document.getElementById('lista-news').innerHTML = db.ns.map(n => `
-                <div class="card">
-                    <small>${n.d}</small><h3>${n.t}</h3><p>${n.c}</p>
-                    <button class="btn-comment" onclick="addComment(${n.id})">SCRIVI COMMENTO</button>
-                    ${n.comments.map(c => `<div class="comment-box"><b>${c.user}:</b> ${c.text}</div>`).join('')}
-                </div>`).join('');
-
             // RANKING
             let sorted = [...db.ps].sort((a,b)=>(b.g+b.a)-(a.g+a.a));
             document.getElementById('ranking-list').innerHTML = sorted.map((p, i) => `
                 <div class="card">
-                    ${i===0?'<div class="badge-mvp">TOP PLAYER</div>':''}
-                    <div style="display:flex; justify-content:space-between;">
-                        <span>#${p.num} ${p.n}</span> <b>${p.g+p.a} PT</b>
-                    </div>
+                    ${(i===0 && (p.g+p.a)>0)?'<div class="badge-mvp">TOP PLAYER 👑</div>':''}
+                    <div style="display:flex; justify-content:space-between;"><span>#${p.num} ${p.n}</span> <b>${p.g+p.a} PT</b></div>
+                </div>`).join('');
+
+            // NEWS
+            document.getElementById('lista-news').innerHTML = db.ns.map(n => `
+                <div class="card">
+                    <small>${n.d}</small><h3>${n.t}</h3><p>${n.c}</p>
+                    <button class="btn-comment" onclick="addComment(${n.id})">💬 SCRIVI UN COMMENTO</button>
+                    <div id="comments-${n.id}">${(n.comments || []).map(c => `<div class="comment-box"><b>${c.user}:</b> ${c.text}</div>`).join('')}</div>
                 </div>`).join('');
 
             // ADMIN
@@ -199,7 +164,6 @@
                         <input type="number" onchange="db.ps.find(x=>x.id===${p.id}).g=parseInt(this.value);save()" value="${p.g}">
                         <input type="number" onchange="db.ps.find(x=>x.id===${p.id}).a=parseInt(this.value);save()" value="${p.a}">
                     </div>
-                    <button onclick="setVoti(${p.id})" style="background:var(--gold); border:none; padding:10px; width:100%; border-radius:4px; font-weight:bold; margin-top:5px;">VOTI 5 ADMIN</button>
                     <button onclick="db.ps=db.ps.filter(x=>x.id!==${p.id});save()" style="color:red; background:none; border:none; margin-top:10px; width:100%;">ELIMINA</button>
                 </div>`).join('');
         }
