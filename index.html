@@ -3,78 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MILANAC PROCLUB V81 - CLOUD</title>
+    <title>MILANAC PROCLUB V81 - CLOUD FIX</title>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <style>
         :root { --rosso: #C61C23; --nero: #000; --scuro: #121212; --oro: #D4AF37; --erba: #2e7d32; --erba-scura: #1b5e20; --ciano: #00e5ff; }
         body, html { margin: 0; padding: 0; background: var(--nero); color: white; font-family: 'Segoe UI', sans-serif; height: 100vh; overflow: hidden; }
-        
-        /* Intro Animation */
-        #intro { position: fixed; inset: 0; background: radial-gradient(circle, #1a1a1a 0%, #000 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; text-align: center; }
-        .titolo-milanac { font-size: 3.2rem; font-weight: 900; background: linear-gradient(45deg, #fff, var(--rosso), var(--oro), #fff); background-size: 300%; -webkit-background-clip: text; color: transparent; animation: sfumatura 5s infinite linear; }
-        @keyframes sfumatura { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
-        /* Header & Nav */
+        #intro { position: fixed; inset: 0; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; text-align: center; }
         header { height: 65px; background: #080808; border-bottom: 2px solid var(--rosso); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; position: relative; z-index: 2000; }
         .burger { font-size: 30px; color: var(--rosso); cursor: pointer; }
         .nav-laterale { position: absolute; top: 65px; right: 0; background: #0a0a0a; width: 260px; display: none; flex-direction: column; border-left: 2px solid var(--rosso); height: calc(100vh - 65px); z-index: 1900; }
-        .nav-laterale button { background: none; border: none; color: white; padding: 18px; text-align: left; border-bottom: 1px solid #1a1a1a; font-weight: bold; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; }
-
-        .area-principale { height: calc(100vh - 65px); overflow-y: auto; padding: 10px; box-sizing: border-box; padding-bottom: 50px; }
+        .nav-laterale button { background: none; border: none; color: white; padding: 18px; text-align: left; border-bottom: 1px solid #1a1a1a; font-weight: bold; text-transform: uppercase; font-size: 11px; }
+        .area-principale { height: calc(100vh - 65px); overflow-y: auto; padding: 10px; box-sizing: border-box; }
         .pagina { display: none; } .attiva { display: block; }
-
-        /* UI Elements */
         .titolo-ruolo { background: #1a1a1a; color: var(--oro); padding: 8px; margin: 20px 0 10px 0; border-radius: 4px; font-weight: 900; text-align: center; border: 1px solid #333; letter-spacing: 2px; }
-        .scheda { background: var(--scuro); border-radius: 12px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--rosso); position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        .prezzo { float: right; color: #4caf50; font-weight: 900; font-size: 1.1rem; }
-        .nome-giocatore-link { color: var(--rosso); text-decoration: underline; cursor: pointer; font-size: 1.1rem; font-weight: bold; }
-        
-        /* Pitch / Lavagna */
-        #pitch { width: 92vw; height: 130vw; max-height: 500px; background: var(--erba); border: 3px solid #fff; border-radius: 5px; position: relative; overflow: hidden; margin: 10px auto; background-image: repeating-linear-gradient(0deg, var(--erba), var(--erba) 45px, var(--erba-scura) 45px, var(--erba-scura) 90px); }
-        .linea-metà { position: absolute; top: 50%; width: 100%; height: 2px; background: #fff; opacity: 0.5; }
-        .cerchio-centrale { position: absolute; top: 50%; left: 50%; width: 80px; height: 80px; border: 2px solid #fff; border-radius: 50%; transform: translate(-50%, -50%); opacity: 0.5; }
-        .area-r { position: absolute; width: 60%; height: 18%; border: 2px solid #fff; left: 20%; }
-        .area-t { top: -2px; border-top: none; } .area-b { bottom: -2px; border-bottom: none; }
-        
-        .pedina { position: absolute; width: 55px; text-align: center; z-index: 100; touch-action: none; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5)); }
-        .maglia { width: 42px; height: 42px; background: #000; border: 2px solid var(--rosso); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; margin: 0 auto; color: white; font-size: 14px; }
-        .nome-p { background: rgba(0,0,0,0.85); font-size: 9px; padding: 2px 5px; border-radius: 3px; margin-top: 3px; display: inline-block; font-weight: bold; text-transform: uppercase; }
-
-        .btn-milanac { background: linear-gradient(to bottom, var(--rosso), #8b0000); color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; box-shadow: 0 4px 0 #5a0000; active: transform: translateY(2px); }
+        .scheda { background: var(--scuro); border-radius: 12px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--rosso); position: relative; }
+        .prezzo { float: right; color: #4caf50; font-weight: 900; }
+        #pitch { width: 92vw; height: 130vw; max-height: 500px; background: var(--erba); border: 3px solid #fff; border-radius: 5px; position: relative; margin: 10px auto; background-image: repeating-linear-gradient(0deg, var(--erba), var(--erba) 45px, var(--erba-scura) 45px, var(--erba-scura) 90px); }
+        .pedina { position: absolute; width: 55px; text-align: center; touch-action: none; z-index: 100; }
+        .maglia { width: 42px; height: 42px; background: #000; border: 2px solid var(--rosso); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; margin: 0 auto; }
+        .nome-p { background: rgba(0,0,0,0.85); font-size: 9px; padding: 2px 5px; border-radius: 3px; margin-top: 3px; display: inline-block; }
+        .btn-milanac { background: var(--rosso); color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; }
         input, select { width: 100%; padding: 12px; background: #0a0a0a; border: 1px solid #333; color: white; margin-bottom: 10px; border-radius: 6px; }
-
-        /* Stats Modal */
-        #modal-p { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 9999; display: none; flex-direction: column; padding: 30px 20px; overflow-y: auto; text-align: center; }
-        .griglia-stat { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 20px 0; }
-        .stat-box { background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid #333; }
-        .stat-box small { display: block; color: #888; font-size: 10px; margin-bottom: 5px; }
-        .tag-premio { font-size: 10px; padding: 4px 8px; border-radius: 4px; font-weight: 900; margin: 2px; display: inline-block; }
-        .potm { background: var(--oro); color: black; } .mvp { background: var(--ciano); color: black; }
     </style>
 </head>
 <body>
 
     <div id="intro">
-        <h1 class="titolo-milanac">MILANAC PROCLUB</h1>
-        <p id="loading-status">Sincronizzazione Cloud...</p>
-        <button id="btn-entra" class="btn-milanac" style="width:auto; padding: 15px 50px; display:none;" onclick="document.getElementById('intro').style.display='none'">Entra</button>
-    </div>
-
-    <div id="modal-p">
-        <div style="text-align:right; font-size:35px; color:var(--rosso);" onclick="document.getElementById('modal-p').style.display='none'">✕</div>
-        <div id="info-p"></div>
+        <h1 style="color:var(--rosso); font-size:2.5rem;">MILANAC PROCLUB</h1>
+        <p id="loading-status">Connessione Cloud...</p>
+        <button id="btn-entra" class="btn-milanac" style="width:auto; padding: 10px 40px; display:none;" onclick="document.getElementById('intro').style.display='none'">ENTRA</button>
     </div>
 
     <header>
-        <div style="font-weight:900; color:var(--rosso); font-size:22px; letter-spacing:1px;">MILANAC</div>
+        <div style="font-weight:900; color:var(--rosso); font-size:22px;">MILANAC</div>
         <div class="burger" onclick="toggleNav()">☰</div>
         <nav id="nav" class="nav-laterale">
             <button onclick="vai('rosa')">La Squadra</button>
             <button onclick="vai('tattica')">Lavagna Tattica</button>
-            <button onclick="vai('partite')">Cronologia Partite</button>
-            <button onclick="vai('mercato')">Valori Mercato</button>
-            <button onclick="vai('premi')">Bacheca Premi</button>
+            <button onclick="vai('partite')">Partite</button>
             <button onclick="vai('admin')">Admin Area</button>
         </nav>
     </header>
@@ -83,44 +50,27 @@
         <div id="p-rosa" class="pagina attiva"><h2 style="text-align:center">LA ROSA</h2><div id="lista-rosa"></div></div>
         
         <div id="p-tattica" class="pagina">
-            <h2 style="text-align:center">LAVAGNA TATTICA</h2>
-            <div id="pitch">
-                <div class="area-r area-t"></div><div class="linea-metà"></div><div class="cerchio-centrale"></div><div class="area-r area-b"></div>
-                <div id="pedine-campo"></div>
-            </div>
-            <p style="text-align:center; font-size:11px; color:#888;">Trascina i convocati (selezionali in "La Squadra")</p>
+            <h2 style="text-align:center">LAVAGNA</h2>
+            <div id="pitch"><div id="pedine-campo"></div></div>
         </div>
 
-        <div id="p-partite" class="pagina"><h2 style="text-align:center">MATCH HISTORY</h2><div id="lista-partite"></div></div>
-        <div id="p-mercato" class="pagina"><h2 style="text-align:center">VALORI DI MERCATO</h2><div id="lista-mercato"></div></div>
-        <div id="p-premi" class="pagina"><h2 style="text-align:center; color:var(--oro)">HALL OF FAME</h2><div id="lista-premi"></div></div>
+        <div id="p-partite" class="pagina"><h2 style="text-align:center">PARTITE</h2><div id="lista-partite"></div></div>
 
         <div id="p-admin" class="pagina">
-            <h2 style="text-align:center">ADMIN PANEL</h2>
+            <h2 style="text-align:center">ADMIN</h2>
             <input type="password" id="pass-admin" placeholder="Password">
             <button class="btn-milanac" onclick="login()">ACCEDI</button>
             <div id="box-admin" style="display:none; margin-top:20px;">
-                <div class="scheda">
-                    <h3>NUOVO PLAYER</h3>
-                    <input type="text" id="n-nome" placeholder="Nome">
-                    <input type="number" id="n-maglia" placeholder="N°">
-                    <select id="n-ruolo"><option value="POR">POR</option><option value="DIF">DIF</option><option value="CEN">CEN</option><option value="ATT">ATT</option></select>
-                    <button class="btn-milanac" onclick="addP()">AGGIUNGI</button>
-                </div>
-                <div class="scheda">
-                    <h3>REGISTRA MATCH</h3>
-                    <input type="text" id="m-avv" placeholder="Avversario">
-                    <input type="number" id="m-noi" placeholder="Gol Milanac">
-                    <input type="number" id="m-loro" placeholder="Gol Loro">
-                    <button class="btn-milanac" onclick="addM()">SALVA RISULTATO</button>
-                </div>
-                <div id="adm-list"></div>
+                <input type="text" id="n-nome" placeholder="Nome">
+                <input type="number" id="n-maglia" placeholder="N°">
+                <select id="n-ruolo"><option value="POR">POR</option><option value="DIF">DIF</option><option value="CEN">CEN</option><option value="ATT">ATT</option></select>
+                <button class="btn-milanac" onclick="addP()">AGGIUNGI</button>
+                <div id="adm-list" style="margin-top:20px;"></div>
             </div>
         </div>
     </div>
 
     <script>
-        // CONFIGURAZIONE CLOUD
         const firebaseConfig = {
             apiKey: "AIzaSyDbO_AxHKz1avQpYscoSSLpEfmFaL8MRGg",
             authDomain: "milanac-proclub.firebaseapp.com",
@@ -134,7 +84,6 @@
         const db = firebase.firestore();
         let clubData = { ps: [], ms: [] };
 
-        // SINCRONIZZAZIONE LIVE
         db.collection("milanac").doc("dati").onSnapshot((doc) => {
             if (doc.exists) {
                 clubData = doc.data();
@@ -147,75 +96,48 @@
         });
 
         function sync() { db.collection("milanac").doc("dati").set(clubData); }
-
         function toggleNav() { const n = document.getElementById('nav'); n.style.display = (n.style.display==='flex')?'none':'flex'; }
-        function vai(p) { document.querySelectorAll('.pagina').forEach(x=>x.classList.remove('attiva')); document.getElementById('p-'+p).classList.add('attiva'); if(p!=='admin') toggleNav(); }
+        function vai(p) { document.querySelectorAll('.pagina').forEach(x=>x.classList.remove('attiva')); document.getElementById('p-'+p).classList.add('attiva'); toggleNav(); }
         function login() { if(document.getElementById('pass-admin').value === 'milan') document.getElementById('box-admin').style.display='block'; }
 
         function addP() {
             const n = document.getElementById('n-nome').value, m = document.getElementById('n-maglia').value, r = document.getElementById('n-ruolo').value;
             if(n && m) {
-                clubData.ps.push({id: Date.now(), n, m, r, g:0, a:0, p:0, potm:0, mvp:0, convocato:false, x:50, y:50, v:[]});
+                clubData.ps.push({id: Date.now(), n, m, r, g:0, a:0, p:0, potm:0, mvp:0, convocato:false, x:50, y:50});
                 sync();
             }
         }
 
-        function addM() {
-            const avv = document.getElementById('m-avv').value, noi = document.getElementById('m-noi').value, loro = document.getElementById('m-loro').value;
-            if(avv) {
-                clubData.ms.unshift({avv, noi, loro, d: new Date().toLocaleDateString()});
-                sync();
+        // FUNZIONE CORRETTA PER LE CONVOCAZIONI
+        function toggleConvocato(id) {
+            const index = clubData.ps.findIndex(p => p.id === id);
+            if (index !== -1) {
+                clubData.ps[index].convocato = !clubData.ps[index].convocato;
+                sync(); // Salva subito su Firebase
             }
-        }
-
-        function getV(p) { let b = 10 + (p.g*5) + (p.a*3) + (p.potm*10); return b.toFixed(1); }
-
-        function apriScheda(id) {
-            const p = clubData.ps.find(x => x.id == id);
-            const mv = p.v && p.v.length ? (p.v.reduce((a,b)=>a+b,0)/p.v.length).toFixed(1) : '-';
-            document.getElementById('info-p').innerHTML = `
-                <h1 style="font-size:4rem; color:var(--rosso); margin:0">#${p.m}</h1>
-                <h2 style="letter-spacing:2px">${p.n.toUpperCase()}</h2>
-                <div style="color:#4caf50; font-size:2rem; font-weight:900; margin-bottom:20px">€${getV(p)}M</div>
-                <div class="griglia-stat">
-                    <div class="stat-box"><small>GOL</small>${p.g}</div>
-                    <div class="stat-box"><small>ASSIST</small>${p.a}</div>
-                    <div class="stat-box"><small>PRESENZE</small>${p.p}</div>
-                    <div class="stat-box"><small>MV</small>${mv}</div>
-                </div>
-                <div>${p.potm?`<span class="tag-premio potm">POTM x${p.potm}</span>`:''}${p.mvp?`<span class="tag-premio mvp">MVP x${p.mvp}</span>`:''}</div>
-            `;
-            document.getElementById('modal-p').style.display = 'flex';
         }
 
         function render() {
             const ruoli = ["POR", "DIF", "CEN", "ATT"];
             const labels = { POR: "PORTIERI", DIF: "DIFENSORI", CEN: "CENTROCAMPISTI", ATT: "ATTACCANTI" };
             
-            let hRosa = "", hMercato = "", hPremi = "";
+            let hRosa = "";
             ruoli.forEach(ruolo => {
                 const filtrati = clubData.ps.filter(p => p.r === ruolo);
                 if(filtrati.length) {
                     hRosa += `<div class="titolo-ruolo">${labels[ruolo]}</div>`;
-                    hMercato += `<div class="titolo-ruolo">${labels[ruolo]}</div>`;
                     filtrati.forEach(p => {
                         hRosa += `<div class="scheda" style="border-left-color:${p.convocato?'#4caf50':'var(--rosso)'}">
                             <span class="prezzo">#${p.m}</span>
-                            <b class="nome-giocatore-link" onclick="apriScheda(${p.id})">${p.n.toUpperCase()}</b><br>
-                            <button class="btn-milanac" style="margin-top:10px; padding:5px; font-size:10px; background:${p.convocato?'#4caf50':'#333'}; box-shadow:none;" onclick="p.convocato=!p.convocato; sync();">
+                            <b style="color:var(--rosso); font-size:1.1rem;">${p.n.toUpperCase()}</b><br>
+                            <button class="btn-milanac" style="margin-top:10px; padding:8px; font-size:11px; background:${p.convocato?'#4caf50':'#333'};" onclick="toggleConvocato(${p.id})">
                                 ${p.convocato?'CONVOCATO ✅':'NON CONVOCATO'}
                             </button>
                         </div>`;
-                        hMercato += `<div class="scheda"><span class="prezzo">€${getV(p)}M</span><b>#${p.m} ${p.n}</b></div>`;
-                        if(p.potm > 0 || p.mvp > 0) hPremi += `<div class="scheda"><b>${p.n}</b><br>${p.potm?`<span class="tag-premio potm">POTM x${p.potm}</span>`:''}${p.mvp?`<span class="tag-premio mvp">MVP x${p.mvp}</span>`:''}</div>`;
                     });
                 }
             });
-
-            document.getElementById('lista-rosa').innerHTML = hRosa || "<p style='text-align:center'>Nessun giocatore.</p>";
-            document.getElementById('lista-mercato').innerHTML = hMercato;
-            document.getElementById('lista-premi').innerHTML = hPremi || "<p style='text-align:center'>Nessun premio.</p>";
-            document.getElementById('lista-partite').innerHTML = clubData.ms.map(m => `<div class="scheda" style="text-align:center"><small>${m.d}</small><br><b style="font-size:1.2rem">MILANAC ${m.noi} - ${m.loro} ${m.avv}</b></div>`).join('');
+            document.getElementById('lista-rosa').innerHTML = hRosa || "<p style='text-align:center'>Aggiungi giocatori in Admin.</p>";
 
             // Lavagna
             const campo = document.getElementById('pedine-campo'); campo.innerHTML = '';
@@ -234,16 +156,10 @@
                 campo.appendChild(div);
             });
 
-            // Admin List
             document.getElementById('adm-list').innerHTML = clubData.ps.map(p => `
                 <div class="scheda">
                     <b>${p.n} (#${p.m})</b>
-                    <div style="display:flex; gap:5px; margin-top:10px;">
-                        <button onclick="p.g++;sync()">+GOL</button>
-                        <button onclick="p.a++;sync()">+ASS</button>
-                        <button onclick="p.potm++;sync()">+POTM</button>
-                        <button onclick="if(confirm('Elimina?')){clubData.ps=clubData.ps.filter(x=>x.id!==${p.id});sync()}" style="color:red">X</button>
-                    </div>
+                    <button onclick="if(confirm('Elimina?')){clubData.ps=clubData.ps.filter(x=>x.id!==${p.id});sync()}" style="color:red; float:right; background:none; border:none;">X</button>
                 </div>
             `).join('');
         }
