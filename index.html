@@ -3,39 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MILANAC PROCLUB V72</title>
+    <title>MILANAC PROCLUB V73</title>
     <style>
-        :root { --rosso: #C61C23; --nero: #000; --scuro: #121212; --oro: #D4AF37; --ciano: #00e5ff; --erba: #2e7d32; --erba-scura: #1b5e20; }
+        :root { --rosso: #C61C23; --nero: #000; --scuro: #121212; --oro: #D4AF37; --ciano: #00e5ff; --erba: #2e7d32; --erba-scura: #388e3c; }
         body, html { margin: 0; padding: 0; background: var(--nero); color: white; font-family: 'Segoe UI', sans-serif; height: 100vh; overflow: hidden; }
 
-        /* --- INTRODUZIONE CON SCRITTA PULSANTE --- */
+        /* --- INTRODUZIONE PULSANTE --- */
         #intro { position: fixed; inset: 0; background: radial-gradient(circle, #1a1a1a 0%, #000 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; text-align: center; }
         .orbita-pulsante { width: 110px; height: 110px; border-radius: 50%; border: 4px solid var(--rosso); box-shadow: 0 0 30px var(--rosso); margin-bottom: 30px; animation: battito 2s infinite ease-in-out; }
-        
-        .titolo-milanac { 
-            font-size: 3.2rem; font-weight: 900; letter-spacing: -2px; margin: 0; 
-            background: linear-gradient(45deg, #fff, var(--rosso), var(--oro), #fff); 
-            background-size: 300%; -webkit-background-clip: text; color: transparent; 
-            animation: sfumatura 5s infinite linear, pulsazioneTesto 2s infinite ease-in-out; /* AGGIUNTA PULSAZIONE */
-        }
-        
-        .sottotitolo { 
-            color: var(--oro); letter-spacing: 3px; font-weight: bold; margin-bottom: 40px; 
-            font-size: 1rem; text-transform: uppercase;
-            animation: pulsazioneTesto 2s infinite ease-in-out; /* AGGIUNTA PULSAZIONE */
-        }
-
+        .titolo-milanac { font-size: 3.2rem; font-weight: 900; letter-spacing: -2px; margin: 0; background: linear-gradient(45deg, #fff, var(--rosso), var(--oro), #fff); background-size: 300%; -webkit-background-clip: text; color: transparent; animation: sfumatura 5s infinite linear, pulsazioneTesto 2s infinite ease-in-out; }
+        .sottotitolo { color: var(--oro); letter-spacing: 3px; font-weight: bold; margin-bottom: 40px; font-size: 1rem; text-transform: uppercase; animation: pulsazioneTesto 2s infinite ease-in-out; }
         .btn-entra { background: transparent; color: white; border: 2px solid #fff; padding: 15px 45px; border-radius: 50px; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
         .btn-entra:hover { background: var(--rosso); border-color: var(--rosso); box-shadow: 0 0 20px var(--rosso); }
 
         @keyframes battito { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); box-shadow: 0 0 50px var(--rosso); } }
         @keyframes sfumatura { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        
-        /* NUOVA ANIMAZIONE PULSAZIONE TESTO */
-        @keyframes pulsazioneTesto {
-            0%, 100% { transform: scale(1); filter: brightness(1); }
-            50% { transform: scale(1.05); filter: brightness(1.3); }
-        }
+        @keyframes pulsazioneTesto { 0%, 100% { transform: scale(1); filter: brightness(1); } 50% { transform: scale(1.05); filter: brightness(1.3); } }
 
         /* --- HEADER --- */
         header { height: 65px; background: #080808; border-bottom: 2px solid var(--rosso); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; position: relative; z-index: 2000; }
@@ -46,30 +29,29 @@
         .area-principale { height: calc(100vh - 65px); overflow-y: auto; padding: 15px; box-sizing: border-box; }
         .pagina { display: none; } .attiva { display: block; }
 
-        /* --- SCHEDE GIOCATORI --- */
+        /* --- SCHEDE --- */
         .scheda { background: var(--scuro); border-radius: 12px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--rosso); position: relative; }
         .prezzo { float: right; color: #4caf50; font-weight: 900; font-size: 1.1rem; }
         .griglia-stat { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 15px; }
         .stat-box { background: #1a1a1a; padding: 8px; border-radius: 6px; text-align: center; }
         .stat-box small { font-size: 9px; color: #888; display: block; }
-
         .tag-premio { font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: 900; text-transform: uppercase; margin-right: 5px; }
         .potm { background: var(--oro); color: black; } .mvp { background: var(--ciano); color: black; }
 
-        /* --- LAVAGNA TATTICA --- */
+        /* --- CAMPO TATTICO ORIGINALE --- */
         .pitch-box { width: 100%; display: flex; justify-content: center; }
         #pitch { 
-            width: 92vw; height: 135vw; max-height: 520px; background: var(--erba); border: 3px solid #fff; position: relative; overflow: hidden; touch-action: none;
+            width: 90vw; height: 130vw; max-height: 480px; background: var(--erba); border: 2px solid #fff; position: relative; overflow: hidden; touch-action: none;
             background-image: repeating-linear-gradient(0deg, var(--erba), var(--erba) 10%, var(--erba-scura) 10%, var(--erba-scura) 20%);
         }
-        .linea-m { position: absolute; top: 50%; width: 100%; height: 2px; background: #fff; opacity: 0.7; }
-        .cerchio-c { position: absolute; top: 50%; left: 50%; width: 80px; height: 80px; border: 2px solid #fff; border-radius: 50%; transform: translate(-50%, -50%); opacity: 0.7; }
-        .area-r { position: absolute; width: 60%; height: 18%; border: 2px solid #fff; left: 20%; }
+        .linea-m { position: absolute; width: 100%; height: 2px; background: #fff; top: 50%; opacity: 0.6; }
+        .cerchio-m { position: absolute; width: 70px; height: 70px; border: 2px solid #fff; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.6; }
+        .area-r { position: absolute; width: 50%; height: 15%; border: 2px solid #fff; left: 25%; }
         .area-t { top: -2px; border-top: none; } .area-b { bottom: -2px; border-bottom: none; }
 
-        .pedina { position: absolute; width: 55px; text-align: center; z-index: 100; }
-        .maglia { width: 42px; height: 42px; background: #000; border: 2px solid var(--rosso); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin: 0 auto; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
-        .nome-p { background: rgba(0,0,0,0.8); font-size: 10px; padding: 2px 5px; border-radius: 4px; margin-top: 4px; display: inline-block; font-weight: bold; white-space: nowrap; }
+        .pedina { position: absolute; width: 50px; text-align: center; z-index: 100; }
+        .maglia { width: 40px; height: 40px; background: #000; border: 2px solid var(--rosso); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin: 0 auto; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
+        .nome-p { background: rgba(0,0,0,0.8); font-size: 9px; padding: 2px 4px; border-radius: 3px; margin-top: 3px; display: inline-block; font-weight: bold; white-space: nowrap; }
 
         input, textarea { width: 100%; padding: 12px; background: #0a0a0a; border: 1px solid #333; color: white; margin-bottom: 10px; border-radius: 6px; }
         .btn-milanac { background: var(--rosso); color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; }
@@ -109,7 +91,7 @@
                 <div id="pitch">
                     <div class="area-r area-t"></div>
                     <div class="linea-m"></div>
-                    <div class="cerchio-c"></div>
+                    <div class="cerchio-m"></div>
                     <div class="area-r area-b"></div>
                     <div id="pedine-campo"></div>
                 </div>
@@ -151,52 +133,29 @@
 
     <script>
         let db = { ps: [], ns: [] };
-
-        function load() {
-            const saved = localStorage.getItem('milanac_v72');
-            if(saved) db = JSON.parse(saved);
-        }
-
+        function load() { const saved = localStorage.getItem('milanac_v73'); if(saved) db = JSON.parse(saved); }
         function entra() { document.getElementById('intro').style.display='none'; render(); }
         function toggleNav() { const n = document.getElementById('nav'); n.style.display = (n.style.display==='flex')?'none':'flex'; }
         function vai(p) { document.querySelectorAll('.pagina').forEach(x=>x.classList.remove('attiva')); document.getElementById('p-'+p).classList.add('attiva'); toggleNav(); render(); }
         function login() { if(document.getElementById('pass-admin').value === 'milan') document.getElementById('box-admin').style.display='block'; }
-        function save() { localStorage.setItem('milanac_v72', JSON.stringify(db)); render(); }
+        function save() { localStorage.setItem('milanac_v73', JSON.stringify(db)); render(); }
 
-        function addP() {
-            const n = document.getElementById('n-nome').value, m = document.getElementById('n-maglia').value;
-            if(n && m) { db.ps.push({id:Date.now(), n, m, p:0, g:0, a:0, v:[], potm:0, mvp:0, in:false}); save(); }
-        }
-
-        function addN() {
-            const t = document.getElementById('n-tit').value, c = document.getElementById('n-cor').value;
-            if(t && c) { db.ns.unshift({t, c, d: new Date().toLocaleDateString()}); save(); }
-        }
-
-        function getV(p) {
-            let b = 10 + (p.g*5) + (p.a*3) + (p.p*1) + (p.potm*10) + (p.mvp*15);
-            if(p.v.length > 0) b *= ((p.v.reduce((a,b)=>a+b,0)/p.v.length)/6);
-            return b.toFixed(1);
-        }
+        function addP() { const n = document.getElementById('n-nome').value, m = document.getElementById('n-maglia').value; if(n && m) { db.ps.push({id:Date.now(), n, m, p:0, g:0, a:0, v:[], potm:0, mvp:0, in:false}); save(); } }
+        function addN() { const t = document.getElementById('n-tit').value, c = document.getElementById('n-cor').value; if(t && c) { db.ns.unshift({t, c, d: new Date().toLocaleDateString()}); save(); } }
+        function getV(p) { let b = 10 + (p.g*5) + (p.a*3) + (p.p*1) + (p.potm*10) + (p.mvp*15); if(p.v.length > 0) b *= ((p.v.reduce((a,b)=>a+b,0)/p.v.length)/6); return b.toFixed(1); }
 
         function render() {
             document.getElementById('lista-rosa').innerHTML = db.ps.map(p => `
                 <div class="scheda">
                     <span class="prezzo">€${getV(p)}M</span>
                     <b>#${p.m} ${p.n.toUpperCase()}</b>
-                    <div class="griglia-stat">
-                        <div class="stat-box"><small>P</small>${p.p}</div><div class="stat-box"><small>G</small>${p.g}</div>
-                        <div class="stat-box"><small>A</small>${p.a}</div><div class="stat-box"><small>MV</small>${p.v.length?(p.v.reduce((a,b)=>a+b,0)/p.v.length).toFixed(1):'-'}</div>
-                    </div>
+                    <div class="griglia-stat"><div class="stat-box"><small>P</small>${p.p}</div><div class="stat-box"><small>G</small>${p.g}</div><div class="stat-box"><small>A</small>${p.a}</div><div class="stat-box"><small>MV</small>${p.v.length?(p.v.reduce((a,b)=>a+b,0)/p.v.length).toFixed(1):'-'}</div></div>
                     <button class="btn-milanac" style="margin-top:10px; background:${p.in?'var(--rosso)':'#333'}" onclick="db.ps.find(x=>x.id===${p.id}).in=!db.ps.find(x=>x.id===${p.id}).in; save();">${p.in?'CONVOCATO':'ASSENTE'}</button>
                 </div>`).join('');
 
-            document.getElementById('lista-mercato').innerHTML = [...db.ps].sort((a,b)=>getV(b)-getV(a)).map((p,i)=>`
-                <div class="scheda"><b>${i+1}. ${p.n}</b> <span class="prezzo">€${getV(p)}M</span></div>`).join('');
+            document.getElementById('lista-mercato').innerHTML = [...db.ps].sort((a,b)=>getV(b)-getV(a)).map((p,i)=>`<div class="scheda"><b>${i+1}. ${p.n}</b> <span class="prezzo">€${getV(p)}M</span></div>`).join('');
 
-            document.getElementById('lista-premi').innerHTML = db.ps.filter(p=>p.potm>0 || p.mvp>0).map(p=>`
-                <div class="scheda"><b>${p.n}</b><br><br>
-                ${p.potm?`<span class="tag-premio potm">POTM x${p.potm}</span>`:''}${p.mvp?`<span class="tag-premio mvp">MVP x${p.mvp}</span>`:''}</div>`).join('');
+            document.getElementById('lista-premi').innerHTML = db.ps.filter(p=>p.potm>0 || p.mvp>0).map(p=>`<div class="scheda"><b>${p.n}</b><br><br>${p.potm?`<span class="tag-premio potm">POTM x${p.potm}</span>`:''}${p.mvp?`<span class="tag-premio mvp">MVP x${p.mvp}</span>`:''}</div>`).join('');
 
             document.getElementById('lista-news').innerHTML = db.ns.map(n=>`<div class="scheda"><small>${n.d}</small><h3>${n.t}</h3><p>${n.c}</p></div>`).join('');
 
@@ -204,22 +163,15 @@
             db.ps.filter(p=>p.in).forEach((p,i)=>{
                 const t = document.createElement('div'); t.className='pedina'; t.style.left='20px'; t.style.top=(i*55+20)+'px';
                 t.innerHTML=`<div class="maglia">${p.m}</div><div class="nome-p">${p.n}</div>`; campo.appendChild(t);
-                t.ontouchmove = e => { e.preventDefault(); let x=e.touches[0], r=document.getElementById('pitch').getBoundingClientRect(); t.style.left=(x.pageX-r.left-27)+'px'; t.style.top=(x.pageY-r.top-20)+'px'; };
+                t.ontouchmove = e => { e.preventDefault(); let x=e.touches[0], r=document.getElementById('pitch').getBoundingClientRect(); t.style.left=(x.pageX-r.left-25)+'px'; t.style.top=(x.pageY-r.top-20)+'px'; };
             });
 
             document.getElementById('adm-list').innerHTML = db.ps.map(p => `
                 <div class="scheda">
-                    <b>${p.n} (#${p.m})</b>
-                    <div style="display:flex; gap:5px; margin:10px 0">
-                        <input type="number" value="${p.p}" onchange="db.ps.find(x=>x.id===${p.id}).p=parseInt(this.value);save()">
-                        <input type="number" value="${p.g}" onchange="db.ps.find(x=>x.id===${p.id}).g=parseInt(this.value);save()">
-                        <input type="number" value="${p.a}" onchange="db.ps.find(x=>x.id===${p.id}).a=parseInt(this.value);save()">
-                    </div>
-                    <div style="display:flex; gap:5px; margin-bottom:5px">
-                        <button onclick="db.ps.find(x=>x.id===${p.id}).potm++;save()" style="flex:1; background:var(--oro); border:none; padding:8px; border-radius:4px">POTM</button>
-                        <button onclick="db.ps.find(x=>x.id===${p.id}).mvp++;save()" style="flex:1; background:var(--ciano); border:none; padding:8px; border-radius:4px">MVP</button>
-                    </div>
-                    <button class="btn-milanac" style="background:#444; margin-bottom:5px" onclick="let v=prompt('Voto:'); if(v){db.ps.find(x=>x.id===${p.id}).v.push(parseFloat(v.replace(',','.')));save()}">VOTO</button>
+                    <b>${p.n}</b>
+                    <div style="display:flex; gap:5px; margin:10px 0"><input type="number" value="${p.p}" onchange="db.ps.find(x=>x.id===${p.id}).p=parseInt(this.value);save()"><input type="number" value="${p.g}" onchange="db.ps.find(x=>x.id===${p.id}).g=parseInt(this.value);save()"><input type="number" value="${p.a}" onchange="db.ps.find(x=>x.id===${p.id}).a=parseInt(this.value);save()"></div>
+                    <div style="display:flex; gap:5px;"><button onclick="db.ps.find(x=>x.id===${p.id}).potm++;save()" style="flex:1; background:var(--oro); border:none; padding:8px; border-radius:4px">POTM</button><button onclick="db.ps.find(x=>x.id===${p.id}).mvp++;save()" style="flex:1; background:var(--ciano); border:none; padding:8px; border-radius:4px">MVP</button></div>
+                    <button class="btn-milanac" style="background:#444; margin-top:5px" onclick="let v=prompt('Voto:'); if(v){db.ps.find(x=>x.id===${p.id}).v.push(parseFloat(v.replace(',','.')));save()}">VOTO</button>
                     <button onclick="if(confirm('Elimina?')){db.ps=db.ps.filter(x=>x.id!==${p.id});save()}" style="color:red; background:none; border:none; width:100%; font-size:10px;">ELIMINA</button>
                 </div>`).join('');
         }
