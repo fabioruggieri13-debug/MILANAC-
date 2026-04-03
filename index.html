@@ -3,196 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MILANAC V23</title>
+    <title>MILANAC V24</title>
     <style>
-        :root { 
-            --milan-red: #C61C23; 
-            --bg: #000000; 
-            --field: #1b3d21; 
-            --gold: #D4AF37;
-        }
-        body, html { margin: 0; padding: 0; background: var(--bg); color: var(--milan-red); font-family: 'Segoe UI', Tahoma, sans-serif; height: 100vh; overflow: hidden; }
+        :root { --milan-red: #C61C23; --bg: #000000; --field: #1b3d21; --gold: #D4AF37; }
+        body, html { margin: 0; padding: 0; background: var(--bg); color: var(--milan-red); font-family: 'Segoe UI', sans-serif; height: 100vh; overflow: hidden; }
 
         /* INTRO */
         #intro { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; }
-        .intro-btn { background: var(--milan-red); color: #fff; border: none; padding: 18px 30px; font-size: 1rem; font-weight: 900; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; border: 1px solid #7a0000; }
+        .intro-btn { background: var(--milan-red); color: #fff; border: none; padding: 18px 30px; font-size: 1rem; font-weight: 900; border-radius: 4px; cursor: pointer; text-transform: uppercase; border: 1px solid #7a0000; }
 
         header { height: 60px; background: #0a0a0a; border-bottom: 2px solid var(--milan-red); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
         header div { font-weight: 900; color: var(--milan-red); letter-spacing: 2px; font-size: 1.2rem; }
         .burger { font-size: 28px; cursor: pointer; color: var(--milan-red); }
         
-        .dropdown { position: absolute; top: 60px; right: 0; background: #080808; width: 220px; display: none; flex-direction: column; border: 1px solid var(--milan-red); z-index: 5000; box-shadow: -5px 5px 15px rgba(0,0,0,0.5); }
+        .dropdown { position: absolute; top: 60px; right: 0; background: #080808; width: 220px; display: none; flex-direction: column; border: 1px solid var(--milan-red); z-index: 5000; }
         .dropdown button { background: none; border: none; color: var(--milan-red); padding: 18px; text-align: left; border-bottom: 1px solid #1a1a1a; font-weight: bold; text-transform: uppercase; font-size: 13px; }
 
         .content { height: calc(100vh - 60px); overflow-y: auto; padding: 15px; box-sizing: border-box; }
         .page { display: none; } .page.active { display: block; }
 
         /* LAVAGNA TATTICA */
-        #campo-container { 
-            width: 100%; height: 450px; background: var(--field); border: 2px solid #333; 
-            border-radius: 8px; position: relative; overflow: hidden; touch-action: none;
-            background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 100% 40px;
-        }
-        .linea-meta { position: absolute; top: 50%; width: 100%; height: 1px; background: rgba(255,255,255,0.4); }
-        .cerchio-meta { position: absolute; top: 50%; left: 50%; width: 80px; height: 80px; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; transform: translate(-50%, -50%); }
-        .area { position: absolute; left: 20%; width: 60%; height: 60px; border: 1px solid rgba(255,255,255,0.4); }
-        .area.top { top: 0; border-top: none; } .area.bottom { bottom: 0; border-bottom: none; }
-        .porta { position: absolute; left: 35%; width: 30%; height: 4px; background: #fff; }
-        .porta.top { top: 0; } .porta.bottom { bottom: 0; }
-
-        .tag-player { 
-            position: absolute; background: #000; color: #fff; padding: 6px 12px; 
-            border-radius: 3px; font-size: 11px; font-weight: 900; border-left: 3px solid var(--milan-red);
-            white-space: nowrap; z-index: 100; box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
-        }
-
-        /* UI COMPONENTI */
-        .card-ui { background: #0a0a0a; border-radius: 8px; padding: 15px; margin-bottom: 12px; border: 1px solid #1a1a1a; color: var(--milan-red); }
-        h1 { color: var(--milan-red); text-align: center; text-transform: uppercase; font-size: 1.2rem; letter-spacing: 1px; margin-bottom: 20px; }
-        button.primary { background: var(--milan-red); color: #fff; border: none; padding: 14px; border-radius: 4px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; }
-        input { width: 100%; padding: 12px; background: #000; border: 1px solid #333; color: #fff; border-radius: 4px; margin-bottom: 10px; box-sizing: border-box; }
-        
-        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: center; font-size: 12px; margin-top: 12px; color: #888; border-top: 1px solid #1a1a1a; padding-top: 10px; }
-        .stat-grid span b { color: var(--milan-red); }
-        .voto-badge { border: 1px solid var(--gold); color: var(--gold); padding: 2px 10px; border-radius: 2px; font-weight: bold; font-size: 11px; }
-    </style>
-</head>
-<body>
-
-    <div id="intro">
-        <h1 style="font-size: 3rem; margin-bottom: 30px; letter-spacing: 5px;">MILANAC</h1>
-        <button class="intro-btn" onclick="closeIntro()">MILANAC la web app dei giocatori</button>
-    </div>
-
-    <header>
-        <div>MILANAC</div>
-        <div class="burger" onclick="toggleMenu()">☰</div>
-        <div class="dropdown" id="menu">
-            <button onclick="tab('h')">SQUADRA</button>
-            <button onclick="tab('t')">LAVAGNA TATTICA</button>
-            <button onclick="tab('n')">NOTIZIE</button>
-            <button onclick="tab('s')">STATISTICHE</button>
-            <button onclick="tab('a')">AREA ADMIN</button>
-        </div>
-    </header>
-
-    <div class="content">
-        <div id="pg-h" class="page active">
-            <h1>FORMAZIONE ATTUALE</h1>
-            <div id="list-h"></div>
-        </div>
-
-        <div id="pg-t" class="page">
-            <h1>LAVAGNA TATTICA</h1>
-            <div id="campo-container">
-                <div class="porta top"></div>
-                <div class="area top"></div>
-                <div class="linea-meta"></div>
-                <div class="cerchio-meta"></div>
-                <div class="area bottom"></div>
-                <div class="porta bottom"></div>
-                <div id="nomi-campo"></div>
-            </div>
-            <button class="primary" onclick="render()" style="background:#111; border: 1px solid #333; margin-top:15px; font-size: 10px;">RESETTA POSIZIONI</button>
-        </div>
-
-        <div id="pg-n" class="page">
-            <h1>NEWS & COMUNICATI</h1>
-            <div class="card-ui"><b>V23 ATTIVA:</b> Implementati i colori ufficiali AC Milan e migliorata la leggibilità dei testi.</div>
-        </div>
-
-        <div id="pg-s" class="page">
-            <h1>RANKING GOL + ASSIST</h1>
-            <div id="list-stats"></div>
-        </div>
-
-        <div id="pg-a" class="page">
-            <h1>GESTIONE CLUB</h1>
-            <input type="password" id="pw" placeholder="Password Sicurezza">
-            <button class="primary" onclick="auth()">ACCEDI</button>
-            <div id="adm-ui" style="display:none; margin-top:20px;">
-                <div class="card-ui">
-                    <input type="text" id="add-n" placeholder="Nome Nuovo Giocatore">
-                    <button class="primary" onclick="add()">REGISTRA</button>
-                </div>
-                <div id="adm-list-players"></div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        let db = JSON.parse(localStorage.getItem('m_v23') || '{"players":[]}');
-
-        function closeIntro() { document.getElementById('intro').style.display = 'none'; render(); }
-        function toggleMenu() { let m = document.getElementById('menu'); m.style.display = m.style.display === 'flex' ? 'none' : 'flex'; }
-        function tab(id) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById('pg-'+id).classList.add('active');
-            toggleMenu(); render();
-        }
-
-        function auth() { if(document.getElementById('pw').value === "milan") document.getElementById('adm-ui').style.display='block'; }
-        function add() {
-            const n = document.getElementById('add-n').value;
-            if(n) db.players.push({id: Date.now(), n, in: false, g:0, a:0, m:0, mvp:0, voti:[]});
-            save();
-        }
-        function editStat(id, key, val) {
-            const p = db.players.find(x => x.id === id);
-            p[key] = parseInt(val) || 0; save();
-        }
-        function addVoto(id) {
-            const v = prompt("Voto partita:");
-            if(v) { const p = db.players.find(x => x.id === id); p.voti.push(parseFloat(v)); save(); }
-        }
-        function toggle(id) { const p = db.players.find(x=>x.id===id); p.in = !p.in; save(); }
-        function save() { localStorage.setItem('m_v23', JSON.stringify(db)); render(); }
-
-        function render() {
-            document.getElementById('list-h').innerHTML = db.players.map(p => {
-                const media = p.voti.length ? (p.voti.reduce((a,b)=>a+b,0)/p.voti.length).toFixed(2) : "N.V.";
-                return `
-                <div class="card-ui" style="border-left: 4px solid ${p.in?'var(--milan-red)':'#1a1a1a'}">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="font-size:16px; font-weight:900; color: #fff;">${p.n.toUpperCase()}</span>
-                        <span class="voto-badge">Ø ${media}</span>
-                    </div>
-                    <div class="stat-grid">
-                        <span>GOL: <b>${p.g}</b></span><span>ASSIST: <b>${p.a || 0}</b></span>
-                        <span>GARE: <b>${p.m}</b></span><span>MVP: <b>${p.mvp}</b></span>
-                    </div>
-                    <button class="primary" onclick="toggle(${p.id})" style="margin-top:12px; height:35px; padding:0; font-size:11px; background:${p.in?'var(--milan-red)':'#111'}">${p.in?'PRESENTE':'ASSENTE'}</button>
-                </div>`;
-            }).join('');
-
-            const campo = document.getElementById('nomi-campo'); campo.innerHTML = '';
-            db.players.filter(p => p.in).forEach((p, i) => {
-                const d = document.createElement('div'); d.className = 'tag-player'; d.innerText = p.n.toUpperCase();
-                d.style.left = '30px'; d.style.top = (i * 45 + 50) + 'px'; campo.appendChild(d);
-                d.addEventListener('touchmove', e => {
-                    e.preventDefault(); let t = e.touches[0]; let r = document.getElementById('campo-container').getBoundingClientRect();
-                    d.style.left = (t.pageX - r.left - 40) + 'px'; d.style.top = (t.pageY - r.top - 15) + 'px';
-                });
-            });
-
-            document.getElementById('adm-list-players').innerHTML = db.players.map(p => `
-                <div class="card-ui">
-                    <h4 style="margin-bottom:10px;">${p.n.toUpperCase()}</h4>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px;">
-                        <input type="number" onchange="editStat(${p.id},'g',this.value)" value="${p.g}">
-                        <input type="number" onchange="editStat(${p.id},'a',this.value)" value="${p.a || 0}">
-                        <input type="number" onchange="editStat(${p.id},'m',this.value)" value="${p.m}">
-                        <input type="number" onchange="editStat(${p.id},'mvp',this.value)" value="${p.mvp}">
-                    </div>
-                    <button class="primary" onclick="addVoto(${p.id})" style="background:var(--gold); color:black; margin: 10px 0;">+ VOTO</button>
-                    <button class="primary" onclick="db.players=db.players.filter(x=>x.id!=${p.id});save()" style="background:#222; font-size:9px;">RIMUOVI</button>
-                </div>
-            `).join('');
-
-            document.getElementById('list-stats').innerHTML = [...db.players]
-                .sort((a,b) => (b.g + (b.a||0)) - (a.g + (a.a||0)))
-                .map(p => `<div class="card-ui" style="display:flex; justify-content:space-between; border-left: 2px solid var(--gold);"><span>${p.n.toUpperCase()}</span> <b style="color:var(--gold)">${p.g+p.a} PT</b></div>`).join('');
-        }
-    </script>
-</body>
-</html>
+        #campo-container { width: 100%; height: 450px; background
