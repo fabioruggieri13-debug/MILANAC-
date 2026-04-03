@@ -2,100 +2,182 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MILANAC ULTIMATE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MILANAC APP</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <style>
-        body { font-family: sans-serif; background: #000; color: #fff; margin: 0; padding: 10px; }
-        .neon-title { color: #ff0000; text-align: center; text-shadow: 0 0 10px #ff0000; font-size: 2rem; }
-        section { background: #111; border: 1px solid #333; border-radius: 15px; padding: 15px; margin-bottom: 30px; }
-        h2 { color: #ff0000; border-bottom: 1px solid #333; padding-bottom: 5px; text-transform: uppercase; font-size: 1rem; }
+        :root { --neon: #ff0000; --bg: #050505; --card: #121212; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; padding-bottom: 80px; overflow-x: hidden; }
         
-        /* Campo Tattico sempre visibile */
-        #campo { width: 100%; height: 400px; background: #0a2e18; border: 2px solid #fff; position: relative; border-radius: 10px; overflow: hidden; touch-action: none; }
-        .pedina { width: 45px; height: 45px; background: #ff0000; color: #fff; border-radius: 50%; position: absolute; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid #fff; z-index: 10; font-size: 10px; }
+        /* Navigazione Fissa in Basso */
+        .nav { position: fixed; bottom: 0; width: 100%; background: #111; display: flex; height: 70px; border-top: 2px solid var(--neon); z-index: 1000; }
+        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 10px; color: #666; font-weight: bold; }
+        .nav-item.active { color: var(--neon); }
+        .nav-icon { font-size: 20px; margin-bottom: 2px; }
 
-        input, select, button { width: 100%; padding: 15px; margin: 10px 0; border-radius: 10px; border: none; font-size: 1rem; }
-        button { background: #ff0000; color: #fff; font-weight: bold; }
-        .player-row { display: flex; justify-content: space-between; align-items: center; background: #222; padding: 10px; border-radius: 8px; margin-bottom: 5px; }
+        /* Contenitore Pagine */
+        .page { display: none; padding: 20px; animation: fadeIn 0.3s; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Componenti UI */
+        .card { background: var(--card); border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #222; }
+        h1 { color: var(--neon); text-align: center; letter-spacing: 2px; text-transform: uppercase; margin: 0 0 20px 0; }
+        h2 { font-size: 14px; color: var(--neon); text-transform: uppercase; margin-bottom: 15px; border-left: 3px solid var(--neon); padding-left: 10px; }
+        
+        input, select, button { width: 100%; padding: 12px; margin: 5px 0; border-radius: 8px; border: none; background: #222; color: white; box-sizing: border-box; }
+        button { background: var(--neon); font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        
+        /* Liste Giocatori */
+        .player-row { display: flex; justify-content: space-between; align-items: center; background: #1a1a1a; padding: 10px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #333; }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .badge { background: #333; color: var(--neon); padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <h1 class="neon-title">MILANAC</h1>
+    <div id="p-home" class="page active">
+        <h1>MILANAC</h1>
+        <div class="card">
+            <h2>APPELLO SESSIONE</h2>
+            <div id="list-presenze"></div>
+        </div>
+    </div>
 
-    <section>
-        <h2>1. AGGIUNGI GIOCATORI</h2>
-        <input type="text" id="nome" placeholder="Nome Gamertag">
-        <select id="ruolo"><option>ATT</option><option>CC</option><option>DIF</option><option>POR</option></select>
-        <button onclick="aggiungi()">AGGIUNGI ORA</button>
-    </section>
+    <div id="p-stats" class="page">
+        <h1>STATISTICHE</h1>
+        <div class="card">
+            <h2>RECORD GIORNALIERI</h2>
+            <div id="daily-stats">
+                <div class="player-row"><span>GOL TOTALI</span><b id="tot-gol">0</b></div>
+                <div class="player-row"><span>VITTORIE</span><b id="tot-win">0</b></div>
+                <button onclick="updateDaily()">AGGIORNA DATI</button>
+            </div>
+        </div>
+        <div class="card">
+            <h2>PLAYER OF THE MONTH</h2>
+            <div style="text-align:center; padding: 20px;">
+                <div style="font-size: 40px;">🏆</div>
+                <h3 id="potm-name">DA ASSEGNARE</h3>
+                <span class="badge">MVP DEL MESE</span>
+            </div>
+        </div>
+    </div>
 
-    <section>
-        <h2>2. CHI C'È STASERA?</h2>
-        <div id="lista-appello"></div>
-    </section>
+    <div id="p-albo" class="page">
+        <h1>ALBO D'ORO</h1>
+        <div id="list-albo">
+            <div class="card"><h2>STAGIONE 1</h2><p>Vincitori: I ROSSONERI</p></div>
+        </div>
+    </div>
 
-    <section>
-        <h2>3. LAVAGNA TATTICA</h2>
-        <div id="campo"></div>
-        <p style="font-size: 10px; color: #888;">Trascina i nomi sul campo verde.</p>
-    </section>
+    <div id="p-admin" class="page">
+        <h1>AREA ADMIN</h1>
+        <div id="admin-login">
+            <input type="password" id="admin-pass" placeholder="Password Admin">
+            <button onclick="checkAdmin()">ACCEDI</button>
+        </div>
+        <div id="admin-content" style="display:none;">
+            <div class="card">
+                <h2>MODIFICA ROSA</h2>
+                <input type="text" id="new-name" placeholder="Gamertag">
+                <select id="new-role"><option>ATT</option><option>CC</option><option>DIF</option><option>POR</option></select>
+                <button onclick="addPlayer()">AGGIUNGI PLAYER</button>
+            </div>
+            <div class="card">
+                <h2>NOMINA POTM</h2>
+                <input type="text" id="set-potm" placeholder="Nome Vincitore">
+                <button onclick="setPotm()">CONFERMA</button>
+            </div>
+            <div id="list-admin-edit"></div>
+        </div>
+    </div>
+
+    <div class="nav">
+        <div class="nav-item active" onclick="nav('home', this)"><span class="nav-icon">🏠</span>HOME</div>
+        <div class="nav-item" onclick="nav('stats', this)"><span class="nav-icon">📊</span>STATS</div>
+        <div class="nav-item" onclick="nav('albo', this)"><span class="nav-icon">📜</span>ALBO</div>
+        <div class="nav-item" onclick="nav('admin', this)"><span class="nav-icon">⚙️</span>ADMIN</div>
+    </div>
 
     <script>
-        let rosa = JSON.parse(localStorage.getItem('milanac_v5') || "[]");
+        let db = JSON.parse(localStorage.getItem('milanac_app_v6') || '{"players":[], "potm":"---", "stats":{"gol":0, "win":0}}');
 
-        function aggiungi() {
-            const n = document.getElementById('nome').value;
+        function nav(id, el) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('p-'+id).classList.add('active');
+            el.classList.add('active');
+            render();
+        }
+
+        // --- ADMIN LOGIC ---
+        function checkAdmin() {
+            if(document.getElementById('admin-pass').value === "milan") { // Cambia "milan" con la tua password
+                document.getElementById('admin-login').style.display = 'none';
+                document.getElementById('admin-content').style.display = 'block';
+                render();
+            } else { alert("Password Errata!"); }
+        }
+
+        function addPlayer() {
+            const n = document.getElementById('new-name').value;
             if(!n) return;
-            rosa.push({ id: Date.now(), n, r: document.getElementById('ruolo').value, attivo: false });
-            document.getElementById('nome').value = "";
-            salva();
+            db.players.push({ id: Date.now(), name: n, role: document.getElementById('new-role').value, present: false });
+            save();
         }
 
-        function toggle(id) {
-            const p = rosa.find(x => x.id === id);
-            p.attivo = !p.attivo;
-            salva();
+        function setPotm() {
+            db.potm = document.getElementById('set-potm').value;
+            save();
         }
 
-        function salva() {
-            localStorage.setItem('milanac_v5', JSON.stringify(rosa));
-            aggiorna();
+        function deletePlayer(id) {
+            db.players = db.players.filter(p => p.id !== id);
+            save();
         }
 
-        function aggiorna() {
-            // Lista Appello
-            document.getElementById('lista-appello').innerHTML = rosa.map(p => `
+        // --- STATS LOGIC ---
+        function updateDaily() {
+            db.stats.gol = prompt("Gol totali stasera?", db.stats.gol);
+            db.stats.win = prompt("Vittorie stasera?", db.stats.win);
+            save();
+        }
+
+        // --- CORE ---
+        function togglePresenza(id) {
+            const p = db.players.find(x => x.id === id);
+            p.present = !p.present;
+            save();
+        }
+
+        function save() {
+            localStorage.setItem('milanac_app_v6', JSON.stringify(db));
+            render();
+        }
+
+        function render() {
+            // Home Presenze
+            document.getElementById('list-presenze').innerHTML = db.players.map(p => `
                 <div class="player-row">
-                    <span>${p.n} (${p.r})</span>
-                    <button style="width:auto; padding:5px 20px; background:${p.attivo?'#ff0000':'#444'}" onclick="toggle(${p.id})">
-                        ${p.attivo ? 'IN CAMPO' : 'ASSENTE'}
-                    </button>
+                    <span><b>${p.name}</b> <br><small>${p.role}</small></span>
+                    <button style="width:auto; padding:5px 15px; background:${p.present?'#ff0000':'#333'}" onclick="togglePresenza(${p.id})">${p.present?'PRESENTE':'ASSENTE'}</button>
                 </div>
-            `).join('') || "Nessun giocatore. Aggiungilo sopra!";
+            `).join('') || "Nessun giocatore in rosa.";
 
-            // Campo
-            const campo = document.getElementById('campo');
-            campo.innerHTML = '';
-            rosa.filter(p => p.attivo).forEach((p, i) => {
-                const d = document.createElement('div');
-                d.className = 'pedina';
-                d.innerText = p.n.substring(0,3).toUpperCase();
-                d.style.left = '10px';
-                d.style.top = (i * 50 + 10) + 'px';
-                campo.appendChild(d);
-                
-                // Movimento
-                d.ontouchmove = e => {
-                    e.preventDefault();
-                    let t = e.touches[0];
-                    let rect = campo.getBoundingClientRect();
-                    d.style.left = (t.pageX - rect.left - 22) + 'px';
-                    d.style.top = (t.pageY - rect.top - 22) + 'px';
-                };
-            });
+            // Stats
+            document.getElementById('tot-gol').innerText = db.stats.gol;
+            document.getElementById('tot-win').innerText = db.stats.win;
+            document.getElementById('potm-name').innerText = db.potm;
+
+            // Admin List
+            document.getElementById('list-admin-edit').innerHTML = db.players.map(p => `
+                <div class="player-row"><span>${p.name}</span><button onclick="deletePlayer(${p.id})" style="width:auto; background:grey;">X</button></div>
+            `).join('');
         }
-        window.onload = aggiorna;
+
+        window.onload = render;
     </script>
 </body>
 </html>
