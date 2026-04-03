@@ -28,7 +28,6 @@
         .btn-mod { background: #111; border: 1px solid var(--oro); color: var(--oro); padding: 8px 0; font-weight: bold; border-radius: 4px; font-size: 10px; cursor: pointer; }
         .btn-mod.active { background: var(--oro); color: #000; }
 
-        /* IL NUOVO CAMPO MIGLIORATO */
         #pitch { 
             width: 95%; aspect-ratio: 2/3; max-height: 70vh; margin: 0 auto; 
             background: var(--erba-chiara); border: 3px solid white; position: relative; overflow: hidden; 
@@ -48,10 +47,11 @@
         .penalty-dot-bot { bottom: 11%; left: 50%; width: 4px; height: 4px; background: white; border-radius: 50%; transform: translateX(-50%); position: absolute; }
 
         .player { position: absolute; width: 54px; text-align: center; cursor: move; z-index: 100; touch-action: none; }
-        .jersey { width: 44px; height: 44px; background: #000; border: 3px solid var(--rosso); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; margin: 0 auto; color: var(--oro); font-size: 18px; }
+        .jersey { width: 44px; height: 44px; background: #000; border: 3px solid var(--rosso); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; margin: 0 auto; color: var(--oro); font-size: 18px; position: relative; }
+        .badge-icon { position: absolute; top: -8px; right: -8px; font-size: 16px; background: rgba(0,0,0,0.8); border-radius: 50%; padding: 2px; }
         .p-name { background: rgba(0,0,0,0.85); font-size: 11px; padding: 2px 6px; border-radius: 10px; margin-top: 4px; display: inline-block; font-weight: bold; text-transform: uppercase; color: white; }
 
-        .card { background: #111; padding: 15px; margin-bottom: 12px; border-left: 5px solid var(--rosso); border-radius: 4px; }
+        .card { background: #111; padding: 15px; margin-bottom: 12px; border-left: 5px solid var(--rosso); border-radius: 4px; position: relative; }
         .btn-main { width: 100%; padding: 14px; background: var(--rosso); color: white; border: none; font-weight: bold; border-radius: 6px; text-transform: uppercase; cursor: pointer; }
         input, select, textarea { width: 100%; padding: 12px; margin: 5px 0; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 4px; box-sizing: border-box; }
         
@@ -164,7 +164,6 @@
         firebase.initializeApp(firebaseConfig); const db = firebase.firestore();
         let data = { ps: [], mod: '4-4-2', matches: [], news: [] };
         
-        // --- PASSWORD IMPOSTATA ---
         const PASS = "milanac"; 
 
         const modali = {
@@ -210,13 +209,29 @@
             let hR="", hA="", hMk="", hP="", hMatch="", hNews="", hMod="";
             const activeAdm = document.getElementById('active-admin').value;
 
+            // Logica Badge
+            let maxMedia = -1, topPlayerId = null;
+            let maxMvp = -1, wallPlayerId = null;
+            
+            data.ps.forEach(p => {
+                const voti = Object.values(p.v_adm || {});
+                const media = parseFloat((voti.reduce((a,b)=>a+b,0) / voti.length).toFixed(1));
+                if(media > maxMedia) { maxMedia = media; topPlayerId = p.id; }
+                if(p.mvp > maxMvp) { maxMvp = p.mvp; wallPlayerId = p.id; }
+            });
+
             Object.keys(modali).forEach(m => { hMod += `<button class="btn-mod ${data.mod==m?'active':''}" onclick="setModulo('${m}')">${m}</button>`; });
             document.getElementById('mod-btns').innerHTML = hMod;
 
             data.ps.forEach(p => {
                 const voti = Object.values(p.v_adm || {});
                 const media = (voti.reduce((a,b)=>a+b,0) / voti.length).toFixed(1);
-                hR += `<div class="card" onclick="openP(${p.id})"><b>${p.n}</b> #${p.m}<br><small>${p.r} | Media: ${media}</small><br><button class="btn-main" style="width:auto; padding:5px 10px; margin-top:5px; background:${p.convocato?'green':'#333'}" onclick="event.stopPropagation(); const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">${p.convocato?'IN CAMPO':'SCHIERA'}</button></div>`;
+                
+                let badgeMarkup = "";
+                if(p.id === topPlayerId && maxMedia > 6) badgeMarkup += "🔥";
+                if(p.id === wallPlayerId && maxMvp > 0) badgeMarkup += "🧱";
+
+                hR += `<div class="card" onclick="openP(${p.id})"><b>${p.n} ${badgeMarkup}</b> #${p.m}<br><small>${p.r} | Media: ${media}</small><br><button class="btn-main" style="width:auto; padding:5px 10px; margin-top:5px; background:${p.convocato?'green':'#333'}" onclick="event.stopPropagation(); const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">${p.convocato?'IN CAMPO':'SCHIERA'}</button></div>`;
                 hMk += `<div class="card"><b>${p.n}</b> <span style="float:right; color:var(--oro)">€${(10+(media-6)*5+p.g*2).toFixed(1)}M</span></div>`;
                 hP += `<div class="card"><b>${p.n}</b> <span style="float:right">🏆 ${p.mvp} MVP</span></div>`;
                 hA += `<div class="card"><b>${p.n}</b> <button style="color:red; float:right; border:none; background:none;" onclick="if(confirm('Eliminare?')){data.ps=data.ps.filter(x=>x.id!==${p.id}); sync()}">ELIMINA</button><div class="vote-control"><button class="btn-v btn-minus" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].v_adm['${activeAdm}']-=0.5; sync()">-</button><span class="v-val">${p.v_adm[activeAdm]}</span><button class="btn-v btn-plus" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].v_adm['${activeAdm}']+=0.5; sync()">+</button></div></div>`;
@@ -231,8 +246,12 @@
 
             const pl = document.getElementById('pitch-players'); pl.innerHTML = "";
             data.ps.filter(p => p.convocato).forEach(p => {
+                let pBadge = "";
+                if(p.id === topPlayerId && maxMedia > 6) pBadge = "🔥";
+                else if(p.id === wallPlayerId && maxMvp > 0) pBadge = "🧱";
+
                 const d = document.createElement('div'); d.className = 'player'; d.style.left = p.x + "%"; d.style.top = p.y + "%";
-                d.innerHTML = `<div class="jersey">${p.m}</div><div class="p-name">${p.n}</div>`;
+                d.innerHTML = `<div class="jersey">${p.m}${pBadge ? `<span class="badge-icon">${pBadge}</span>` : ''}</div><div class="p-name">${p.n}</div>`;
                 d.onclick = () => openP(p.id);
                 let isD = false;
                 const start = () => isD = true;
