@@ -3,18 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MILANAC PRO CLUB - TOTAL CONTROL</title>
+    <title>MILANAC PRO CLUB - ULTIMATE</title>
     <style>
         :root { --red: #C61C23; --bg: #000; --card: #121212; --gold: #D4AF37; --cyan: #00e5ff; --grass: #2e7d32; --grass-light: #388e3c; }
         body, html { margin: 0; padding: 0; background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; height: 100vh; overflow: hidden; }
 
-        /* --- INTRODUZIONE --- */
+        /* --- INTRODUZIONE PULSANTE --- */
         #intro { position: fixed; inset: 0; background: radial-gradient(circle, #1a1a1a 0%, #000 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; text-align: center; }
-        .logo-upload { width: 180px; height: 180px; border: 3px dashed var(--red); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; background: #080808; margin-bottom: 20px; transition: 0.3s; }
-        .logo-upload:hover { border-color: var(--gold); }
+        
+        .logo-upload { 
+            width: 180px; height: 180px; border: 3px dashed var(--red); border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; cursor: pointer; 
+            overflow: hidden; background: #080808; margin-bottom: 25px;
+            animation: heartbeat 2s infinite ease-in-out; /* EFFETTO PULSANTE */
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); box-shadow: 0 0 0 rgba(198,28,35,0); }
+            50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(198,28,35,0.4); }
+            100% { transform: scale(1); box-shadow: 0 0 0 rgba(198,28,35,0); }
+        }
+
         #logo-img { width: 100%; height: 100%; object-fit: cover; display: none; }
-        #up-txt { font-size: 11px; color: var(--red); font-weight: bold; text-transform: uppercase; padding: 20px; }
-        .btn-start { background: var(--red); color: white; border: none; padding: 18px 60px; border-radius: 50px; font-weight: 900; cursor: pointer; text-transform: uppercase; box-shadow: 0 0 25px rgba(198,28,35,0.5); }
+        #up-txt { font-size: 11px; color: var(--red); font-weight: bold; text-transform: uppercase; padding: 20px; line-height: 1.4; }
+        
+        .title-main { font-size: 2.8rem; letter-spacing: -2px; margin: 0; animation: fadeText 2s infinite; }
+        .title-sub { color: var(--gold); font-weight: bold; letter-spacing: 5px; margin-bottom: 40px; font-size: 1.2rem; }
+
+        .btn-start { background: var(--red); color: white; border: none; padding: 18px 60px; border-radius: 50px; font-weight: 900; cursor: pointer; text-transform: uppercase; box-shadow: 0 0 25px rgba(198,28,35,0.5); transition: 0.3s; }
+        .btn-start:active { transform: scale(0.95); }
 
         /* --- HEADER --- */
         header { height: 65px; background: #080808; border-bottom: 2px solid var(--red); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; position: relative; z-index: 2000; }
@@ -22,47 +39,42 @@
         .burger { font-size: 30px; color: var(--red); cursor: pointer; padding: 10px; }
         
         .nav-menu { position: absolute; top: 65px; right: 0; background: #0a0a0a; width: 260px; display: none; flex-direction: column; border-left: 2px solid var(--red); height: calc(100vh - 65px); z-index: 1900; box-shadow: -10px 0 20px rgba(0,0,0,0.5); }
-        .nav-menu button { background: none; border: none; color: white; padding: 20px; text-align: left; border-bottom: 1px solid #1a1a1a; font-weight: bold; text-transform: uppercase; font-size: 13px; transition: 0.2s; }
-        .nav-menu button:active { background: var(--red); }
+        .nav-menu button { background: none; border: none; color: white; padding: 20px; text-align: left; border-bottom: 1px solid #1a1a1a; font-weight: bold; text-transform: uppercase; font-size: 13px; }
 
         /* --- LAYOUT --- */
         .container { height: calc(100vh - 65px); overflow-y: auto; padding: 15px; box-sizing: border-box; }
         .page { display: none; } .active { display: block; }
 
-        /* --- CARDS GIOCATORI --- */
-        .card { background: var(--card); border-radius: 12px; padding: 15px; margin-bottom: 12px; border-left: 5px solid var(--red); position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        /* --- CARDS & STATS --- */
+        .card { background: var(--card); border-radius: 12px; padding: 15px; margin-bottom: 12px; border-left: 5px solid var(--red); position: relative; }
         .market-val { float: right; color: #4caf50; font-weight: 900; font-size: 1.1rem; }
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 12px; }
         .stat-box { background: #1a1a1a; padding: 8px; border-radius: 6px; text-align: center; }
-        .stat-box small { font-size: 9px; color: #888; display: block; text-transform: uppercase; margin-bottom: 2px; }
-        .stat-box b { font-size: 14px; }
+        .stat-box small { font-size: 9px; color: #888; display: block; text-transform: uppercase; }
 
-        .badge-list { display: flex; gap: 5px; margin: 8px 0; flex-wrap: wrap; }
+        .badge-list { display: flex; gap: 5px; margin: 8px 0; }
         .badge { font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: 900; text-transform: uppercase; }
         .potm { background: var(--gold); color: #000; }
         .mvp { background: var(--cyan); color: #000; }
 
         /* --- CAMPO TATTICO --- */
-        .pitch-wrap { width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .pitch-wrap { width: 100%; display: flex; justify-content: center; margin-top: 10px; }
         #pitch { 
-            width: 92vw; height: 135vw; max-height: 520px; background: var(--grass); border: 3px solid #fff; position: relative; overflow: hidden; touch-action: none;
+            width: 90vw; height: 130vw; max-height: 500px; background: var(--grass); border: 3px solid #fff; position: relative; overflow: hidden; touch-action: none;
             background-image: repeating-linear-gradient(0deg, var(--grass), var(--grass) 10%, var(--grass-light) 10%, var(--grass-light) 20%);
         }
         .linea-m { position: absolute; width: 100%; height: 2px; background: rgba(255,255,255,0.8); top: 50%; }
         .cerchio-m { position: absolute; width: 80px; height: 80px; border: 2px solid #fff; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); }
         .area-r { position: absolute; width: 60%; height: 18%; border: 2px solid #fff; left: 20%; }
-        .area-t { top: -2px; border-top: none; }
-        .area-b { bottom: -2px; border-bottom: none; }
+        .area-t { top: -2px; border-top: none; } .area-b { bottom: -2px; border-bottom: none; }
 
         /* PEDINE */
         .token { position: absolute; width: 55px; text-align: center; z-index: 100; }
-        .shirt { width: 42px; height: 42px; background: #000; border: 2px solid var(--red); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; margin: 0 auto; box-shadow: 0 4px 8px rgba(0,0,0,0.5); font-size: 14px; }
-        .token-name { background: rgba(0,0,0,0.85); font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-top: 4px; display: inline-block; font-weight: bold; border: 1px solid #333; }
+        .shirt { width: 42px; height: 42px; background: #000; border: 2px solid var(--red); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; margin: 0 auto; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
+        .token-name { background: rgba(0,0,0,0.85); font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-top: 4px; display: inline-block; font-weight: bold; border: 1px solid #333; white-space: nowrap; }
 
-        /* INPUT E BOTTONI */
-        input, textarea { width: 100%; padding: 12px; background: #0a0a0a; border: 1px solid #333; color: #fff; margin-bottom: 10px; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-        .btn-red { background: var(--red); color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; transition: 0.2s; }
-        .btn-convoca { margin-top: 10px; }
+        input, textarea { width: 100%; padding: 12px; background: #0a0a0a; border: 1px solid #333; color: #fff; margin-bottom: 10px; border-radius: 8px; box-sizing: border-box; }
+        .btn-red { background: var(--red); color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -70,37 +82,37 @@
     <div id="intro">
         <div class="logo-upload" onclick="document.getElementById('f-in').click()">
             <img id="logo-img" src="">
-            <span id="up-txt">TOCCA PER CARICARE IL LOGO DEI MILANAC</span>
+            <span id="up-txt">TOCCA PER CARICARE<br>IL LOGO</span>
         </div>
         <input type="file" id="f-in" style="display:none" accept="image/*">
-        <h1 style="margin:0; font-size: 2.5rem; letter-spacing: -2px;">MILANAC</h1>
-        <p style="color:var(--gold); font-weight:bold; letter-spacing:4px; margin-bottom:40px">PRO CLUB MANAGER</p>
+        <h1 class="title-main">MILANAC</h1>
+        <p class="title-sub">PRO CLUB</p>
         <button class="btn-start" onclick="startApp()">Entra nel Club</button>
     </div>
 
     <header>
         <div style="display:flex; align-items:center; gap:10px">
             <img id="mini-logo" class="mini-logo" src="" style="display:none">
-            <div style="font-weight:900; color:var(--red); font-size:20px; letter-spacing:-1px">MILANAC</div>
+            <div style="font-weight:900; color:var(--red); font-size:20px">MILANAC</div>
         </div>
         <div class="burger" onclick="toggleNav()">☰</div>
         <nav id="nav" class="nav-menu">
             <button onclick="showPage('rosa')">La Rosa</button>
             <button onclick="showPage('tattica')">Lavagna Tattica</button>
             <button onclick="showPage('mercato')">Premi e Mercato</button>
-            <button onclick="showPage('news')">Comunicati News</button>
-            <button onclick="showPage('admin')">Area Amministratore</button>
+            <button onclick="showPage('news')">News</button>
+            <button onclick="showPage('admin')">Admin</button>
         </nav>
     </header>
 
     <div class="container">
         <div id="p-rosa" class="page active">
-            <h2 style="text-align:center; color:var(--red)">SQUADRA</h2>
+            <h2 style="text-align:center">LA SQUADRA</h2>
             <div id="list-rosa"></div>
         </div>
 
         <div id="p-tattica" class="page">
-            <h2 style="text-align:center; color:var(--red)">LAVAGNA</h2>
+            <h2 style="text-align:center">LAVAGNA</h2>
             <div class="pitch-wrap">
                 <div id="pitch">
                     <div class="area-r area-t"></div>
@@ -110,35 +122,32 @@
                     <div id="pitch-players"></div>
                 </div>
             </div>
-            <p style="text-align:center; font-size:11px; color:#555; margin-top:10px">Trascina le pedine dei convocati per decidere la formazione.</p>
         </div>
 
         <div id="p-mercato" class="page">
-            <h2 style="text-align:center; color:var(--gold)">HALL OF FAME</h2>
+            <h2 style="text-align:center">HALL OF FAME</h2>
             <div id="list-market"></div>
         </div>
 
         <div id="p-news" class="page">
-            <h2 style="text-align:center; color:var(--red)">NEWS</h2>
+            <h2 style="text-align:center">NOTIZIE</h2>
             <div id="list-news"></div>
         </div>
 
         <div id="p-admin" class="page">
-            <h2 style="text-align:center">PANNELLO DI CONTROLLO</h2>
-            <input type="password" id="adm-pass" placeholder="Password Admin (milan)">
+            <h2 style="text-align:center">GESTIONE</h2>
+            <input type="password" id="adm-pass" placeholder="Password (milan)">
             <button class="btn-red" onclick="login()">ACCEDI</button>
             <div id="adm-panel" style="display:none; margin-top:20px;">
                 <div class="card">
-                    <h3>Nuovo Giocatore</h3>
                     <input type="text" id="new-n" placeholder="Nome">
-                    <input type="number" id="new-m" placeholder="Numero Maglia">
-                    <button class="btn-red" onclick="addPlayer()">SALVA GIOCATORE</button>
+                    <input type="number" id="new-m" placeholder="Numero">
+                    <button class="btn-red" onclick="addPlayer()">AGGIUNGI PLAYER</button>
                 </div>
                 <div class="card">
-                    <h3>Pubblica News</h3>
-                    <input type="text" id="new-nt" placeholder="Titolo">
-                    <textarea id="new-nb" placeholder="Messaggio..."></textarea>
-                    <button class="btn-red" onclick="addNews()">INVIA COMUNICATO</button>
+                    <input type="text" id="new-nt" placeholder="Titolo News">
+                    <textarea id="new-nb" placeholder="Testo..."></textarea>
+                    <button class="btn-red" onclick="addNews()">PUBBLICA NEWS</button>
                 </div>
                 <div id="adm-list-players"></div>
             </div>
@@ -149,7 +158,7 @@
         let db = { ps: [], ns: [], logo: "" };
 
         function load() {
-            const saved = localStorage.getItem('milanac_total_v67');
+            const saved = localStorage.getItem('milanac_v68');
             if(saved) {
                 db = JSON.parse(saved);
                 if(db.logo) {
@@ -162,121 +171,74 @@
 
         document.getElementById('f-in').onchange = function(e) {
             const r = new FileReader();
-            r.onload = function() {
-                db.logo = r.result; save(); location.reload();
-            };
+            r.onload = function() { db.logo = r.result; save(); location.reload(); };
             r.readAsDataURL(e.target.files[0]);
         };
 
         function startApp() { document.getElementById('intro').style.display='none'; render(); }
         function toggleNav() { const n = document.getElementById('nav'); n.style.display = (n.style.display==='flex')?'none':'flex'; }
-        function showPage(p) { 
-            document.querySelectorAll('.page').forEach(x=>x.classList.remove('active')); 
-            document.getElementById('p-'+p).classList.add('active'); 
-            toggleNav(); render(); 
-        }
+        function showPage(p) { document.querySelectorAll('.page').forEach(x=>x.classList.remove('active')); document.getElementById('p-'+p).classList.add('active'); toggleNav(); render(); }
         function login() { if(document.getElementById('adm-pass').value === 'milan') document.getElementById('adm-panel').style.display='block'; }
-        function save() { localStorage.setItem('milanac_total_v67', JSON.stringify(db)); render(); }
+        function save() { localStorage.setItem('milanac_v68', JSON.stringify(db)); render(); }
 
         function addPlayer() {
-            const n = document.getElementById('new-n').value;
-            const m = document.getElementById('new-m').value;
-            if(n && m) {
-                db.ps.push({id:Date.now(), n, m, p:0, g:0, a:0, v:[], potm:0, mvp:0, in:false});
-                save();
-            }
+            const n = document.getElementById('new-n').value, m = document.getElementById('new-m').value;
+            if(n && m) { db.ps.push({id:Date.now(), n, m, p:0, g:0, a:0, v:[], potm:0, mvp:0, in:false}); save(); }
         }
 
         function addNews() {
-            const t = document.getElementById('new-nt').value;
-            const b = document.getElementById('new-nb').value;
-            if(t && b) {
-                db.ns.unshift({t, b, d: new Date().toLocaleDateString()});
-                save();
-            }
+            const t = document.getElementById('new-nt').value, b = document.getElementById('new-nb').value;
+            if(t && b) { db.ns.unshift({t, b, d: new Date().toLocaleDateString()}); save(); }
         }
 
         function getValore(p) {
             let base = 10 + (p.g * 5) + (p.a * 3) + (p.p * 1) + (p.potm * 10) + (p.mvp * 15);
-            if(p.v.length > 0) {
-                let media = p.v.reduce((a,b)=>a+b,0) / p.v.length;
-                base *= (media / 6);
-            }
+            if(p.v.length > 0) base *= ((p.v.reduce((a,b)=>a+b,0) / p.v.length) / 6);
             return base.toFixed(1);
         }
 
         function render() {
-            // RENDERING ROSA
             document.getElementById('list-rosa').innerHTML = db.ps.map(p => `
                 <div class="card">
                     <span class="market-val">€${getValore(p)}M</span>
                     <b>#${p.m} ${p.n.toUpperCase()}</b>
-                    <div class="badge-list">
-                        ${p.potm ? `<span class="badge potm">POTM x${p.potm}</span>` : ''}
-                        ${p.mvp ? `<span class="badge mvp">MVP x${p.mvp}</span>` : ''}
-                    </div>
+                    <div class="badge-list">${p.potm?`<span class="badge potm">POTM x${p.potm}</span>`:''}${p.mvp?`<span class="badge mvp">MVP x${p.mvp}</span>`:''}</div>
                     <div class="stats-grid">
-                        <div class="stat-box"><small>Pres</small><b>${p.p}</b></div>
-                        <div class="stat-box"><small>Gol</small><b>${p.g}</b></div>
-                        <div class="stat-box"><small>Ass</small><b>${p.a}</b></div>
-                        <div class="stat-box"><small>Mv</small><b>${p.v.length?(p.v.reduce((a,b)=>a+b,0)/p.v.length).toFixed(1):'-'}</b></div>
+                        <div class="stat-box"><small>P</small><b>${p.p}</b></div><div class="stat-box"><small>G</small><b>${p.g}</b></div>
+                        <div class="stat-box"><small>A</small><b>${p.a}</b></div><div class="stat-box"><small>Mv</small><b>${p.v.length?(p.v.reduce((a,b)=>a+b,0)/p.v.length).toFixed(1):'-'}</b></div>
                     </div>
-                    <button class="btn-red btn-convoca" style="background:${p.in?'var(--red)':'#333'}" onclick="db.ps.find(x=>x.id===${p.id}).in=!db.ps.find(x=>x.id===${p.id}).in; save();">
-                        ${p.in?'CONVOCATO':'CONVOCA'}
-                    </button>
+                    <button class="btn-red" style="margin-top:10px; background:${p.in?'var(--red)':'#333'}" onclick="db.ps.find(x=>x.id===${p.id}).in=!db.ps.find(x=>x.id===${p.id}).in; save();">${p.in?'CONVOCATO':'ASSENTE'}</button>
                 </div>`).join('');
 
-            // RENDERING MERCATO
-            const sorted = [...db.ps].sort((a,b) => getValore(b) - getValore(a));
-            document.getElementById('list-market').innerHTML = sorted.map((p,i) => `
-                <div class="card">
-                    <b>${i+1}. ${p.n}</b> <span class="market-val">€${getValore(p)}M</span>
-                    <div style="font-size:10px; color:var(--gold); margin-top:5px">TROFEI: ${p.potm+p.mvp}</div>
-                </div>`).join('');
+            document.getElementById('list-market').innerHTML = [...db.ps].sort((a,b)=>getValore(b)-getValore(a)).map((p,i)=>`
+                <div class="card"><b>${i+1}. ${p.n}</b> <span class="market-val">€${getValore(p)}M</span></div>`).join('');
 
-            // RENDERING NEWS
-            document.getElementById('list-news').innerHTML = db.ns.map(n => `
-                <div class="card">
-                    <small>${n.d}</small>
-                    <h3 style="margin:5px 0; color:var(--red)">${n.t}</h3>
-                    <p style="margin:0; font-size:14px">${n.b}</p>
-                </div>`).join('');
+            document.getElementById('list-news').innerHTML = db.ns.map(n=>`<div class="card"><small>${n.d}</small><h3 style="color:var(--red)">${n.t}</h3><p>${n.b}</p></div>`).join('');
 
-            // RENDERING LAVAGNA
-            const pitchArea = document.getElementById('pitch-players');
-            pitchArea.innerHTML = '';
-            db.ps.filter(p => p.in).forEach((p, i) => {
-                const tok = document.createElement('div');
-                tok.className = 'token';
-                tok.style.left = '20px'; tok.style.top = (i * 55 + 20) + 'px';
-                tok.innerHTML = `<div class="shirt">${p.m}</div><div class="token-name">${p.n}</div>`;
-                pitchArea.appendChild(tok);
-                tok.ontouchmove = e => {
-                    e.preventDefault();
-                    let t = e.touches[0], r = document.getElementById('pitch').getBoundingClientRect();
-                    tok.style.left = (t.pageX - r.left - 27) + 'px';
-                    tok.style.top = (t.pageY - r.top - 20) + 'px';
-                };
+            const area = document.getElementById('pitch-players'); area.innerHTML = '';
+            db.ps.filter(p=>p.in).forEach((p,i)=>{
+                const t = document.createElement('div'); t.className='token'; t.style.left='20px'; t.style.top=(i*55+20)+'px';
+                t.innerHTML=`<div class="shirt">${p.m}</div><div class="token-name">${p.n}</div>`;
+                area.appendChild(t);
+                t.ontouchmove = e => { e.preventDefault(); let x=e.touches[0], r=document.getElementById('pitch').getBoundingClientRect(); t.style.left=(x.pageX-r.left-27)+'px'; t.style.top=(x.pageY-r.top-20)+'px'; };
             });
 
-            // RENDERING ADMIN LIST
             document.getElementById('adm-list-players').innerHTML = db.ps.map(p => `
                 <div class="card">
                     <b>${p.n} (#${p.m})</b>
                     <div style="display:flex; gap:5px; margin:10px 0">
-                        <input type="number" value="${p.p}" onchange="db.ps.find(x=>x.id===${p.id}).p=parseInt(this.value);save()" placeholder="P">
-                        <input type="number" value="${p.g}" onchange="db.ps.find(x=>x.id===${p.id}).g=parseInt(this.value);save()" placeholder="G">
-                        <input type="number" value="${p.a}" onchange="db.ps.find(x=>x.id===${p.id}).a=parseInt(this.value);save()" placeholder="A">
+                        <input type="number" value="${p.p}" onchange="db.ps.find(x=>x.id===${p.id}).p=parseInt(this.value);save()">
+                        <input type="number" value="${p.g}" onchange="db.ps.find(x=>x.id===${p.id}).g=parseInt(this.value);save()">
+                        <input type="number" value="${p.a}" onchange="db.ps.find(x=>x.id===${p.id}).a=parseInt(this.value);save()">
                     </div>
-                    <div style="display:flex; gap:5px; margin-bottom:5px">
-                        <button onclick="db.ps.find(x=>x.id===${p.id}).potm++;save()" style="flex:1; background:var(--gold); border:none; padding:8px; border-radius:4px; font-weight:900">POTM</button>
-                        <button onclick="db.ps.find(x=>x.id===${p.id}).mvp++;save()" style="flex:1; background:var(--cyan); border:none; padding:8px; border-radius:4px; font-weight:900">MVP</button>
+                    <div style="display:flex; gap:5px;">
+                        <button onclick="db.ps.find(x=>x.id===${p.id}).potm++;save()" style="flex:1; background:var(--gold); border:none; padding:8px; border-radius:4px">POTM</button>
+                        <button onclick="db.ps.find(x=>x.id===${p.id}).mvp++;save()" style="flex:1; background:var(--cyan); border:none; padding:8px; border-radius:4px">MVP</button>
                     </div>
-                    <button class="btn-red" style="background:#444; margin-bottom:5px" onclick="let v=prompt('Voto:'); if(v){db.ps.find(x=>x.id===${p.id}).v.push(parseFloat(v));save()}">VOTO PARTITA</button>
-                    <button onclick="if(confirm('Elimina ${p.n}?')){db.ps=db.ps.filter(x=>x.id!==${p.id});save()}" style="color:red; background:none; border:none; width:100%; font-size:10px; margin-top:10px">ELIMINA GIOCATORE</button>
+                    <button class="btn-red" style="background:#444; margin-top:5px" onclick="let v=prompt('Voto:'); if(v){db.ps.find(x=>x.id===${p.id}).v.push(parseFloat(v));save()}">VOTO</button>
+                    <button onclick="if(confirm('Elimina?')){db.ps=db.ps.filter(x=>x.id!==${p.id});save()}" style="color:red; background:none; border:none; width:100%; font-size:10px; margin-top:10px">ELIMINA</button>
                 </div>`).join('');
         }
-
         load();
     </script>
 </body>
