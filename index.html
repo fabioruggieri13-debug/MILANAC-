@@ -4,93 +4,204 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MILANAC</title>
-    <link rel="icon" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png">
-    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png">
-    <meta name="mobile-web-app-capable" content="yes">
-
     <style>
-        :root { --red: #ff0000; --bg: #000; }
+        :root { --red: #ff0000; --bg: #000; --card: #121212; }
         body, html { margin: 0; padding: 0; background: #000; color: white; font-family: 'Segoe UI', sans-serif; height: 100vh; overflow: hidden; }
 
-        /* NAVIGAZIONE IN ALTO */
-        .nav-top { display: flex; background: #080808; border-bottom: 2px solid var(--red); height: 60px; position: sticky; top: 0; z-index: 1000; overflow-x: auto; }
-        .nav-btn { flex: 1; min-width: 80px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #555; font-weight: bold; text-transform: uppercase; border: none; background: none; }
-        .nav-btn.active { color: #fff; border-bottom: 3px solid var(--red); background: #111; }
+        /* SCHERMATA INTRO */
+        #intro { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: #000; display: flex; flex-direction: column; 
+            align-items: center; justify-content: center; z-index: 10000; text-align: center;
+        }
+        .intro-btn { 
+            background: var(--red); color: white; border: none; padding: 20px 30px; 
+            font-size: 1.2rem; font-weight: 900; border-radius: 50px; cursor: pointer;
+            box-shadow: 0 0 20px var(--red); text-transform: uppercase;
+        }
 
-        .content { height: calc(100vh - 60px); overflow-y: auto; padding: 15px; box-sizing: border-box; }
+        /* HEADER E MENÙ A TENDINA */
+        header { 
+            height: 60px; background: #0a0a0a; border-bottom: 2px solid var(--red); 
+            display: flex; align-items: center; justify-content: space-between; padding: 0 20px;
+        }
+        .burger { font-size: 28px; cursor: pointer; color: var(--red); }
+        .dropdown { 
+            position: absolute; top: 60px; right: 0; background: #111; width: 200px; 
+            display: none; flex-direction: column; border: 1px solid var(--red); z-index: 5000;
+        }
+        .dropdown button { 
+            background: none; border: none; color: white; padding: 15px; 
+            text-align: left; border-bottom: 1px solid #222; font-size: 16px; 
+        }
+
+        /* CONTENUTO */
+        .content { height: calc(100vh - 60px); overflow-y: auto; padding: 15px; }
         .page { display: none; } .page.active { display: block; }
 
-        /* CAMPO DA CALCIO REALE */
+        /* CAMPO DA CALCIO */
         #campo-container { 
-            width: 100%; height: 400px; background: #1e4d2b; 
-            border: 3px solid white; border-radius: 10px; position: relative; 
-            margin: 10px 0; overflow: hidden; touch-action: none;
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.2) 2px, transparent 2px),
-                linear-gradient(90deg, rgba(255,255,255,0.2) 2px, transparent 2px);
-            background-size: 100% 50px, 50px 100%;
+            width: 100%; height: 400px; background: #1e4d2b; border: 3px solid white; 
+            border-radius: 10px; position: relative; overflow: hidden; touch-action: none;
+            background-image: linear-gradient(rgba(255,255,255,0.1) 2px, transparent 2px); background-size: 100% 40px;
         }
-        .area-rigore { position: absolute; bottom: 0; left: 25%; width: 50%; height: 60px; border: 2px solid white; border-bottom: none; }
-        .centrocampo { position: absolute; top: 50%; left: 50%; width: 80px; height: 80px; border: 2px solid white; border-radius: 50%; transform: translate(-50%, -50%); }
-        .linea-metà { position: absolute; top: 50%; width: 100%; height: 2px; background: white; }
-
-        .player-dot { 
-            width: 50px; height: 50px; background: var(--red); color: white; 
-            border-radius: 50%; position: absolute; display: flex; align-items: center; 
-            justify-content: center; font-size: 10px; border: 2px solid white; 
-            font-weight: bold; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            text-align: center; line-height: 1; padding: 2px; box-sizing: border-box;
+        .player-name-tag { 
+            position: absolute; background: var(--red); color: white; padding: 5px 10px; 
+            border-radius: 5px; font-size: 10px; font-weight: bold; border: 1px solid white;
+            white-space: nowrap; z-index: 100;
         }
 
-        /* CARTA FC26 ROSSONERA */
+        /* NOTIZIE */
+        .news-box { background: #1a1a1a; padding: 15px; border-radius: 10px; border-left: 4px solid var(--red); margin-bottom: 10px; }
+        .news-date { color: var(--red); font-size: 12px; font-weight: bold; }
+
+        /* CARTA FC26 */
         .fc-card {
-            width: 260px; height: 380px; margin: 10px auto; background: linear-gradient(135deg, #000 0%, #ff0000 50%, #000 100%);
+            width: 260px; height: 350px; margin: 10px auto; background: linear-gradient(135deg, #000 0%, #ff0000 50%, #000 100%);
             clip-path: polygon(10% 0, 90% 0, 100% 15%, 100% 85%, 50% 100%, 0 85%, 0 15%);
             position: relative; padding: 2px;
         }
         .fc-inner { background: #000; height: 100%; width: 100%; clip-path: inherit; position: relative; text-align: center; }
-        .ovr { position: absolute; top: 35px; left: 25px; font-size: 50px; font-weight: 900; color: var(--red); }
-        .p-name { margin-top: 180px; font-size: 24px; font-weight: 900; text-transform: uppercase; border-bottom: 2px solid var(--red); width: 80%; margin-left: 10%; }
 
-        .card-ui { background: #111; border-radius: 12px; padding: 15px; margin-bottom: 12px; border: 1px solid #222; }
-        button { background: var(--red); color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: bold; width: 100%; text-transform: uppercase; }
-        input, select { width: 100%; padding: 12px; background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 8px; margin-bottom: 8px; }
-        h1 { color: var(--red); text-align: center; text-transform: uppercase; font-size: 1.5rem; }
+        .card-ui { background: #111; border-radius: 12px; padding: 15px; margin-bottom: 10px; border: 1px solid #222; }
+        button.action { background: var(--red); color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-weight: bold; }
+        input, select { width: 100%; padding: 12px; background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 8px; margin-bottom: 8px; box-sizing: border-box; }
     </style>
 </head>
 <body>
 
-    <nav class="nav-top">
-        <button class="nav-btn active" onclick="tab('h', this)">LISTA</button>
-        <button class="nav-btn" onclick="tab('t', this)">CAMPO</button>
-        <button class="nav-btn" onclick="tab('p', this)">LA MIA CARTA</button>
-        <button class="nav-btn" onclick="tab('s', this)">STATS</button>
-        <button class="nav-btn" onclick="tab('a', this)">ADMIN</button>
-    </nav>
+    <div id="intro">
+        <h1 style="color:var(--red); font-size: 3rem; margin-bottom: 10px;">MILANAC</h1>
+        <button class="intro-btn" onclick="closeIntro()">MILANAC la web app dei giocatori</button>
+    </div>
+
+    <header>
+        <div style="font-weight: 900; color: var(--red); letter-spacing: 2px;">MILANAC</div>
+        <div class="burger" onclick="toggleMenu()">☰</div>
+        <div class="dropdown" id="menu">
+            <button onclick="tab('h')">GIOCATORI</button>
+            <button onclick="tab('t')">CAMPO TATTICO</button>
+            <button onclick="tab('n')">NOTIZIE</button>
+            <button onclick="tab('p')">LA MIA CARTA</button>
+            <button onclick="tab('s')">STATISTICHE</button>
+            <button onclick="tab('a')">ADMIN</button>
+        </div>
+    </header>
 
     <div class="content">
+        <div id="pg-n" class="page">
+            <h1>NEWS DEL CLUB</h1>
+            <div id="news-list">
+                <div class="news-box">
+                    <span class="news-date">OGGI</span>
+                    <h3>Aggiornamento App V19</h3>
+                    <p>Intro personalizzata e nuovo menù a tendina attivato!</p>
+                </div>
+            </div>
+        </div>
+
         <div id="pg-h" class="page active">
-            <h1>APPELLO DIAVOLI</h1>
+            <h1>LISTA GIOCATORI</h1>
             <div id="list-h"></div>
         </div>
 
         <div id="pg-t" class="page">
-            <h1>FORMAZIONE</h1>
-            <div id="campo-container">
-                <div class="linea-metà"></div>
-                <div class="centrocampo"></div>
-                <div class="area-rigore"></div>
-                <div id="nomi-campo"></div>
-            </div>
-            <button onclick="render()" style="background:#222;">RESET POSIZIONI</button>
+            <h1>CAMPO TATTICO</h1>
+            <div id="campo-container"><div id="nomi-campo"></div></div>
+            <button class="action" onclick="render()" style="margin-top:10px; background:#222;">RESET POSIZIONI</button>
         </div>
 
         <div id="pg-p" class="page">
-            <h1>PROFILO PERSONALE</h1>
+            <h1>LA MIA CARTA</h1>
             <div class="fc-card"><div class="fc-inner">
-                <div class="ovr" id="c-ovr">--</div>
-                <div class="p-name" id="c-name">PLAYER</div>
-                <div style="display:flex; justify-content:center; gap:20px; margin-top:25px;">
-                    <div><div id="c-gol" style="color:red; font-size:22px; font-weight:bold;">0</div><div style="font-size:10px;">GOL</div></div>
-                    <div><div id="c-match" style="color:red; font-size:22px; font-weight:bold;">0</div><div style="font-size:10px;">GARE</div></div>
-                    <div><div id="c-mvp" style="color:red; font-size:
+                <div id="c-ovr" style="font-size:50px; color:red; font-weight:900; position:absolute; top:30px; left:25px;">--</div>
+                <div id="c-name" style="margin-top:170px; font-size:24px; font-weight:900; border-bottom:2px solid red; display:inline-block; width:80%;">PLAYER</div>
+                <div style="display:flex; justify-content:center; gap:20px; margin-top:20px;">
+                    <div><div id="c-gol" style="color:red; font-size:20px; font-weight:bold;">0</div>GOL</div>
+                    <div><div id="c-match" style="color:red; font-size:20px; font-weight:bold;">0</div>GARE</div>
+                </div>
+            </div></div>
+            <button class="action" onclick="setUser()" style="margin-top:15px;">CHI SEI?</button>
+        </div>
+
+        <div id="pg-s" class="page">
+            <h1>STATISTICHE</h1>
+            <div class="card-ui">MVP: <span id="club-potm" style="color:gold;">---</span></div>
+            <div class="card-ui">GOL TOTALI: <span id="club-gol">0</span></div>
+        </div>
+
+        <div id="pg-a" class="page">
+            <h1>ADMIN</h1>
+            <input type="password" id="pw" placeholder="Password"><button class="action" onclick="auth()">ENTRA</button>
+            <div id="adm-ui" style="display:none; margin-top:15px;">
+                <input type="text" id="add-n" placeholder="Nome">
+                <button class="action" onclick="add()">AGGIUNGI GIOCATORE</button>
+                <div id="list-adm" style="margin-top:15px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let db = JSON.parse(localStorage.getItem('m_v19') || '{"players":[], "potm":"---", "gol":0}');
+
+        function closeIntro() { document.getElementById('intro').style.display = 'none'; render(); }
+        function toggleMenu() { let m = document.getElementById('menu'); m.style.display = m.style.display === 'flex' ? 'none' : 'flex'; }
+
+        function tab(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('pg-'+id).classList.add('active');
+            toggleMenu();
+            render();
+        }
+
+        function auth() { if(document.getElementById('pw').value === "milan") document.getElementById('adm-ui').style.display='block'; }
+        function add() {
+            const n = document.getElementById('add-n').value;
+            if(n) db.players.push({id: Date.now(), n, in: false, g:0, m:0});
+            save();
+        }
+        function toggle(id) {
+            const p = db.players.find(x => x.id === id); p.in = !p.in;
+            if(p.in) p.m++; save();
+        }
+        function setUser() {
+            const n = prompt("Tuo Nome:");
+            const p = db.players.find(x => x.n.toLowerCase() === n.toLowerCase());
+            if(p) { localStorage.setItem('my_id', p.id); render(); }
+        }
+        function save() { localStorage.setItem('m_v19', JSON.stringify(db)); render(); }
+
+        function render() {
+            document.getElementById('list-h').innerHTML = db.players.map(p => `
+                <div class="card-ui" style="display:flex; justify-content:space-between; align-items:center;">
+                    <span>${p.n.toUpperCase()}</span>
+                    <button onclick="toggle(${p.id})" style="width:auto; padding:10px; background:${p.in?'red':'#333'}; color:white; border:none; border-radius:5px;">${p.in?'IN':'OUT'}</button>
+                </div>
+            `).join('');
+
+            const campo = document.getElementById('nomi-campo'); campo.innerHTML = '';
+            db.players.filter(p => p.in).forEach((p, i) => {
+                const d = document.createElement('div'); d.className = 'player-name-tag'; d.innerText = p.n.toUpperCase();
+                d.style.left = '20px'; d.style.top = (i * 35 + 10) + 'px'; campo.appendChild(d);
+                d.addEventListener('touchmove', e => {
+                    e.preventDefault(); let t = e.touches[0]; let r = document.getElementById('campo-container').getBoundingClientRect();
+                    d.style.left = (t.pageX - r.left - 30) + 'px'; d.style.top = (t.pageY - r.top - 15) + 'px';
+                });
+            });
+
+            const me = db.players.find(x => x.id == localStorage.getItem('my_id'));
+            if(me) {
+                document.getElementById('c-name').innerText = me.n;
+                document.getElementById('c-gol').innerText = me.g;
+                document.getElementById('c-match').innerText = me.m;
+                document.getElementById('c-ovr').innerText = 70 + me.m;
+            }
+            document.getElementById('club-potm').innerText = db.potm;
+            document.getElementById('club-gol').innerText = db.gol;
+            document.getElementById('list-adm').innerHTML = db.players.map(p => `
+                <div class="card-ui">${p.n} <button onclick="db.players=db.players.filter(x=>x.id!=${p.id});save()" style="float:right; background:red; color:white; border:none;">X</button></div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
