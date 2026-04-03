@@ -3,32 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MILANAC PRO V83 - STADIUM EDITION</title>
+    <title>MILANAC PRO V83 - ULTIMATE</title>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <style>
         :root { --rosso: #C61C23; --oro: #D4AF37; --nero: #000; --erba: #2e7d32; --linee: rgba(255,255,255,0.8); }
         body { margin: 0; background: var(--nero); color: white; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; touch-action: none; }
         
-        #intro { position: fixed; inset: 0; background: radial-gradient(circle, #300 0%, #000 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; }
-        
+        /* INTRO PULSANTE E CROMATICA */
+        #intro { 
+            position: fixed; inset: 0; background: radial-gradient(circle at center, #200000 0%, #000 100%); 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; 
+            animation: heartBeatBg 2s infinite;
+        }
+        .pulsing-title {
+            font-size: 4rem; font-weight: 900; text-transform: uppercase; letter-spacing: -2px; margin: 0;
+            animation: colorPulse 3s infinite alternate, heartBeatText 2s infinite;
+            text-shadow: 0 0 10px rgba(255,0,0,0.7);
+        }
+        @keyframes colorPulse { 0% { color: var(--oro); text-shadow: 0 0 15px var(--oro); } 100% { color: var(--rosso); text-shadow: 0 0 15px var(--rosso); } }
+        @keyframes heartBeatText { 0%, 100% { transform: scale(1); } 10% { transform: scale(1.1); } 15% { transform: scale(1); } 25% { transform: scale(1.05); } 30% { transform: scale(1); } }
+        @keyframes heartBeatBg { 0%, 100% { background: radial-gradient(circle at center, #200000 0%, #000 100%); } 15% { background: radial-gradient(circle at center, #400000 0%, #000 100%); } }
+
+        /* HEADER & SIDEBAR */
         header { height: 60px; border-bottom: 2px solid var(--rosso); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; background: #000; z-index: 2000; position: relative; }
-        .sidebar { position: fixed; top: 0; right: -100%; width: 280px; height: 100%; background: rgba(5,5,5,0.98); transition: 0.4s; z-index: 3000; border-left: 2px solid var(--rosso); padding-top: 60px; }
+        .burger { font-size: 30px; color: var(--rosso); cursor: pointer; }
+        .sidebar { position: fixed; top: 0; right: -100%; width: 280px; height: 100%; background: rgba(5,5,5,0.98); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 3000; border-left: 2px solid var(--rosso); padding-top: 60px; box-shadow: -10px 0 20px rgba(0,0,0,0.5); }
         .sidebar.active { right: 0; }
-        .sidebar button { width: 100%; padding: 18px; background: none; border: none; color: white; text-align: left; font-weight: bold; border-bottom: 1px solid #222; text-transform: uppercase; cursor: pointer; }
+        .sidebar button { width: 100%; padding: 18px; background: none; border: none; color: white; text-align: left; font-weight: bold; border-bottom: 1px solid #222; text-transform: uppercase; cursor: pointer; font-size: 13px; letter-spacing: 1px; }
+        .sidebar button:hover { background: rgba(255,0,0,0.1); color: var(--rosso); }
 
-        .container { height: calc(100vh - 60px); overflow-y: auto; padding: 15px; box-sizing: border-box; }
-        .page { display: none; } .page.active { display: block; }
+        .container { height: calc(100vh - 60px); overflow-y: auto; padding: 15px; box-sizing: border-box; padding-bottom: 60px; }
+        .page { display: none; } .page.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* CAMPO PROFESSIONALE V83 */
+        /* CAMPO PROFESSIONALE (NON TOCCARE) */
         #pitch-container { width: 100%; position: relative; padding: 5px 0; touch-action: none; }
         #pitch { 
             width: 95%; aspect-ratio: 2/3; max-height: 75vh; margin: 0 auto; background: var(--erba); 
             border: 2px solid white; border-radius: 4px; position: relative; overflow: hidden;
             background-image: repeating-linear-gradient(0deg, #2e7d32, #2e7d32 40px, #266b2a 40px, #266b2a 80px);
         }
-        
-        /* Linee del campo */
         .p-line { position: absolute; border: 2px solid var(--linee); pointer-events: none; }
         .mid-line { top: 50%; width: 100%; height: 0; border-top: 2px solid var(--linee); }
         .mid-circle { top: 50%; left: 50%; width: 70px; height: 70px; border-radius: 50%; transform: translate(-50%, -50%); }
@@ -36,44 +51,63 @@
         .box-bot { bottom: -2px; left: 50%; width: 60%; height: 15%; transform: translateX(-50%); border-bottom: none; }
         .goal-bot { bottom: -2px; left: 50%; width: 30%; height: 6%; transform: translateX(-50%); border-bottom: none; }
 
-        /* GIOCATORI */
+        /* GIOCATORI (DRAG & DROP - NON TOCCARE) */
         .player { position: absolute; width: 54px; text-align: center; cursor: move; z-index: 100; touch-action: none; transition: transform 0.1s; }
         .jersey { width: 42px; height: 42px; background: #000; border: 2px solid var(--rosso); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; margin: 0 auto; box-shadow: 0 4px 10px rgba(0,0,0,0.5); color: var(--oro); font-size: 16px; }
         .p-name { background: rgba(0,0,0,0.8); font-size: 10px; padding: 2px 5px; border-radius: 3px; margin-top: 3px; display: inline-block; font-weight: bold; text-transform: uppercase; white-space: nowrap; border: 1px solid #333; }
 
+        /* GRAFICA AGGIUNTIVA */
         .mod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 10px; }
         .btn-mod { background: #000; border: 1px solid var(--oro); color: var(--oro); padding: 10px 0; font-weight: bold; border-radius: 4px; font-size: 10px; cursor: pointer; }
-        .btn-mod.active { background: var(--oro); color: #000; }
+        .btn-mod.active { background: var(--oro); color: #000; box-shadow: 0 0 10px var(--oro); }
+        .btn-main { width: 100%; padding: 14px; background: linear-gradient(to bottom, var(--rosso), #800); color: white; border: none; font-weight: bold; border-radius: 6px; text-transform: uppercase; cursor: pointer; box-shadow: 0 3px 0 #500; }
+        .btn-main:active { transform: translateY(2px); box-shadow: 0 1px 0 #500; }
+        .card { background: #111; padding: 15px; margin-bottom: 12px; border-left: 5px solid var(--rosso); border-radius: 4px; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        input, select { width: 100%; padding: 12px; margin: 5px 0; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 4px; box-sizing: border-box; }
         
-        .btn-main { width: 100%; padding: 14px; background: var(--rosso); color: white; border: none; font-weight: bold; border-radius: 6px; text-transform: uppercase; cursor: pointer; }
-        .card { background: #111; padding: 15px; margin-bottom: 12px; border-left: 5px solid var(--rosso); border-radius: 4px; }
+        /* MODALE SCHEDA GIOCATORE */
+        #modal-player { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 5000; display: none; padding: 20px; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .modal-content { background: #111; border: 2px solid var(--oro); border-radius: 15px; padding: 25px; width: 100%; max-width: 380px; text-align: center; box-shadow: 0 0 30px rgba(212,175,55,0.3); position: relative; overflow-y: auto; max-height: 90vh; }
+        .close-modal { position: absolute; top: 15px; right: 15px; color: #555; font-size: 20px; cursor: pointer; font-weight: bold; }
+        .stat-box { background: #1a1a1a; padding: 10px; border-radius: 8px; margin: 5px; flex: 1; text-align: center; border: 1px solid #222; }
+        .stat-val { font-size: 20px; font-weight: 900; color: var(--oro); }
+        .hist-voto { display: inline-block; width: 30px; height: 30px; line-height: 30px; border-radius: 50%; background: var(--rosso); margin: 3px; font-weight: 900; font-size: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        
+        /* ADMIN CONTROLS */
+        .admin-select { background: #000; border: 1px solid var(--oro); color: var(--oro); padding: 5px; font-weight: bold; margin-bottom: 10px; }
+        .vote-btn { background: #222; border: 1px solid #444; color: white; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; }
+        .vote-btn.plus { color: #4caf50; border-color: #2e7d32; }
+        .vote-btn.minus { color: #f44336; border-color: #b71c1c; }
     </style>
 </head>
 <body>
 
     <div id="intro">
-        <h1 style="color:var(--oro); font-size: 2.5rem; margin:0; font-weight:900;">MILANAC</h1>
-        <p style="letter-spacing: 3px; font-weight: bold;">BENVENUTO NEL CLUB</p>
-        <button class="btn-main" style="width:180px; border-radius:30px;" onclick="document.getElementById('intro').style.display='none'">ENTRA</button>
+        <h1 class="pulsing-title">MILANAC</h1>
+        <p style="letter-spacing: 3px; font-weight: bold; margin-top: 10px; text-transform: uppercase; color: #aaa;">BENVENUTO NEL CLUB</p>
+        <button class="btn-main" style="width:180px; border-radius:30px; margin-top: 30px;" onclick="document.getElementById('intro').style.display='none'">ENTRA</button>
     </div>
 
     <header>
-        <div style="font-weight:900; color:var(--rosso); font-size:22px;">MILANAC <span style="color:white">PRO</span></div>
-        <div onclick="document.querySelector('.sidebar').classList.add('active')" style="font-size:30px; cursor:pointer; color:var(--rosso)">☰</div>
+        <div style="font-weight:900; color:var(--rosso); font-size:22px;">MILANAC <span style="color:white; font-weight: 300;">PRO</span></div>
+        <div class="burger" onclick="document.querySelector('.sidebar').classList.add('active')">☰</div>
     </header>
 
     <nav class="sidebar">
-        <button onclick="go('rosa')">🛡️ Rosa</button>
+        <button onclick="go('rosa')">🛡️ Rosa Squadra</button>
         <button onclick="go('tattica')">📋 Lavagna Tattica</button>
-        <button onclick="go('mercato')">💰 Mercato</button>
-        <button onclick="go('partite')">🏟️ Partite</button>
-        <button onclick="go('premi')">🏆 Premi</button>
-        <button onclick="go('admin')">⚙️ Admin</button>
-        <button onclick="document.querySelector('.sidebar').classList.remove('active')">Chiudi</button>
+        <button onclick="go('mercato')">💰 Valori Mercato</button>
+        <button onclick="go('partite')">🏟️ Gestione Partite</button>
+        <button onclick="go('premi')">🏆 Premi & Hall</button>
+        <button onclick="go('admin')">⚙️ Area Admin Voti</button>
+        <button onclick="document.querySelector('.sidebar').classList.remove('active')" style="color:#555; text-align: center;">Chiudi Menu</button>
     </nav>
 
     <div class="container">
-        <div id="p-rosa" class="page active"><div id="l-rosa"></div></div>
+        <div id="p-rosa" class="page active">
+            <h2 style="text-align:center; color: var(--rosso); text-transform: uppercase;">La Squadra</h2>
+            <div id="l-rosa"></div>
+        </div>
         
         <div id="p-tattica" class="page">
             <div class="mod-grid" id="mod-btns"></div>
@@ -90,18 +124,52 @@
             <p style="text-align:center; font-size:10px; color:var(--oro); margin-top:5px;">Trascina i giocatori per rifinire la posizione</p>
         </div>
 
-        <div id="p-mercato" class="page"><h3>VALORI MERCATO</h3><div id="l-mercato"></div></div>
-        <div id="p-partite" class="page"><h3>GESTIONE PARTITE</h3><div id="l-partite"></div></div>
-        <div id="p-premi" class="page"><h3>HALL OF FAME</h3><div id="l-premi"></div></div>
+        <div id="p-mercato" class="page"><h3 style="text-align:center">VALORI MERCATO</h3><div id="l-mercato"></div></div>
+        <div id="p-partite" class="page"><h3 style="text-align:center">STORICO PARTITE</h3><div id="l-partite"></div></div>
+        <div id="p-premi" class="page"><h3 style="text-align:center">HALL OF FAME</h3><div id="l-premi"></div></div>
         
         <div id="p-admin" class="page">
             <div class="card">
+                <h3>PANNELLO ADMIN</h3>
+                <label>Seleziona Admin Attivo:</label>
+                <select id="active-admin" class="admin-select">
+                    <option value="1">Admin 1</option><option value="2">Admin 2</option>
+                    <option value="3">Admin 3</option><option value="4">Admin 4</option>
+                    <option value="5">Admin 5</option>
+                </select>
+                <hr border-color="#222">
+                <h4>NUOVO GIOCATORE</h4>
                 <input type="text" id="in-n" placeholder="Nome Giocatore">
                 <input type="number" id="in-m" placeholder="Numero">
                 <select id="in-r"><option>POR</option><option>DIF</option><option>CEN</option><option>ATT</option></select>
-                <button class="btn-main" onclick="addP()">AGGIUNGI</button>
+                <button class="btn-main" onclick="addP()">AGGIUNGI AL CLOUD</button>
             </div>
             <div id="l-admin"></div>
+        </div>
+    </div>
+
+    <div id="modal-player" onclick="this.style.display='none'">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-modal" onclick="document.getElementById('modal-player').style.display='none'">×</span>
+            <h2 id="m-nome" style="color:var(--oro); margin:0; font-size: 2rem;"></h2>
+            <div id="m-info" style="font-size:12px; color:#aaa; margin-bottom:15px; text-transform: uppercase;"></div>
+            
+            <div style="display:flex; justify-content:space-around; margin-bottom:15px;">
+                <div class="stat-box">MEDIA<br><b id="m-media" class="stat-val" style="color:white"></b></div>
+                <div class="stat-box">GOL<br><b id="m-gol" class="stat-val" style="color:var(--rosso)"></b></div>
+                <div class="stat-box">AST<br><b id="m-ast" class="stat-val" style="color:var(--oro)"></b></div>
+            </div>
+            
+            <div style="display:flex; justify-content:space-around; margin-bottom:15px;">
+                <div class="stat-box">GIALLI<br><b id="m-gialli" class="stat-val" style="color:#ffeb3b"></b></div>
+                <div class="stat-box">ROSSI<br><b id="m-rossi" class="stat-val" style="color:#f44336"></b></div>
+                <div class="stat-box">MVP<br><b id="m-mvp" class="stat-val" style="color:white"></b></div>
+            </div>
+
+            <h4>ULTIMI 5 VOTI</h4>
+            <div id="m-history"></div>
+            
+            <button class="btn-main" style="margin-top:20px;" onclick="document.getElementById('modal-player').style.display='none'">CHIUDI SCHEDA</button>
         </div>
     </div>
 
@@ -124,52 +192,115 @@
 
         function addP() {
             const n=document.getElementById('in-n').value, m=document.getElementById('in-m').value, r=document.getElementById('in-r').value;
-            if(n&&m){ data.ps.push({id:Date.now(), n, m, r, v:6.0, g:0, a:0, mvp:0, c:false, x:43, y:80}); sync(); }
+            if(n&&m){ data.ps.push({id:Date.now(), n, m, r, v:6.0, g:0, a:0, mvp:0, yl:0, rd:0, convocato:false, x:43, y:80, votes_by_admin:{'1':6,'2':6,'3':6,'4':6,'5':6} }); sync(); document.getElementById('in-n').value=''; document.getElementById('in-m').value=''; }
         }
 
         function setModulo(m) {
             data.mod = m;
-            const conv = data.ps.filter(p => p.c);
+            const conv = data.ps.filter(p => p.convocato);
             conv.forEach((p, i) => { if(modali[m][i]) { p.x = modali[m][i].x; p.y = modali[m][i].y; } });
             sync();
         }
 
+        // Funzione Modale Dettagliata
+        function openPlayerModal(id) {
+            const p = data.ps.find(x=>x.id==id);
+            document.getElementById('m-nome').innerText = p.n.toUpperCase();
+            document.getElementById('m-info').innerText = `${p.r} | NUMERO ${p.m}`;
+            
+            // Calcolo Media
+            const votiArr = Object.values(p.votes_by_admin || {'1':6,'2':6,'3':6,'4':6,'5':6});
+            const media = (votiArr.reduce((a,b)=>a+b,0) / votiArr.length).toFixed(1);
+            
+            document.getElementById('m-media').innerText = media;
+            document.getElementById('m-gol').innerText = p.g;
+            document.getElementById('m-ast').innerText = p.a;
+            document.getElementById('m-gialli').innerText = p.yl;
+            document.getElementById('m-rossi').innerText = p.rd;
+            document.getElementById('m-mvp').innerText = p.mvp;
+            
+            // Storico (Ultime 5 prestazioni - simulate per ora con gli admin votes)
+            document.getElementById('m-history').innerHTML = votiArr.slice(-5).map(v=>`<span class="hist-voto">${v}</span>`).join('') || "No History";
+            
+            document.getElementById('modal-player').style.display='flex';
+        }
+
         function render() {
             let hR="", hA="", hMk="", hP="", hBtns="";
+            const ordina = {"POR":1, "DIF":2, "CEN":3, "ATT":4};
+            data.ps.sort((a,b) => ordina[a.r] - ordina[b.r]);
+
             data.ps.forEach(p => {
-                hR += `<div class="card"><b>${p.n}</b> #${p.m}<br><button class="btn-main" style="width:auto; padding:5px 15px; margin-top:8px; background:${p.c?'green':'#333'}" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].c=!data.ps[i].c; sync()">${p.c?'IN CAMPO':'SCHIERA'}</button></div>`;
-                hA += `<div class="card">${p.n} <button onclick="data.ps=data.ps.filter(x=>x.id!==${p.id}); sync()">ELIMINA</button></div>`;
+                const votiArr = Object.values(p.votes_by_admin || {'1':6,'2':6,'3':6,'4':6,'5':6});
+                const media = (votiArr.reduce((a,b)=>a+b,0) / votiArr.length).toFixed(1);
+                const valoreMk = (10 + (media-6)*5 + p.g*2 + p.a*1).toFixed(1);
+
+                hR += `<div class="card" onclick="openPlayerModal(${p.id})"><div class="jersey" style="width:30px; height:30px; font-size:12px; position:absolute; right:10px; top:10px;">${p.m}</div><b style="color:var(--rosso); font-size:1.1rem">${p.n}</b><br><small>${p.r} | Media: ${media}</small><br><button class="btn-main" style="width:auto; padding:5px 15px; margin-top:8px; background:${p.convocato?'green':'#333'}" onclick="event.stopPropagation(); const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">${p.convocato?'CONVOCATO ✅':'SCHIERA'}</button></div>`;
+                hMk += `<div class="card"><b>${p.n}</b> <span style="float:right; color:var(--oro)">€${valoreMk}M</span><br><small>Media: ${media}</small></div>`;
+                hP += `<div class="card"><b>${p.n}</b> <span style="float:right">🏆 ${p.mvp} MVP</span></div>`;
+                
+                // Area Admin Voti
+                const activeAdmin = document.getElementById('active-admin').value;
+                const currentVote = (p.votes_by_admin && p.votes_by_admin[activeAdmin]) || 6;
+                hA += `<div class="card">
+                    <b>${p.n}</b><br>
+                    <div style="display:flex; gap:5px; align-items:center; margin-top:5px;">
+                        Voto Admin ${activeAdmin}: <b style="color:var(--oro); font-size:1.2rem;">${currentVote}</b>
+                        <button class="vote-btn plus" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); if(!data.ps[i].votes_by_admin) data.ps[i].votes_by_admin={}; data.ps[i].votes_by_admin['${activeAdmin}'] = Math.min(10, currentVote + 0.5); sync()">+0.5</button>
+                        <button class="vote-btn minus" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); if(!data.ps[i].votes_by_admin) data.ps[i].votes_by_admin={}; data.ps[i].votes_by_admin['${activeAdmin}'] = Math.max(3, currentVote - 0.5); sync()">-0.5</button>
+                    </div>
+                    <div style="display:flex; gap:5px; margin-top:5px; flex-wrap:wrap;">
+                        G:<button class="vote-btn plus" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].g++; sync()">+</button>
+                        A:<button class="vote-btn plus" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].a++; sync()">+</button>
+                        🟨:<button class="vote-btn" style="color:#ffeb3b; border-color:#ffeb3b" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].yl++; sync()">+</button>
+                        🟥:<button class="vote-btn" style="color:#f44336; border-color:#f44336" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].rd++; sync()">+</button>
+                        MVP:<button class="vote-btn plus" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].mvp++; sync()">+</button>
+                        <button onclick="if(confirm('Eliminare?')){data.ps=data.ps.filter(x=>x.id!==${p.id}); sync()}" style="color:red; background:none; border:none; margin-left:auto">ELIMINA</button>
+                    </div>
+                </div>`;
             });
             
             Object.keys(modali).forEach(m => { hBtns += `<button class="btn-mod ${data.mod==m?'active':''}" onclick="setModulo('${m}')">${m}</button>`; });
             document.getElementById('mod-btns').innerHTML = hBtns;
             document.getElementById('l-rosa').innerHTML = hR;
             document.getElementById('l-admin').innerHTML = hA;
+            document.getElementById('l-mercato').innerHTML = hMk;
+            document.getElementById('l-premi').innerHTML = hP;
 
+            // Render Campo (Drag & Drop NON TOCCARE)
             const pl = document.getElementById('pitch-players'); pl.innerHTML = "";
-            data.ps.filter(p => p.c).forEach(p => {
+            data.ps.filter(p => p.convocato).forEach(p => {
                 const d = document.createElement('div'); d.className = 'player';
                 d.style.left = p.x + "%"; d.style.top = p.y + "%";
                 d.innerHTML = `<div class="jersey">${p.m}</div><div class="p-name">${p.n}</div>`;
                 
+                // Clicca per aprire la scheda personale anche dal campo
+                d.onclick = () => openPlayerModal(p.id);
+
                 let isDragging = false;
                 const start = () => isDragging = true;
                 const move = (e) => {
                     if (!isDragging) return;
+                    e.preventDefault();
                     const rect = document.getElementById('pitch').getBoundingClientRect();
                     const t = e.touches ? e.touches[0] : e;
-                    p.x = ((t.clientX - rect.left) / rect.width) * 100 - 7;
-                    p.y = ((t.clientY - rect.top) / rect.height) * 100 - 5;
+                    let nextX = ((t.clientX - rect.left) / rect.width) * 100 - 7;
+                    let nextY = ((t.clientY - rect.top) / rect.height) * 100 - 5;
+                    p.x = Math.max(0, Math.min(93, nextX));
+                    p.y = Math.max(0, Math.min(95, nextY));
                     d.style.left = p.x + "%"; d.style.top = p.y + "%";
                 };
                 const end = () => { if(isDragging) { isDragging = false; sync(); } };
 
-                d.addEventListener('mousedown', start); d.addEventListener('touchstart', start);
-                window.addEventListener('mousemove', move); window.addEventListener('touchmove', move);
+                d.addEventListener('mousedown', start); d.addEventListener('touchstart', start, {passive: false});
+                window.addEventListener('mousemove', move); window.addEventListener('touchmove', move, {passive: false});
                 window.addEventListener('mouseup', end); window.addEventListener('touchend', end);
                 pl.appendChild(d);
             });
         }
+        
+        // Listener per cambiare admin attivo al volo
+        document.getElementById('active-admin').addEventListener('change', render);
     </script>
 </body>
 </html>
