@@ -3,24 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MILANAC V24</title>
+    <title>MILANAC V26</title>
     <style>
-        :root { --milan-red: #C61C23; --bg: #000000; --field: #1b3d21; --gold: #D4AF37; }
-        body, html { margin: 0; padding: 0; background: var(--bg); color: var(--milan-red); font-family: 'Segoe UI', sans-serif; height: 100vh; overflow: hidden; }
-
-        /* INTRO */
-        #intro { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; }
-        .intro-btn { background: var(--milan-red); color: #fff; border: none; padding: 18px 30px; font-size: 1rem; font-weight: 900; border-radius: 4px; cursor: pointer; text-transform: uppercase; border: 1px solid #7a0000; }
-
-        header { height: 60px; background: #0a0a0a; border-bottom: 2px solid var(--milan-red); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
-        header div { font-weight: 900; color: var(--milan-red); letter-spacing: 2px; font-size: 1.2rem; }
-        .burger { font-size: 28px; cursor: pointer; color: var(--milan-red); }
+        :root { --milan-red: #C61C23; --bg: #000000; --card: #1a1a1a; --gold: #D4AF37; }
         
-        .dropdown { position: absolute; top: 60px; right: 0; background: #080808; width: 220px; display: none; flex-direction: column; border: 1px solid var(--milan-red); z-index: 5000; }
-        .dropdown button { background: none; border: none; color: var(--milan-red); padding: 18px; text-align: left; border-bottom: 1px solid #1a1a1a; font-weight: bold; text-transform: uppercase; font-size: 13px; }
+        /* Reset Base per evitare schermi neri */
+        body, html { 
+            margin: 0; padding: 0; height: 100%; width: 100%;
+            background-color: #000 !important; color: white; 
+            font-family: sans-serif; overflow: hidden;
+        }
 
+        /* Schermata di Benvenuto (Sempre visibile all'inizio) */
+        #intro { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: #000; display: flex; flex-direction: column; 
+            align-items: center; justify-content: center; z-index: 9999;
+        }
+        
+        .intro-btn { 
+            background: var(--milan-red); color: white; border: none; 
+            padding: 20px 40px; font-size: 18px; font-weight: bold; 
+            border-radius: 8px; cursor: pointer; text-transform: uppercase;
+        }
+
+        /* Header */
+        header { 
+            height: 60px; background: #111; border-bottom: 2px solid var(--milan-red); 
+            display: flex; align-items: center; justify-content: space-between; padding: 0 20px;
+        }
+
+        /* Contenuto */
         .content { height: calc(100vh - 60px); overflow-y: auto; padding: 15px; box-sizing: border-box; }
-        .page { display: none; } .page.active { display: block; }
+        .page { display: none; }
+        .active { display: block; }
 
-        /* LAVAGNA TATTICA */
-        #campo-container { width: 100%; height: 450px; background
+        /* Elementi visibili */
+        .card-ui { 
+            background: var(--card); border: 1px solid #333; 
+            border-radius: 10px; padding: 15px; margin-bottom: 15px; 
+        }
+        
+        h1 { color: var(--milan-red); text-transform: uppercase; font-size: 22px; text-align: center; }
+        
+        /* Menu */
+        .burger { font-size: 30px; color: var(--milan-red); cursor: pointer; }
+        .dropdown { 
+            position: absolute; top: 60px; right: 0; background: #222; 
+            width: 200px; display: none; flex-direction: column; z-index: 500;
+            border: 1px solid var(--milan-red);
+        }
+        .dropdown button { 
+            background: none; border: none; color: white; padding: 15px; 
+            text-align: left; border-bottom: 1px solid #333; font-size: 16px;
+        }
+
+        /* Lavagna */
+        #campo-container { width: 100%; height: 400px; background: #1b3d21; border: 2px solid #555; position: relative; border-radius: 8px; }
+        .tag-player { position: absolute; background: #fff; color: #000; padding: 5px; font-size: 10px; font-weight: bold; border-radius: 3px; }
+        
+        button.primary { background: var(--milan-red); color: white; border: none; padding: 15px; border-radius: 5px; width: 100%; font-weight: bold; }
+        input, textarea { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: #fff; margin-bottom: 10px; box-sizing: border-box; }
+    </style>
+</head>
+<body>
+
+    <div id="intro">
+        <h1 style="font-size: 40px; margin-bottom: 30px;">MILANAC</h1>
+        <button class="intro-btn" onclick="startApp()">MILANAC la web app dei giocatori</button>
+        <p style="color: #666; margin-top: 20px; font-size: 12px;">Se vedi nero, premi il tasto sopra</p>
+    </div>
+
+    <header>
+        <div style="color: var(--milan-red); font-weight: 900;">MILANAC</div>
+        <div class="burger" onclick="toggleMenu()">☰</div>
+        <div class="dropdown" id="menu">
+            <button onclick="tab('h')">SQUADRA</button>
+            <button onclick="tab('t')">LAVAGNA</button>
+            <button onclick="tab('n')">NOTIZIE</button>
+            <button onclick="tab('s')">STATISTICHE</button>
+            <button onclick="tab('a')">ADMIN</button>
+        </div>
+    </header>
+
+    <div class="content">
+        <div id="pg-h" class="page active">
+            <h1>LA SQUADRA</h1>
+            <div id="list-h"></div>
+        </div>
+
+        <div id="pg-t" class="page">
+            <h1>LAVAGNA TATTICA</h1>
+            <div id="campo-container"><div id="nomi-campo"></div></div>
+        </div>
+
+        <div id="pg-n" class="page">
+            <h1>NOTIZIE</h1>
+            <div id="news-container"></div>
+        </div>
+
+        <div id="pg-s" class="page">
+            <h1>CLASSIFICHE</h1>
+            <div id="list-stats"></div>
+        </div>
+
+        <div id="pg-a" class="page">
+            <h1>ADMIN</h1>
+            <input type="password" id="pw" placeholder="Password (milan)">
+            <button class="primary" onclick="auth()">ENTRA</button>
+            <div id="adm-ui" style="display:none; margin-top:20px;">
+                <div class="card-ui">
+                    <input type="text" id="add-n" placeholder="Nome Giocatore">
+                    <button class="primary" onclick="add()">AGGIUNGI</button>
+                </div>
+                <div class="card-ui">
+                    <input type="text" id="news-tit" placeholder="Titolo News">
+                    <textarea id="news-txt" placeholder="Testo News"></textarea>
+                    <button class="primary" onclick="addNews()">PUBBLICA</button>
+                </div>
+                <div id="adm-list-players"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // FUNZIONE DI RIPRISTINO SE TUTTO È NERO
+        let db;
+        try {
+            const saved = localStorage.getItem('m_v26');
+            db = saved ? JSON.parse(saved) : {players: [], news: []};
+            if(!db.players) db.players = [];
+            if(!db.news) db.news = [];
+        } catch(e) {
+            db = {players: [], news: []};
+        }
+
+        function startApp() {
+            document.getElementById('intro').style.display = 'none';
+            // Se non ci sono giocatori, ne aggiungiamo uno di prova per "accendere" lo schermo
+            if(db.players.length === 0) {
+                db.players.push({id: 1, n: "Esempio Giocatore", in: false, g:0, a:0, m:0, mvp:0, voti:[]});
+                save();
+            }
+            render();
+        }
+
+        function toggleMenu() {
+            const m = document.getElementById('menu');
+            m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function tab(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('pg-'+id).classList.add('active');
+            toggleMenu();
+            render();
+        }
+
+        function auth() {
+            if(document.getElementById('pw').value === "milan") {
+                document.getElementById('adm-ui').style.display = 'block';
+                render();
+            }
+        }
+
+        function add() {
+            const n = document.getElementById('add-n').value;
+            if(n) {
+                db.players.push({id: Date.now(), n, in: false, g:0, a:0, m:0, mvp:0, voti:[]});
+                document.getElementById('add-n').value = '';
+                save();
+            }
+        }
+
+        function addNews() {
+            const t = document.getElementById('news-tit').value;
+            const c = document.getElementById('news-txt').value;
+            if(t && c) {
+                db.news.unshift({id: Date.now(), t, c, d: new Date().toLocaleDateString()});
+                document.getElementById('news-tit').value = '';
+                document.getElementById('news-txt').value = '';
+                save();
+            }
+        }
+
+        function save() {
+            localStorage.setItem('m_v26', JSON.stringify(db));
+            render();
+        }
+
+        function render() {
+            // Lista
