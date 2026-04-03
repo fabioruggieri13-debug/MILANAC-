@@ -3,126 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MILANAC PRO CLUB</title>
+    <title>MILANAC PRO CLUB - GOLD EDITION</title>
     <style>
-        :root { --rosso: #C61C23; --nero: #000; --scuro: #121212; --oro: #D4AF37; --erba: #2e7d32; }
-        body, html { margin: 0; padding: 0; background: var(--nero); color: white; font-family: 'Segoe UI', sans-serif; height: 100vh; overflow: hidden; }
+        :root { --red: #C61C23; --bg: #000; --card: #121212; --gold: #D4AF37; --grass: #2e7d32; --grass-dark: #1b5e20; }
+        body, html { margin: 0; padding: 0; background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; height: 100vh; overflow: hidden; }
 
-        /* INTRO CON CARICAMENTO MANUALE */
-        #intro { position: fixed; inset: 0; background: radial-gradient(circle, #1a1a1a 0%, #000 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; text-align: center; }
-        
-        .upload-area {
-            width: 220px; height: 220px; border: 3px dashed var(--rosso); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-            margin-bottom: 20px; background: #080808; position: relative; overflow: hidden;
-        }
-        #logo-preview { width: 100%; height: 100%; object-fit: cover; display: none; }
-        .upload-area span { font-size: 12px; color: var(--rosso); font-weight: bold; padding: 20px; text-transform: uppercase; }
+        /* INTRO */
+        #intro { position: fixed; inset: 0; background: radial-gradient(circle, #1a1a1a 0%, #000 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: 0.5s; }
+        .logo-upload { width: 180px; height: 180px; border: 3px dashed var(--red); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; background: #080808; margin-bottom: 20px; }
+        #logo-img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .btn-start { background: var(--red); color: white; border: none; padding: 15px 50px; border-radius: 50px; font-weight: 900; cursor: pointer; text-transform: uppercase; }
 
-        .btn-start { background: var(--rosso); color: white; border: none; padding: 18px 60px; border-radius: 50px; font-weight: 900; cursor: pointer; margin-top: 30px; box-shadow: 0 0 20px rgba(198,28,35,0.4); }
+        /* HEADER */
+        header { height: 65px; background: #080808; border-bottom: 2px solid var(--red); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; position: relative; z-index: 2000; }
+        .mini-logo { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--red); object-fit: cover; }
+        .burger { font-size: 30px; color: var(--red); cursor: pointer; }
+        .nav-menu { position: absolute; top: 65px; right: 0; background: #0a0a0a; width: 250px; display: none; flex-direction: column; border-left: 2px solid var(--red); height: calc(100vh - 65px); z-index: 1900; }
+        .nav-menu button { background: none; border: none; color: white; padding: 18px; text-align: left; border-bottom: 1px solid #1a1a1a; font-weight: bold; text-transform: uppercase; }
 
-        /* INTERFACCIA PRINCIPALE */
-        header { height: 65px; background: #080808; border-bottom: 2px solid var(--rosso); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 2000; }
-        .header-logo { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--rosso); object-fit: cover; }
-        .burger { font-size: 30px; color: var(--rosso); cursor: pointer; }
-        
-        .nav-menu { position: absolute; top: 65px; right: 0; background: #0a0a0a; width: 250px; display: none; flex-direction: column; border-left: 2px solid var(--rosso); height: calc(100vh - 65px); z-index: 1900; }
-        .nav-menu button { background: none; border: none; color: white; padding: 20px; text-align: left; border-bottom: 1px solid #1a1a1a; font-weight: 900; font-size: 13px; cursor: pointer; }
-
+        /* CONTENUTI */
         .container { height: calc(100vh - 65px); overflow-y: auto; padding: 15px; box-sizing: border-box; }
-        .pagina { display: none; } .attiva { display: block; }
-        
-        /* CAMPO */
-        #pitch { width: 100%; height: 450px; background: var(--erba); border: 2px solid #fff; border-radius: 5px; position: relative; overflow: hidden; touch-action: none; background-image: repeating-linear-gradient(0deg, var(--erba), var(--erba) 45px, #1b5e20 45px, #1b5e20 90px); }
-        .mid-line { position: absolute; top: 50%; width: 100%; height: 2px; background: #fff; }
-        .mid-circle { position: absolute; top: 50%; left: 50%; width: 80px; height: 80px; border: 2px solid #fff; border-radius: 50%; transform: translate(-50%, -50%); }
+        .page { display: none; } .active { display: block; }
 
         /* CARDS */
-        .card { background: var(--scuro); border-radius: 12px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--rosso); position: relative; }
-        .valore { float: right; color: #4caf50; font-weight: 900; font-size: 1.1rem; }
-        .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 15px; }
-        .s-box { background: #1a1a1a; padding: 8px; border-radius: 6px; text-align: center; }
-        .s-box small { font-size: 9px; color: #888; display: block; }
+        .card { background: var(--card); border-radius: 12px; padding: 15px; margin-bottom: 12px; border-left: 5px solid var(--red); position: relative; }
+        .market-val { float: right; color: #4caf50; font-weight: 900; }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-top: 10px; }
+        .stat-box { background: #1a1a1a; padding: 6px; border-radius: 5px; text-align: center; font-size: 13px; }
+        .stat-box small { font-size: 8px; color: #777; display: block; }
+        
+        /* BADGES PREMI */
+        .badge-row { display: flex; gap: 5px; margin-top: 10px; }
+        .badge { font-size: 9px; padding: 3px 7px; border-radius: 4px; font-weight: 900; text-transform: uppercase; }
+        .potm { background: var(--gold); color: black; }
+        .mvp { background: #00e5ff; color: black; }
 
-        input, textarea { width: 100%; padding: 12px; background: #0a0a0a; border: 1px solid #333; color: white; margin-bottom: 10px; border-radius: 6px; box-sizing: border-box; }
-        .btn-ross { background: var(--rosso); color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; }
+        /* CAMPO */
+        #pitch { width: 100%; height: 420px; background: var(--grass); border: 2px solid #fff; position: relative; overflow: hidden; touch-action: none; background-image: repeating-linear-gradient(0deg, var(--grass), var(--grass) 40px, var(--grass-dark) 40px, var(--grass-dark) 80px); }
+        .token { position: absolute; width: 50px; text-align: center; }
+        .shirt { width: 35px; height: 35px; background: #000; border: 2px solid var(--red); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin: 0 auto; }
 
-        /* PEDINE */
-        .pedina { position: absolute; width: 55px; text-align: center; z-index: 100; cursor: move; }
-        .maglia { width: 38px; height: 38px; background: #000; border: 2px solid var(--rosso); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin: 0 auto; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
-        .p-nome { background: rgba(0,0,0,0.8); font-size: 9px; padding: 2px 5px; border-radius: 3px; margin-top: 3px; display: inline-block; font-weight: bold; }
+        /* INPUTS */
+        input, textarea { width: 100%; padding: 12px; background: #0a0a0a; border: 1px solid #333; color: #fff; margin-bottom: 10px; border-radius: 6px; box-sizing: border-box; }
+        .btn-red { background: var(--red); color: white; border: none; padding: 12px; border-radius: 6px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div id="intro">
-        <div class="upload-area" onclick="document.getElementById('file-in').click()">
-            <img id="logo-preview" src="" alt="Logo">
-            <span id="upload-txt">Tocca qui per<br>caricare il logo</span>
+        <div class="logo-upload" onclick="document.getElementById('f-in').click()">
+            <img id="logo-img" src="">
+            <span id="up-txt">CARICA LOGO MILANAC</span>
         </div>
-        <input type="file" id="file-in" style="display:none" accept="image/*">
-        <h1 style="margin:0; letter-spacing: -1px;">MILANAC</h1>
-        <p style="color:var(--oro); letter-spacing: 4px; font-weight: bold;">PRO CLUB</p>
-        <button class="btn-start" onclick="avvia()">ENTRA NEL CLUB</button>
+        <input type="file" id="f-in" style="display:none" accept="image/*">
+        <h1 style="margin:0">MILANAC</h1>
+        <button class="btn-start" onclick="start()">ENTRA</button>
     </div>
 
     <header>
-        <div style="display:flex; align-items:center; gap:10px">
-            <img id="mini-logo" class="header-logo" src="" style="display:none">
-            <div style="font-weight:900; font-size:20px; color:var(--rosso)">MILANAC</div>
+        <div style="display:flex; align-items:center; gap:8px">
+            <img id="mini-logo" class="mini-logo" src="" style="display:none">
+            <div style="font-weight:900; color:var(--red)">MILANAC</div>
         </div>
         <div class="burger" onclick="toggleNav()">☰</div>
         <nav id="nav" class="nav-menu">
-            <button onclick="vaiA('rosa')">LA SQUADRA</button>
-            <button onclick="vaiA('lavagna')">LAVAGNA TATTICA</button>
-            <button onclick="vaiA('mercato')">MERCATO</button>
-            <button onclick="vaiA('news')">NOTIZIE</button>
-            <button onclick="vaiA('admin')">ADMIN</button>
+            <button onclick="go('rosa')">SQUADRA</button>
+            <button onclick="go('lavagna')">FORMAZIONE</button>
+            <button onclick="go('mercato')">PREMI & VALORI</button>
+            <button onclick="go('news')">NEWS</button>
+            <button onclick="go('admin')">ADMIN</button>
         </nav>
     </header>
 
     <div class="container">
-        
-        <div id="p-rosa" class="pagina attiva">
-            <h2 style="text-align:center">ROSA GIOCATORI</h2>
-            <div id="lista-giocatori"></div>
+        <div id="p-rosa" class="page active">
+            <h2 style="text-align:center">LA ROSA</h2>
+            <div id="list-rosa"></div>
         </div>
 
-        <div id="p-lavagna" class="pagina">
-            <h2 style="text-align:center">FORMAZIONE</h2>
-            <div id="pitch">
-                <div class="mid-line"></div>
-                <div class="mid-circle"></div>
-                <div id="area-pedine"></div>
-            </div>
+        <div id="p-lavagna" class="page">
+            <h2 style="text-align:center">CAMPO</h2>
+            <div id="pitch"><div id="pitch-players"></div></div>
         </div>
 
-        <div id="p-mercato" class="pagina">
-            <h2 style="text-align:center">VALORI DI MERCATO</h2>
-            <div id="lista-mercato"></div>
+        <div id="p-mercato" class="page">
+            <h2 style="text-align:center">HALL OF FAME</h2>
+            <div id="list-market"></div>
         </div>
 
-        <div id="p-news" class="pagina">
-            <h2 style="text-align:center">NEWS</h2>
-            <div id="lista-news"></div>
+        <div id="p-news" class="page">
+            <h2 style="text-align:center">NOTIZIE</h2>
+            <div id="list-news"></div>
         </div>
 
-        <div id="p-admin" class="pagina">
-            <h2 style="text-align:center">GESTIONE</h2>
-            <input type="password" id="admin-pass" placeholder="Password Admin">
-            <button class="btn-ross" onclick="login()">ACCEDI</button>
-            <div id="admin-panel" style="display:none; margin-top:20px;">
+        <div id="p-admin" class="page">
+            <h2 style="text-align:center">ADMIN</h2>
+            <input type="password" id="pass" placeholder="Password (milan)">
+            <button class="btn-red" onclick="login()">ACCEDI</button>
+            <div id="adm-box" style="display:none; margin-top:20px;">
                 <div class="card">
-                    <input type="text" id="add-n" placeholder="Nome">
-                    <input type="number" id="add-m" placeholder="Numero">
-                    <button class="btn-ross" onclick="aggiungiG()">SALVA PLAYER</button>
+                    <input type="text" id="an" placeholder="Nome"><input type="number" id="am" placeholder="Numero">
+                    <button class="btn-red" onclick="addP()">AGGIUNGI PLAYER</button>
                 </div>
-                <div class="card">
-                    <input type="text" id="add-nt" placeholder="Titolo Notizia">
-                    <textarea id="add-nb" placeholder="Testo..."></textarea>
-                    <button class="btn-ross" onclick="aggiungiN()">PUBBLICA</button>
-                </div>
-                <div id="admin-lista"></div>
+                <div id="adm-list"></div>
             </div>
         </div>
     </div>
@@ -131,80 +114,84 @@
         let db = { ps: [], ns: [], logo: "" };
 
         function load() {
-            const saved = localStorage.getItem('milanac_v63');
-            if(saved) {
-                db = JSON.parse(saved);
-                if(db.logo) impostaLogo(db.logo);
+            const s = localStorage.getItem('milanac_v65');
+            if(s) {
+                db = JSON.parse(s);
+                if(db.logo) {
+                    document.getElementById('logo-img').src = db.logo; document.getElementById('logo-img').style.display = 'block';
+                    document.getElementById('mini-logo').src = db.logo; document.getElementById('mini-logo').style.display = 'block';
+                    document.getElementById('up-txt').style.display = 'none';
+                }
             }
         }
 
-        document.getElementById('file-in').onchange = function(e) {
-            const reader = new FileReader();
-            reader.onload = function() {
-                db.logo = reader.result;
-                impostaLogo(reader.result);
-                save();
+        document.getElementById('f-in').onchange = function(e) {
+            const r = new FileReader();
+            r.onload = function() {
+                db.logo = r.result; save();
+                location.reload();
             };
-            reader.readAsDataURL(e.target.files[0]);
+            r.readAsDataURL(e.target.files[0]);
         };
 
-        function impostaLogo(base64) {
-            document.getElementById('logo-preview').src = base64;
-            document.getElementById('logo-preview').style.display = 'block';
-            document.getElementById('mini-logo').src = base64;
-            document.getElementById('mini-logo').style.display = 'block';
-            document.getElementById('upload-txt').style.display = 'none';
-        }
-
-        function avvia() { document.getElementById('intro').style.display = 'none'; render(); }
+        function start() { document.getElementById('intro').style.display='none'; render(); }
         function toggleNav() { const n = document.getElementById('nav'); n.style.display = (n.style.display==='flex')?'none':'flex'; }
-        function vaiA(p) { document.querySelectorAll('.pagina').forEach(x => x.classList.remove('attiva')); document.getElementById('p-'+p).classList.add('attiva'); toggleNav(); render(); }
-        function login() { if(document.getElementById('admin-pass').value === 'milan') document.getElementById('admin-panel').style.display='block'; }
-        function save() { localStorage.setItem('milanac_v63', JSON.stringify(db)); render(); }
+        function go(p) { document.querySelectorAll('.page').forEach(x=>x.classList.remove('active')); document.getElementById('p-'+p).classList.add('active'); toggleNav(); render(); }
+        function login() { if(document.getElementById('pass').value === 'milan') document.getElementById('adm-box').style.display='block'; }
+        function save() { localStorage.setItem('milanac_v65', JSON.stringify(db)); render(); }
 
-        function aggiungiG() { const n = document.getElementById('add-n').value, m = document.getElementById('add-m').value; if(n && m) { db.ps.push({id:Date.now(), n, m, g:0, a:0, p:0, v:[], in:false}); save(); } }
-        function aggiungiN() { const t = document.getElementById('add-nt').value, b = document.getElementById('add-nb').value; if(t && b) { db.ns.unshift({t, b, d:new Date().toLocaleDateString()}); save(); } }
+        function addP() { const n=document.getElementById('an').value, m=document.getElementById('am').value; if(n&&m){ db.ps.push({id:Date.now(), n, m, g:0, a:0, p:0, v:[], potm:0, mvp:0, in:false}); save(); } }
 
         function getV(p) {
-            let b = 10 + (p.g * 5) + (p.a * 3) + (p.p * 1);
-            if(p.v.length) b *= ((p.v.reduce((x,y)=>x+y,0)/p.v.length)/6);
-            return b.toFixed(1);
+            let v = 10 + (p.g*5) + (p.a*3) + (p.p*1) + (p.potm*10) + (p.mvp*15);
+            if(p.v.length) v *= ((p.v.reduce((a,b)=>a+b,0)/p.v.length)/6);
+            return v.toFixed(1);
         }
 
         function render() {
-            document.getElementById('lista-giocatori').innerHTML = db.ps.map(p => `
+            document.getElementById('list-rosa').innerHTML = db.ps.map(p => `
                 <div class="card">
-                    <span class="valore">€${getV(p)}M</span>
+                    <span class="market-val">€${getV(p)}M</span>
                     <b>#${p.m} ${p.n.toUpperCase()}</b>
-                    <div class="stats">
-                        <div class="s-box"><small>Pres</small><b>${p.p}</b></div>
-                        <div class="s-box"><small>Gol</small><b>${p.g}</b></div>
-                        <div class="s-box"><small>Ass</small><b>${p.a}</b></div>
-                        <div class="s-box"><small>Mv</small><b>${p.v.length?(p.v.reduce((x,y)=>x+y,0)/p.v.length).toFixed(1):'-'}</b></div>
+                    <div class="badge-row">
+                        ${p.potm ? `<span class="badge potm">POTM x${p.potm}</span>`:''}
+                        ${p.mvp ? `<span class="badge mvp">MVP x${p.mvp}</span>`:''}
                     </div>
-                    <button class="btn-ross" style="margin-top:10px; background:${p.in?'var(--rosso)':'#333'}" onclick="db.ps.find(x=>x.id===${p.id}).in=!db.ps.find(x=>x.id===${p.id}).in; save();">${p.in?'CONVOCATO':'CONVOCA'}</button>
+                    <div class="stats-grid">
+                        <div class="stat-box"><small>P</small>${p.p}</div><div class="stat-box"><small>G</small>${p.g}</div>
+                        <div class="stat-box"><small>A</small>${p.a}</div><div class="stat-box"><small>MV</small>${p.v.length?(p.v.reduce((a,b)=>a+b,0)/p.v.length).toFixed(1):'-'}</div>
+                    </div>
+                    <button class="btn-red" style="margin-top:10px; background:${p.in?'var(--red)':'#333'}" onclick="db.ps.find(x=>x.id===${p.id}).in=!db.ps.find(x=>x.id===${p.id}).in; save();">${p.in?'CONVOCATO':'ASSENTE'}</button>
                 </div>`).join('');
 
-            document.getElementById('lista-mercato').innerHTML = [...db.ps].sort((a,b)=>getV(b)-getV(a)).map((p,i)=>`<div class="card"><b>${i+1}. ${p.n}</b><span class="valore">€${getV(p)}M</span></div>`).join('');
-            document.getElementById('lista-news').innerHTML = db.ns.map(n=>`<div class="card"><small>${n.d}</small><h3>${n.t}</h3><p>${n.b}</p></div>`).join('');
+            document.getElementById('list-market').innerHTML = [...db.ps].sort((a,b)=>getV(b)-getV(a)).map((p,i)=>`
+                <div class="card">
+                    <b>${i+1}. ${p.n}</b> <span class="market-val">€${getV(p)}M</span>
+                    <div style="font-size:10px; color:var(--gold)">Titoli: ${p.potm+p.mvp}</div>
+                </div>`).join('');
 
-            const area = document.getElementById('area-pedine'); area.innerHTML = '';
+            const area = document.getElementById('pitch-players'); area.innerHTML = '';
             db.ps.filter(p=>p.in).forEach((p,i)=>{
-                const d = document.createElement('div'); d.className='pedina'; d.style.left='10px'; d.style.top=(i*55+20)+'px';
-                d.innerHTML=`<div class="maglia">${p.m}</div><div class="p-nome">${p.n}</div>`;
+                const d = document.createElement('div'); d.className='token'; d.style.left='10px'; d.style.top=(i*50+10)+'px';
+                d.innerHTML=`<div class="shirt">${p.m}</div><div style="font-size:8px">${p.n}</div>`;
                 area.appendChild(d);
-                d.addEventListener('touchmove', e => { e.preventDefault(); let t=e.touches[0], r=document.getElementById('pitch').getBoundingClientRect(); d.style.left=(t.pageX-r.left-25)+'px'; d.style.top=(t.pageY-r.top-20)+'px'; });
+                d.ontouchmove = e => { e.preventDefault(); let t=e.touches[0], r=document.getElementById('pitch').getBoundingClientRect(); d.style.left=(t.pageX-r.left-25)+'px'; d.style.top=(t.pageY-r.top-20)+'px'; };
             });
 
-            document.getElementById('admin-lista').innerHTML = db.ps.map(p => `
+            document.getElementById('adm-list').innerHTML = db.ps.map(p => `
                 <div class="card">
                     <b>${p.n}</b>
                     <div style="display:flex; gap:5px; margin:10px 0">
-                        <input type="number" value="${p.p}" onchange="db.ps.find(x=>x.id===${p.id}).p=parseInt(this.value);save()">
-                        <input type="number" value="${g=p.g}" onchange="db.ps.find(x=>x.id===${p.id}).g=parseInt(this.value);save()">
-                        <input type="number" value="${a=p.a}" onchange="db.ps.find(x=>x.id===${p.id}).a=parseInt(this.value);save()">
+                        <input type="number" value="${p.p}" onchange="db.ps.find(x=>x.id===${p.id}).p=parseInt(this.value);save()" placeholder="P">
+                        <input type="number" value="${p.g}" onchange="db.ps.find(x=>x.id===${p.id}).g=parseInt(this.value);save()" placeholder="G">
+                        <input type="number" value="${p.a}" onchange="db.ps.find(x=>x.id===${p.id}).a=parseInt(this.value);save()" placeholder="A">
                     </div>
-                    <button class="btn-ross" style="background:var(--oro); color:#000" onclick="let v=prompt('Voto:'); if(v){db.ps.find(x=>x.id===${p.id}).v.push(parseFloat(v));save()}">VOTO</button>
+                    <div style="display:flex; gap:5px;">
+                        <button onclick="db.ps.find(x=>x.id===${p.id}).potm++;save()" style="flex:1; font-size:10px; background:var(--gold); border:none; padding:5px">ASSEGNA POTM</button>
+                        <button onclick="db.ps.find(x=>x.id===${p.id}).mvp++;save()" style="flex:1; font-size:10px; background:#00e5ff; border:none; padding:5px">ASSEGNA MVP</button>
+                    </div>
+                    <button class="btn-red" style="margin-top:5px; background:#444" onclick="let v=prompt('Voto:'); if(v){db.ps.find(x=>x.id===${p.id}).v.push(parseFloat(v));save()}">VOTO</button>
+                    <button onclick="if(confirm('Elimina?')){db.ps=db.ps.filter(x=>x.id!==${p.id});save()}" style="color:red; background:none; border:none; width:100%; font-size:10px; margin-top:10px;">ELIMINA</button>
                 </div>`).join('');
         }
         load();
