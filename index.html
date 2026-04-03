@@ -3,13 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MILANAC V48 - FIXED MENU</title>
+    <title>MILANAC V49</title>
     <style>
         :root { --red: #C61C23; --bg: #000; --card: #121212; --gold: #D4AF37; --grass: #2e7d32; }
         body, html { margin: 0; padding: 0; background: #000; color: white; font-family: 'Segoe UI', sans-serif; height: 100vh; overflow: hidden; }
 
-        /* INTRO */
-        #intro { position: fixed; inset: 0; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: 0.6s; }
-        .logo-title { font-size: 4.5rem; font-weight: 900; color: var(--red); letter-spacing: -3px; text-shadow: 0 0 25px rgba(198,28,35,0.6); margin-bottom: 20px; }
-        .btn-enter { background: var(--red); color: white; border: none; padding: 22px 55px; font-size: 1.1rem; font-weight: 900; border-radius: 4px; cursor: pointer; text-transform: uppercase; animation: pulse 2s infinite; box-shadow: 0 10px 20px rgba(198,28,35,0.3); }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.08
+        /* INTRO SCREEN */
+        #intro { position: fixed; inset: 0; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; }
+        .logo-title { font-size: 4rem; font-weight: 900; color: var(--red); letter-spacing: -2px; text-shadow: 0 0 20px rgba(198,28,35,0.5); margin-bottom: 30px; }
+        .btn-enter { background: var(--red); color: white; border: none; padding: 20px 50px; font-weight: 900; border-radius: 4px; cursor: pointer; text-transform: uppercase; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+        /* HEADER */
+        header { height: 60px; background: #080808; border-bottom: 2px solid var(--red); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; position: relative; z-index: 2000; }
+        .burger { font-size: 30px; color: var(--red); cursor: pointer; padding: 5px; }
+        
+        /* MENU NAV */
+        .nav { position: absolute; top: 60px; right: 0; background: #0a0a0a; width: 260px; display: none; flex-direction: column; border-left: 2px solid var(--red); z-index: 1900; box-shadow: -5px 5px 2
