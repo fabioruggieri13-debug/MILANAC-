@@ -3,104 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MILANAC PRO CLUB</title>
+    <title>MILANAC PRO CLUB - ELITE</title>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <style>
-        :root { --rosso: #C61C23; --oro: #D4AF37; --nero: #000; --erba-scura: #1b5e20; --erba-chiara: #2e7d32; --linee: rgba(255,255,255,0.9); }
-        body { margin: 0; background: var(--nero); color: white; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; touch-action: none; }
+        :root { 
+            --rosso: #C61C23; 
+            --oro: #D4AF37; 
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
+        }
+
+        body { 
+            margin: 0; 
+            color: white; 
+            font-family: 'Segoe UI', sans-serif; 
+            overflow: hidden; 
+            height: 100vh; 
+            touch-action: none;
+            /* SFONDO DINAMICO GRADIENT */
+            background: linear-gradient(135deg, #000 0%, #1a0000 50%, #000 100%);
+            background-size: 400% 400%;
+            animation: gradientMove 10s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
         
-        #intro { position: fixed; inset: 0; background: radial-gradient(circle at center, #200000 0%, #000 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; animation: heartBeatBg 2s infinite; }
-        .pulsing-title { font-size: 4rem; font-weight: 900; text-transform: uppercase; animation: colorPulse 3s infinite alternate, heartBeatText 2s infinite; }
-        @keyframes colorPulse { 0% { color: var(--oro); text-shadow: 0 0 15px var(--oro); } 100% { color: var(--rosso); text-shadow: 0 0 15px var(--rosso); } }
-        @keyframes heartBeatText { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.1); } }
-        @keyframes heartBeatBg { 0%, 100% { background: radial-gradient(circle at center, #200000 0%, #000 100%); } 15% { background: radial-gradient(circle at center, #400000 0%, #000 100%); } }
+        #intro { 
+            position: fixed; inset: 0; 
+            background: radial-gradient(circle at center, #250000 0%, #000 100%); 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            z-index: 10000; transition: 0.8s;
+        }
+        .pulsing-title { font-size: 3.5rem; font-weight: 900; text-transform: uppercase; animation: colorPulse 3s infinite alternate; letter-spacing: 4px; }
+        @keyframes colorPulse { 0% { color: var(--oro); text-shadow: 0 0 20px var(--oro); } 100% { color: var(--rosso); text-shadow: 0 0 20px var(--rosso); } }
 
-        header { height: 60px; border-bottom: 2px solid var(--rosso); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; background: #000; z-index: 2000; position: relative; }
-        .sidebar { position: fixed; top: 0; right: -100%; width: 280px; height: 100%; background: rgba(5,5,5,0.98); transition: 0.4s; z-index: 3000; border-left: 2px solid var(--rosso); padding-top: 60px; }
+        header { 
+            height: 60px; 
+            display: flex; align-items: center; justify-content: space-between; padding: 0 20px; 
+            background: rgba(0,0,0,0.4); backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border); 
+            z-index: 2000; position: relative; 
+        }
+
+        .sidebar { 
+            position: fixed; top: 0; right: -100%; width: 280px; height: 100%; 
+            background: rgba(10,10,10,0.85); backdrop-filter: blur(20px);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            z-index: 3000; border-left: 1px solid var(--rosso); padding-top: 60px; 
+        }
         .sidebar.active { right: 0; }
-        .sidebar button { width: 100%; padding: 18px; background: none; border: none; color: white; text-align: left; font-weight: bold; border-bottom: 1px solid #222; text-transform: uppercase; cursor: pointer; }
+        .sidebar button { 
+            width: 100%; padding: 18px; background: none; border: none; color: white; 
+            text-align: left; font-weight: bold; border-bottom: 1px solid var(--glass-border); 
+            text-transform: uppercase; cursor: pointer; 
+        }
 
-        .container { height: calc(100vh - 60px); overflow-y: auto; padding: 15px; box-sizing: border-box; padding-bottom: 60px; }
-        .page { display: none; } .page.active { display: block; }
+        .container { height: calc(100vh - 60px); overflow-y: auto; padding: 15px; box-sizing: border-box; padding-bottom: 80px; }
+        .page { display: none; animation: fadeIn 0.4s ease-out; } 
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* STILE SELETTORE MODULI */
-        .mod-selector-container { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; background: #111; padding: 10px; border-radius: 8px; border: 1px solid var(--oro); }
-        .mod-label { font-size: 12px; font-weight: bold; color: var(--oro); text-transform: uppercase; }
-        #mod-select { flex-grow: 1; padding: 8px; background: #222; border: 1px solid #444; color: white; border-radius: 4px; font-weight: bold; }
+        /* MODULO SELECTOR GLASS */
+        .mod-selector-container { 
+            margin-bottom: 15px; display: flex; align-items: center; gap: 10px; 
+            background: var(--glass); backdrop-filter: blur(10px);
+            padding: 12px; border-radius: 12px; border: 1px solid var(--glass-border); 
+        }
+        .mod-label { font-size: 11px; font-weight: bold; color: var(--oro); text-transform: uppercase; }
+        #mod-select { 
+            flex-grow: 1; padding: 10px; background: rgba(0,0,0,0.3); 
+            border: 1px solid var(--glass-border); color: white; border-radius: 6px; font-weight: bold; 
+        }
 
-        /* --- STILE DEL CAMPO DA GIOCO FIXATO --- */
+        /* CAMPO DA GIOCO FIXATO CON SFOCATURA LATERALE */
         #pitch { 
-            width: 95% !important; aspect-ratio: 2/3 !important; max-height: 72vh !important; 
-            margin: 0 auto !important; background: #2e7d32 !important; border: 3px solid #fff !important; 
+            width: 100% !important; aspect-ratio: 2/3 !important; max-height: 70vh !important; 
+            margin: 0 auto !important; background: #2e7d32 !important; border: 2px solid rgba(255,255,255,0.7) !important; 
             position: relative !important; overflow: hidden !important; 
             background-image: repeating-linear-gradient(0deg, #1b5e20, #1b5e20 10%, #2e7d32 10%, #2e7d32 20%) !important;
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.3) !important;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+            border-radius: 8px;
         }
-        .p-line { position: absolute !important; border: 2px solid rgba(255,255,255,0.9) !important; pointer-events: none; }
-        .mid-line { top: 50% !important; width: 100% !important; height: 0 !important; border-top: 2px solid #fff !important; }
-        .mid-circle { top: 50% !important; left: 50% !important; width: 25% !important; aspect-ratio: 1 !important; border: 2px solid #fff !important; border-radius: 50% !important; transform: translate(-50%, -50%) !important; }
-        .mid-dot { top: 50% !important; left: 50% !important; width: 6px !important; height: 6px !important; background: #fff !important; border-radius: 50% !important; transform: translate(-50%, -50%) !important; position: absolute !important; }
-        .box-large-top { top: -2px !important; left: 50% !important; width: 66% !important; height: 18% !important; transform: translateX(-50%) !important; border-top: none !important; }
-        .box-small-top { top: -2px !important; left: 50% !important; width: 32% !important; height: 6% !important; transform: translateX(-50%) !important; border-top: none !important; }
-        .penalty-dot-top { top: 13% !important; left: 50% !important; width: 5px !important; height: 5px !important; background: #fff !important; border-radius: 50% !important; transform: translateX(-50%) !important; position: absolute !important; }
-        .arc-top { top: 18% !important; left: 50% !important; width: 25% !important; height: 10% !important; border: 2px solid rgba(255,255,255,0.9) !important; border-radius: 0 0 50% 50% / 0 0 100% 100% !important; transform: translateX(-50%) !important; border-top: none !important; position: absolute !important; }
-        .box-large-bot { bottom: -2px !important; left: 50% !important; width: 66% !important; height: 18% !important; transform: translateX(-50%) !important; border-bottom: none !important; }
-        .box-small-bot { bottom: -2px !important; left: 50% !important; width: 32% !important; height: 6% !important; transform: translateX(-50%) !important; border-bottom: none !important; }
-        .penalty-dot-bot { bottom: 13% !important; left: 50% !important; width: 5px !important; height: 5px !important; background: #fff !important; border-radius: 50% !important; transform: translateX(-50%) !important; position: absolute !important; }
-        .arc-bot { bottom: 18% !important; left: 50% !important; width: 25% !important; height: 10% !important; border: 2px solid rgba(255,255,255,0.9) !important; border-radius: 50% 50% 0 0 / 100% 100% 0 0 !important; transform: translateX(-50%) !important; border-bottom: none !important; position: absolute !important; }
-
-        .player { position: absolute; width: 54px; text-align: center; cursor: move; z-index: 100; touch-action: none; }
-        .jersey { width: 44px; height: 44px; background: #000; border: 3px solid var(--rosso); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; margin: 0 auto; color: var(--oro); font-size: 18px; position: relative; }
-        .badge-icon { position: absolute; top: -8px; right: -8px; font-size: 16px; background: rgba(0,0,0,0.8); border-radius: 50%; padding: 2px; }
-        .p-name { background: rgba(0,0,0,0.85); font-size: 11px; padding: 2px 6px; border-radius: 10px; margin-top: 4px; display: inline-block; font-weight: bold; text-transform: uppercase; color: white; }
-
-        .card { background: #111; padding: 15px; margin-bottom: 12px; border-left: 5px solid var(--rosso); border-radius: 4px; position: relative; }
-        .btn-main { width: 100%; padding: 14px; background: var(--rosso); color: white; border: none; font-weight: bold; border-radius: 6px; text-transform: uppercase; cursor: pointer; }
-        input, select, textarea { width: 100%; padding: 12px; margin: 5px 0; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 4px; box-sizing: border-box; }
+        .p-line { position: absolute !important; border: 1.5px solid rgba(255,255,255,0.8) !important; pointer-events: none; }
+        .mid-line { top: 50% !important; width: 100% !important; height: 0 !important; border-top: 1.5px solid #fff !important; }
+        .mid-circle { top: 50% !important; left: 50% !important; width: 25% !important; aspect-ratio: 1 !important; border: 1.5px solid #fff !important; border-radius: 50% !important; transform: translate(-50%, -50%) !important; }
         
-        .vote-control { display: flex; align-items: center; gap: 10px; background: #222; padding: 10px; border-radius: 8px; margin-top: 5px; }
-        .stat-row { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; background: #1a1a1a; padding: 6px 10px; border-radius: 5px; font-size: 14px; }
-        .v-val { font-size: 1.5rem; font-weight: 900; color: var(--oro); min-width: 40px; text-align: center; }
-        .btn-v { width: 32px; height: 32px; border-radius: 5px; border: none; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .btn-plus { background: #2e7d32; color: white; }
-        .btn-minus { background: #c61c23; color: white; }
+        .player { position: absolute; width: 54px; text-align: center; cursor: move; z-index: 100; touch-action: none; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.4)); }
+        .jersey { 
+            width: 42px; height: 42px; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
+            border: 2px solid var(--oro); border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            font-weight: 900; margin: 0 auto; color: #fff; font-size: 16px; position: relative; 
+            box-shadow: inset 0 0 10px var(--rosso);
+        }
+        .badge-icon { position: absolute; top: -8px; right: -8px; font-size: 16px; background: rgba(0,0,0,0.8); border-radius: 50%; padding: 2px; }
+        .p-name { 
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); font-size: 10px; padding: 2px 8px; 
+            border-radius: 4px; margin-top: 4px; display: inline-block; font-weight: bold; 
+            text-transform: uppercase; color: white; border: 1px solid var(--glass-border);
+        }
 
-        #modal-player { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 5000; display: none; padding: 20px; align-items: center; justify-content: center; }
-        .modal-content { background: #111; border: 2px solid var(--oro); border-radius: 15px; padding: 25px; width: 100%; max-width: 380px; text-align: center; }
+        /* CARD GLASSMORPHISM */
+        .card { 
+            background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            padding: 16px; margin-bottom: 14px; border: 1px solid var(--glass-border);
+            border-radius: 12px; position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .btn-main { 
+            width: 100%; padding: 14px; background: linear-gradient(45deg, var(--rosso), #800000); 
+            color: white; border: none; font-weight: bold; border-radius: 8px; 
+            text-transform: uppercase; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(198, 28, 35, 0.2);
+        }
+        .btn-main:active { transform: scale(0.96); }
+
+        input, select, textarea { 
+            width: 100%; padding: 12px; margin: 6px 0; background: rgba(255,255,255,0.05); 
+            border: 1px solid var(--glass-border); color: white; border-radius: 8px; box-sizing: border-box; 
+        }
+        
+        .vote-control { display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 10px; margin-top: 8px; }
+        .stat-row { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; background: rgba(255,255,255,0.03); padding: 8px 12px; border-radius: 8px; font-size: 13px; }
+        .v-val { font-size: 1.4rem; font-weight: 900; color: var(--oro); min-width: 40px; text-align: center; text-shadow: 0 0 10px rgba(212,175,55,0.4); }
+        
+        .btn-v { width: 34px; height: 34px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .btn-v:active { transform: translateY(2px); }
+
+        #modal-player { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 5000; display: none; padding: 20px; align-items: center; justify-content: center; }
+        .modal-content { 
+            background: rgba(20,20,20,0.9); border: 1px solid var(--oro); border-radius: 20px; 
+            padding: 30px; width: 100%; max-width: 360px; text-align: center; box-shadow: 0 0 30px rgba(212,175,55,0.2);
+        }
     </style>
 </head>
 <body>
 
     <div id="intro">
         <h1 class="pulsing-title">MILANAC</h1>
-        <p>BENVENUTO NEL CLUB</p>
-        <button class="btn-main" style="width:180px; border-radius:30px;" onclick="document.getElementById('intro').style.display='none'">ENTRA</button>
+        <p style="letter-spacing: 3px; font-size: 12px; opacity: 0.8;">PRO CLUB ELITE EDITION</p>
+        <button class="btn-main" style="width:200px; margin-top:30px; border-radius:30px;" onclick="document.getElementById('intro').style.opacity='0'; setTimeout(()=>document.getElementById('intro').style.display='none', 800)">ENTRA NELL'ARENA</button>
     </div>
 
     <header>
-        <div style="font-weight:900; color:var(--rosso); font-size:22px;">MILANAC</div>
-        <div onclick="document.querySelector('.sidebar').classList.add('active')" style="font-size:30px; cursor:pointer; color:var(--rosso)">☰</div>
+        <div style="font-weight:900; color:var(--oro); font-size:22px; letter-spacing:1px;">MILANAC</div>
+        <div onclick="document.querySelector('.sidebar').classList.add('active')" style="font-size:28px; cursor:pointer; color:white">☰</div>
     </header>
 
     <nav class="sidebar">
-        <button onclick="go('rosa')">🛡️ Rosa</button>
-        <button onclick="go('tattica')">📋 Formazione</button>
-        <button onclick="go('calendario')">📅 Calendario Partite</button>
-        <button onclick="go('news')">📰 News & Comunicati</button>
-        <button onclick="go('mercato')">💰 Mercato</button>
-        <button onclick="go('partite')">🏟️ Risultati Partite</button>
-        <button onclick="go('premi')">🏆 Premi</button>
-        <button onclick="goAdmin()">⚙️ Area Admin</button>
-        <button onclick="document.querySelector('.sidebar').classList.remove('active')">Chiudi</button>
+        <button onclick="go('rosa')">🛡️ LA ROSA</button>
+        <button onclick="go('tattica')">📋 TATTICA</button>
+        <button onclick="go('calendario')">📅 CALENDARIO</button>
+        <button onclick="go('news')">📰 NEWS</button>
+        <button onclick="go('mercato')">💰 MERCATO</button>
+        <button onclick="go('partite')">🏟️ RISULTATI</button>
+        <button onclick="go('premi')">🏆 PREMI</button>
+        <button onclick="goAdmin()" style="color:var(--oro)">⚙️ ADMIN</button>
+        <button onclick="document.querySelector('.sidebar').classList.remove('active')" style="background:rgba(255,0,0,0.1); text-align:center; margin-top:20px;">CHIUDI</button>
     </nav>
 
     <div class="container">
         <div id="p-news" class="page">
-            <h2 style="color:var(--oro)">NEWS & COMUNICATI</h2>
+            <h3 style="color:var(--oro)">NEWS & COMUNICATI</h3>
             <div class="card">
-                <textarea id="news-text" placeholder="Nuovo comunicato..."></textarea>
-                <button class="btn-main" onclick="addNews()">PUBBLICA</button>
+                <textarea id="news-text" placeholder="Scrivi un annuncio per la squadra..."></textarea>
+                <button class="btn-main" style="margin-top:10px" onclick="addNews()">PUBBLICA</button>
             </div>
             <div id="l-news"></div>
         </div>
@@ -110,64 +180,58 @@
         <div id="p-tattica" class="page">
             <div class="mod-selector-container">
                 <span class="mod-label">Modulo:</span>
-                <select id="mod-select" onchange="setModulo(this.value)">
-                    </select>
+                <select id="mod-select" onchange="setModulo(this.value)"></select>
             </div>
             <div id="pitch">
                 <div class="p-line mid-line"></div>
                 <div class="p-line mid-circle"></div>
-                <div class="mid-dot"></div>
-                <div class="p-line box-large-top"></div>
-                <div class="p-line box-small-top"></div>
-                <div class="arc-top"></div>
-                <div class="penalty-dot-top"></div>
-                <div class="p-line box-large-bot"></div>
-                <div class="p-line box-small-bot"></div>
-                <div class="arc-bot"></div>
-                <div class="penalty-dot-bot"></div>
+                <div class="p-line box-large-top" style="top:-2px; left:50%; width:66%; height:18%; transform:translateX(-50%); border-top:none;"></div>
+                <div class="p-line box-small-top" style="top:-2px; left:50%; width:32%; height:6%; transform:translateX(-50%); border-top:none;"></div>
+                <div class="p-line box-large-bot" style="bottom:-2px; left:50%; width:66%; height:18%; transform:translateX(-50%); border-bottom:none;"></div>
+                <div class="p-line box-small-bot" style="bottom:-2px; left:50%; width:32%; height:6%; transform:translateX(-50%); border-bottom:none;"></div>
                 <div id="pitch-players"></div>
             </div>
         </div>
 
         <div id="p-calendario" class="page">
-            <h3 style="color:var(--oro)">CALENDARIO PROSSIME PARTITE</h3>
+            <h3 style="color:var(--oro)">CALENDARIO PARTITE</h3>
             <div class="card">
-                <input type="text" id="cal-avv" placeholder="Avversario">
+                <input type="text" id="cal-avv" placeholder="Squadra Avversaria">
                 <input type="datetime-local" id="cal-data">
-                <button class="btn-main" onclick="addCalendarEvent()">AGGIUNGI A CALENDARIO</button>
+                <button class="btn-main" onclick="addCalendarEvent()">SALVA EVENTO</button>
             </div>
             <div id="l-calendario"></div>
         </div>
 
-        <div id="p-mercato" class="page"><h3>VALORI DI MERCATO</h3><div id="l-mercato"></div></div>
+        <div id="p-mercato" class="page"><h3 style="color:var(--oro)">VALORI DI MERCATO</h3><div id="l-mercato"></div></div>
 
         <div id="p-partite" class="page">
-            <h3>RISULTATI PARTITE</h3>
+            <h3 style="color:var(--oro)">RISULTATI STORICI</h3>
             <div class="card">
                 <input type="text" id="m-avv" placeholder="Avversario">
-                <input type="text" id="m-ris" placeholder="Risultato">
-                <button class="btn-main" onclick="addMatch()">AGGIUNGI RISULTATO</button>
+                <input type="text" id="m-ris" placeholder="Risultato (es. 3-1)">
+                <button class="btn-main" onclick="addMatch()">AGGIUNGI</button>
             </div>
             <div id="l-partite"></div>
         </div>
 
-        <div id="p-premi" class="page"><h3>HALL OF FAME</h3><div id="l-premi"></div></div>
+        <div id="p-premi" class="page"><h3 style="color:var(--oro)">HALL OF FAME</h3><div id="l-premi"></div></div>
         
         <div id="p-admin" class="page">
             <div class="card">
-                <h3>PANNELLO ADMIN</h3>
-                <label>Admin Corrente:</label>
+                <h3 style="margin-top:0">PANNELLO ADMIN</h3>
+                <label style="font-size:12px; color:var(--oro)">Seleziona la tua identità:</label>
                 <select id="active-admin" onchange="render()">
                     <option value="Fabio">Fabio</option><option value="Beppe">Beppe</option>
                     <option value="Christian">Christian</option><option value="Vicio">Vicio</option>
                     <option value="Martin">Martin</option>
                 </select>
-                <hr>
-                <h4>NUOVO GIOCATORE</h4>
+                <hr style="border:0; border-top:1px solid var(--glass-border); margin:15px 0;">
+                <h4 style="margin:0 0 10px 0">NUOVO PLAYER</h4>
                 <input type="text" id="in-n" placeholder="Nome">
                 <input type="number" id="in-m" placeholder="Numero">
                 <select id="in-r"><option>POR</option><option>DIF</option><option>CEN</option><option>ATT</option></select>
-                <button class="btn-main" onclick="addP()">AGGIUNGI</button>
+                <button class="btn-main" onclick="addP()">AGGIUNGI A ROSA</button>
             </div>
             <div id="l-admin"></div>
         </div>
@@ -175,12 +239,14 @@
 
     <div id="modal-player" onclick="this.style.display='none'">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <h2 id="m-nome" style="color:var(--oro)"></h2>
-            <div id="m-stats"></div>
+            <h2 id="m-nome" style="color:var(--oro); margin-top:0;"></h2>
+            <div id="m-stats" style="line-height:1.8; font-weight:bold;"></div>
+            <button class="btn-main" style="margin-top:20px; width:120px;" onclick="document.getElementById('modal-player').style.display='none'">CHIUDI</button>
         </div>
     </div>
 
     <script>
+        // CONFIGURAZIONE FIREBASE
         const firebaseConfig = { apiKey: "AIzaSyDbO_AxHKz1avQpYscoSSLpEfmFaL8MRGg", authDomain: "milanac-proclub.firebaseapp.com", projectId: "milanac-proclub", storageBucket: "milanac-proclub.firebasestorage.app", messagingSenderId: "61702234008", appId: "1:61702234008:web:aa597d8600d0a8251895ed" };
         firebase.initializeApp(firebaseConfig); const db = firebase.firestore();
         let data = { ps: [], mod: '4-4-2', matches: [], news: [], calendar: [] };
@@ -188,29 +254,37 @@
         const PASS = "milanac"; 
 
         const modali = {
-            '4-4-2': [{x:43,y:85},{x:10,y:70},{x:33,y:72},{x:55,y:72},{x:78,y:70},{x:10,y:45},{x:33,y:48},{x:55,y:48},{x:78,y:45},{x:33,y:20},{x:55,y:20}],
-            '4-3-3': [{x:43,y:85},{x:10,y:70},{x:33,y:72},{x:55,y:72},{x:78,y:70},{x:25,y:48},{x:43,y:52},{x:62,y:48},{x:15,y:20},{x:43,y:15},{x:72,y:20}],
-            '3-5-2': [{x:43,y:85},{x:25,y:72},{x:43,y:72},{x:62,y:72},{x:5,y:45},{x:28,y:48},{x:43,y:48},{x:58,y:48},{x:82,y:45},{x:33,y:20},{x:55,y:20}],
-            '3-4-1-2': [{x:43,y:85},{x:25,y:72},{x:43,y:72},{x:62,y:72},{x:10,y:45},{x:33,y:48},{x:55,y:48},{x:78,y:45},{x:43,y:30},{x:33,y:15},{x:55,y:15}],
-            '4-2-3-1': [{x:43,y:85},{x:10,y:70},{x:33,y:72},{x:55,y:72},{x:78,y:70},{x:33,y:52},{x:55,y:52},{x:15,y:30},{x:43,y:33},{x:72,y:30},{x:43,y:15}],
-            '4-3-1-2': [{x:43,y:85},{x:10,y:70},{x:33,y:72},{x:55,y:72},{x:78,y:70},{x:20,y:48},{x:43,y:50},{x:65,y:48},{x:43,y:33},{x:33,y:15},{x:55,y:15}],
-            '5-3-2': [{x:43,y:85},{x:10,y:70},{x:28,y:72},{x:43,y:74},{x:58,y:72},{x:78,y:70},{x:25,y:48},{x:43,y:50},{x:62,y:48},{x:33,y:20},{x:55,y:20}],
-            '3-4-3': [{x:43,y:85},{x:25,y:72},{x:43,y:72},{x:62,y:72},{x:10,y:48},{x:33,y:45},{x:55,y:45},{x:78,y:48},{x:15,y:20},{x:43,y:15},{x:72,y:20}]
+            '4-4-2': [{x:43,y:82},{x:10,y:68},{x:33,y:70},{x:55,y:70},{x:78,y:68},{x:10,y:42},{x:33,y:45},{x:55,y:45},{x:78,y:42},{x:33,y:18},{x:55,y:18}],
+            '4-3-3': [{x:43,y:82},{x:10,y:68},{x:33,y:70},{x:55,y:70},{x:78,y:68},{x:25,y:45},{x:43,y:50},{x:62,y:45},{x:15,y:20},{x:43,y:14},{x:72,y:20}],
+            '3-5-2': [{x:43,y:82},{x:25,y:70},{x:43,y:70},{x:62,y:70},{x:5,y:42},{x:28,y:45},{x:43,y:45},{x:58,y:45},{x:82,y:42},{x:33,y:18},{x:55,y:18}],
+            '3-4-1-2': [{x:43,y:82},{x:25,y:70},{x:43,y:70},{x:62,y:70},{x:10,y:45},{x:33,y:48},{x:55,y:48},{x:78,y:45},{x:43,y:28},{x:33,y:14},{x:55,y:14}],
+            '4-2-3-1': [{x:43,y:82},{x:10,y:68},{x:33,y:70},{x:55,y:70},{x:78,y:68},{x:33,y:50},{x:55,y:50},{x:15,y:28},{x:43,y:30},{x:72,y:28},{x:43,y:14}],
+            '4-3-1-2': [{x:43,y:82},{x:10,y:68},{x:33,y:70},{x:55,y:70},{x:78,y:68},{x:20,y:45},{x:43,y:48},{x:65,y:45},{x:43,y:30},{x:33,y:14},{x:55,y:14}],
+            '5-3-2': [{x:43,y:82},{x:10,y:68},{x:28,y:70},{x:43,y:72},{x:58,y:70},{x:78,y:68},{x:25,y:45},{x:43,y:48},{x:62,y:45},{x:33,y:18},{x:55,y:18}],
+            '3-4-3': [{x:43,y:82},{x:25,y:70},{x:43,y:70},{x:62,y:70},{x:10,y:45},{x:33,y:42},{x:55,y:42},{x:78,y:45},{x:15,y:18},{x:43,y:13},{x:72,y:18}]
         };
 
         db.collection("milanac").doc("v84_final").onSnapshot(doc => { if(doc.exists) { data = doc.data(); render(); } });
         function sync() { db.collection("milanac").doc("v84_final").set(data); }
 
-        function go(p) { document.querySelectorAll('.page').forEach(x=>x.classList.remove('active')); document.getElementById('p-'+p).classList.add('active'); document.querySelector('.sidebar').classList.remove('active'); }
+        function go(p) { 
+            document.querySelectorAll('.page').forEach(x=>x.classList.remove('active')); 
+            document.getElementById('p-'+p).classList.add('active'); 
+            document.querySelector('.sidebar').classList.remove('active'); 
+        }
         
         function goAdmin() {
-            let p = prompt("Inserisci la Password Admin:");
-            if(p === PASS) { go('admin'); } else { alert("Accesso Negato!"); go('rosa'); }
+            let p = prompt("ACCESSO ADMIN:");
+            if(p === PASS) { go('admin'); } else { alert("NEGATO!"); }
         }
 
         function addP() {
             const n=document.getElementById('in-n').value, m=document.getElementById('in-m').value, r=document.getElementById('in-r').value;
-            if(n&&m){ data.ps.push({id:Date.now(), n, m, r, g:0, a:0, mvp:0, yl:0, rd:0, potm:0, convocato:false, x:43, y:80, v_adm:{"Fabio":6,"Beppe":6,"Christian":6,"Vicio":6,"Martin":6} }); sync(); }
+            if(n&&m){ 
+                data.ps.push({id:Date.now(), n, m, r, g:0, a:0, mvp:0, yl:0, rd:0, potm:0, convocato:false, x:43, y:80, v_adm:{"Fabio":6,"Beppe":6,"Christian":6,"Vicio":6,"Martin":6} }); 
+                sync(); 
+                document.getElementById('in-n').value=''; document.getElementById('in-m').value='';
+            }
         }
 
         function updateStat(id, key, val) {
@@ -232,15 +306,10 @@
         }
 
         function addCalendarEvent() {
-            const avv = document.getElementById('cal-avv').value;
-            const dataOra = document.getElementById('cal-data').value;
-            if(avv && dataOra) {
+            const avv = document.getElementById('cal-avv').value, dt = document.getElementById('cal-data').value;
+            if(avv && dt) {
                 if(!data.calendar) data.calendar = [];
-                data.calendar.push({avv, dt: dataOra});
-                data.calendar.sort((a,b) => new Date(a.dt) - new Date(b.dt));
-                sync();
-                document.getElementById('cal-avv').value = '';
-                document.getElementById('cal-data').value = '';
+                data.calendar.push({avv, dt}); sync();
             }
         }
 
@@ -253,28 +322,21 @@
             let hR="", hA="", hMk="", hP="", hMatch="", hNews="", hCal="";
             const activeAdm = document.getElementById('active-admin').value;
 
-            // Logica Badge
-            let maxMedia = -1, topPlayerId = null;
-            let maxMvp = -1, kingId = null;
-            let maxDefMedia = -1, wallId = null;
-
+            // Premi Automatici
+            let maxMedia = -1, topPlayerId = null, maxMvp = -1, kingId = null, maxDefMedia = -1, wallId = null;
             data.ps.forEach(p => {
                 const voti = Object.values(p.v_adm || {});
                 const media = parseFloat((voti.reduce((a,b)=>a+b,0) / voti.length).toFixed(1));
-                
                 if(media > maxMedia) { maxMedia = media; topPlayerId = p.id; }
                 if((p.mvp || 0) > maxMvp) { maxMvp = p.mvp; kingId = p.id; }
                 if(p.r === 'DIF' && media > maxDefMedia) { maxDefMedia = media; wallId = p.id; }
             });
 
-            // Popola il menù a tendina dei moduli (solo la prima volta o al cambio)
+            // Sync Selettore Modulo
             const modSelect = document.getElementById('mod-select');
             if (modSelect.options.length === 0) {
                 Object.keys(modali).forEach(m => {
-                    let opt = document.createElement('option');
-                    opt.value = m;
-                    opt.innerHTML = m;
-                    modSelect.appendChild(opt);
+                    let opt = document.createElement('option'); opt.value = m; opt.innerHTML = m; modSelect.appendChild(opt);
                 });
             }
             modSelect.value = data.mod;
@@ -282,64 +344,38 @@
             data.ps.forEach(p => {
                 const voti = Object.values(p.v_adm || {});
                 const media = (voti.reduce((a,b)=>a+b,0) / voti.length).toFixed(1);
-                
-                let bRosa = "";
-                if(p.id === kingId && maxMvp > 0) bRosa += "👑";
-                if(p.id === topPlayerId && maxMedia > 6) bRosa += "🔥";
-                if(p.id === wallId && maxDefMedia > 6) bRosa += "🧱";
+                let bRosa = (p.id === kingId && maxMvp > 0) ? "👑" : (p.id === topPlayerId && maxMedia > 6) ? "🔥" : (p.id === wallId && maxDefMedia > 6) ? "🧱" : "";
 
-                hR += `<div class="card" onclick="openP(${p.id})"><b>${p.n} ${bRosa}</b> #${p.m}<br><small>${p.r} | Media: ${media}</small><br><button class="btn-main" style="width:auto; padding:5px 10px; margin-top:5px; background:${p.convocato?'green':'#333'}" onclick="event.stopPropagation(); const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">${p.convocato?'IN CAMPO':'SCHIERA'}</button></div>`;
+                hR += `<div class="card" onclick="openP(${p.id})">
+                    <span style="float:right; font-size:1.2rem">${bRosa}</span>
+                    <b style="font-size:1.1rem">${p.n}</b> <span style="opacity:0.6">#${p.m}</span><br>
+                    <small style="color:var(--oro)">${p.r} | MEDIA: ${media}</small><br>
+                    <button class="btn-main" style="width:auto; padding:6px 15px; margin-top:10px; background:${p.convocato?'#2e7d32':'rgba(255,255,255,0.1)'}" onclick="event.stopPropagation(); const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">${p.convocato?'TITOLARE':'RISERVA'}</button>
+                </div>`;
+
                 hMk += `<div class="card"><b>${p.n}</b> <span style="float:right; color:var(--oro)">€${(10+(media-6)*5+(p.g||0)*2).toFixed(1)}M</span></div>`;
                 hP += `<div class="card"><b>${p.n}</b> <span style="float:right">👑 ${p.mvp||0} | ⭐ ${p.potm||0}</span></div>`;
                 
                 hA += `<div class="card">
-                    <b>${p.n}</b> <button style="color:red; float:right; border:none; background:none;" onclick="if(confirm('Eliminare?')){data.ps=data.ps.filter(x=>x.id!==${p.id}); sync()}">🗑️ ELIMINA</button>
-                    
+                    <b>${p.n}</b> <button style="color:red; float:right; border:none; background:none;" onclick="if(confirm('Eliminare?')){data.ps=data.ps.filter(x=>x.id!==${p.id}); sync()}">🗑️</button>
                     <div class="vote-control">
-                        <button class="btn-v btn-minus" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].v_adm['${activeAdm}']=Math.max(0,data.ps[i].v_adm['${activeAdm}']-0.5); sync()">-</button>
-                        <span class="v-val" style="color:var(--oro)">${p.v_adm[activeAdm]}</span>
-                        <button class="btn-v btn-plus" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].v_adm['${activeAdm}']+=0.5; sync()">+</button>
+                        <button class="btn-v" style="background:#c61c23" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].v_adm['${activeAdm}']=Math.max(0,data.ps[i].v_adm['${activeAdm}']-0.5); sync()">-</button>
+                        <span class="v-val">${p.v_adm[activeAdm]}</span>
+                        <button class="btn-v" style="background:#2e7d32" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].v_adm['${activeAdm}']+=0.5; sync()">+</button>
                     </div>
-
                     <div class="stat-row">
-                        <span>⚽ Goal: ${p.g||0} | 👟 Assist: ${p.a||0}</span> 
+                        <span>⚽ G: ${p.g||0} | 👟 A: ${p.a||0}</span> 
                         <div>
-                            <button class="btn-v btn-minus" style="margin-right:2px" onclick="updateStat(${p.id},'g',1)">⚽+</button>
-                            <button class="btn-v btn-plus" onclick="updateStat(${p.id},'a',1)">👟+</button>
-                        </div>
-                    </div>
-
-                    <div class="stat-row">
-                        <span>🟨: ${p.yl||0} | 🟥: ${p.rd||0}</span>
-                        <div>
-                            <button class="btn-v" style="background:gold" onclick="updateStat(${p.id},'yl',1)">🟨</button>
-                            <button class="btn-v" style="background:red; margin-left:2px" onclick="updateStat(${p.id},'rd',1)">🟥</button>
-                        </div>
-                    </div>
-
-                    <div class="stat-row" style="border-top: 1px solid #333; margin-top: 8px; padding-top: 8px;">
-                        <span>🏆 MVP: ${p.mvp||0} | ⭐ POTM: ${p.potm||0}</span>
-                        <div>
-                            <button class="btn-v" style="background:var(--oro); color:black; margin-right:2px" onclick="updateStat(${p.id},'mvp',1)">🏆+</button>
-                            <button class="btn-v" style="background:white; color:black" onclick="updateStat(${p.id},'potm',1)">⭐+</button>
-                            <button class="btn-v" style="background:#444; margin-left:2px" onclick="updateStat(${p.id},'mvp',-1);updateStat(${p.id},'potm',-1);updateStat(${p.id},'g',-1);updateStat(${p.id},'a',-1)">↺</button>
+                            <button class="btn-v" style="background:var(--oro); color:black; margin-right:5px" onclick="updateStat(${p.id},'g',1)">G+</button>
+                            <button class="btn-v" style="background:white; color:black" onclick="updateStat(${p.id},'a',1)">A+</button>
                         </div>
                     </div>
                 </div>`;
             });
 
-            (data.matches || []).forEach((m,idx) => { hMatch += `<div class="card"><b>${m.d}</b>: ${m.ris} vs ${m.avv} <button style="background:none; border:none; float:right" onclick="data.matches.splice(${idx},1); sync()">🗑️</button></div>`; });
-            (data.news || []).forEach((n,idx) => { hNews += `<div class="card"><small>${n.d}</small><p>${n.txt}</p><button style="background:none; border:none; color:red" onclick="data.news.splice(${idx},1); sync()">🗑️ Elimina</button></div>`; });
-            
-            (data.calendar || []).forEach((c,idx) => {
-                const dateObj = new Date(c.dt);
-                const formatData = dateObj.toLocaleDateString() + " ore " + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                hCal += `<div class="card">
-                    <span style="color:var(--oro)">${formatData}</span><br>
-                    <b>${c.avv}</b>
-                    <button style="background:none; border:none; float:right; color:red" onclick="data.calendar.splice(${idx},1); sync()">🗑️</button>
-                </div>`;
-            });
+            (data.matches || []).forEach(m => { hMatch += `<div class="card"><b>${m.d}</b>: ${m.ris} vs ${m.avv}</div>`; });
+            (data.news || []).forEach(n => { hNews += `<div class="card"><small>${n.d}</small><p style="margin:5px 0">${n.txt}</p></div>`; });
+            (data.calendar || []).forEach(c => { hCal += `<div class="card">📅 ${new Date(c.dt).toLocaleString()}<br><b>vs ${c.avv}</b></div>`; });
 
             document.getElementById('l-rosa').innerHTML = hR; document.getElementById('l-admin').innerHTML = hA;
             document.getElementById('l-mercato').innerHTML = hMk; document.getElementById('l-partite').innerHTML = hMatch;
@@ -348,13 +384,8 @@
 
             const pl = document.getElementById('pitch-players'); pl.innerHTML = "";
             data.ps.filter(p => p.convocato).forEach(p => {
-                let pBadge = "";
-                if(p.id === kingId && maxMvp > 0) pBadge = "👑";
-                else if(p.id === topPlayerId && maxMedia > 6.5) pBadge = "🔥";
-                else if(p.id === wallId && maxDefMedia > 6) pBadge = "🧱";
-
                 const d = document.createElement('div'); d.className = 'player'; d.style.left = p.x + "%"; d.style.top = p.y + "%";
-                d.innerHTML = `<div class="jersey">${p.m}${pBadge ? `<span class="badge-icon">${pBadge}</span>` : ''}</div><div class="p-name">${p.n}</div>`;
+                d.innerHTML = `<div class="jersey">${p.m}</div><div class="p-name">${p.n}</div>`;
                 d.onclick = () => openP(p.id);
                 let isD = false;
                 const start = () => isD = true;
@@ -374,7 +405,7 @@
 
         function openP(id) {
             const p = data.ps.find(x=>x.id==id); document.getElementById('m-nome').innerText = p.n;
-            document.getElementById('m-stats').innerHTML = `⚽ Goal: ${p.g||0} | 👟 ASSIST: ${p.a||0} <br> 🏆 MVP: ${p.mvp||0} | ⭐ POTM: ${p.potm||0} <br> 🟨: ${p.yl||0} | 🟥: ${p.rd||0}`;
+            document.getElementById('m-stats').innerHTML = `⚽ GOAL: ${p.g||0} <br> 👟 ASSIST: ${p.a||0} <br> 👑 MVP: ${p.mvp||0} <br> ⭐ POTM: ${p.potm||0}`;
             document.getElementById('modal-player').style.display='flex';
         }
     </script>
