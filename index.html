@@ -28,26 +28,34 @@
         .btn-mod { background: #111; border: 1px solid var(--oro); color: var(--oro); padding: 8px 0; font-weight: bold; border-radius: 4px; font-size: 10px; cursor: pointer; }
         .btn-mod.active { background: var(--oro); color: #000; }
 
+        /* --- STILE CAMPO MIGLIORATO --- */
         #pitch { 
             width: 95%; aspect-ratio: 2/3; max-height: 70vh; margin: 0 auto; 
-            background: var(--erba-chiara); border: 3px solid white; position: relative; overflow: hidden; 
-            background-image: repeating-linear-gradient(0deg, var(--erba-scura), var(--erba-scura) 10%, var(--erba-chiara) 10%, var(--erba-chiara) 20%);
+            background: var(--erba-chiara); border: 4px solid white; position: relative; overflow: hidden; 
+            box-shadow: 0 0 25px rgba(0,0,0,0.5);
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                repeating-linear-gradient(0deg, var(--erba-scura), var(--erba-scura) 10%, var(--erba-chiara) 10%, var(--erba-chiara) 20%);
         }
         .p-line { position: absolute; border: 2px solid var(--linee); pointer-events: none; }
         .mid-line { top: 50%; width: 100%; height: 0; border-top: 2px solid var(--linee); }
-        .mid-circle { top: 50%; left: 50%; width: 22%; aspect-ratio: 1; border-radius: 50%; transform: translate(-50%, -50%); }
-        .mid-dot { top: 50%; left: 50%; width: 4px; height: 4px; background: white; border-radius: 50%; transform: translate(-50%, -50%); position: absolute; }
-        .box-large-top { top: -2px; left: 50%; width: 60%; height: 16%; transform: translateX(-50%); border-top: none; }
-        .box-small-top { top: -2px; left: 50%; width: 30%; height: 6%; transform: translateX(-50%); border-top: none; }
-        .arc-top { top: 12%; left: 50%; width: 20%; height: 8%; border: 2px solid var(--linee); border-radius: 50%; transform: translateX(-50%); clip-path: inset(50% 0 0 0); }
-        .box-large-bot { bottom: -2px; left: 50%; width: 60%; height: 16%; transform: translateX(-50%); border-bottom: none; }
-        .box-small-bot { bottom: -2px; left: 50%; width: 30%; height: 6%; transform: translateX(-50%); border-bottom: none; }
-        .arc-bot { bottom: 12%; left: 50%; width: 20%; height: 8%; border: 2px solid var(--linee); border-radius: 50%; transform: translateX(-50%); clip-path: inset(0 0 50% 0); }
-        .penalty-dot-top { top: 11%; left: 50%; width: 4px; height: 4px; background: white; border-radius: 50%; transform: translateX(-50%); position: absolute; }
-        .penalty-dot-bot { bottom: 11%; left: 50%; width: 4px; height: 4px; background: white; border-radius: 50%; transform: translateX(-50%); position: absolute; }
+        .mid-circle { top: 50%; left: 50%; width: 25%; aspect-ratio: 1; border-radius: 50%; transform: translate(-50%, -50%); }
+        .mid-dot { top: 50%; left: 50%; width: 6px; height: 6px; background: white; border-radius: 50%; transform: translate(-50%, -50%); position: absolute; }
+        .box-large-top { top: -2px; left: 50%; width: 66%; height: 16%; transform: translateX(-50%); border-top: none; }
+        .box-small-top { top: -2px; left: 50%; width: 32%; height: 6%; transform: translateX(-50%); border-top: none; }
+        .arc-top { top: 12.5%; left: 50%; width: 22%; height: 7%; border: 2px solid var(--linee); border-radius: 50%; transform: translateX(-50%); clip-path: inset(50% 0 0 0); }
+        .box-large-bot { bottom: -2px; left: 50%; width: 66%; height: 16%; transform: translateX(-50%); border-bottom: none; }
+        .box-small-bot { bottom: -2px; left: 50%; width: 32%; height: 6%; transform: translateX(-50%); border-bottom: none; }
+        .arc-bot { bottom: 12.5%; left: 50%; width: 22%; height: 7%; border: 2px solid var(--linee); border-radius: 50%; transform: translateX(-50%); clip-path: inset(0 0 50% 0); }
+        .penalty-dot-top { top: 11%; left: 50%; width: 5px; height: 5px; background: white; border-radius: 50%; transform: translateX(-50%); position: absolute; }
+        .penalty-dot-bot { bottom: 11%; left: 50%; width: 5px; height: 5px; background: white; border-radius: 50%; transform: translateX(-50%); position: absolute; }
+        .corner { position: absolute; width: 14px; height: 14px; border: 2px solid var(--linee); border-radius: 50%; }
+        .c-tl { top: -8px; left: -8px; } .c-tr { top: -8px; right: -8px; }
+        .c-bl { bottom: -8px; left: -8px; } .c-br { bottom: -8px; right: -8px; }
 
-        .player { position: absolute; width: 54px; text-align: center; cursor: move; z-index: 100; touch-action: none; }
-        .jersey { width: 44px; height: 44px; background: #000; border: 3px solid var(--rosso); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; margin: 0 auto; color: var(--oro); font-size: 18px; position: relative; }
+        .player { position: absolute; width: 54px; text-align: center; cursor: move; z-index: 100; touch-action: none; transition: transform 0.1s; }
+        .player:active { transform: scale(1.1); z-index: 1000; }
+        .jersey { width: 44px; height: 44px; background: #000; border: 3px solid var(--rosso); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; margin: 0 auto; color: var(--oro); font-size: 18px; position: relative; box-shadow: 0 4px 8px rgba(0,0,0,0.4); }
         .badge-icon { position: absolute; top: -8px; right: -8px; font-size: 16px; background: rgba(0,0,0,0.8); border-radius: 50%; padding: 2px; }
         .p-name { background: rgba(0,0,0,0.85); font-size: 11px; padding: 2px 6px; border-radius: 10px; margin-top: 4px; display: inline-block; font-weight: bold; text-transform: uppercase; color: white; }
 
@@ -106,6 +114,8 @@
         <div id="p-tattica" class="page">
             <div class="mod-grid" id="mod-btns"></div>
             <div id="pitch">
+                <div class="corner c-tl"></div><div class="corner c-tr"></div>
+                <div class="corner c-bl"></div><div class="corner c-br"></div>
                 <div class="p-line mid-line"></div>
                 <div class="p-line mid-circle"><div class="mid-dot"></div></div>
                 <div class="p-line box-large-top"></div>
@@ -240,7 +250,6 @@
             let hR="", hA="", hMk="", hP="", hMatch="", hNews="", hMod="", hCal="";
             const activeAdm = document.getElementById('active-admin').value;
 
-            // Logica Badge
             let maxMedia = -1, topPlayerId = null;
             let maxMvp = -1, kingId = null;
             let maxDefMedia = -1, wallId = null;
