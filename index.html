@@ -28,24 +28,57 @@
         .btn-mod { background: #111; border: 1px solid var(--oro); color: var(--oro); padding: 8px 0; font-weight: bold; border-radius: 4px; font-size: 10px; cursor: pointer; }
         .btn-mod.active { background: var(--oro); color: #000; }
 
-        /* --- STILE DEL CAMPO DA GIOCO MODIFICATO --- */
+        /* --- STILE DEL CAMPO DA GIOCO FIXATO --- */
         #pitch { 
-            width: 95%; aspect-ratio: 2/3; max-height: 70vh; margin: 0 auto; 
-            background: var(--erba-chiara); border: 3px solid white; position: relative; overflow: hidden; 
-            background-image: repeating-linear-gradient(0deg, var(--erba-scura), var(--erba-scura) 10%, var(--erba-chiara) 10%, var(--erba-chiara) 20%);
+            width: 95% !important; 
+            aspect-ratio: 2/3 !important; 
+            max-height: 72vh !important; 
+            margin: 0 auto !important; 
+            background: #2e7d32 !important; 
+            border: 3px solid #fff !important; 
+            position: relative !important; 
+            overflow: hidden !important; 
+            background-image: repeating-linear-gradient(0deg, #1b5e20, #1b5e20 10%, #2e7d32 10%, #2e7d32 20%) !important;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.3) !important;
         }
-        .p-line { position: absolute; border: 2px solid var(--linee); pointer-events: none; }
-        .mid-line { top: 50%; width: 100%; height: 0; border-top: 2px solid var(--linee); }
-        .mid-circle { top: 50%; left: 50%; width: 22%; aspect-ratio: 1; border-radius: 50%; transform: translate(-50%, -50%); }
-        .mid-dot { top: 50%; left: 50%; width: 4px; height: 4px; background: white; border-radius: 50%; transform: translate(-50%, -50%); position: absolute; }
-        .box-large-top { top: -2px; left: 50%; width: 60%; height: 16%; transform: translateX(-50%); border-top: none; }
-        .box-small-top { top: -2px; left: 50%; width: 30%; height: 6%; transform: translateX(-50%); border-top: none; }
-        .arc-top { top: 12%; left: 50%; width: 20%; height: 8%; border: 2px solid var(--linee); border-radius: 50%; transform: translateX(-50%); clip-path: inset(50% 0 0 0); }
-        .box-large-bot { bottom: -2px; left: 50%; width: 60%; height: 16%; transform: translateX(-50%); border-bottom: none; }
-        .box-small-bot { bottom: -2px; left: 50%; width: 30%; height: 6%; transform: translateX(-50%); border-bottom: none; }
-        .arc-bot { bottom: 12%; left: 50%; width: 20%; height: 8%; border: 2px solid var(--linee); border-radius: 50%; transform: translateX(-50%); clip-path: inset(0 0 50% 0); }
-        .penalty-dot-top { top: 11%; left: 50%; width: 4px; height: 4px; background: white; border-radius: 50%; transform: translateX(-50%); position: absolute; }
-        .penalty-dot-bot { bottom: 11%; left: 50%; width: 4px; height: 4px; background: white; border-radius: 50%; transform: translateX(-50%); position: absolute; }
+
+        .p-line { position: absolute !important; border: 2px solid rgba(255,255,255,0.9) !important; pointer-events: none; }
+
+        .mid-line { top: 50% !important; width: 100% !important; height: 0 !important; border-top: 2px solid #fff !important; }
+        .mid-circle { top: 50% !important; left: 50% !important; width: 25% !important; aspect-ratio: 1 !important; border: 2px solid #fff !important; border-radius: 50% !important; transform: translate(-50%, -50%) !important; }
+        .mid-dot { top: 50% !important; left: 50% !important; width: 6px !important; height: 6px !important; background: #fff !important; border-radius: 50% !important; transform: translate(-50%, -50%) !important; position: absolute !important; }
+
+        .box-large-top { top: -2px !important; left: 50% !important; width: 66% !important; height: 18% !important; transform: translateX(-50%) !important; border-top: none !important; }
+        .box-small-top { top: -2px !important; left: 50% !important; width: 32% !important; height: 6% !important; transform: translateX(-50%) !important; border-top: none !important; }
+        .penalty-dot-top { top: 13% !important; left: 50% !important; width: 5px !important; height: 5px !important; background: #fff !important; border-radius: 50% !important; transform: translateX(-50%) !important; position: absolute !important; }
+
+        .arc-top { 
+            top: 18% !important; 
+            left: 50% !important; 
+            width: 25% !important; 
+            height: 10% !important; 
+            border: 2px solid rgba(255,255,255,0.9) !important; 
+            border-radius: 0 0 50% 50% / 0 0 100% 100% !important; 
+            transform: translateX(-50%) !important; 
+            border-top: none !important; 
+            position: absolute !important; 
+        }
+
+        .box-large-bot { bottom: -2px !important; left: 50% !important; width: 66% !important; height: 18% !important; transform: translateX(-50%) !important; border-bottom: none !important; }
+        .box-small-bot { bottom: -2px !important; left: 50% !important; width: 32% !important; height: 6% !important; transform: translateX(-50%) !important; border-bottom: none !important; }
+        .penalty-dot-bot { bottom: 13% !important; left: 50% !important; width: 5px !important; height: 5px !important; background: #fff !important; border-radius: 50% !important; transform: translateX(-50%) !important; position: absolute !important; }
+
+        .arc-bot { 
+            bottom: 18% !important; 
+            left: 50% !important; 
+            width: 25% !important; 
+            height: 10% !important; 
+            border: 2px solid rgba(255,255,255,0.9) !important; 
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0 !important; 
+            transform: translateX(-50%) !important; 
+            border-bottom: none !important; 
+            position: absolute !important; 
+        }
 
         .player { position: absolute; width: 54px; text-align: center; cursor: move; z-index: 100; touch-action: none; }
         .jersey { width: 44px; height: 44px; background: #000; border: 3px solid var(--rosso); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; margin: 0 auto; color: var(--oro); font-size: 18px; position: relative; }
@@ -108,7 +141,8 @@
             <div class="mod-grid" id="mod-btns"></div>
             <div id="pitch">
                 <div class="p-line mid-line"></div>
-                <div class="p-line mid-circle"><div class="mid-dot"></div></div>
+                <div class="p-line mid-circle"></div>
+                <div class="mid-dot"></div>
                 <div class="p-line box-large-top"></div>
                 <div class="p-line box-small-top"></div>
                 <div class="arc-top"></div>
