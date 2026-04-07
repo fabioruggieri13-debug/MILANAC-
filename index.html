@@ -53,38 +53,39 @@
         .badge-icon { position: absolute; top: -8px; right: -8px; font-size: 16px; background: rgba(0,0,0,0.8); border-radius: 50%; padding: 2px; }
         .p-name { background: rgba(0,0,0,0.85); font-size: 11px; padding: 2px 6px; border-radius: 10px; margin-top: 4px; display: inline-block; font-weight: bold; text-transform: uppercase; color: white; }
 
-        /* --- SEZIONE ROSA AGGIORNATA PER ESSERE IDENTICA AL MOCKUP --- */
+        /* --- STILE CARD AGGIORNATO (DORATO E NUMERO IN ALTO A DESTRA) --- */
         .card { 
-            background: #111111; 
+            background: linear-gradient(145deg, #1a1a1a 0%, #080808 100%); 
             padding: 15px; 
             margin-bottom: 12px; 
-            border: 1px solid #222; 
+            border: 1px solid rgba(212, 175, 55, 0.4); 
             border-radius: 20px; 
             position: relative; 
             overflow: hidden; 
             display: flex;
             flex-direction: column;
             min-height: 140px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5), inset 0 0 15px rgba(212, 175, 55, 0.05);
         }
         .bg-number {
             position: absolute;
-            right: -10px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 180px; 
+            right: 15px;
+            top: 10px;
+            font-size: 45px; 
             font-weight: 900;
-            color: rgba(212, 175, 55, 0.08); 
+            color: var(--oro); 
+            opacity: 0.3;
             z-index: 0;
             pointer-events: none;
-            font-family: 'Arial Black', 'Orbitron', sans-serif; 
+            font-family: 'Arial Black', sans-serif; 
             line-height: 1;
+            font-style: italic;
         }
         .card-left { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; justify-content: center; }
         
-        .role-badge { color: #888; font-weight: 400; font-size: 20px; text-transform: uppercase; }
+        .role-badge { color: var(--oro); font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
         .player-name-new { font-size: 28px; font-weight: 900; color: white; margin: 2px 0; text-transform: uppercase; }
-        .player-sub { color: var(--oro); font-size: 14px; font-weight: 600; display: block; }
+        .player-sub { color: #888; font-size: 14px; font-weight: 600; display: block; }
 
         .card-right { position: relative; z-index: 2; margin-top: 10px; display: flex; gap: 10px; }
 
@@ -342,17 +343,14 @@
                 if(p.id === topPlayerId && maxMedia > 6) bIcons += "🔥";
                 if(p.id === wallId && maxDefMedia > 6) bIcons += "🧱";
 
-                // --- PLAYER CARD AGGIORNATA ---
                 const playerCard = `
                 <div class="card" onclick="openP(${p.id})">
                     <div class="bg-number">${p.m}</div>
-                    
                     <div class="card-left">
                         <span class="role-badge">${p.r}</span>
                         <span class="player-name-new">${p.n} ${bIcons}</span>
                         <span class="player-sub">Media: ${media} | Pos: ${p.r}</span>
                     </div>
-
                     <div class="card-right">
                         <button class="btn-status" 
                             style="background:${p.convocato ? '#2e7d32' : '#222'}; color: white; border: ${p.convocato ? 'none' : '1px solid #444'}">
@@ -366,14 +364,9 @@
                     </div>
                 </div>`;
 
-                if(window.viewMode === 'all') {
-                    listaSemplice += playerCard;
-                } else if(window.viewMode === 'roles') {
-                    if(gruppi[p.r] !== undefined) gruppi[p.r] += playerCard;
-                    else gruppi['ATT'] += playerCard;
-                } else if(window.viewMode === p.r) {
-                    listaSemplice += playerCard; 
-                }
+                if(window.viewMode === 'all') { listaSemplice += playerCard; } 
+                else if(window.viewMode === 'roles') { if(gruppi[p.r] !== undefined) gruppi[p.r] += playerCard; else gruppi['ATT'] += playerCard; } 
+                else if(window.viewMode === p.r) { listaSemplice += playerCard; }
                 
                 hMk += `<div class="card" style="display:flex"><b>${p.n}</b> <span style="float:right; color:var(--oro)">€${(10+(media-6)*5+(p.g||0)*2).toFixed(1)}M</span></div>`;
                 hP += `<div class="card" style="display:flex"><b>${p.n}</b> <span style="float:right">👑 ${p.mvp||0} | ⭐ ${p.potm||0}</span></div>`;
@@ -423,23 +416,14 @@
             });
 
             if(window.viewMode === 'roles') {
-                ruoliOrdine.forEach(r => {
-                    if(gruppi[r]) hR += `<h4 style="color:var(--oro); border-bottom:1px solid #333; padding-bottom:5px; margin:20px 0 10px 0; text-transform:uppercase; font-size:12px; letter-spacing:1px;">${r}</h4>` + gruppi[r];
-                });
-            } else {
-                hR += listaSemplice;
-            }
+                ruoliOrdine.forEach(r => { if(gruppi[r]) hR += `<h4 style="color:var(--oro); border-bottom:1px solid #333; padding-bottom:5px; margin:20px 0 10px 0; text-transform:uppercase; font-size:12px; letter-spacing:1px;">${r}</h4>` + gruppi[r]; });
+            } else { hR += listaSemplice; }
 
             (data.matches || []).forEach((m,idx) => { hMatch += `<div class="card" style="display:flex"><b>${m.d}</b>: ${m.ris} vs ${m.avv} <button style="background:none; border:none; float:right" onclick="data.matches.splice(${idx},1); sync()">🗑️</button></div>`; });
             (data.news || []).forEach((n,idx) => { hNews += `<div class="card" style="display:block"><small>${n.d}</small><p>${n.txt}</p><button style="background:none; border:none; color:red" onclick="data.news.splice(${idx},1); sync()">🗑️ Elimina</button></div>`; });
-            
             (data.calendar || []).forEach((c,idx) => {
-                const dateObj = new Date(c.dt);
-                const formatData = dateObj.toLocaleDateString() + " ore " + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                hCal += `<div class="card" style="display:flex">
-                    <div><span style="color:var(--oro)">${formatData}</span><br><b>${c.avv}</b></div>
-                    <button style="background:none; border:none; float:right; color:red" onclick="data.calendar.splice(${idx},1); sync()">🗑️</button>
-                </div>`;
+                const dateObj = new Date(c.dt); const formatData = dateObj.toLocaleDateString() + " ore " + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                hCal += `<div class="card" style="display:flex"><div><span style="color:var(--oro)">${formatData}</span><br><b>${c.avv}</b></div><button style="background:none; border:none; float:right; color:red" onclick="data.calendar.splice(${idx},1); sync()">🗑️</button></div>`;
             });
 
             document.getElementById('l-rosa').innerHTML = hR; document.getElementById('l-admin').innerHTML = hA;
@@ -449,22 +433,15 @@
 
             const pl = document.getElementById('pitch-players'); pl.innerHTML = "";
             data.ps.filter(p => p.convocato).forEach(p => {
-                let pBadge = "";
-                if(p.id === kingId && maxMvp > 0) pBadge = "👑";
-                else if(p.id === topPlayerId && maxMedia > 6.5) pBadge = "🔥";
-                else if(p.id === wallId && maxDefMedia > 6) pBadge = "🧱";
-
+                let pBadge = ""; if(p.id === kingId && maxMvp > 0) pBadge = "👑"; else if(p.id === topPlayerId && maxMedia > 6.5) pBadge = "🔥"; else if(p.id === wallId && maxDefMedia > 6) pBadge = "🧱";
                 const d = document.createElement('div'); d.className = 'player'; d.style.left = p.x + "%"; d.style.top = p.y + "%";
                 d.innerHTML = `<div class="jersey">${p.m}${pBadge ? `<span class="badge-icon">${pBadge}</span>` : ''}</div><div class="p-name">${p.n}</div>`;
                 d.onclick = () => openP(p.id);
-                let isD = false;
-                const start = () => isD = true;
+                let isD = false; const start = () => isD = true;
                 const move = (e) => {
-                    if (!isD) return;
-                    const rect = document.getElementById('pitch').getBoundingClientRect();
+                    if (!isD) return; const rect = document.getElementById('pitch').getBoundingClientRect();
                     const t = e.touches ? e.touches[0] : e;
-                    p.x = ((t.clientX - rect.left) / rect.width) * 100 - 7;
-                    p.y = ((t.clientY - rect.top) / rect.height) * 100 - 5;
+                    p.x = ((t.clientX - rect.left) / rect.width) * 100 - 7; p.y = ((t.clientY - rect.top) / rect.height) * 100 - 5;
                     d.style.left = p.x + "%"; d.style.top = p.y + "%";
                 };
                 const end = () => { if(isD) { isD = false; sync(); } };
