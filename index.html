@@ -53,33 +53,51 @@
         .badge-icon { position: absolute; top: -8px; right: -8px; font-size: 16px; background: rgba(0,0,0,0.8); border-radius: 50%; padding: 2px; }
         .p-name { background: rgba(0,0,0,0.85); font-size: 11px; padding: 2px 6px; border-radius: 10px; margin-top: 4px; display: inline-block; font-weight: bold; text-transform: uppercase; color: white; }
 
-        /* NUOVO STILE CARD AGGIORNATO */
+        /* STILE AGGIORNATO PER EFFETTO 3D E LAYOUT A DUE COLONNE */
         .card { 
-            background: linear-gradient(135deg, #111 0%, #050505 100%); 
+            background: linear-gradient(145deg, #151515, #050505); 
             padding: 20px; 
             margin-bottom: 15px; 
-            border: 1px solid rgba(212, 175, 55, 0.3); 
-            border-radius: 12px; 
+            border: 1px solid rgba(212, 175, 55, 0.2); 
+            border-radius: 15px; 
             position: relative; 
             overflow: hidden; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
         }
         .bg-number {
             position: absolute;
-            right: -5px;
-            bottom: -15px;
-            font-size: 100px;
+            right: -15px;
+            bottom: -25px;
+            font-size: 140px; 
             font-weight: 900;
             font-style: italic;
-            color: rgba(212, 175, 55, 0.07);
+            color: rgba(212, 175, 55, 0.06); 
             z-index: 0;
             pointer-events: none;
-            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-family: 'Arial Black', sans-serif; 
+            line-height: 1;
         }
-        .card-content { position: relative; z-index: 1; }
-        .role-badge { color: var(--oro); font-weight: 900; font-size: 12px; letter-spacing: 1px; margin-bottom: 4px; display: block; }
-        .player-name-new { font-size: 20px; font-weight: bold; color: white; display: block; margin-bottom: 2px; }
-        .player-sub { color: #888; font-size: 13px; margin-bottom: 12px; display: block; }
+        .card-left { position: relative; z-index: 1; flex: 1; }
+        .card-right { position: relative; z-index: 2; margin-left: 10px; }
+
+        .role-badge { color: var(--oro); font-weight: 800; font-size: 14px; text-transform: uppercase; display: block; margin-bottom: 2px; }
+        .player-name-new { font-size: 24px; font-weight: 900; color: white; margin: 0; display: block; }
+        .player-sub { color: #888; font-size: 14px; display: block; margin-top: 2px; }
+
+        .btn-status { 
+            padding: 12px 20px; 
+            border-radius: 10px; 
+            border: none; 
+            font-weight: 900; 
+            font-size: 12px; 
+            text-transform: uppercase;
+            cursor: pointer;
+            min-width: 110px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
 
         .btn-main { width: 100%; padding: 14px; background: var(--rosso); color: white; border: none; font-weight: bold; border-radius: 6px; text-transform: uppercase; cursor: pointer; }
         input, select, textarea { width: 100%; padding: 12px; margin: 5px 0; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 4px; box-sizing: border-box; }
@@ -123,7 +141,7 @@
     <div class="container">
         <div id="p-news" class="page">
             <h2 style="color:var(--oro)">NEWS & COMUNICATI</h2>
-            <div class="card">
+            <div class="card" style="display:block;">
                 <textarea id="news-text" placeholder="Nuovo comunicato..."></textarea>
                 <button class="btn-main" onclick="addNews()">PUBBLICA</button>
             </div>
@@ -155,7 +173,7 @@
 
         <div id="p-calendario" class="page">
             <h3 style="color:var(--oro)">CALENDARIO PROSSIME PARTITE</h3>
-            <div class="card">
+            <div class="card" style="display:block;">
                 <input type="text" id="cal-avv" placeholder="Avversario">
                 <input type="datetime-local" id="cal-data">
                 <button class="btn-main" onclick="addCalendarEvent()">AGGIUNGI A CALENDARIO</button>
@@ -167,7 +185,7 @@
 
         <div id="p-partite" class="page">
             <h3>RISULTATI PARTITE</h3>
-            <div class="card">
+            <div class="card" style="display:block;">
                 <input type="text" id="m-avv" placeholder="Avversario">
                 <input type="text" id="m-ris" placeholder="Risultato">
                 <button class="btn-main" onclick="addMatch()">AGGIUNGI RISULTATO</button>
@@ -178,7 +196,7 @@
         <div id="p-premi" class="page"><h3>HALL OF FAME</h3><div id="l-premi"></div></div>
         
         <div id="p-admin" class="page">
-            <div class="card">
+            <div class="card" style="display:block;">
                 <h3>PANNELLO ADMIN</h3>
                 <label>Admin Corrente:</label>
                 <select id="active-admin" onchange="render()">
@@ -323,16 +341,20 @@
                 if(p.id === topPlayerId && maxMedia > 6) bIcons += "🔥";
                 if(p.id === wallId && maxDefMedia > 6) bIcons += "🧱";
 
-                // --- NUOVA PLAYER CARD STILE MOCKUP ---
+                // --- PLAYER CARD ESATTAMENTE COME IL MOCKUP ---
                 const playerCard = `
                 <div class="card" onclick="openP(${p.id})">
                     <div class="bg-number">${p.m}</div>
-                    <div class="card-content">
+                    
+                    <div class="card-left">
                         <span class="role-badge">${p.r}</span>
                         <span class="player-name-new">${p.n} ${bIcons}</span>
-                        <span class="player-sub">Num. Maglia <b>${p.m}</b> | Media: <b>${media}</b></span>
-                        <button class="btn-main" 
-                            style="width:auto; padding:8px 15px; font-size:12px; border-radius:8px; background:${p.convocato ? '#2e7d32' : '#333'}" 
+                        <span class="player-sub">Num. Maglia ${p.m} | Media: ${media}</span>
+                    </div>
+
+                    <div class="card-right">
+                        <button class="btn-status" 
+                            style="background:${p.convocato ? '#2e7d32' : '#C61C23'}; color: white;" 
                             onclick="event.stopPropagation(); const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">
                             ${p.convocato ? 'IN CAMPO' : 'SCHIERA'}
                         </button>
@@ -348,10 +370,10 @@
                     listaSemplice += playerCard; 
                 }
                 
-                hMk += `<div class="card"><b>${p.n}</b> <span style="float:right; color:var(--oro)">€${(10+(media-6)*5+(p.g||0)*2).toFixed(1)}M</span></div>`;
-                hP += `<div class="card"><b>${p.n}</b> <span style="float:right">👑 ${p.mvp||0} | ⭐ ${p.potm||0}</span></div>`;
+                hMk += `<div class="card" style="display:flex"><b>${p.n}</b> <span style="float:right; color:var(--oro)">€${(10+(media-6)*5+(p.g||0)*2).toFixed(1)}M</span></div>`;
+                hP += `<div class="card" style="display:flex"><b>${p.n}</b> <span style="float:right">👑 ${p.mvp||0} | ⭐ ${p.potm||0}</span></div>`;
                 
-                hA += `<div class="card">
+                hA += `<div class="card" style="display:block">
                     <b>${p.n}</b> <button style="color:red; float:right; border:none; background:none;" onclick="if(confirm('Eliminare?')){data.ps=data.ps.filter(x=>x.id!==${p.id}); sync()}">🗑️ ELIMINA</button>
                     <div class="vote-control">
                         <button class="btn-v btn-minus" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].v_adm['${activeAdm}']=Math.max(0,data.ps[i].v_adm['${activeAdm}']-0.5); sync()">-</button>
@@ -403,15 +425,14 @@
                 hR += listaSemplice;
             }
 
-            (data.matches || []).forEach((m,idx) => { hMatch += `<div class="card"><b>${m.d}</b>: ${m.ris} vs ${m.avv} <button style="background:none; border:none; float:right" onclick="data.matches.splice(${idx},1); sync()">🗑️</button></div>`; });
-            (data.news || []).forEach((n,idx) => { hNews += `<div class="card"><small>${n.d}</small><p>${n.txt}</p><button style="background:none; border:none; color:red" onclick="data.news.splice(${idx},1); sync()">🗑️ Elimina</button></div>`; });
+            (data.matches || []).forEach((m,idx) => { hMatch += `<div class="card" style="display:flex"><b>${m.d}</b>: ${m.ris} vs ${m.avv} <button style="background:none; border:none; float:right" onclick="data.matches.splice(${idx},1); sync()">🗑️</button></div>`; });
+            (data.news || []).forEach((n,idx) => { hNews += `<div class="card" style="display:block"><small>${n.d}</small><p>${n.txt}</p><button style="background:none; border:none; color:red" onclick="data.news.splice(${idx},1); sync()">🗑️ Elimina</button></div>`; });
             
             (data.calendar || []).forEach((c,idx) => {
                 const dateObj = new Date(c.dt);
                 const formatData = dateObj.toLocaleDateString() + " ore " + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                hCal += `<div class="card">
-                    <span style="color:var(--oro)">${formatData}</span><br>
-                    <b>${c.avv}</b>
+                hCal += `<div class="card" style="display:flex">
+                    <div><span style="color:var(--oro)">${formatData}</span><br><b>${c.avv}</b></div>
                     <button style="background:none; border:none; float:right; color:red" onclick="data.calendar.splice(${idx},1); sync()">🗑️</button>
                 </div>`;
             });
