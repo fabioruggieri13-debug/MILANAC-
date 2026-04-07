@@ -270,11 +270,18 @@
             }
             modSelect.value = data.mod;
 
-            // --- GESTIONE VISUALIZZAZIONE ROSA ---
+            // --- GESTIONE VISUALIZZAZIONE ROSA (MENU A TENDINA) ---
             if(!window.viewMode) window.viewMode = 'roles'; 
-            hR = `<div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                <button onclick="window.viewMode='all'; render()" style="flex:1; padding:8px; font-size:11px; background:${window.viewMode==='all'?'var(--oro)':'#222'}; color:${window.viewMode==='all'?'black':'white'}; border:1px solid var(--oro); border-radius:5px; font-weight:bold;">TUTTI</button>
-                <button onclick="window.viewMode='roles'; render()" style="flex:1; padding:8px; font-size:11px; background:${window.viewMode==='roles'?'var(--oro)':'#222'}; color:${window.viewMode==='roles'?'black':'white'}; border:1px solid var(--oro); border-radius:5px; font-weight:bold;">PER RUOLO</button>
+            hR = `<div class="mod-selector-container">
+                <span class="mod-label">Visualizza:</span>
+                <select onchange="window.viewMode=this.value; render()" style="flex-grow:1; background:#222; color:white; border:1px solid #444; padding:8px; border-radius:4px; font-weight:bold;">
+                    <option value="all" ${window.viewMode==='all'?'selected':''}>TUTTI (Lista Unica)</option>
+                    <option value="roles" ${window.viewMode==='roles'?'selected':''}>DIVISI PER RUOLO</option>
+                    <option value="POR" ${window.viewMode==='POR'?'selected':''}>SOLO PORTIERI</option>
+                    <option value="DIF" ${window.viewMode==='DIF'?'selected':''}>SOLO DIFENSORI</option>
+                    <option value="CEN" ${window.viewMode==='CEN'?'selected':''}>SOLO CENTROCAMPISTI</option>
+                    <option value="ATT" ${window.viewMode==='ATT'?'selected':''}>SOLO ATTACCANTI</option>
+                </select>
             </div>`;
 
             const ruoliOrdine = ['POR', 'DIF', 'CEN', 'ATT'];
@@ -296,27 +303,26 @@
                     <button class="btn-main" style="width:auto; padding:5px 10px; margin-top:5px; background:${p.convocato?'green':'#333'}" onclick="event.stopPropagation(); const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">${p.convocato?'IN CAMPO':'SCHIERA'}</button>
                 </div>`;
 
-                if(window.viewMode === 'roles') {
+                // Logica del Filtro
+                if(window.viewMode === 'all') {
+                    listaSemplice += playerCard;
+                } else if(window.viewMode === 'roles') {
                     if(gruppi[p.r] !== undefined) gruppi[p.r] += playerCard;
                     else gruppi['ATT'] += playerCard;
-                } else {
-                    listaSemplice += playerCard;
+                } else if(window.viewMode === p.r) {
+                    listaSemplice += playerCard; 
                 }
                 
-                // Generazione Mercato e Premi (indipendente dalla vista Rosa)
                 hMk += `<div class="card"><b>${p.n}</b> <span style="float:right; color:var(--oro)">€${(10+(media-6)*5+(p.g||0)*2).toFixed(1)}M</span></div>`;
                 hP += `<div class="card"><b>${p.n}</b> <span style="float:right">👑 ${p.mvp||0} | ⭐ ${p.potm||0}</span></div>`;
                 
-                // Pannello Admin
                 hA += `<div class="card">
                     <b>${p.n}</b> <button style="color:red; float:right; border:none; background:none;" onclick="if(confirm('Eliminare?')){data.ps=data.ps.filter(x=>x.id!==${p.id}); sync()}">🗑️ ELIMINA</button>
-                    
                     <div class="vote-control">
                         <button class="btn-v btn-minus" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].v_adm['${activeAdm}']=Math.max(0,data.ps[i].v_adm['${activeAdm}']-0.5); sync()">-</button>
                         <span class="v-val" style="color:var(--oro)">${p.v_adm[activeAdm]}</span>
                         <button class="btn-v btn-plus" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].v_adm['${activeAdm}']+=0.5; sync()">+</button>
                     </div>
-
                     <div class="stat-row">
                         <span>⚽ ${p.g||0} | 👟 ${p.a||0}</span> 
                         <div style="display: flex; gap: 5px;">
@@ -330,7 +336,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="stat-row">
                         <span>🟨 ${p.yl||0} | 🟥 ${p.rd||0}</span>
                         <div style="display: flex; gap: 5px;">
@@ -344,7 +349,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="stat-row" style="border-top: 1px solid #333; margin-top: 8px; padding-top: 8px;">
                         <span>🏆 MVP: ${p.mvp||0} | ⭐ POTM: ${p.potm||0}</span>
                         <div style="display: flex; gap: 2px;">
@@ -356,7 +360,6 @@
                 </div>`;
             });
 
-            // Assemblaggio Rosa finale
             if(window.viewMode === 'roles') {
                 ruoliOrdine.forEach(r => {
                     if(gruppi[r]) hR += `<h4 style="color:var(--oro); border-bottom:1px solid #333; padding-bottom:5px; margin:20px 0 10px 0; text-transform:uppercase; font-size:12px; letter-spacing:1px;">${r}</h4>` + gruppi[r];
