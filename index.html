@@ -6,13 +6,12 @@
     <title>MILANAC PRO CLUB</title>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root { --rosso: #C61C23; --oro: #D4AF37; --nero: #000; --erba-scura: #1b5e20; --erba-chiara: #2e7d32; --linee: rgba(255,255,255,0.9); }
         body { margin: 0; background: var(--nero); color: white; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; touch-action: none; }
         
         #intro { position: fixed; inset: 0; background: radial-gradient(circle at center, #200000 0%, #000 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; animation: heartBeatBg 2s infinite; }
-        .pulsing-title { font-size: 4rem; font-weight: 900; text-transform: uppercase; font-family: 'Orbitron', sans-serif; animation: colorPulse 3s infinite alternate, heartBeatText 2s infinite; }
+        .pulsing-title { font-size: 4rem; font-weight: 900; text-transform: uppercase; animation: colorPulse 3s infinite alternate, heartBeatText 2s infinite; }
         @keyframes colorPulse { 0% { color: var(--oro); text-shadow: 0 0 15px var(--oro); } 100% { color: var(--rosso); text-shadow: 0 0 15px var(--rosso); } }
         @keyframes heartBeatText { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.1); } }
         @keyframes heartBeatBg { 0%, 100% { background: radial-gradient(circle at center, #200000 0%, #000 100%); } 15% { background: radial-gradient(circle at center, #400000 0%, #000 100%); } }
@@ -54,51 +53,50 @@
         .badge-icon { position: absolute; top: -8px; right: -8px; font-size: 16px; background: rgba(0,0,0,0.8); border-radius: 50%; padding: 2px; }
         .p-name { background: rgba(0,0,0,0.85); font-size: 11px; padding: 2px 6px; border-radius: 10px; margin-top: 4px; display: inline-block; font-weight: bold; text-transform: uppercase; color: white; }
 
-        /* NUOVA SEZIONE ROSA AGGIORNATA */
+        /* --- SEZIONE ROSA AGGIORNATA PER ESSERE IDENTICA AL MOCKUP --- */
         .card { 
-            background: linear-gradient(145deg, #151515, #050505); 
-            padding: 22px 20px; 
-            margin-bottom: 15px; 
-            border: 1px solid rgba(212, 175, 55, 0.2); 
-            border-radius: 18px; 
+            background: #111111; 
+            padding: 15px; 
+            margin-bottom: 12px; 
+            border: 1px solid #222; 
+            border-radius: 20px; 
             position: relative; 
             overflow: hidden; 
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            flex-direction: column;
+            min-height: 140px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
         .bg-number {
             position: absolute;
             right: -10px;
-            bottom: -35px;
-            font-size: 160px; 
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 180px; 
             font-weight: 900;
-            font-style: italic;
-            font-family: 'Orbitron', sans-serif;
-            background: linear-gradient(to bottom, rgba(212, 175, 55, 0.08), transparent);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: rgba(212, 175, 55, 0.08); 
             z-index: 0;
             pointer-events: none;
+            font-family: 'Arial Black', 'Orbitron', sans-serif; 
             line-height: 1;
         }
-        .card-left { position: relative; z-index: 1; flex: 1; }
-        .card-right { position: relative; z-index: 2; margin-left: 10px; }
+        .card-left { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        
+        .role-badge { color: #888; font-weight: 400; font-size: 20px; text-transform: uppercase; }
+        .player-name-new { font-size: 28px; font-weight: 900; color: white; margin: 2px 0; text-transform: uppercase; }
+        .player-sub { color: var(--oro); font-size: 14px; font-weight: 600; display: block; }
 
-        .role-badge { color: var(--oro); font-weight: 800; font-size: 14px; text-transform: uppercase; display: block; letter-spacing: 1px; }
-        .player-name-new { font-size: 26px; font-weight: 900; color: white; margin: 2px 0; display: block; text-transform: uppercase; }
-        .player-sub { color: #888; font-size: 13px; display: block; font-weight: 600; text-transform: uppercase; }
+        .card-right { position: relative; z-index: 2; margin-top: 10px; display: flex; gap: 10px; }
 
         .btn-status { 
-            padding: 14px 20px; 
-            border-radius: 12px; 
+            flex: 1;
+            padding: 12px; 
+            border-radius: 10px; 
             border: none; 
             font-weight: 900; 
-            font-size: 11px; 
+            font-size: 13px; 
             text-transform: uppercase;
             cursor: pointer;
-            min-width: 110px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
@@ -125,7 +123,7 @@
     </div>
 
     <header>
-        <div style="font-family:'Orbitron'; font-weight:900; color:var(--rosso); font-size:22px;">MILANAC</div>
+        <div style="font-weight:900; color:var(--rosso); font-size:22px;">MILANAC</div>
         <div onclick="document.querySelector('.sidebar').classList.add('active')" style="font-size:30px; cursor:pointer; color:var(--rosso)">☰</div>
     </header>
 
@@ -220,7 +218,7 @@
 
     <div id="modal-player" onclick="this.style.display='none'">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <h2 id="m-nome" style="color:var(--oro); font-family: 'Orbitron';"></h2>
+            <h2 id="m-nome" style="color:var(--oro)"></h2>
             <div id="m-stats"></div>
         </div>
     </div>
@@ -344,7 +342,7 @@
                 if(p.id === topPlayerId && maxMedia > 6) bIcons += "🔥";
                 if(p.id === wallId && maxDefMedia > 6) bIcons += "🧱";
 
-                // --- CARD ROSA AGGIORNATA ---
+                // --- PLAYER CARD AGGIORNATA ---
                 const playerCard = `
                 <div class="card" onclick="openP(${p.id})">
                     <div class="bg-number">${p.m}</div>
@@ -352,14 +350,18 @@
                     <div class="card-left">
                         <span class="role-badge">${p.r}</span>
                         <span class="player-name-new">${p.n} ${bIcons}</span>
-                        <span class="player-sub">Num. Maglia ${p.m} | Media: ${media}</span>
+                        <span class="player-sub">Media: ${media} | Pos: ${p.r}</span>
                     </div>
 
                     <div class="card-right">
                         <button class="btn-status" 
-                            style="background:${p.convocato ? '#2e7d32' : '#C61C23'}; color: white;" 
+                            style="background:${p.convocato ? '#2e7d32' : '#222'}; color: white; border: ${p.convocato ? 'none' : '1px solid #444'}">
+                            IN CAMPO
+                        </button>
+                        <button class="btn-status" 
+                            style="background:#C61C23; color: white;" 
                             onclick="event.stopPropagation(); const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">
-                            ${p.convocato ? 'IN CAMPO' : 'SCHIERA'}
+                            SCHIERA
                         </button>
                     </div>
                 </div>`;
@@ -422,9 +424,11 @@
 
             if(window.viewMode === 'roles') {
                 ruoliOrdine.forEach(r => {
-                    if(gruppi[r]) hR += `<h4 style="color:var(--oro); border-bottom:1px solid #333; padding-bottom:5px; margin:20px 0 10px 0; text-transform:uppercase; font-size:12px; letter-spacing:1px; font-family: 'Orbitron';">${r}</h4>` + gruppi[r];
+                    if(gruppi[r]) hR += `<h4 style="color:var(--oro); border-bottom:1px solid #333; padding-bottom:5px; margin:20px 0 10px 0; text-transform:uppercase; font-size:12px; letter-spacing:1px;">${r}</h4>` + gruppi[r];
                 });
-            } else { hR += listaSemplice; }
+            } else {
+                hR += listaSemplice;
+            }
 
             (data.matches || []).forEach((m,idx) => { hMatch += `<div class="card" style="display:flex"><b>${m.d}</b>: ${m.ris} vs ${m.avv} <button style="background:none; border:none; float:right" onclick="data.matches.splice(${idx},1); sync()">🗑️</button></div>`; });
             (data.news || []).forEach((n,idx) => { hNews += `<div class="card" style="display:block"><small>${n.d}</small><p>${n.txt}</p><button style="background:none; border:none; color:red" onclick="data.news.splice(${idx},1); sync()">🗑️ Elimina</button></div>`; });
