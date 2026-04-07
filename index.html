@@ -181,6 +181,7 @@
         const firebaseConfig = { apiKey: "AIzaSyDbO_AxHKz1avQpYscoSSLpEfmFaL8MRGg", authDomain: "milanac-proclub.firebaseapp.com", projectId: "milanac-proclub", storageBucket: "milanac-proclub.firebasestorage.app", messagingSenderId: "61702234008", appId: "1:61702234008:web:aa597d8600d0a8251895ed" };
         firebase.initializeApp(firebaseConfig); const db = firebase.firestore();
         let data = { ps: [], mod: '4-4-2', matches: [], news: [], calendar: [] };
+        
         const PASS = "milanac"; 
 
         const modali = {
@@ -292,31 +293,39 @@
                     </div>
 
                     <div class="stat-row">
-                        <span>⚽ Goal: ${p.g||0} | 👟 Assist: ${p.a||0}</span> 
-                        <div>
-                            <button class="btn-v btn-minus" onclick="updateStat(${p.id},'g',-1)">-</button>
-                            <button class="btn-v btn-plus" onclick="updateStat(${p.id},'g',1)">⚽+</button>
-                            <button class="btn-v btn-minus" style="margin-left:8px" onclick="updateStat(${p.id},'a',-1)">-</button>
-                            <button class="btn-v btn-plus" onclick="updateStat(${p.id},'a',1)">👟+</button>
+                        <span>⚽ ${p.g||0} | 👟 ${p.a||0}</span> 
+                        <div style="display: flex; gap: 5px;">
+                            <div style="display: flex; align-items: center; background: #222; border-radius: 5px; padding: 2px;">
+                                <button class="btn-v btn-minus" onclick="updateStat(${p.id},'g',-1)">-</button>
+                                <button class="btn-v btn-plus" onclick="updateStat(${p.id},'g',1)">⚽+</button>
+                            </div>
+                            <div style="display: flex; align-items: center; background: #222; border-radius: 5px; padding: 2px;">
+                                <button class="btn-v btn-minus" onclick="updateStat(${p.id},'a',-1)">-</button>
+                                <button class="btn-v btn-plus" onclick="updateStat(${p.id},'a',1)">👟+</button>
+                            </div>
                         </div>
                     </div>
 
                     <div class="stat-row">
-                        <span>🟨: ${p.yl||0} | 🟥: ${p.rd||0}</span>
-                        <div>
-                            <button class="btn-v btn-minus" onclick="updateStat(${p.id},'yl',-1)">-</button>
-                            <button class="btn-v" style="background:gold; color:black" onclick="updateStat(${p.id},'yl',1)">🟨+</button>
-                            <button class="btn-v btn-minus" style="margin-left:8px" onclick="updateStat(${p.id},'rd',-1)">-</button>
-                            <button class="btn-v" style="background:red; color:white" onclick="updateStat(${p.id},'rd',1)">🟥+</button>
+                        <span>🟨 ${p.yl||0} | 🟥 ${p.rd||0}</span>
+                        <div style="display: flex; gap: 5px;">
+                            <div style="display: flex; align-items: center; background: #222; border-radius: 5px; padding: 2px;">
+                                <button class="btn-v btn-minus" onclick="updateStat(${p.id},'yl',-1)">-</button>
+                                <button class="btn-v" style="background:gold; color:black; width:32px; height:32px; border-radius:5px; border:none; font-weight:bold;" onclick="updateStat(${p.id},'yl',1)">🟨+</button>
+                            </div>
+                            <div style="display: flex; align-items: center; background: #222; border-radius: 5px; padding: 2px;">
+                                <button class="btn-v btn-minus" onclick="updateStat(${p.id},'rd',-1)">-</button>
+                                <button class="btn-v" style="background:red; color:white; width:32px; height:32px; border-radius:5px; border:none; font-weight:bold;" onclick="updateStat(${p.id},'rd',1)">🟥+</button>
+                            </div>
                         </div>
                     </div>
 
                     <div class="stat-row" style="border-top: 1px solid #333; margin-top: 8px; padding-top: 8px;">
                         <span>🏆 MVP: ${p.mvp||0} | ⭐ POTM: ${p.potm||0}</span>
-                        <div>
-                            <button class="btn-v" style="background:var(--oro); color:black; margin-right:2px" onclick="updateStat(${p.id},'mvp',1)">🏆+</button>
+                        <div style="display: flex; gap: 2px;">
+                            <button class="btn-v" style="background:var(--oro); color:black" onclick="updateStat(${p.id},'mvp',1)">🏆+</button>
                             <button class="btn-v" style="background:white; color:black" onclick="updateStat(${p.id},'potm',1)">⭐+</button>
-                            <button class="btn-v" style="background:#444; margin-left:2px" onclick="updateStat(${p.id},'mvp',-1);updateStat(${p.id},'potm',-1);updateStat(${p.id},'g',-1);updateStat(${p.id},'a',-1);updateStat(${p.id},'yl',-1);updateStat(${p.id},'rd',-1)">↺</button>
+                            <button class="btn-v" style="background:#444;" onclick="updateStat(${p.id},'mvp',-1);updateStat(${p.id},'potm',-1);updateStat(${p.id},'g',-1);updateStat(${p.id},'a',-1);updateStat(${p.id},'yl',-1);updateStat(${p.id},'rd',-1)">↺</button>
                         </div>
                     </div>
                 </div>`;
@@ -324,10 +333,15 @@
 
             (data.matches || []).forEach((m,idx) => { hMatch += `<div class="card"><b>${m.d}</b>: ${m.ris} vs ${m.avv} <button style="background:none; border:none; float:right" onclick="data.matches.splice(${idx},1); sync()">🗑️</button></div>`; });
             (data.news || []).forEach((n,idx) => { hNews += `<div class="card"><small>${n.d}</small><p>${n.txt}</p><button style="background:none; border:none; color:red" onclick="data.news.splice(${idx},1); sync()">🗑️ Elimina</button></div>`; });
+            
             (data.calendar || []).forEach((c,idx) => {
                 const dateObj = new Date(c.dt);
                 const formatData = dateObj.toLocaleDateString() + " ore " + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                hCal += `<div class="card"><span style="color:var(--oro)">${formatData}</span><br><b>${c.avv}</b><button style="background:none; border:none; float:right; color:red" onclick="data.calendar.splice(${idx},1); sync()">🗑️</button></div>`;
+                hCal += `<div class="card">
+                    <span style="color:var(--oro)">${formatData}</span><br>
+                    <b>${c.avv}</b>
+                    <button style="background:none; border:none; float:right; color:red" onclick="data.calendar.splice(${idx},1); sync()">🗑️</button>
+                </div>`;
             });
 
             document.getElementById('l-rosa').innerHTML = hR; document.getElementById('l-admin').innerHTML = hA;
@@ -341,10 +355,12 @@
                 if(p.id === kingId && maxMvp > 0) pBadge = "👑";
                 else if(p.id === topPlayerId && maxMedia > 6.5) pBadge = "🔥";
                 else if(p.id === wallId && maxDefMedia > 6) pBadge = "🧱";
+
                 const d = document.createElement('div'); d.className = 'player'; d.style.left = p.x + "%"; d.style.top = p.y + "%";
                 d.innerHTML = `<div class="jersey">${p.m}${pBadge ? `<span class="badge-icon">${pBadge}</span>` : ''}</div><div class="p-name">${p.n}</div>`;
                 d.onclick = () => openP(p.id);
-                let isD = false; const start = () => isD = true;
+                let isD = false;
+                const start = () => isD = true;
                 const move = (e) => {
                     if (!isD) return;
                     const rect = document.getElementById('pitch').getBoundingClientRect();
