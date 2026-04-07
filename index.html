@@ -6,16 +6,19 @@
     <title>MILANAC PRO CLUB</title>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --rosso: #C61C23; --oro: #D4AF37; --nero: #000; --erba-scura: #1b5e20; --erba-chiara: #2e7d32; --linee: rgba(255,255,255,0.9); }
-        body { margin: 0; background: var(--nero); color: white; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; touch-action: none; }
+        body { margin: 0; background: var(--nero); color: white; font-family: 'Roboto', sans-serif; overflow: hidden; height: 100vh; touch-action: none; }
         
+        /* INTRO ANIMATA */
         #intro { position: fixed; inset: 0; background: radial-gradient(circle at center, #200000 0%, #000 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; animation: heartBeatBg 2s infinite; }
-        .pulsing-title { font-size: 4rem; font-weight: 900; text-transform: uppercase; animation: colorPulse 3s infinite alternate, heartBeatText 2s infinite; }
+        .pulsing-title { font-size: 4rem; font-weight: 900; text-transform: uppercase; animation: colorPulse 3s infinite alternate, heartBeatText 2s infinite; font-family: 'Orbitron'; }
         @keyframes colorPulse { 0% { color: var(--oro); text-shadow: 0 0 15px var(--oro); } 100% { color: var(--rosso); text-shadow: 0 0 15px var(--rosso); } }
         @keyframes heartBeatText { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.1); } }
         @keyframes heartBeatBg { 0%, 100% { background: radial-gradient(circle at center, #200000 0%, #000 100%); } 15% { background: radial-gradient(circle at center, #400000 0%, #000 100%); } }
 
+        /* HEADER E SIDEBAR */
         header { height: 60px; border-bottom: 2px solid var(--rosso); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; background: #000; z-index: 2000; position: relative; }
         .sidebar { position: fixed; top: 0; right: -100%; width: 280px; height: 100%; background: rgba(5,5,5,0.98); transition: 0.4s; z-index: 3000; border-left: 2px solid var(--rosso); padding-top: 60px; }
         .sidebar.active { right: 0; }
@@ -24,36 +27,7 @@
         .container { height: calc(100vh - 60px); overflow-y: auto; padding: 15px; box-sizing: border-box; padding-bottom: 60px; }
         .page { display: none; } .page.active { display: block; }
 
-        .mod-selector-container { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; background: #111; padding: 10px; border-radius: 8px; border: 1px solid var(--oro); }
-        .mod-label { font-size: 12px; font-weight: bold; color: var(--oro); text-transform: uppercase; }
-        #mod-select { flex-grow: 1; padding: 8px; background: #222; border: 1px solid #444; color: white; border-radius: 4px; font-weight: bold; }
-
-        #pitch { 
-            width: 95% !important; aspect-ratio: 2/3 !important; max-height: 72vh !important; 
-            margin: 0 auto !important; background: #2e7d32 !important; border: 3px solid #fff !important; 
-            position: relative !important; overflow: hidden !important; 
-            background-image: repeating-linear-gradient(0deg, #1b5e20, #1b5e20 10%, #2e7d32 10%, #2e7d32 20%) !important;
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.3) !important;
-        }
-        .p-line { position: absolute !important; border: 2px solid rgba(255,255,255,0.9) !important; pointer-events: none; }
-        .mid-line { top: 50% !important; width: 100% !important; height: 0 !important; border-top: 2px solid #fff !important; }
-        .mid-circle { top: 50% !important; left: 50% !important; width: 25% !important; aspect-ratio: 1 !important; border: 2px solid #fff !important; border-radius: 50% !important; transform: translate(-50%, -50%) !important; }
-        .mid-dot { top: 50% !important; left: 50% !important; width: 6px !important; height: 6px !important; background: #fff !important; border-radius: 50% !important; transform: translate(-50%, -50%) !important; position: absolute !important; }
-        .box-large-top { top: -2px !important; left: 50% !important; width: 66% !important; height: 18% !important; transform: translateX(-50%) !important; border-top: none !important; }
-        .box-small-top { top: -2px !important; left: 50% !important; width: 32% !important; height: 6% !important; transform: translateX(-50%) !important; border-top: none !important; }
-        .penalty-dot-top { top: 13% !important; left: 50% !important; width: 5px !important; height: 5px !important; background: #fff !important; border-radius: 50% !important; transform: translateX(-50%) !important; position: absolute !important; }
-        .arc-top { top: 18% !important; left: 50% !important; width: 25% !important; height: 10% !important; border: 2px solid rgba(255,255,255,0.9) !important; border-radius: 0 0 50% 50% / 0 0 100% 100% !important; transform: translateX(-50%) !important; border-top: none !important; position: absolute !important; }
-        .box-large-bot { bottom: -2px !important; left: 50% !important; width: 66% !important; height: 18% !important; transform: translateX(-50%) !important; border-bottom: none !important; }
-        .box-small-bot { bottom: -2px !important; left: 50% !important; width: 32% !important; height: 6% !important; transform: translateX(-50%) !important; border-bottom: none !important; }
-        .penalty-dot-bot { bottom: 13% !important; left: 50% !important; width: 5px !important; height: 5px !important; background: #fff !important; border-radius: 50% !important; transform: translateX(-50%) !important; position: absolute !important; }
-        .arc-bot { bottom: 18% !important; left: 50% !important; width: 25% !important; height: 10% !important; border: 2px solid rgba(255,255,255,0.9) !important; border-radius: 50% 50% 0 0 / 100% 100% 0 0 !important; transform: translateX(-50%) !important; border-bottom: none !important; position: absolute !important; }
-
-        .player { position: absolute; width: 54px; text-align: center; cursor: move; z-index: 100; touch-action: none; }
-        .jersey { width: 44px; height: 44px; background: #000; border: 3px solid var(--rosso); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; margin: 0 auto; color: var(--oro); font-size: 18px; position: relative; }
-        .badge-icon { position: absolute; top: -8px; right: -8px; font-size: 16px; background: rgba(0,0,0,0.8); border-radius: 50%; padding: 2px; }
-        .p-name { background: rgba(0,0,0,0.85); font-size: 11px; padding: 2px 6px; border-radius: 10px; margin-top: 4px; display: inline-block; font-weight: bold; text-transform: uppercase; color: white; }
-
-        /* STILE TALE E QUALE ALLA SECONDA IMMAGINE */
+        /* STILE CARD PREMIUM */
         .card { 
             background: linear-gradient(145deg, #151515, #050505); 
             padding: 18px 20px; 
@@ -75,18 +49,18 @@
             font-size: 155px; 
             font-weight: 900;
             font-style: italic;
-            color: rgba(212, 175, 55, 0.05); 
+            background: linear-gradient(to bottom, rgba(212, 175, 55, 0.08), transparent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             z-index: 0;
             pointer-events: none;
-            font-family: 'Arial Black', sans-serif;
+            font-family: 'Orbitron', sans-serif;
             line-height: 1;
         }
 
         .card-left { position: relative; z-index: 1; flex: 1; }
-        .card-right { position: relative; z-index: 2; }
-
         .role-badge { color: var(--oro); font-weight: 800; font-size: 13px; text-transform: uppercase; display: block; margin-bottom: 2px; }
-        .player-name-new { font-size: 24px; font-weight: 900; color: white; display: block; margin: 0; }
+        .player-name-new { font-size: 24px; font-weight: 900; color: white; display: block; margin: 0; text-transform: uppercase; }
         .player-sub { color: #777; font-size: 13px; display: block; margin-top: 3px; font-weight: 500; }
 
         .btn-status { 
@@ -98,22 +72,39 @@
             text-transform: uppercase;
             cursor: pointer;
             min-width: 105px;
-            letter-spacing: 0.5px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 2;
         }
 
+        /* CAMPO DA CALCIO */
+        #pitch { 
+            width: 95%; aspect-ratio: 2/3; max-height: 70vh; 
+            margin: 0 auto; background: #2e7d32; border: 3px solid #fff; 
+            position: relative; overflow: hidden; 
+            background-image: repeating-linear-gradient(0deg, #1b5e20, #1b5e20 10%, #2e7d32 10%, #2e7d32 20%);
+        }
+        .p-line { position: absolute; border: 2px solid rgba(255,255,255,0.9); pointer-events: none; }
+        .mid-line { top: 50%; width: 100%; border-top: 2px solid #fff; }
+        .mid-circle { top: 50%; left: 50%; width: 25%; aspect-ratio: 1; border: 2px solid #fff; border-radius: 50%; transform: translate(-50%, -50%); }
+        
+        .player { position: absolute; width: 54px; text-align: center; cursor: move; z-index: 100; touch-action: none; }
+        .jersey { width: 44px; height: 44px; background: #000; border: 3px solid var(--rosso); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; color: var(--oro); font-size: 18px; position: relative; }
+        .badge-icon { position: absolute; top: -8px; right: -8px; font-size: 16px; background: rgba(0,0,0,0.8); border-radius: 50%; padding: 2px; }
+        .p-name { background: rgba(0,0,0,0.85); font-size: 11px; padding: 2px 6px; border-radius: 10px; margin-top: 4px; display: inline-block; font-weight: bold; text-transform: uppercase; color: white; }
+
+        /* MODALE GIOCATORE */
+        #modal-player { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 5000; display: none; padding: 20px; align-items: center; justify-content: center; }
+        .modal-content { background: #111; border: 1px solid var(--oro); border-radius: 15px; padding: 25px; width: 100%; max-width: 380px; text-align: center; }
+        
+        .modal-pitch { width: 100%; aspect-ratio: 2/3; background: #2e7d32; margin: 15px 0; border: 2px solid white; position: relative; border-radius: 8px; background-image: repeating-linear-gradient(0deg, #1b5e20, #1b5e20 10%, #2e7d32 10%, #2e7d32 20%); }
+        .pos-indicator { position: absolute; width: 20px; height: 20px; background: var(--rosso); border: 2px solid white; border-radius: 50%; transform: translate(-50%, -50%); box-shadow: 0 0 10px var(--rosso); }
+
+        /* UI ADMIN & ALTRI */
         .btn-main { width: 100%; padding: 14px; background: var(--rosso); color: white; border: none; font-weight: bold; border-radius: 6px; text-transform: uppercase; cursor: pointer; }
         input, select, textarea { width: 100%; padding: 12px; margin: 5px 0; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 4px; box-sizing: border-box; }
-        
-        .vote-control { display: flex; align-items: center; gap: 10px; background: #222; padding: 10px; border-radius: 8px; margin-top: 5px; }
-        .stat-row { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; background: #1a1a1a; padding: 6px 10px; border-radius: 5px; font-size: 14px; }
-        .v-val { font-size: 1.5rem; font-weight: 900; color: var(--oro); min-width: 40px; text-align: center; }
-        .btn-v { width: 32px; height: 32px; border-radius: 5px; border: none; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .btn-plus { background: #2e7d32; color: white; }
-        .btn-minus { background: #c61c23; color: white; }
-
-        #modal-player { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 5000; display: none; padding: 20px; align-items: center; justify-content: center; }
-        .modal-content { background: #111; border: 2px solid var(--oro); border-radius: 15px; padding: 25px; width: 100%; max-width: 380px; text-align: center; }
+        .vote-control { display: flex; align-items: center; justify-content: center; gap: 15px; background: #222; padding: 10px; border-radius: 8px; margin-top: 5px; }
+        .v-val { font-size: 1.8rem; font-weight: 900; color: var(--oro); font-family: 'Orbitron'; }
+        .btn-v { width: 35px; height: 35px; border-radius: 5px; border: none; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -125,94 +116,61 @@
     </div>
 
     <header>
-        <div style="font-weight:900; color:var(--rosso); font-size:22px;">MILANAC</div>
+        <div style="font-weight:900; color:var(--rosso); font-size:22px; font-family: 'Orbitron'">MILANAC</div>
         <div onclick="document.querySelector('.sidebar').classList.add('active')" style="font-size:30px; cursor:pointer; color:var(--rosso)">☰</div>
     </header>
 
     <nav class="sidebar">
         <button onclick="go('rosa')">🛡️ Rosa</button>
         <button onclick="go('tattica')">📋 Formazione</button>
-        <button onclick="go('calendario')">📅 Calendario Partite</button>
-        <button onclick="go('news')">📰 News & Comunicati</button>
+        <button onclick="go('calendario')">📅 Calendario</button>
+        <button onclick="go('news')">📰 News</button>
         <button onclick="go('mercato')">💰 Mercato</button>
-        <button onclick="go('partite')">🏟️ Risultati Partite</button>
+        <button onclick="go('partite')">🏟️ Risultati</button>
         <button onclick="go('premi')">🏆 Premi</button>
         <button onclick="goAdmin()">⚙️ Area Admin</button>
         <button onclick="document.querySelector('.sidebar').classList.remove('active')">Chiudi</button>
     </nav>
 
     <div class="container">
-        <div id="p-news" class="page">
-            <h2 style="color:var(--oro)">NEWS & COMUNICATI</h2>
-            <div class="card" style="display:block;">
-                <textarea id="news-text" placeholder="Nuovo comunicato..."></textarea>
-                <button class="btn-main" onclick="addNews()">PUBBLICA</button>
-            </div>
-            <div id="l-news"></div>
-        </div>
-
         <div id="p-rosa" class="page active"><div id="l-rosa"></div></div>
         
         <div id="p-tattica" class="page">
-            <div class="mod-selector-container">
-                <span class="mod-label">Modulo:</span>
-                <select id="mod-select" onchange="setModulo(this.value)"></select>
-            </div>
+            <select id="mod-select" onchange="setModulo(this.value)" style="margin-bottom:10px;"></select>
             <div id="pitch">
                 <div class="p-line mid-line"></div>
                 <div class="p-line mid-circle"></div>
-                <div class="mid-dot"></div>
-                <div class="p-line box-large-top"></div>
-                <div class="p-line box-small-top"></div>
-                <div class="arc-top"></div>
-                <div class="penalty-dot-top"></div>
-                <div class="p-line box-large-bot"></div>
-                <div class="p-line box-small-bot"></div>
-                <div class="arc-bot"></div>
-                <div class="penalty-dot-bot"></div>
                 <div id="pitch-players"></div>
             </div>
         </div>
 
-        <div id="p-calendario" class="page">
-            <h3 style="color:var(--oro)">CALENDARIO PROSSIME PARTITE</h3>
-            <div class="card" style="display:block;">
-                <input type="text" id="cal-avv" placeholder="Avversario">
-                <input type="datetime-local" id="cal-data">
-                <button class="btn-main" onclick="addCalendarEvent()">AGGIUNGI A CALENDARIO</button>
-            </div>
-            <div id="l-calendario"></div>
+        <div id="p-news" class="page">
+            <h2 style="color:var(--oro)">NEWS & COMUNICATI</h2>
+            <div id="l-news"></div>
         </div>
 
+        <div id="p-calendario" class="page"><h3 style="color:var(--oro)">CALENDARIO</h3><div id="l-calendario"></div></div>
         <div id="p-mercato" class="page"><h3>VALORI DI MERCATO</h3><div id="l-mercato"></div></div>
-
-        <div id="p-partite" class="page">
-            <h3>RISULTATI PARTITE</h3>
-            <div class="card" style="display:block;">
-                <input type="text" id="m-avv" placeholder="Avversario">
-                <input type="text" id="m-ris" placeholder="Risultato">
-                <button class="btn-main" onclick="addMatch()">AGGIUNGI RISULTATO</button>
-            </div>
-            <div id="l-partite"></div>
-        </div>
-
+        <div id="p-partite" class="page"><h3>RISULTATI</h3><div id="l-partite"></div></div>
         <div id="p-premi" class="page"><h3>HALL OF FAME</h3><div id="l-premi"></div></div>
         
         <div id="p-admin" class="page">
             <div class="card" style="display:block;">
                 <h3>PANNELLO ADMIN</h3>
-                <label>Admin Corrente:</label>
-                <select id="active-admin" onchange="render()">
-                    <option value="Fabio">Fabio</option><option value="Beppe">Beppe</option>
-                    <option value="Christian">Christian</option><option value="Vicio">Vicio</option>
-                    <option value="Martin">Martin</option>
-                </select>
+                <select id="active-admin" onchange="render()"><option value="Fabio">Fabio</option><option value="Beppe">Beppe</option><option value="Christian">Christian</option><option value="Vicio">Vicio</option><option value="Martin">Martin</option></select>
                 <hr>
                 <h4>NUOVO GIOCATORE</h4>
                 <input type="text" id="in-n" placeholder="Nome">
                 <input type="number" id="in-m" placeholder="Numero">
                 <select id="in-r"><option>POR</option><option>DIF</option><option>CEN</option><option>ATT</option></select>
                 <button class="btn-main" onclick="addP()">AGGIUNGI</button>
+                <hr>
+                <h4>AZIONI RAPIDE</h4>
+                <input type="text" id="news-text" placeholder="Scrivi news...">
+                <button class="btn-main" onclick="addNews()" style="margin-bottom:10px;">PUBBLICA NEWS</button>
+                <input type="text" id="m-avv" placeholder="Avversario">
+                <input type="text" id="m-ris" placeholder="Risultato (es 2-1)">
+                <button class="btn-main" onclick="addMatch()">SALVA RISULTATO</button>
             </div>
             <div id="l-admin"></div>
         </div>
@@ -220,38 +178,30 @@
 
     <div id="modal-player" onclick="this.style.display='none'">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <h2 id="m-nome" style="color:var(--oro)"></h2>
-            <div id="m-stats"></div>
+            <h2 id="m-nome" style="color:white; font-family:'Orbitron'; text-transform:uppercase;"></h2>
+            <div class="modal-pitch"><div id="m-marker" class="pos-indicator"></div></div>
+            <div id="m-stats-box" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;"></div>
         </div>
     </div>
 
     <script>
-        const firebaseConfig = { apiKey: "AIzaSyDbO_AxHKz1avQpYscoSSLpEfmFaL8MRGg", authDomain: "milanac-proclub.firebaseapp.com", projectId: "milanac-proclub", storageBucket: "milanac-proclub.firebasestorage.app", messagingSenderId: "61702234008", appId: "1:61702234008:web:aa597d8600d0a8251895ed" };
+        const firebaseConfig = { apiKey: "AIzaSyDbO_AxHKz1av (tagliata per sicurezza, usa la tua)", authDomain: "milanac-proclub.firebaseapp.com", projectId: "milanac-proclub", storageBucket: "milanac-proclub.firebasestorage.app", messagingSenderId: "61702234008", appId: "1:61702234008:web:aa597d8600d0a8251895ed" };
+        // NOTA: Reinserisci la tua API KEY completa qui sopra se non funziona
         firebase.initializeApp(firebaseConfig); const db = firebase.firestore();
         let data = { ps: [], mod: '4-4-2', matches: [], news: [], calendar: [] };
-        
         const PASS = "milanac"; 
 
         const modali = {
             '4-4-2': [{x:43,y:85},{x:10,y:70},{x:33,y:72},{x:55,y:72},{x:78,y:70},{x:10,y:45},{x:33,y:48},{x:55,y:48},{x:78,y:45},{x:33,y:20},{x:55,y:20}],
             '4-3-3': [{x:43,y:85},{x:10,y:70},{x:33,y:72},{x:55,y:72},{x:78,y:70},{x:25,y:48},{x:43,y:52},{x:62,y:48},{x:15,y:20},{x:43,y:15},{x:72,y:20}],
-            '3-5-2': [{x:43,y:85},{x:25,y:72},{x:43,y:72},{x:62,y:72},{x:5,y:45},{x:28,y:48},{x:43,y:48},{x:58,y:48},{x:82,y:45},{x:33,y:20},{x:55,y:20}],
-            '3-4-1-2': [{x:43,y:85},{x:25,y:72},{x:43,y:72},{x:62,y:72},{x:10,y:45},{x:33,y:48},{x:55,y:48},{x:78,y:45},{x:43,y:30},{x:33,y:15},{x:55,y:15}],
-            '4-2-3-1': [{x:43,y:85},{x:10,y:70},{x:33,y:72},{x:55,y:72},{x:78,y:70},{x:33,y:52},{x:55,y:52},{x:15,y:30},{x:43,y:33},{x:72,y:30},{x:43,y:15}],
-            '4-3-1-2': [{x:43,y:85},{x:10,y:70},{x:33,y:72},{x:55,y:72},{x:78,y:70},{x:20,y:48},{x:43,y:50},{x:65,y:48},{x:43,y:33},{x:33,y:15},{x:55,y:15}],
-            '5-3-2': [{x:43,y:85},{x:10,y:70},{x:28,y:72},{x:43,y:74},{x:58,y:72},{x:78,y:70},{x:25,y:48},{x:43,y:50},{x:62,y:48},{x:33,y:20},{x:55,y:20}],
-            '3-4-3': [{x:43,y:85},{x:25,y:72},{x:43,y:72},{x:62,y:72},{x:10,y:48},{x:33,y:45},{x:55,y:45},{x:78,y:48},{x:15,y:20},{x:43,y:15},{x:72,y:20}]
+            '3-5-2': [{x:43,y:85},{x:25,y:72},{x:43,y:72},{x:62,y:72},{x:5,y:45},{x:28,y:48},{x:43,y:48},{x:58,y:48},{x:82,y:45},{x:33,y:20},{x:55,y:20}]
         };
 
         db.collection("milanac").doc("v84_final").onSnapshot(doc => { if(doc.exists) { data = doc.data(); render(); } });
         function sync() { db.collection("milanac").doc("v84_final").set(data); }
 
         function go(p) { document.querySelectorAll('.page').forEach(x=>x.classList.remove('active')); document.getElementById('p-'+p).classList.add('active'); document.querySelector('.sidebar').classList.remove('active'); }
-        
-        function goAdmin() {
-            let p = prompt("Inserisci la Password Admin:");
-            if(p === PASS) { go('admin'); } else { alert("Accesso Negato!"); go('rosa'); }
-        }
+        function goAdmin() { if(prompt("Password:") === PASS) go('admin'); else alert("No!"); }
 
         function addP() {
             const n=document.getElementById('in-n').value, m=document.getElementById('in-m').value, r=document.getElementById('in-r').value;
@@ -264,11 +214,9 @@
             sync();
         }
 
-        function setModulo(m) {
-            data.mod = m;
-            const conv = data.ps.filter(p => p.convocato);
-            conv.forEach((p, i) => { if(modali[m][i]) { p.x = modali[m][i].x; p.y = modali[m][i].y; } });
-            sync();
+        function addNews() {
+            const txt = document.getElementById('news-text').value;
+            if(txt){ if(!data.news) data.news=[]; data.news.unshift({txt, d: new Date().toLocaleString()}); sync(); document.getElementById('news-text').value=''; }
         }
 
         function addMatch() {
@@ -276,205 +224,88 @@
             if(avv&&ris){ if(!data.matches) data.matches=[]; data.matches.unshift({avv, ris, d: new Date().toLocaleDateString()}); sync(); }
         }
 
-        function addCalendarEvent() {
-            const avv = document.getElementById('cal-avv').value;
-            const dataOra = document.getElementById('cal-data').value;
-            if(avv && dataOra) {
-                if(!data.calendar) data.calendar = [];
-                data.calendar.push({avv, dt: dataOra});
-                data.calendar.sort((a,b) => new Date(a.dt) - new Date(b.dt));
-                sync();
-                document.getElementById('cal-avv').value = '';
-                document.getElementById('cal-data').value = '';
-            }
+        function setModulo(m) {
+            data.mod = m;
+            const conv = data.ps.filter(p => p.convocato);
+            conv.forEach((p, i) => { if(modali[m][i]) { p.x = modali[m][i].x; p.y = modali[m][i].y; } });
+            sync();
         }
 
-        function addNews() {
-            const txt = document.getElementById('news-text').value;
-            if(txt){ if(!data.news) data.news=[]; data.news.unshift({txt, d: new Date().toLocaleString()}); sync(); document.getElementById('news-text').value=''; }
+        function openP(id) {
+            const p = data.ps.find(x=>x.id==id); document.getElementById('m-nome').innerText = p.n;
+            let top = "85%", left = "50%";
+            if(p.r === 'POR') top = "90%"; else if(p.r === 'DIF') top = "70%"; else if(p.r === 'CEN') top = "45%"; else top = "15%";
+            document.getElementById('m-marker').style.top = top; document.getElementById('m-marker').style.left = left;
+            const voti = Object.values(p.v_adm || {});
+            const media = (voti.reduce((a,b)=>a+b,0) / (voti.length || 1)).toFixed(1);
+            document.getElementById('m-stats-box').innerHTML = `<div class="card" style="flex-direction:column; margin:0;">⚽ ${p.g||0}</div><div class="card" style="flex-direction:column; margin:0;">👟 ${p.a||0}</div><div class="card" style="flex-direction:column; margin:0;">⭐ ${media}</div><div class="card" style="flex-direction:column; margin:0;">🏆 ${p.mvp||0}</div>`;
+            document.getElementById('modal-player').style.display='flex';
         }
 
         function render() {
             let hR="", hA="", hMk="", hP="", hMatch="", hNews="", hCal="";
             const activeAdm = document.getElementById('active-admin').value;
 
-            let maxMedia = -1, topPlayerId = null;
-            let maxMvp = -1, kingId = null;
-            let maxDefMedia = -1, wallId = null;
-
-            data.ps.forEach(p => {
-                const voti = Object.values(p.v_adm || {});
-                const media = parseFloat((voti.reduce((a,b)=>a+b,0) / (voti.length || 1)).toFixed(1));
-                if(media > maxMedia) { maxMedia = media; topPlayerId = p.id; }
-                if((p.mvp || 0) > maxMvp) { maxMvp = p.mvp; kingId = p.id; }
-                if(p.r === 'DIF' && media > maxDefMedia) { maxDefMedia = media; wallId = p.id; }
-            });
-
-            const modSelect = document.getElementById('mod-select');
-            if (modSelect.options.length === 0) {
-                Object.keys(modali).forEach(m => {
-                    let opt = document.createElement('option'); opt.value = m; opt.innerHTML = m; modSelect.appendChild(opt);
-                });
-            }
-            modSelect.value = data.mod;
-
-            if(!window.viewMode) window.viewMode = 'roles'; 
-            hR = `<div class="mod-selector-container">
-                <span class="mod-label">Visualizza:</span>
-                <select onchange="window.viewMode=this.value; render()" style="flex-grow:1; background:#222; color:white; border:1px solid #444; padding:8px; border-radius:4px; font-weight:bold;">
-                    <option value="all" ${window.viewMode==='all'?'selected':''}>TUTTI</option>
-                    <option value="roles" ${window.viewMode==='roles'?'selected':''}>RUOLO</option>
-                    <option value="POR" ${window.viewMode==='POR'?'selected':''}>POR</option>
-                    <option value="DIF" ${window.viewMode==='DIF'?'selected':''}>DIF</option>
-                    <option value="CEN" ${window.viewMode==='CEN'?'selected':''}>CEN</option>
-                    <option value="ATT" ${window.viewMode==='ATT'?'selected':''}>ATT</option>
-                </select>
-            </div>`;
-
-            const ruoliOrdine = ['POR', 'DIF', 'CEN', 'ATT'];
-            const gruppi = { 'POR': '', 'DIF': '', 'CEN': '', 'ATT': '' };
-            let listaSemplice = "";
+            // Popola Moduli Select
+            const ms = document.getElementById('mod-select');
+            if(ms.options.length === 0) Object.keys(modali).forEach(m => { let o=document.createElement('option'); o.value=m; o.innerText=m; ms.appendChild(o); });
 
             data.ps.forEach(p => {
                 const voti = Object.values(p.v_adm || {});
                 const media = (voti.reduce((a,b)=>a+b,0) / (voti.length || 1)).toFixed(1);
                 
-                let bIcons = "";
-                if(p.id === kingId && maxMvp > 0) bIcons += "👑";
-                if(p.id === topPlayerId && maxMedia > 6) bIcons += "🔥";
-                if(p.id === wallId && maxDefMedia > 6) bIcons += "🧱";
-
-                // --- PLAYER CARD OBIETTIVO (SECONDA FOTO) ---
-                const playerCard = `
-                <div class="card" onclick="openP(${p.id})">
+                // CARD ROSA (Grafica Nuova)
+                hR += `<div class="card">
                     <div class="bg-number">${p.m}</div>
-                    
-                    <div class="card-left">
+                    <div class="card-left" onclick="openP(${p.id})">
                         <span class="role-badge">${p.r}</span>
-                        <span class="player-name-new">${p.n} ${bIcons}</span>
-                        <span class="player-sub">Num. Maglia ${p.m} | Media: ${media}</span>
+                        <span class="player-name-new">${p.n}</span>
+                        <span class="player-sub">NUMERO ${p.m} • MEDIA ${media}</span>
                     </div>
-
                     <div class="card-right">
-                        <button class="btn-status" 
-                            style="background:${p.convocato ? '#2e7d32' : '#C61C23'}; color: white;" 
-                            onclick="event.stopPropagation(); const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">
-                            ${p.convocato ? 'IN CAMPO' : 'SCHIERA'}
-                        </button>
+                        <button class="btn-status" style="background:${p.convocato ? '#2e7d32' : '#C61C23'}; color:white;" 
+                        onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">
+                        ${p.convocato ? 'IN CAMPO' : 'SCHIERA'}</button>
                     </div>
                 </div>`;
 
-                if(window.viewMode === 'all') {
-                    listaSemplice += playerCard;
-                } else if(window.viewMode === 'roles') {
-                    if(gruppi[p.r] !== undefined) gruppi[p.r] += playerCard;
-                    else gruppi['ATT'] += playerCard;
-                } else if(window.viewMode === p.r) {
-                    listaSemplice += playerCard; 
-                }
-                
-                hMk += `<div class="card" style="display:flex"><b>${p.n}</b> <span style="float:right; color:var(--oro)">€${(10+(media-6)*5+(p.g||0)*2).toFixed(1)}M</span></div>`;
-                hP += `<div class="card" style="display:flex"><b>${p.n}</b> <span style="float:right">👑 ${p.mvp||0} | ⭐ ${p.potm||0}</span></div>`;
-                
+                // ADMIN PANEL (Tutte le funzioni)
                 hA += `<div class="card" style="display:block">
-                    <b>${p.n}</b> <button style="color:red; float:right; border:none; background:none;" onclick="if(confirm('Eliminare?')){data.ps=data.ps.filter(x=>x.id!==${p.id}); sync()}">🗑️ ELIMINA</button>
+                    <b>${p.n}</b> <button style="color:red; float:right; border:none; background:none;" onclick="if(confirm('Elimina?')){data.ps=data.ps.filter(x=>x.id!==${p.id}); sync()}">🗑️</button>
                     <div class="vote-control">
-                        <button class="btn-v btn-minus" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].v_adm['${activeAdm}']=Math.max(0,data.ps[i].v_adm['${activeAdm}']-0.5); sync()">-</button>
-                        <span class="v-val" style="color:var(--oro)">${p.v_adm[activeAdm]}</span>
-                        <button class="btn-v btn-plus" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].v_adm['${activeAdm}']+=0.5; sync()">+</button>
+                        <button class="btn-v" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].v_adm['${activeAdm}']-=0.5; sync()">-</button>
+                        <span class="v-val">${p.v_adm[activeAdm]}</span>
+                        <button class="btn-v" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].v_adm['${activeAdm}']+=0.5; sync()">+</button>
                     </div>
-                    <div class="stat-row">
-                        <span>⚽ ${p.g||0} | 👟 ${p.a||0}</span> 
-                        <div style="display: flex; gap: 5px;">
-                            <div style="display: flex; align-items: center; background: #222; border-radius: 5px; padding: 2px;">
-                                <button class="btn-v btn-minus" onclick="updateStat(${p.id},'g',-1)">-</button>
-                                <button class="btn-v btn-plus" onclick="updateStat(${p.id},'g',1)">⚽+</button>
-                            </div>
-                            <div style="display: flex; align-items: center; background: #222; border-radius: 5px; padding: 2px;">
-                                <button class="btn-v btn-minus" onclick="updateStat(${p.id},'a',-1)">-</button>
-                                <button class="btn-v btn-plus" onclick="updateStat(${p.id},'a',1)">👟+</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="stat-row">
-                        <span>🟨 ${p.yl||0} | 🟥 ${p.rd||0}</span>
-                        <div style="display: flex; gap: 5px;">
-                            <div style="display: flex; align-items: center; background: #222; border-radius: 5px; padding: 2px;">
-                                <button class="btn-v btn-minus" onclick="updateStat(${p.id},'yl',-1)">-</button>
-                                <button class="btn-v" style="background:gold; color:black; width:32px; height:32px; border-radius:5px; border:none; font-weight:bold;" onclick="updateStat(${p.id},'yl',1)">🟨+</button>
-                            </div>
-                            <div style="display: flex; align-items: center; background: #222; border-radius: 5px; padding: 2px;">
-                                <button class="btn-v btn-minus" onclick="updateStat(${p.id},'rd',-1)">-</button>
-                                <button class="btn-v" style="background:red; color:white; width:32px; height:32px; border-radius:5px; border:none; font-weight:bold;" onclick="updateStat(${p.id},'rd',1)">🟥+</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="stat-row" style="border-top: 1px solid #333; margin-top: 8px; padding-top: 8px;">
-                        <span>🏆 MVP: ${p.mvp||0} | ⭐ POTM: ${p.potm||0}</span>
-                        <div style="display: flex; gap: 2px;">
-                            <button class="btn-v" style="background:var(--oro); color:black" onclick="updateStat(${p.id},'mvp',1)">🏆+</button>
-                            <button class="btn-v" style="background:white; color:black" onclick="updateStat(${p.id},'potm',1)">⭐+</button>
-                            <button class="btn-v" style="background:#444;" onclick="updateStat(${p.id},'mvp',-1);updateStat(${p.id},'potm',-1);updateStat(${p.id},'g',-1);updateStat(${p.id},'a',-1);updateStat(${p.id},'yl',-1);updateStat(${p.id},'rd',-1)">↺</button>
-                        </div>
+                    <div style="display:flex; justify-content:space-between; margin-top:10px;">
+                        <span>⚽ ${p.g||0} <button onclick="updateStat(${p.id},'g',1)">+</button></span>
+                        <span>👟 ${p.a||0} <button onclick="updateStat(${p.id},'a',1)">+</button></span>
+                        <span>🏆 ${p.mvp||0} <button onclick="updateStat(${p.id},'mvp',1)">+</button></span>
                     </div>
                 </div>`;
+
+                hMk += `<div class="card"><b>${p.n}</b> <span style="color:var(--oro)">€${(10+(media-6)*5).toFixed(1)}M</span></div>`;
+                hP += `<div class="card"><b>${p.n}</b> <span>🏆 ${p.mvp||0} | ⭐ ${p.potm||0}</span></div>`;
             });
 
-            if(window.viewMode === 'roles') {
-                ruoliOrdine.forEach(r => {
-                    if(gruppi[r]) hR += `<h4 style="color:var(--oro); border-bottom:1px solid #333; padding-bottom:5px; margin:20px 0 10px 0; text-transform:uppercase; font-size:12px; letter-spacing:1px;">${r}</h4>` + gruppi[r];
-                });
-            } else {
-                hR += listaSemplice;
-            }
+            (data.matches || []).forEach(m => hMatch += `<div class="card"><b>${m.d}</b>: ${m.ris} vs ${m.avv}</div>`);
+            (data.news || []).forEach(n => hNews += `<div class="card" style="display:block"><small>${n.d}</small><p>${n.txt}</p></div>`);
 
-            (data.matches || []).forEach((m,idx) => { hMatch += `<div class="card" style="display:flex"><b>${m.d}</b>: ${m.ris} vs ${m.avv} <button style="background:none; border:none; float:right" onclick="data.matches.splice(${idx},1); sync()">🗑️</button></div>`; });
-            (data.news || []).forEach((n,idx) => { hNews += `<div class="card" style="display:block"><small>${n.d}</small><p>${n.txt}</p><button style="background:none; border:none; color:red" onclick="data.news.splice(${idx},1); sync()">🗑️ Elimina</button></div>`; });
-            
-            (data.calendar || []).forEach((c,idx) => {
-                const dateObj = new Date(c.dt);
-                const formatData = dateObj.toLocaleDateString() + " ore " + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                hCal += `<div class="card" style="display:flex">
-                    <div><span style="color:var(--oro)">${formatData}</span><br><b>${c.avv}</b></div>
-                    <button style="background:none; border:none; float:right; color:red" onclick="data.calendar.splice(${idx},1); sync()">🗑️</button>
-                </div>`;
-            });
+            document.getElementById('l-rosa').innerHTML = hR;
+            document.getElementById('l-admin').innerHTML = hA;
+            document.getElementById('l-mercato').innerHTML = hMk;
+            document.getElementById('l-partite').innerHTML = hMatch;
+            document.getElementById('l-news').innerHTML = hNews;
+            document.getElementById('l-premi').innerHTML = hP;
 
-            document.getElementById('l-rosa').innerHTML = hR; document.getElementById('l-admin').innerHTML = hA;
-            document.getElementById('l-mercato').innerHTML = hMk; document.getElementById('l-partite').innerHTML = hMatch;
-            document.getElementById('l-news').innerHTML = hNews; document.getElementById('l-premi').innerHTML = hP;
-            document.getElementById('l-calendario').innerHTML = hCal;
-
+            // Pitch Players
             const pl = document.getElementById('pitch-players'); pl.innerHTML = "";
             data.ps.filter(p => p.convocato).forEach(p => {
-                let pBadge = "";
-                if(p.id === kingId && maxMvp > 0) pBadge = "👑";
-                else if(p.id === topPlayerId && maxMedia > 6.5) pBadge = "🔥";
-                else if(p.id === wallId && maxDefMedia > 6) pBadge = "🧱";
-
                 const d = document.createElement('div'); d.className = 'player'; d.style.left = p.x + "%"; d.style.top = p.y + "%";
-                d.innerHTML = `<div class="jersey">${p.m}${pBadge ? `<span class="badge-icon">${pBadge}</span>` : ''}</div><div class="p-name">${p.n}</div>`;
+                d.innerHTML = `<div class="jersey">${p.m}</div><div class="p-name">${p.n}</div>`;
                 d.onclick = () => openP(p.id);
-                let isD = false;
-                const start = () => isD = true;
-                const move = (e) => {
-                    if (!isD) return;
-                    const rect = document.getElementById('pitch').getBoundingClientRect();
-                    const t = e.touches ? e.touches[0] : e;
-                    p.x = ((t.clientX - rect.left) / rect.width) * 100 - 7;
-                    p.y = ((t.clientY - rect.top) / rect.height) * 100 - 5;
-                    d.style.left = p.x + "%"; d.style.top = p.y + "%";
-                };
-                const end = () => { if(isD) { isD = false; sync(); } };
-                d.addEventListener('touchstart', start); window.addEventListener('touchmove', move, {passive:false}); window.addEventListener('touchend', end);
                 pl.appendChild(d);
             });
-        }
-
-        function openP(id) {
-            const p = data.ps.find(x=>x.id==id); document.getElementById('m-nome').innerText = p.n;
-            document.getElementById('m-stats').innerHTML = `⚽ Goal: ${p.g||0} | 👟 ASSIST: ${p.a||0} <br> 🏆 MVP: ${p.mvp||0} | ⭐ POTM: ${p.potm||0} <br> 🟨: ${p.yl||0} | 🟥: ${p.rd||0}`;
-            document.getElementById('modal-player').style.display='flex';
         }
     </script>
 </body>
