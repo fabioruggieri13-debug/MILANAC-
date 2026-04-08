@@ -297,28 +297,85 @@
         .tactic-line { stroke: var(--oro); stroke-width: 1.5; stroke-dasharray: 4; opacity: 0.4; animation: dash 10s linear infinite; }
         @keyframes dash { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
 
-        .calendar-wrapper { background: #111; padding: 15px; border-radius: 15px; border: 1px solid var(--oro); margin-top: 10px; }
-        .calendar-header { display: flex; justify: center; margin-bottom: 10px; font-family: 'Oswald'; color: var(--oro); text-transform: uppercase; font-size: 18px; }
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
-        .calendar-day-label { text-align: center; font-size: 10px; color: #777; font-weight: bold; padding-bottom: 5px; }
+        /* --- STILI CALENDARIO MIGLIORATI --- */
+        .calendar-wrapper { 
+            background: linear-gradient(180deg, #111 0%, #050505 100%); 
+            padding: 20px; 
+            border-radius: 20px; 
+            border: 2px solid var(--oro); 
+            margin-top: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            position: relative;
+        }
+        .calendar-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            margin-bottom: 20px; 
+            font-family: 'Oswald'; 
+            color: var(--oro); 
+            text-transform: uppercase; 
+            font-size: 22px; 
+            letter-spacing: 2px;
+        }
+        .cal-nav-btn {
+            background: var(--rosso);
+            border: 1px solid var(--oro);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+        .cal-nav-btn:active { transform: scale(0.9); }
+
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+        .calendar-day-label { text-align: center; font-size: 11px; color: var(--oro); font-weight: bold; padding-bottom: 10px; font-family: 'Oswald'; }
         .calendar-cell { 
             aspect-ratio: 1; 
-            background: #1a1a1a; 
-            border-radius: 5px; 
+            background: rgba(255,255,255,0.03); 
+            border-radius: 12px; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
             justify-content: center; 
-            font-size: 12px; 
+            font-size: 14px; 
+            font-weight: bold;
             color: #fff;
             position: relative;
-            border: 1px solid #333;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
         }
-        .calendar-cell.has-event { background: rgba(198, 28, 35, 0.3); border: 1px solid var(--rosso); }
-        .calendar-cell.today { border: 1px solid var(--oro); box-shadow: 0 0 5px var(--oro); }
-        .event-dot { width: 5px; height: 5px; background: var(--oro); border-radius: 50%; margin-top: 2px; }
+        .calendar-cell.has-event { 
+            background: linear-gradient(135deg, rgba(198, 28, 35, 0.4) 0%, rgba(198, 28, 35, 0.1) 100%); 
+            border: 1px solid var(--rosso); 
+            box-shadow: 0 0 10px rgba(198, 28, 35, 0.3);
+        }
+        .calendar-cell.today { 
+            border: 2px solid var(--oro); 
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); 
+            background: rgba(212, 175, 55, 0.1);
+        }
+        .calendar-cell:active { transform: scale(0.95); background: rgba(255,255,255,0.15); }
         
-        .selected-event-info { margin-top: 15px; border-top: 1px solid #333; padding-top: 10px; }
+        .event-dot { 
+            width: 6px; 
+            height: 6px; 
+            background: var(--oro); 
+            border-radius: 50%; 
+            margin-top: 4px; 
+            box-shadow: 0 0 5px var(--oro);
+        }
+        
+        .selected-event-info { 
+            margin-top: 25px; 
+            border-top: 2px solid rgba(212, 175, 55, 0.3); 
+            padding-top: 15px; 
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -462,6 +519,9 @@
         let data = { ps: [], mod: '4-4-2', matches: [], news: [], calendar: [] };
         const PASS = "milanac"; 
 
+        // VARIABILI PER NAVIGAZIONE CALENDARIO
+        let viewDate = new Date(); 
+
         const modali = {
             '4-4-2': [{x:43,y:85},{x:10,y:70},{x:33,y:72},{x:55,y:72},{x:78,y:70},{x:10,y:45},{x:33,y:48},{x:55,y:48},{x:78,y:45},{x:33,y:20},{x:55,y:20}],
             '4-3-3': [{x:43,y:85},{x:10,y:70},{x:33,y:72},{x:55,y:72},{x:78,y:70},{x:25,y:48},{x:43,y:52},{x:62,y:48},{x:15,y:20},{x:43,y:15},{x:72,y:20}],
@@ -552,6 +612,12 @@
             }
         }
 
+        // FUNZIONI NAVIGAZIONE MESE
+        window.changeMonth = function(dir) {
+            viewDate.setMonth(viewDate.getMonth() + dir);
+            render();
+        };
+
         function render() {
             let hR="", hA="", hMk="", hP="", hMatch="", hNews="";
             const activeAdm = document.getElementById('active-admin').value;
@@ -603,18 +669,38 @@
             (data.matches || []).forEach((m,idx) => { hMatch += `<div class="card" style="display:flex"><b>${m.d}</b>: ${m.ris} vs ${m.avv} <button style="background:none; border:none; float:right" onclick="data.matches.splice(${idx},1); sync()">🗑️</button></div>`; });
             (data.news || []).forEach((n,idx) => { hNews += `<div class="card" style="display:block"><small>${n.d}</small><p>${n.txt}</p><button style="background:none; border:none; color:red" onclick="data.news.splice(${idx},1); sync()">🗑️ Elimina</button></div>`; });
             
-            const oraRef = new Date(); const meseCorrente = oraRef.getMonth(); const annoCorrente = oraRef.getFullYear(); const nomiMesi = ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"];
-            const primoGiornoMese = new Date(annoCorrente, meseCorrente, 1).getDay(); const giorniNelMese = new Date(annoCorrente, meseCorrente + 1, 0).getDate();
+            // --- LOGICA CALENDARIO MIGLIORATA ---
+            const meseVis = viewDate.getMonth(); 
+            const annoVis = viewDate.getFullYear(); 
+            const nomiMesi = ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"];
+            const primoGiornoMese = new Date(annoVis, meseVis, 1).getDay(); 
+            const giorniNelMese = new Date(annoVis, meseVis + 1, 0).getDate();
             const startOffset = primoGiornoMese === 0 ? 6 : primoGiornoMese - 1;
-            let hCal = `<div class="calendar-wrapper"><div class="calendar-header">${nomiMesi[meseCorrente]} ${annoCorrente}</div><div class="calendar-grid"><div class="calendar-day-label">L</div><div class="calendar-day-label">M</div><div class="calendar-day-label">M</div><div class="calendar-day-label">G</div><div class="calendar-day-label">V</div><div class="calendar-day-label">S</div><div class="calendar-day-label">D</div>`;
+            
+            let hCal = `<div class="calendar-wrapper">
+                <div class="calendar-header">
+                    <button class="cal-nav-btn" onclick="changeMonth(-1)">◀</button>
+                    <span>${nomiMesi[meseVis]} ${annoVis}</span>
+                    <button class="cal-nav-btn" onclick="changeMonth(1)">▶</button>
+                </div>
+                <div class="calendar-grid">
+                    <div class="calendar-day-label">L</div><div class="calendar-day-label">M</div><div class="calendar-day-label">M</div><div class="calendar-day-label">G</div><div class="calendar-day-label">V</div><div class="calendar-day-label">S</div><div class="calendar-day-label">D</div>`;
+            
             for(let i=0; i<startOffset; i++) hCal += `<div class="calendar-cell" style="opacity:0"></div>`;
+            
+            const oggi = new Date();
             for(let d=1; d<=giorniNelMese; d++) {
-                const dataLoop = new Date(annoCorrente, meseCorrente, d).toLocaleDateString();
+                const dataLoop = new Date(annoVis, meseVis, d).toLocaleDateString();
                 const eventiOggi = (data.calendar || []).filter(c => new Date(c.dt).toLocaleDateString() === dataLoop);
-                const isToday = dataLoop === oraRef.toLocaleDateString();
-                hCal += `<div class="calendar-cell ${eventiOggi.length > 0 ? 'has-event' : ''} ${isToday ? 'today' : ''}" onclick="showDayEvents('${dataLoop}')">${d}${eventiOggi.length > 0 ? '<div class="event-dot"></div>' : ''}</div>`;
+                const isToday = dataLoop === oggi.toLocaleDateString();
+                
+                hCal += `<div class="calendar-cell ${eventiOggi.length > 0 ? 'has-event' : ''} ${isToday ? 'today' : ''}" onclick="showDayEvents('${dataLoop}')">
+                    ${d}
+                    ${eventiOggi.length > 0 ? '<div class="event-dot"></div>' : ''}
+                </div>`;
             }
             hCal += `</div><div id="selected-day-info" class="selected-event-info"></div></div>`;
+            
             document.getElementById('l-rosa').innerHTML = hR; document.getElementById('l-admin').innerHTML = hA;
             document.getElementById('l-mercato').innerHTML = hMk; document.getElementById('l-partite').innerHTML = hMatch;
             document.getElementById('l-news').innerHTML = hNews; document.getElementById('l-premi').innerHTML = hP;
@@ -642,16 +728,17 @@
 
         window.showDayEvents = function(dataS) {
             const evs = (data.calendar || []).filter(c => new Date(c.dt).toLocaleDateString() === dataS);
-            let html = `<h4 style="color:var(--oro); font-size:12px; margin-bottom:10px;">EVENTI DEL ${dataS}</h4>`;
-            if(evs.length === 0) html += `<p style="font-size:12px; color:#666">Nessuna partita.</p>`;
+            let html = `<h4 style="color:var(--oro); font-size:16px; margin-bottom:15px; font-family:'Oswald';">EVENTI DEL ${dataS}</h4>`;
+            if(evs.length === 0) html += `<p style="font-size:14px; color:#888; text-align:center;">Nessun impegno ufficiale.</p>`;
             evs.forEach(e => { 
                 const oraFormattata = new Date(e.dt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                html += `<div class="card" style="flex-direction:row; justify-content:space-between; align-items:center; min-height:auto; padding:10px; margin-bottom:5px;">
+                html += `<div class="card" style="flex-direction:row; justify-content:space-between; align-items:center; min-height:auto; padding:15px; margin-bottom:8px; border-left: 4px solid var(--rosso);">
                     <div>
-                        <span style="color:var(--oro); font-weight:bold;">${oraFormattata}</span> - 
-                        <span style="font-size:13px">${e.tipo}</span> vs <b>${e.avv}</b>
+                        <div style="color:var(--oro); font-weight:bold; font-size:14px;">${oraFormattata}</div>
+                        <div style="font-size:16px; font-weight:900; text-transform:uppercase;">${e.tipo}</div>
+                        <div style="color:#bbb; font-size:14px;">vs ${e.avv}</div>
                     </div>
-                    <div style="color:red; cursor:pointer" onclick="data.calendar = data.calendar.filter(x=>x.id != ${e.id}); sync()">🗑️</div>
+                    <div style="background:rgba(198,28,35,0.2); padding:10px; border-radius:10px; cursor:pointer" onclick="if(confirm('Eliminare evento?')){data.calendar = data.calendar.filter(x=>x.id != ${e.id}); sync()}">🗑️</div>
                 </div>`; 
             });
             document.getElementById('selected-day-info').innerHTML = html;
