@@ -11,7 +11,7 @@
         :root { --rosso: #C61C23; --oro: #D4AF37; --nero: #000; --erba-scura: #1b5e20; --erba-chiara: #2e7d32; --linee: rgba(255,255,255,0.9); }
         body { margin: 0; background: var(--nero); color: white; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; touch-action: none; }
         
-        /* --- NUOVA INTRO 3D (SOLO MODIFICHE RICHIESTE) --- */
+        /* --- NUOVA INTRO 3D + RIFINITURE --- */
         #intro { 
             position: fixed; 
             inset: 0; 
@@ -22,18 +22,81 @@
             justify-content: center; 
             z-index: 10000; 
             transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            perspective: 1200px; /* Profondità per l'effetto 3D */
+            perspective: 1200px;
+        }
+
+        /* 3. Atmosfera: Particelle di sfondo */
+        #intro::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(rgba(198, 28, 35, 0.4) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: particlesMove 20s linear infinite;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        @keyframes particlesMove {
+            from { background-position: 0 0; }
+            to { background-position: 500px 1000px; }
+        }
+
+        .intro-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform-style: preserve-3d;
         }
 
         .intro-logo {
             width: 80%;
             max-width: 320px;
-            /* mix-blend-mode e filter per eliminare distacco colore sfondo */
             mix-blend-mode: lighten; 
             filter: drop-shadow(0 10px 30px rgba(0,0,0,0.8)) brightness(1.1);
             animation: logoEntrance 1.5s ease-out, logoFloat3D 4s infinite ease-in-out;
             margin-bottom: 40px;
             transform-style: preserve-3d;
+            position: relative;
+            overflow: hidden; /* Per il riflesso Shine */
+        }
+
+        /* 2. Riflesso Metallico (Shine) */
+        .intro-logo::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -150%;
+            width: 50%;
+            height: 200%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(30deg);
+            animation: shineEffect 4s infinite;
+        }
+
+        @keyframes shineEffect {
+            0% { left: -150%; }
+            20% { left: 150%; }
+            100% { left: 150%; }
+        }
+
+        /* 1. Ombra Dinamica */
+        .intro-shadow {
+            width: 150px;
+            height: 20px;
+            background: rgba(0,0,0,0.6);
+            border-radius: 50%;
+            filter: blur(10px);
+            margin-top: -30px;
+            margin-bottom: 30px;
+            animation: shadowPulse 4s infinite ease-in-out;
+        }
+
+        @keyframes shadowPulse {
+            0%, 100% { transform: scale(1.2); opacity: 0.5; }
+            50% { transform: scale(0.8); opacity: 0.2; }
         }
 
         @keyframes logoEntrance {
@@ -65,6 +128,7 @@
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             transition: 0.3s;
+            z-index: 10;
         }
 
         .btn-entrance:hover {
@@ -72,6 +136,8 @@
             box-shadow: 0 8px 25px rgba(198, 28, 35, 0.6);
             background: var(--rosso);
         }
+
+        /* --- FINE STILI INTRO (Resto del codice invariato) --- */
 
         header { height: 60px; border-bottom: 2px solid var(--rosso); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; background: #000; z-index: 2000; position: relative; }
         .sidebar { position: fixed; top: 0; right: -100%; width: 280px; height: 100%; background: rgba(5,5,5,0.98); transition: 0.4s; z-index: 3000; border-left: 2px solid var(--rosso); padding-top: 60px; }
@@ -259,11 +325,14 @@
 <body>
 
     <div id="intro">
-        <img src="https://i.postimg.cc/655M6n4M/copilot-image-1759429057496.png" class="intro-logo" alt="Milanac Logo">
-        <button class="btn-entrance" onclick="
-            document.getElementById('intro').classList.add('fade-out');
-            setTimeout(() => { document.getElementById('intro').style.display='none'; }, 800);
-        ">ENTRA NEL CLUB</button>
+        <div class="intro-container">
+            <img src="https://i.postimg.cc/655M6n4M/copilot-image-1759429057496.png" class="intro-logo" alt="Milanac Logo">
+            <div class="intro-shadow"></div>
+            <button class="btn-entrance" onclick="
+                document.getElementById('intro').classList.add('fade-out');
+                setTimeout(() => { document.getElementById('intro').style.display='none'; }, 800);
+            ">ENTRA NEL CLUB</button>
+        </div>
     </div>
 
     <header>
@@ -386,6 +455,7 @@
     </div>
 
     <script>
+        // Logica script originale...
         const firebaseConfig = { apiKey: "AIzaSyDbO_AxHKz1avQpYscoSSLpEfmFaL8MRGg", authDomain: "milanac-proclub.firebaseapp.com", projectId: "milanac-proclub", storageBucket: "milanac-proclub.firebasestorage.app", messagingSenderId: "61702234008", appId: "1:61702234008:web:aa597d8600d0a8251895ed" };
         firebase.initializeApp(firebaseConfig); const db = firebase.firestore();
         let data = { ps: [], mod: '4-4-2', matches: [], news: [], calendar: [] };
