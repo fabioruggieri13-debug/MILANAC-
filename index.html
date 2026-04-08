@@ -11,7 +11,7 @@
         :root { --rosso: #C61C23; --oro: #D4AF37; --nero: #000; --erba-scura: #1b5e20; --erba-chiara: #2e7d32; --linee: rgba(255,255,255,0.9); }
         body { margin: 0; background: var(--nero); color: white; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; touch-action: none; }
         
-        /* --- NUOVA INTRO 3D + RIFINITURE --- */
+        /* --- NUOVA INTRO 3D + ANIMAZIONE VETRO --- */
         #intro { 
             position: fixed; 
             inset: 0; 
@@ -50,16 +50,60 @@
             transform-style: preserve-3d;
         }
 
+        /* Il logo ora ha un'animazione rallentata e poi si ricompone */
         .intro-logo {
             width: 80%;
             max-width: 320px;
             mix-blend-mode: lighten; 
             filter: drop-shadow(0 0 30px rgba(198, 28, 35, 0.6)) brightness(1.1);
-            /* Modificata per animazione d'impatto "contro lo schermo" */
-            animation: logoEntrancePro 1.2s cubic-bezier(0.2, 0.8, 0.2, 1.2) forwards;
+            animation: logoSlowGlass 6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
             margin-bottom: 40px;
             transform-style: preserve-3d;
             position: relative;
+        }
+
+        /* Effetto frammenti di vetro */
+        .glass-shards {
+            position: absolute;
+            inset: 0;
+            background: url("https://i.postimg.cc/655M6n4M/copilot-image-1759429057496.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 5;
+            /* Creazione di frammenti tramite clip-path */
+            clip-path: polygon(50% 50%, 0% 0%, 100% 0%, 100% 100%, 0% 100%);
+            animation: shardsEffect 6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes logoSlowGlass {
+            0% { transform: translateZ(-1200px) scale(0.1); opacity: 0; filter: blur(10px); }
+            45% { transform: translateZ(200px) scale(1.2); opacity: 1; filter: blur(0); } /* Punto di impatto */
+            50% { transform: translateZ(200px) scale(1.2); opacity: 0; } /* Sparisce per simulare la rottura */
+            75% { transform: translateZ(50px) scale(0.9); opacity: 0; }
+            90% { transform: translateZ(0) scale(1.05); opacity: 1; } /* Ricomposizione finale */
+            100% { transform: translateZ(0) scale(1); opacity: 1; }
+        }
+
+        @keyframes shardsEffect {
+            0%, 44% { opacity: 0; transform: scale(1); }
+            45% { 
+                opacity: 1; 
+                transform: scale(1.2); 
+                filter: brightness(2) contrast(1.5);
+                clip-path: polygon(50% 50%, 0% 0%, 100% 0%, 100% 100%, 0% 100%);
+            }
+            55% {
+                opacity: 0.8;
+                transform: scale(1.5) translateZ(100px) rotateX(20deg);
+                filter: brightness(1.2) blur(2px);
+                /* Simula la frantumazione "esplodendo" il clip-path */
+                clip-path: polygon(20% 20%, 0% 0%, 80% 10%, 100% 50%, 70% 90%, 10% 80%);
+            }
+            80% { opacity: 0; transform: scale(0.8) translateZ(-100px); }
+            100% { opacity: 0; }
         }
 
         .intro-shadow {
@@ -78,28 +122,6 @@
             to { opacity: 1; }
         }
 
-        /* --- KEYFRAMES INGRESSO PROSPETTICO AGGRESSIVO --- */
-        @keyframes logoEntrancePro {
-            0% { 
-                transform: scale(0.1) translateZ(-1500px) rotateX(45deg); 
-                opacity: 0; 
-                filter: blur(20px); 
-            }
-            70% {
-                transform: scale(1.1) translateZ(100px) rotateX(0deg); 
-                opacity: 1; 
-                filter: blur(0);
-            }
-            85% {
-                transform: scale(0.98) translateZ(-20px);
-            }
-            100% { 
-                transform: scale(1) translateZ(0); 
-                opacity: 1; 
-                filter: blur(0) drop-shadow(0 0 20px rgba(198, 28, 35, 0.4));
-            }
-        }
-
         #intro.fade-out {
             transform: scale(3) translateZ(800px);
             opacity: 0;
@@ -107,7 +129,6 @@
             pointer-events: none;
         }
 
-        /* --- TASTO "ENTRA NEL CLUB" PREMIUM --- */
         .btn-entrance {
             padding: 16px 55px;
             margin-top: 50px;
@@ -126,8 +147,11 @@
             z-index: 10;
             box-shadow: 0 10px 25px rgba(0,0,0,0.7), inset 0 2px 5px rgba(255,255,255,0.3);
             transition: all 0.3s ease-out;
-            -webkit-tap-highlight-color: transparent;
+            opacity: 0;
+            animation: btnShow 1s ease-out 5s forwards; /* Appare solo dopo la ricomposizione */
         }
+
+        @keyframes btnShow { to { opacity: 1; } }
 
         .btn-entrance::before {
             content: "";
@@ -338,6 +362,8 @@
     <div id="intro">
         <div class="intro-container">
             <img src="https://i.postimg.cc/655M6n4M/copilot-image-1759429057496.png" class="intro-logo" alt="Milanac Logo">
+            <div class="glass-shards"></div>
+            
             <div class="intro-shadow"></div>
             <button class="btn-entrance" onclick="
                 document.getElementById('intro').classList.add('fade-out');
@@ -570,12 +596,12 @@
                 if(p.r === 'DIF' && media > maxDefMedia) { maxDefMedia = media; wallId = p.id; }
             });
             const modSelect = document.getElementById('mod-select');
-            if (modSelect.options.length === 0) {
+            if (modSelect && modSelect.options.length === 0) {
                 Object.keys(modali).forEach(m => {
                     let opt = document.createElement('option'); opt.value = m; opt.innerHTML = m; modSelect.appendChild(opt);
                 });
             }
-            modSelect.value = data.mod;
+            if(modSelect) modSelect.value = data.mod;
             if(!window.viewMode) window.viewMode = 'roles'; 
             hR = `<div class="mod-selector-container">
                 <span class="mod-label">Visualizza:</span>
