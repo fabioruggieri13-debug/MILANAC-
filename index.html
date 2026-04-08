@@ -116,6 +116,7 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* Riflesso Glossy Superiore */
         .btn-entrance::before {
             content: "";
             position: absolute;
@@ -134,6 +135,8 @@
             background: linear-gradient(180deg, #ff333a 0%, #C61C23 100%);
             border-color: #fff;
         }
+
+        /* --- FINE STILI INTRO --- */
 
         header { height: 60px; border-bottom: 2px solid var(--rosso); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; background: #000; z-index: 2000; position: relative; }
         .sidebar { position: fixed; top: 0; right: -100%; width: 280px; height: 100%; background: rgba(5,5,5,0.98); transition: 0.4s; z-index: 3000; border-left: 2px solid var(--rosso); padding-top: 60px; }
@@ -189,6 +192,7 @@
             position: absolute;
             right: 12px; 
             top: 5px; 
+            transform: none; 
             font-size: 55px; 
             font-weight: 900;
             z-index: 0;
@@ -200,6 +204,7 @@
             -webkit-text-fill-color: transparent;
             opacity: 0.45; 
             filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.5));
+            overflow: visible; 
         }
         .card-left { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; justify-content: center; }
         .role-badge { color: var(--oro); font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; font-family: 'Teko'; }
@@ -245,10 +250,46 @@
             overflow-y: auto; 
         }
         #m-ruolo-txt { color: var(--oro); font-family: 'Teko'; font-size: 16px; text-transform: uppercase; letter-spacing: 2px; }
-        #m-nome { font-family: 'Teko', sans-serif; font-size: 45px; font-weight: 700; margin: 5px 0; text-transform: uppercase; line-height: 1; letter-spacing: 1px; color: white; }
-        #m-numero-big { font-family: 'Oswald', sans-serif; font-size: 110px; font-weight: 700; line-height: 1; margin: 10px 0 20px 0; background: linear-gradient(180deg, #FFE08E 0%, #D4AF37 50%, #8A6E2F 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.9)); display: block; }
-        .m-stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 20px; }
-        .stat-item { display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.03); padding: 10px; border-radius: 10px; min-height: 60px; }
+        #m-nome { 
+            font-family: 'Teko', sans-serif; 
+            font-size: 45px; 
+            font-weight: 700;
+            margin: 5px 0; 
+            text-transform: uppercase; 
+            line-height: 1;
+            letter-spacing: 1px;
+            color: white;
+        }
+        #m-numero-big {
+            font-family: 'Oswald', sans-serif;
+            font-size: 110px;
+            font-weight: 700;
+            line-height: 1; 
+            margin: 10px 0 20px 0; 
+            background: linear-gradient(180deg, #FFE08E 0%, #D4AF37 50%, #8A6E2F 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.9));
+            display: block;
+        }
+        .m-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.15);
+            padding-top: 20px;
+        }
+        .stat-item { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            background: rgba(255,255,255,0.03); 
+            padding: 10px; 
+            border-radius: 10px; 
+            min-height: 60px;
+        }
         .stat-label { font-size: 10px; color: #888; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; margin-bottom: 2px; }
         .stat-value { font-family: 'Oswald'; font-size: 26px; color: white; font-weight: 700; line-height: 1; }
 
@@ -260,23 +301,24 @@
         .calendar-header { display: flex; justify-content: center; margin-bottom: 10px; font-family: 'Oswald'; color: var(--oro); text-transform: uppercase; font-size: 18px; }
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
         .calendar-day-label { text-align: center; font-size: 10px; color: #777; font-weight: bold; padding-bottom: 5px; }
-        .calendar-cell { aspect-ratio: 1; background: #1a1a1a; border-radius: 5px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 12px; color: #fff; position: relative; border: 1px solid #333; }
+        .calendar-cell { 
+            aspect-ratio: 1; 
+            background: #1a1a1a; 
+            border-radius: 5px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 12px; 
+            color: #fff;
+            position: relative;
+            border: 1px solid #333;
+        }
         .calendar-cell.has-event { background: rgba(198, 28, 35, 0.3); border: 1px solid var(--rosso); }
         .calendar-cell.today { border: 1px solid var(--oro); box-shadow: 0 0 5px var(--oro); }
         .event-dot { width: 5px; height: 5px; background: var(--oro); border-radius: 50%; margin-top: 2px; }
         
         .selected-event-info { margin-top: 15px; border-top: 1px solid #333; padding-top: 10px; }
-
-        .countdown-container { background: linear-gradient(180deg, #1a1a1a 0%, #000 100%); border: 2px solid var(--rosso); border-radius: 15px; padding: 15px; margin-top: 15px; text-align: center; box-shadow: 0 0 15px rgba(198, 28, 35, 0.3); }
-        .countdown-title { font-family: 'Oswald'; color: var(--oro); font-size: 12px; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
-        .countdown-timer { display: flex; justify-content: center; gap: 10px; font-family: 'Oswald'; }
-        .timer-segment { display: flex; flex-direction: column; align-items: center; }
-        .timer-val { font-size: 24px; font-weight: 700; color: #fff; line-height: 1; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
-        .timer-label { font-size: 9px; color: var(--rosso); text-transform: uppercase; font-weight: bold; margin-top: 2px; }
-        .timer-sep { font-size: 24px; color: var(--rosso); animation: blink 1s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
-        .match-live { color: #2e7d32; font-family: 'Oswald'; font-weight: bold; font-size: 18px; text-transform: uppercase; animation: pulse-green 1.5s infinite; }
-        @keyframes pulse-green { 0% { opacity: 0.6; } 50% { opacity: 1; transform: scale(1.05); } 100% { opacity: 0.6; } }
     </style>
 </head>
 <body>
@@ -285,7 +327,10 @@
         <div class="intro-container">
             <img src="https://i.postimg.cc/655M6n4M/copilot-image-1759429057496.png" class="intro-logo" alt="Milanac Logo">
             <div class="intro-shadow"></div>
-            <button class="btn-entrance" onclick="document.getElementById('intro').classList.add('fade-out'); setTimeout(() => { document.getElementById('intro').style.display='none'; }, 800);">ENTRA NEL CLUB</button>
+            <button class="btn-entrance" onclick="
+                document.getElementById('intro').classList.add('fade-out');
+                setTimeout(() => { document.getElementById('intro').style.display='none'; }, 800);
+            ">ENTRA NEL CLUB</button>
         </div>
     </div>
 
@@ -394,6 +439,7 @@
             <div id="m-ruolo-txt">DIFENSORE</div>
             <h2 id="m-nome">BARESI</h2>
             <div id="m-numero-big">6</div>
+            
             <div class="m-stats-grid">
                 <div class="stat-item"><span class="stat-label">GOAL</span><span id="st-g" class="stat-value">0</span></div>
                 <div class="stat-item"><span class="stat-label">ASSIST</span><span id="st-a" class="stat-value">0</span></div>
@@ -402,6 +448,7 @@
                 <div class="stat-item"><span class="stat-label">GIALLI</span><span id="st-yl" class="stat-value">0</span></div>
                 <div class="stat-item"><span class="stat-label">ROSSI</span><span id="st-rd" class="stat-value">0</span></div>
             </div>
+            
             <button class="btn-main" style="margin-top:30px; border-radius:15px; margin-bottom:10px;" onclick="document.getElementById('modal-player').style.display='none'">CHIUDI</button>
         </div>
     </div>
@@ -411,7 +458,6 @@
         firebase.initializeApp(firebaseConfig); const db = firebase.firestore();
         let data = { ps: [], mod: '4-4-2', matches: [], news: [], calendar: [] };
         const PASS = "milanac"; 
-        let countdownInterval;
 
         const modali = {
             '4-4-2': [{x:43,y:85},{x:10,y:70},{x:33,y:72},{x:55,y:72},{x:78,y:70},{x:10,y:45},{x:33,y:48},{x:55,y:48},{x:78,y:45},{x:33,y:20},{x:55,y:20}],
@@ -426,18 +472,36 @@
 
         db.collection("milanac").doc("v84_final").onSnapshot(doc => { if(doc.exists) { data = doc.data(); render(); } });
         function sync() { db.collection("milanac").doc("v84_final").set(data); }
+
         function go(p) { document.querySelectorAll('.page').forEach(x=>x.classList.remove('active')); document.getElementById('p-'+p).classList.add('active'); document.querySelector('.sidebar').classList.remove('active'); }
-        function goAdmin() { let p = prompt("Inserisci la Password Admin:"); if(p === PASS) { go('admin'); } else { alert("Accesso Negato!"); go('rosa'); } }
+        
+        function goAdmin() {
+            let p = prompt("Inserisci la Password Admin:");
+            if(p === PASS) { go('admin'); } else { alert("Accesso Negato!"); go('rosa'); }
+        }
 
         function addP() {
             const n=document.getElementById('in-n').value, m=document.getElementById('in-m').value, r=document.getElementById('in-r').value;
             if(n&&m){ data.ps.push({id:Date.now(), n, m, r, g:0, a:0, mvp:0, yl:0, rd:0, potm:0, convocato:false, x:43, y:80, v_adm:{"Fabio":6,"Beppe":6,"Christian":6,"Vicio":6,"Martin":6} }); sync(); }
         }
 
-        function updateStat(id, key, val) { const i = data.ps.findIndex(x => x.id == id); data.ps[i][key] = Math.max(0, (data.ps[i][key] || 0) + val); sync(); }
-        function setModulo(m) { data.mod = m; const conv = data.ps.filter(p => p.convocato); conv.forEach((p, i) => { if(modali[m][i]) { p.x = modali[m][i].x; p.y = modali[m][i].y; } }); sync(); }
-        function addMatch() { const avv=document.getElementById('m-avv').value, ris=document.getElementById('m-ris').value; if(avv&&ris){ if(!data.matches) data.matches=[]; data.matches.unshift({avv, ris, d: new Date().toLocaleDateString()}); sync(); } }
-        function addNews() { const txt = document.getElementById('news-text').value; if(txt){ if(!data.news) data.news=[]; data.news.unshift({txt, d: new Date().toLocaleString()}); sync(); document.getElementById('news-text').value=''; } }
+        function updateStat(id, key, val) {
+            const i = data.ps.findIndex(x => x.id == id);
+            data.ps[i][key] = Math.max(0, (data.ps[i][key] || 0) + val);
+            sync();
+        }
+
+        function setModulo(m) {
+            data.mod = m;
+            const conv = data.ps.filter(p => p.convocato);
+            conv.forEach((p, i) => { if(modali[m][i]) { p.x = modali[m][i].x; p.y = modali[m][i].y; } });
+            sync();
+        }
+
+        function addMatch() {
+            const avv=document.getElementById('m-avv').value, ris=document.getElementById('m-ris').value;
+            if(avv&&ris){ if(!data.matches) data.matches=[]; data.matches.unshift({avv, ris, d: new Date().toLocaleDateString()}); sync(); }
+        }
 
         function addCalendarEvent() {
             const avv = document.getElementById('cal-avv').value;
@@ -453,18 +517,30 @@
             }
         }
 
+        function addNews() {
+            const txt = document.getElementById('news-text').value;
+            if(txt){ if(!data.news) data.news=[]; data.news.unshift({txt, d: new Date().toLocaleString()}); sync(); document.getElementById('news-text').value=''; }
+        }
+
         function drawTacticLines() {
-            const svg = document.getElementById('tactic-svg'); if(!svg) return; svg.innerHTML = '';
-            const activePlayers = data.ps.filter(p => p.convocato); activePlayers.sort((a,b) => b.y - a.y);
+            const svg = document.getElementById('tactic-svg');
+            if(!svg) return;
+            svg.innerHTML = '';
+            const activePlayers = data.ps.filter(p => p.convocato);
+            activePlayers.sort((a,b) => b.y - a.y);
             for(let i=0; i<activePlayers.length; i++) {
                 for(let j=i+1; j<activePlayers.length; j++) {
-                    const p1 = activePlayers[i]; const p2 = activePlayers[j];
+                    const p1 = activePlayers[i];
+                    const p2 = activePlayers[j];
                     const dist = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
                     if(dist < 35) {
                         const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-                        line.setAttribute("x1", (p1.x + 7) + "%"); line.setAttribute("y1", (p1.y + 5) + "%");
-                        line.setAttribute("x2", (p2.x + 7) + "%"); line.setAttribute("y2", (p2.y + 5) + "%");
-                        line.setAttribute("class", "tactic-line"); svg.appendChild(line);
+                        line.setAttribute("x1", (p1.x + 7) + "%");
+                        line.setAttribute("y1", (p1.y + 5) + "%");
+                        line.setAttribute("x2", (p2.x + 7) + "%");
+                        line.setAttribute("y2", (p2.y + 5) + "%");
+                        line.setAttribute("class", "tactic-line");
+                        svg.appendChild(line);
                     }
                 }
             }
@@ -475,27 +551,49 @@
             const activeAdm = document.getElementById('active-admin').value;
             let maxMedia = -1, topPlayerId = null, maxMvp = -1, kingId = null, maxDefMedia = -1, wallId = null;
             data.ps.forEach(p => {
-                const voti = Object.values(p.v_adm || {}); const media = parseFloat((voti.reduce((a,b)=>a+b,0) / (voti.length || 1)).toFixed(1));
+                const voti = Object.values(p.v_adm || {});
+                const media = parseFloat((voti.reduce((a,b)=>a+b,0) / (voti.length || 1)).toFixed(1));
                 if(media > maxMedia) { maxMedia = media; topPlayerId = p.id; }
                 if((p.mvp || 0) > maxMvp) { maxMvp = p.mvp; kingId = p.id; }
                 if(p.r === 'DIF' && media > maxDefMedia) { maxDefMedia = media; wallId = p.id; }
             });
             const modSelect = document.getElementById('mod-select');
-            if (modSelect.options.length === 0) { Object.keys(modali).forEach(m => { let opt = document.createElement('option'); opt.value = m; opt.innerHTML = m; modSelect.appendChild(opt); }); }
+            if (modSelect.options.length === 0) {
+                Object.keys(modali).forEach(m => {
+                    let opt = document.createElement('option'); opt.value = m; opt.innerHTML = m; modSelect.appendChild(opt);
+                });
+            }
             modSelect.value = data.mod;
             if(!window.viewMode) window.viewMode = 'roles'; 
-            hR = `<div class="mod-selector-container"><span class="mod-label">Visualizza:</span><select onchange="window.viewMode=this.value; render()" style="flex-grow:1; background:#222; color:white; border:1px solid #444; padding:8px; border-radius:4px; font-weight:bold; font-family:'Oswald'"><option value="all" ${window.viewMode==='all'?'selected':''}>TUTTI</option><option value="roles" ${window.viewMode==='roles'?'selected':''}>RUOLO</option><option value="POR" ${window.viewMode==='POR'?'selected':''}>POR</option><option value="DIF" ${window.viewMode==='DIF'?'selected':''}>DIF</option><option value="CEN" ${window.viewMode==='CEN'?'selected':''}>CEN</option><option value="ATT" ${window.viewMode==='ATT'?'selected':''}>ATT</option></select></div>`;
-            const ruoliOrdine = ['POR', 'DIF', 'CEN', 'ATT']; const gruppi = { 'POR': '', 'DIF': '', 'CEN': '', 'ATT': '' }; let listaSemplice = "";
+            hR = `<div class="mod-selector-container">
+                <span class="mod-label">Visualizza:</span>
+                <select onchange="window.viewMode=this.value; render()" style="flex-grow:1; background:#222; color:white; border:1px solid #444; padding:8px; border-radius:4px; font-weight:bold; font-family:'Oswald'">
+                    <option value="all" ${window.viewMode==='all'?'selected':''}>TUTTI</option>
+                    <option value="roles" ${window.viewMode==='roles'?'selected':''}>RUOLO</option>
+                    <option value="POR" ${window.viewMode==='POR'?'selected':''}>POR</option>
+                    <option value="DIF" ${window.viewMode==='DIF'?'selected':''}>DIF</option>
+                    <option value="CEN" ${window.viewMode==='CEN'?'selected':''}>CEN</option>
+                    <option value="ATT" ${window.viewMode==='ATT'?'selected':''}>ATT</option>
+                </select>
+            </div>`;
+            const ruoliOrdine = ['POR', 'DIF', 'CEN', 'ATT'];
+            const gruppi = { 'POR': '', 'DIF': '', 'CEN': '', 'ATT': '' };
+            let listaSemplice = "";
             data.ps.forEach(p => {
-                const voti = Object.values(p.v_adm || {}); const media = (voti.reduce((a,b)=>a+b,0) / (voti.length || 1)).toFixed(1);
+                const voti = Object.values(p.v_adm || {});
+                const media = (voti.reduce((a,b)=>a+b,0) / (voti.length || 1)).toFixed(1);
                 let bIcons = ""; if(p.id === kingId && maxMvp > 0) bIcons += "👑"; if(p.id === topPlayerId && maxMedia > 6) bIcons += "🔥"; if(p.id === wallId && maxDefMedia > 6) bIcons += "🧱";
                 const playerCard = `<div class="card" onclick="openP(${p.id})"><div class="bg-number">${p.m}</div><div class="card-left"><span class="role-badge">${p.r}</span><span class="player-name-new">${p.n} ${bIcons}</span><span class="player-sub">Media: ${media}</span></div><div class="card-right"><button class="btn-status" style="background:${p.convocato ? '#2e7d32' : '#222'}; color: white;">${p.convocato ? 'IN CAMPO' : 'RISERVA'}</button><button class="btn-status" style="background:#C61C23; color: white;" onclick="event.stopPropagation(); const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">SCHIERA</button></div></div>`;
-                if(window.viewMode === 'all') listaSemplice += playerCard; else if(window.viewMode === 'roles') gruppi[p.r] += playerCard; else if(window.viewMode === p.r) listaSemplice += playerCard;
+                if(window.viewMode === 'all') { listaSemplice += playerCard; } 
+                else if(window.viewMode === 'roles') { if(gruppi[p.r] !== undefined) gruppi[p.r] += playerCard; else gruppi['ATT'] += playerCard; } 
+                else if(window.viewMode === p.r) { listaSemplice += playerCard; }
                 hMk += `<div class="card" style="display:flex"><b>${p.n}</b> <span style="float:right; color:var(--oro)">€${(10+(media-6)*5+(p.g||0)*2).toFixed(1)}M</span></div>`;
                 hP += `<div class="card" style="display:flex"><b>${p.n}</b> <span style="float:right">👑 ${p.mvp||0} | ⭐ ${p.potm||0}</span></div>`;
                 hA += `<div class="card" style="display:block"><b>${p.n}</b> <button style="color:red; float:right; border:none; background:none;" onclick="if(confirm('Eliminare?')){data.ps=data.ps.filter(x=>x.id!==${p.id}); sync()}">🗑️ ELIMINA</button><div class="vote-control"><button class="btn-v btn-minus" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].v_adm['${activeAdm}']=Math.max(0,data.ps[i].v_adm['${activeAdm}']-0.5); sync()">-</button><span class="v-val" style="color:var(--oro)">${p.v_adm[activeAdm]}</span><button class="btn-v btn-plus" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].v_adm['${activeAdm}']+=0.5; sync()">+</button></div><div class="stat-row"><span>⚽ ${p.g||0} | 👟 ${p.a||0}</span><div style="display: flex; gap: 5px;"><button class="btn-v btn-minus" onclick="updateStat(${p.id},'g',-1)">-</button><button class="btn-v btn-plus" onclick="updateStat(${p.id},'g',1)">⚽+</button><button class="btn-v btn-minus" onclick="updateStat(${p.id},'a',-1)">-</button><button class="btn-v btn-plus" onclick="updateStat(${p.id},'a',1)">👟+</button></div></div></div>`;
             });
-            if(window.viewMode === 'roles') ruoliOrdine.forEach(r => { if(gruppi[r]) hR += `<h4 style="color:var(--oro); border-bottom:1px solid #333; padding-bottom:5px; margin:20px 0 10px 0; text-transform:uppercase; font-size:12px; letter-spacing:1px; font-family:'Oswald'">${r}</h4>` + gruppi[r]; }); else hR += listaSemplice;
+            if(window.viewMode === 'roles') {
+                ruoliOrdine.forEach(r => { if(gruppi[r]) hR += `<h4 style="color:var(--oro); border-bottom:1px solid #333; padding-bottom:5px; margin:20px 0 10px 0; text-transform:uppercase; font-size:12px; letter-spacing:1px; font-family:'Oswald'">${r}</h4>` + gruppi[r]; });
+            } else { hR += listaSemplice; }
             (data.matches || []).forEach((m,idx) => { hMatch += `<div class="card" style="display:flex"><b>${m.d}</b>: ${m.ris} vs ${m.avv} <button style="background:none; border:none; float:right" onclick="data.matches.splice(${idx},1); sync()">🗑️</button></div>`; });
             (data.news || []).forEach((n,idx) => { hNews += `<div class="card" style="display:block"><small>${n.d}</small><p>${n.txt}</p><button style="background:none; border:none; color:red" onclick="data.news.splice(${idx},1); sync()">🗑️ Elimina</button></div>`; });
             
@@ -511,59 +609,51 @@
                 hCal += `<div class="calendar-cell ${eventiOggi.length > 0 ? 'has-event' : ''} ${isToday ? 'today' : ''}" onclick="showDayEvents('${dataLoop}')">${d}${eventiOggi.length > 0 ? '<div class="event-dot"></div>' : ''}</div>`;
             }
             hCal += `</div><div id="selected-day-info" class="selected-event-info"></div></div>`;
-            document.getElementById('l-rosa').innerHTML = hR; document.getElementById('l-admin').innerHTML = hA; document.getElementById('l-mercato').innerHTML = hMk; document.getElementById('l-partite').innerHTML = hMatch; document.getElementById('l-news').innerHTML = hNews; document.getElementById('l-premi').innerHTML = hP; document.getElementById('l-calendario').innerHTML = hCal;
+            document.getElementById('l-rosa').innerHTML = hR; document.getElementById('l-admin').innerHTML = hA;
+            document.getElementById('l-mercato').innerHTML = hMk; document.getElementById('l-partite').innerHTML = hMatch;
+            document.getElementById('l-news').innerHTML = hNews; document.getElementById('l-premi').innerHTML = hP;
+            document.getElementById('l-calendario').innerHTML = hCal;
             const pl = document.getElementById('pitch-players'); pl.innerHTML = "";
             data.ps.filter(p => p.convocato).forEach(p => {
                 let pBadge = ""; if(p.id === kingId && maxMvp > 0) pBadge = "👑"; else if(p.id === topPlayerId && maxMedia > 6.5) pBadge = "🔥"; else if(p.id === wallId && maxDefMedia > 6) pBadge = "🧱";
-                const d = document.createElement('div'); d.className = 'player'; d.style.left = p.x + "%"; d.style.top = p.y + "%"; d.innerHTML = `<div class="jersey">${p.m}${pBadge ? `<span class="badge-icon">${pBadge}</span>` : ''}</div><div class="p-name">${p.n}</div>`;
-                d.onclick = () => openP(p.id); let isD = false; const start = () => isD = true;
-                const move = (e) => { if (!isD) return; const rect = document.getElementById('pitch').getBoundingClientRect(); const t = e.touches ? e.touches[0] : e; p.x = ((t.clientX - rect.left) / rect.width) * 100 - 7; p.y = ((t.clientY - rect.top) / rect.height) * 100 - 5; d.style.left = p.x + "%"; d.style.top = p.y + "%"; drawTacticLines(); };
-                const end = () => { if(isD) { isD = false; sync(); } }; d.addEventListener('touchstart', start); window.addEventListener('touchmove', move, {passive:false}); window.addEventListener('touchend', end); pl.appendChild(d);
+                const d = document.createElement('div'); d.className = 'player'; d.style.left = p.x + "%"; d.style.top = p.y + "%";
+                d.innerHTML = `<div class="jersey">${p.m}${pBadge ? `<span class="badge-icon">${pBadge}</span>` : ''}</div><div class="p-name">${p.n}</div>`;
+                d.onclick = () => openP(p.id);
+                let isD = false; const start = () => isD = true;
+                const move = (e) => {
+                    if (!isD) return; const rect = document.getElementById('pitch').getBoundingClientRect();
+                    const t = e.touches ? e.touches[0] : e;
+                    p.x = ((t.clientX - rect.left) / rect.width) * 100 - 7; p.y = ((t.clientY - rect.top) / rect.height) * 100 - 5;
+                    d.style.left = p.x + "%"; d.style.top = p.y + "%";
+                    drawTacticLines();
+                };
+                const end = () => { if(isD) { isD = false; sync(); } };
+                d.addEventListener('touchstart', start); window.addEventListener('touchmove', move, {passive:false}); window.addEventListener('touchend', end);
+                pl.appendChild(d);
             });
             drawTacticLines();
         }
 
         window.showDayEvents = function(dataS) {
-            if(countdownInterval) clearInterval(countdownInterval);
             const evs = (data.calendar || []).filter(c => new Date(c.dt).toLocaleDateString() === dataS);
             let html = `<h4 style="color:var(--oro); font-size:12px; margin-bottom:10px;">EVENTI DEL ${dataS}</h4>`;
             if(evs.length === 0) html += `<p style="font-size:12px; color:#666">Nessuna partita.</p>`;
-            
-            evs.forEach(e => { 
-                const matchTime = new Date(e.dt).getTime();
-                const eventId = `timer-${e.id}`;
-                html += `<div class="card" style="flex-direction:column; min-height:auto; padding:15px; margin-bottom:10px; border-left: 4px solid var(--rosso);"><div style="display:flex; justify-content:space-between; align-items:center;"><div><span style="color:var(--oro)">${e.tipo}</span><br><b style="font-size:18px;">MILANAC vs ${e.avv}</b><br><small style="color:#888;">Ore: ${new Date(e.dt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</small></div><div style="color:red; cursor:pointer; font-size:20px;" onclick="data.calendar = data.calendar.filter(x=>x.id != ${e.id}); sync(); document.getElementById('selected-day-info').innerHTML='';">🗑️</div></div><div class="countdown-container" id="container-${eventId}"><div class="countdown-title">Countdown al Calcio d'Inizio</div><div class="countdown-timer" id="${eventId}"><div class="timer-segment"><span class="timer-val" id="d-${eventId}">00</span><span class="timer-label">GG</span></div><span class="timer-sep">:</span><div class="timer-segment"><span class="timer-val" id="h-${eventId}">00</span><span class="timer-label">HH</span></div><span class="timer-sep">:</span><div class="timer-segment"><span class="timer-val" id="m-${eventId}">00</span><span class="timer-label">MM</span></div><span class="timer-sep">:</span><div class="timer-segment"><span class="timer-val" id="s-${eventId}">00</span><span class="timer-label">SS</span></div></div></div></div>`;
-
-                countdownInterval = setInterval(() => {
-                    const now = new Date().getTime(); const diff = matchTime - now;
-                    const el = document.getElementById(eventId); if(!el) return;
-                    if (diff <= 0) {
-                        const duration = 60 * 60 * 1000;
-                        if (diff > -duration) { document.getElementById(`container-${eventId}`).innerHTML = `<div class="match-live">🔴 MATCH IN CORSO</div>`; } 
-                        else { document.getElementById(`container-${eventId}`).innerHTML = `<div style="color:#555; font-family:'Oswald'; font-weight:bold;">PARTITA TERMINATA</div>`; }
-                    } else {
-                        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                        const secs = Math.floor((diff % (1000 * 60)) / 1000);
-                        const dEl = document.getElementById(`d-${eventId}`), hEl = document.getElementById(`h-${eventId}`), mEl = document.getElementById(`m-${eventId}`), sEl = document.getElementById(`s-${eventId}`);
-                        if(dEl) dEl.innerText = days.toString().padStart(2, '0');
-                        if(hEl) hEl.innerText = hours.toString().padStart(2, '0');
-                        if(mEl) mEl.innerText = mins.toString().padStart(2, '0');
-                        if(sEl) sEl.innerText = secs.toString().padStart(2, '0');
-                    }
-                }, 1000);
-            });
+            evs.forEach(e => { html += `<div class="card" style="flex-direction:row; justify-content:space-between; align-items:center; min-height:auto; padding:10px; margin-bottom:5px;"><div><span style="color:var(--oro)">${e.tipo}</span> vs <b>${e.avv}</b></div><div style="color:red; cursor:pointer" onclick="data.calendar = data.calendar.filter(x=>x.id != ${e.id}); sync()">🗑️</div></div>`; });
             document.getElementById('selected-day-info').innerHTML = html;
         };
 
         function openP(id) {
-            const p = data.ps.find(x=>x.id==id); const fullRoles = { 'POR': 'PORTIERE', 'DIF': 'DIFENSORE', 'CEN': 'CENTROCAMPISTA', 'ATT': 'ATTACCANTE' };
+            const p = data.ps.find(x=>x.id==id); 
+            const fullRoles = { 'POR': 'PORTIERE', 'DIF': 'DIFENSORE', 'CEN': 'CENTROCAMPISTA', 'ATT': 'ATTACCANTE' };
             document.getElementById('m-ruolo-txt').innerText = fullRoles[p.r] || p.r;
-            document.getElementById('m-nome').innerText = p.n; document.getElementById('m-numero-big').innerText = p.m;
-            document.getElementById('st-g').innerText = p.g || 0; document.getElementById('st-a').innerText = p.a || 0;
-            document.getElementById('st-mvp').innerText = p.mvp || 0; document.getElementById('st-potm').innerText = p.potm || 0;
-            document.getElementById('st-yl').innerText = p.yl || 0; document.getElementById('st-rd').innerText = p.rd || 0;
+            document.getElementById('m-nome').innerText = p.n;
+            document.getElementById('m-numero-big').innerText = p.m;
+            document.getElementById('st-g').innerText = p.g || 0;
+            document.getElementById('st-a').innerText = p.a || 0;
+            document.getElementById('st-mvp').innerText = p.mvp || 0;
+            document.getElementById('st-potm').innerText = p.potm || 0;
+            document.getElementById('st-yl').innerText = p.yl || 0;
+            document.getElementById('st-rd').innerText = p.rd || 0;
             document.getElementById('modal-player').style.display='flex';
         }
     </script>
