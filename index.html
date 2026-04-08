@@ -11,165 +11,105 @@
         :root { --rosso: #C61C23; --oro: #D4AF37; --nero: #000; --erba-scura: #1b5e20; --erba-chiara: #2e7d32; --linee: rgba(255,255,255,0.9); }
         body { margin: 0; background: var(--nero); color: white; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; touch-action: none; }
         
-        /* --- NUOVA INTRO 3D + ANIMAZIONE VETRO --- */
+        /* --- NUOVA INTRO DARK MODERN --- */
         #intro { 
             position: fixed; 
             inset: 0; 
-            background: radial-gradient(circle, rgba(198, 28, 35, 0.15) 0%, rgba(0,0,0,1) 80%), #000;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
             display: flex; 
             flex-direction: column; 
             align-items: center; 
             justify-content: center; 
             z-index: 10000; 
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            perspective: 1200px;
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), visibility 1s;
+            overflow: hidden;
         }
 
         #intro::before {
             content: "";
             position: absolute;
-            width: 100%;
-            height: 100%;
-            background-image: radial-gradient(rgba(198, 28, 35, 0.4) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: particlesMove 20s linear infinite;
-            opacity: 0.3;
-            z-index: -1;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            animation: hyperSpace 4s linear infinite;
+            opacity: 0.2;
+            z-index: 1;
         }
 
-        @keyframes particlesMove {
-            from { background-position: 0 0; }
-            to { background-position: 500px 1000px; }
+        @keyframes hyperSpace {
+            from { transform: translateZ(0) translateY(0); }
+            to { transform: translateZ(500px) translateY(100px); }
         }
 
         .intro-container {
             position: relative;
+            z-index: 2;
             display: flex;
             flex-direction: column;
             align-items: center;
-            transform-style: preserve-3d;
+            animation: introBounce 2s ease-out;
         }
 
-        /* Il logo ora ha un'animazione rallentata e poi si ricompone */
+        @keyframes introBounce {
+            0% { transform: scale(0.8); opacity: 0; filter: blur(20px); }
+            100% { transform: scale(1); opacity: 1; filter: blur(0); }
+        }
+
         .intro-logo {
-            width: 80%;
-            max-width: 320px;
-            mix-blend-mode: lighten; 
-            filter: drop-shadow(0 0 30px rgba(198, 28, 35, 0.6)) brightness(1.1);
-            animation: logoSlowGlass 6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-            margin-bottom: 40px;
-            transform-style: preserve-3d;
-            position: relative;
+            width: 70%;
+            max-width: 280px;
+            filter: drop-shadow(0 0 20px rgba(198, 28, 35, 0.5));
+            animation: logoGlow 3s ease-in-out infinite alternate;
         }
 
-        /* Effetto frammenti di vetro */
-        .glass-shards {
-            position: absolute;
-            inset: 0;
-            background: url("https://i.postimg.cc/655M6n4M/copilot-image-1759429057496.png");
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            opacity: 0;
-            pointer-events: none;
-            z-index: 5;
-            /* Creazione di frammenti tramite clip-path */
-            clip-path: polygon(50% 50%, 0% 0%, 100% 0%, 100% 100%, 0% 100%);
-            animation: shardsEffect 6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        @keyframes logoGlow {
+            from { filter: drop-shadow(0 0 15px rgba(198, 28, 35, 0.4)); transform: translateY(0); }
+            to { filter: drop-shadow(0 0 35px rgba(198, 28, 35, 0.8)); transform: translateY(-10px); }
         }
 
-        @keyframes logoSlowGlass {
-            0% { transform: translateZ(-1200px) scale(0.1); opacity: 0; filter: blur(10px); }
-            45% { transform: translateZ(200px) scale(1.2); opacity: 1; filter: blur(0); } /* Punto di impatto */
-            50% { transform: translateZ(200px) scale(1.2); opacity: 0; } /* Sparisce per simulare la rottura */
-            75% { transform: translateZ(50px) scale(0.9); opacity: 0; }
-            90% { transform: translateZ(0) scale(1.05); opacity: 1; } /* Ricomposizione finale */
-            100% { transform: translateZ(0) scale(1); opacity: 1; }
-        }
-
-        @keyframes shardsEffect {
-            0%, 44% { opacity: 0; transform: scale(1); }
-            45% { 
-                opacity: 1; 
-                transform: scale(1.2); 
-                filter: brightness(2) contrast(1.5);
-                clip-path: polygon(50% 50%, 0% 0%, 100% 0%, 100% 100%, 0% 100%);
-            }
-            55% {
-                opacity: 0.8;
-                transform: scale(1.5) translateZ(100px) rotateX(20deg);
-                filter: brightness(1.2) blur(2px);
-                /* Simula la frantumazione "esplodendo" il clip-path */
-                clip-path: polygon(20% 20%, 0% 0%, 80% 10%, 100% 50%, 70% 90%, 10% 80%);
-            }
-            80% { opacity: 0; transform: scale(0.8) translateZ(-100px); }
-            100% { opacity: 0; }
-        }
-
-        .intro-shadow {
-            width: 150px;
-            height: 20px;
-            background: rgba(0,0,0,0.7);
-            border-radius: 50%;
-            filter: blur(12px);
-            margin-top: -30px;
-            margin-bottom: 30px;
-            opacity: 0;
-            animation: shadowFadeIn 0.5s ease-out 1s forwards;
-        }
-
-        @keyframes shadowFadeIn {
-            to { opacity: 1; }
+        .intro-text {
+            font-family: 'Oswald';
+            font-size: 2.5rem;
+            color: white;
+            letter-spacing: 8px;
+            margin-top: 20px;
+            text-transform: uppercase;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
         }
 
         #intro.fade-out {
-            transform: scale(3) translateZ(800px);
             opacity: 0;
-            filter: blur(20px);
+            visibility: hidden;
             pointer-events: none;
         }
 
         .btn-entrance {
-            padding: 16px 55px;
-            margin-top: 50px;
-            background: linear-gradient(180deg, #e3262e 0%, #a01115 50%, #8b1216 100%);
-            color: white;
-            border: 3px solid var(--oro);
-            border-radius: 50px;
+            padding: 18px 60px;
+            margin-top: 40px;
+            background: transparent;
+            color: var(--oro);
+            border: 2px solid var(--oro);
             font-family: 'Oswald';
             font-weight: bold;
-            font-size: 16px;
+            font-size: 18px;
             text-transform: uppercase;
-            letter-spacing: 2.5px;
+            letter-spacing: 4px;
             cursor: pointer;
+            transition: all 0.4s;
             position: relative;
             overflow: hidden;
-            z-index: 10;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.7), inset 0 2px 5px rgba(255,255,255,0.3);
-            transition: all 0.3s ease-out;
-            opacity: 0;
-            animation: btnShow 1s ease-out 5s forwards; /* Appare solo dopo la ricomposizione */
         }
 
-        @keyframes btnShow { to { opacity: 1; } }
-
-        .btn-entrance::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 50%;
-            background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%);
-            border-radius: 50px 50px 0 0;
-            pointer-events: none;
-        }
-
-        .btn-entrance:hover, .btn-entrance:active {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 15px 35px rgba(198, 28, 35, 0.6), inset 0 2px 5px rgba(255,255,255,0.4);
-            background: linear-gradient(180deg, #ff333a 0%, #C61C23 100%);
-            border-color: #fff;
+        .btn-entrance:hover {
+            background: var(--oro);
+            color: black;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
         }
 
         /* --- FINE STILI INTRO --- */
@@ -362,12 +302,10 @@
     <div id="intro">
         <div class="intro-container">
             <img src="https://i.postimg.cc/655M6n4M/copilot-image-1759429057496.png" class="intro-logo" alt="Milanac Logo">
-            <div class="glass-shards"></div>
-            
-            <div class="intro-shadow"></div>
+            <div class="intro-text">MILANAC</div>
             <button class="btn-entrance" onclick="
                 document.getElementById('intro').classList.add('fade-out');
-                setTimeout(() => { document.getElementById('intro').style.display='none'; }, 800);
+                setTimeout(() => { document.getElementById('intro').style.display='none'; }, 1000);
             ">ENTRA NEL CLUB</button>
         </div>
     </div>
