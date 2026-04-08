@@ -11,26 +11,63 @@
         :root { --rosso: #C61C23; --oro: #D4AF37; --nero: #000; --erba-scura: #1b5e20; --erba-chiara: #2e7d32; --linee: rgba(255,255,255,0.9); }
         body { margin: 0; background: var(--nero); color: white; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; touch-action: none; }
         
-        /* --- NUOVA INTRO AL "TOP" (MODIFICATA) --- */
+        /* --- NUOVA INTRO AL "TOP" (AGGIORNATA) --- */
         #intro { 
-            position: fixed; inset: 0; 
-            background: 
-                linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), /* Maschera per leggibilità */
-                url('https://i.ibb.co/X7W747x/image-6.png') no-repeat center center; /* URL Immagine Diavolo */
-            background-size: cover;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            position: fixed; 
+            inset: 0; 
+            background: radial-gradient(circle, rgba(198, 28, 35, 0.15) 0%, rgba(0,0,0,1) 80%), #000;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
             z-index: 10000; 
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s, filter 0.8s; /* Animazione uscita */
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
+        .intro-logo {
+            width: 80%;
+            max-width: 320px;
+            filter: drop-shadow(0 0 20px rgba(198, 28, 35, 0.5));
+            animation: logoEntrance 1.5s ease-out, logoPulse 3s infinite ease-in-out;
+            margin-bottom: 40px;
+        }
+
+        @keyframes logoEntrance {
+            0% { transform: scale(0.5); opacity: 0; filter: blur(10px); }
+            100% { transform: scale(1); opacity: 1; filter: blur(0); }
+        }
+
+        @keyframes logoPulse {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(198, 28, 35, 0.4)); }
+            50% { transform: scale(1.03); filter: drop-shadow(0 0 35px rgba(198, 28, 35, 0.8)); }
+        }
+
         #intro.fade-out {
-            transform: scale(1.5); /* Zoom in */
-            opacity: 0; /* Dissolvenza */
-            filter: blur(10px); /* Sfocatura */
-            pointer-events: none; /* Disabilita interazioni */
+            transform: scale(2);
+            opacity: 0;
+            filter: blur(15px);
+            pointer-events: none;
         }
-        .pulsing-title { font-size: 4rem; font-weight: 900; text-transform: uppercase; animation: colorPulse 3s infinite alternate, heartBeatText 2s infinite; font-family: 'Oswald'; margin-bottom: 20px;}
-        @keyframes colorPulse { 0% { color: var(--oro); text-shadow: 0 0 15px var(--oro); } 100% { color: var(--rosso); text-shadow: 0 0 15px var(--rosso); } }
-        @keyframes heartBeatText { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.1); } }
+
+        .btn-entrance {
+            padding: 15px 50px;
+            background: linear-gradient(135deg, #C61C23 0%, #8b1216 100%);
+            color: white;
+            border: 2px solid var(--oro);
+            border-radius: 50px;
+            font-family: 'Oswald';
+            font-weight: bold;
+            letter-spacing: 2px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            transition: 0.3s;
+        }
+
+        .btn-entrance:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(198, 28, 35, 0.6);
+            background: var(--rosso);
+        }
 
         header { height: 60px; border-bottom: 2px solid var(--rosso); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; background: #000; z-index: 2000; position: relative; }
         .sidebar { position: fixed; top: 0; right: -100%; width: 280px; height: 100%; background: rgba(5,5,5,0.98); transition: 0.4s; z-index: 3000; border-left: 2px solid var(--rosso); padding-top: 60px; }
@@ -187,12 +224,10 @@
         .stat-label { font-size: 10px; color: #888; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; margin-bottom: 2px; }
         .stat-value { font-family: 'Oswald'; font-size: 26px; color: white; font-weight: 700; line-height: 1; }
 
-        /* --- STILE ANALISI TATTICA --- */
         #tactic-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; }
         .tactic-line { stroke: var(--oro); stroke-width: 1.5; stroke-dasharray: 4; opacity: 0.4; animation: dash 10s linear infinite; }
         @keyframes dash { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
 
-        /* --- GRID CALENDAR STYLE (STILE FOTO) --- */
         .calendar-wrapper { background: #111; padding: 15px; border-radius: 15px; border: 1px solid var(--oro); margin-top: 10px; }
         .calendar-header { display: flex; justify-content: center; margin-bottom: 10px; font-family: 'Oswald'; color: var(--oro); text-transform: uppercase; font-size: 18px; }
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
@@ -220,11 +255,11 @@
 <body>
 
     <div id="intro">
-        <h1 class="pulsing-title">MILANAC</h1>
-        <button class="btn-main" style="width:180px; border-radius:30px;" onclick="
-            document.getElementById('intro').classList.add('fade-out'); // Aggiunge classe animazione
-            setTimeout(() => { document.getElementById('intro').style.display='none'; }, 800); // Nasconde dopo animazione
-        ">ENTRA</button>
+        <img src="https://i.ibb.co/X7W747x/image-6.png" class="intro-logo" alt="Milanac Logo">
+        <button class="btn-entrance" onclick="
+            document.getElementById('intro').classList.add('fade-out');
+            setTimeout(() => { document.getElementById('intro').style.display='none'; }, 800);
+        ">ENTRA NEL CLUB</button>
     </div>
 
     <header>
@@ -350,7 +385,6 @@
         const firebaseConfig = { apiKey: "AIzaSyDbO_AxHKz1avQpYscoSSLpEfmFaL8MRGg", authDomain: "milanac-proclub.firebaseapp.com", projectId: "milanac-proclub", storageBucket: "milanac-proclub.firebasestorage.app", messagingSenderId: "61702234008", appId: "1:61702234008:web:aa597d8600d0a8251895ed" };
         firebase.initializeApp(firebaseConfig); const db = firebase.firestore();
         let data = { ps: [], mod: '4-4-2', matches: [], news: [], calendar: [] };
-        
         const PASS = "milanac"; 
 
         const modali = {
@@ -416,23 +450,17 @@
             if(txt){ if(!data.news) data.news=[]; data.news.unshift({txt, d: new Date().toLocaleString()}); sync(); document.getElementById('news-text').value=''; }
         }
 
-        /* --- LOGICA ANALISI TATTICA --- */
         function drawTacticLines() {
             const svg = document.getElementById('tactic-svg');
             if(!svg) return;
             svg.innerHTML = '';
             const activePlayers = data.ps.filter(p => p.convocato);
-            
-            // Ordiniamo per Y (ruolo approssimativo in campo)
             activePlayers.sort((a,b) => b.y - a.y);
-
             for(let i=0; i<activePlayers.length; i++) {
                 for(let j=i+1; j<activePlayers.length; j++) {
                     const p1 = activePlayers[i];
                     const p2 = activePlayers[j];
                     const dist = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
-
-                    // Colleghiamo solo giocatori vicini per non creare confusione (reparti)
                     if(dist < 35) {
                         const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
                         line.setAttribute("x1", (p1.x + 7) + "%");
@@ -449,11 +477,7 @@
         function render() {
             let hR="", hA="", hMk="", hP="", hMatch="", hNews="";
             const activeAdm = document.getElementById('active-admin').value;
-
-            let maxMedia = -1, topPlayerId = null;
-            let maxMvp = -1, kingId = null;
-            let maxDefMedia = -1, wallId = null;
-
+            let maxMedia = -1, topPlayerId = null, maxMvp = -1, kingId = null, maxDefMedia = -1, wallId = null;
             data.ps.forEach(p => {
                 const voti = Object.values(p.v_adm || {});
                 const media = parseFloat((voti.reduce((a,b)=>a+b,0) / (voti.length || 1)).toFixed(1));
@@ -461,7 +485,6 @@
                 if((p.mvp || 0) > maxMvp) { maxMvp = p.mvp; kingId = p.id; }
                 if(p.r === 'DIF' && media > maxDefMedia) { maxDefMedia = media; wallId = p.id; }
             });
-
             const modSelect = document.getElementById('mod-select');
             if (modSelect.options.length === 0) {
                 Object.keys(modali).forEach(m => {
@@ -469,7 +492,6 @@
                 });
             }
             modSelect.value = data.mod;
-
             if(!window.viewMode) window.viewMode = 'roles'; 
             hR = `<div class="mod-selector-container">
                 <span class="mod-label">Visualizza:</span>
@@ -482,109 +504,43 @@
                     <option value="ATT" ${window.viewMode==='ATT'?'selected':''}>ATT</option>
                 </select>
             </div>`;
-
             const ruoliOrdine = ['POR', 'DIF', 'CEN', 'ATT'];
             const gruppi = { 'POR': '', 'DIF': '', 'CEN': '', 'ATT': '' };
             let listaSemplice = "";
-
             data.ps.forEach(p => {
                 const voti = Object.values(p.v_adm || {});
                 const media = (voti.reduce((a,b)=>a+b,0) / (voti.length || 1)).toFixed(1);
-                
-                let bIcons = "";
-                if(p.id === kingId && maxMvp > 0) bIcons += "👑";
-                if(p.id === topPlayerId && maxMedia > 6) bIcons += "🔥";
-                if(p.id === wallId && maxDefMedia > 6) bIcons += "🧱";
-
-                const playerCard = `
-                <div class="card" onclick="openP(${p.id})">
-                    <div class="bg-number">${p.m}</div>
-                    <div class="card-left">
-                        <span class="role-badge">${p.r}</span>
-                        <span class="player-name-new">${p.n} ${bIcons}</span>
-                        <span class="player-sub">Media: ${media} | Pos: ${p.r}</span>
-                    </div>
-                    <div class="card-right">
-                        <button class="btn-status" 
-                            style="background:${p.convocato ? '#2e7d32' : '#222'}; color: white; border: ${p.convocato ? 'none' : '1px solid #444'}">
-                            ${p.convocato ? 'IN CAMPO' : 'RISERVA'}
-                        </button>
-                        <button class="btn-status" 
-                            style="background:#C61C23; color: white;" 
-                            onclick="event.stopPropagation(); const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">
-                            SCHIERA
-                        </button>
-                    </div>
-                </div>`;
-
+                let bIcons = ""; if(p.id === kingId && maxMvp > 0) bIcons += "👑"; if(p.id === topPlayerId && maxMedia > 6) bIcons += "🔥"; if(p.id === wallId && maxDefMedia > 6) bIcons += "🧱";
+                const playerCard = `<div class="card" onclick="openP(${p.id})"><div class="bg-number">${p.m}</div><div class="card-left"><span class="role-badge">${p.r}</span><span class="player-name-new">${p.n} ${bIcons}</span><span class="player-sub">Media: ${media}</span></div><div class="card-right"><button class="btn-status" style="background:${p.convocato ? '#2e7d32' : '#222'}; color: white;">${p.convocato ? 'IN CAMPO' : 'RISERVA'}</button><button class="btn-status" style="background:#C61C23; color: white;" onclick="event.stopPropagation(); const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">SCHIERA</button></div></div>`;
                 if(window.viewMode === 'all') { listaSemplice += playerCard; } 
                 else if(window.viewMode === 'roles') { if(gruppi[p.r] !== undefined) gruppi[p.r] += playerCard; else gruppi['ATT'] += playerCard; } 
                 else if(window.viewMode === p.r) { listaSemplice += playerCard; }
-                
                 hMk += `<div class="card" style="display:flex"><b>${p.n}</b> <span style="float:right; color:var(--oro)">€${(10+(media-6)*5+(p.g||0)*2).toFixed(1)}M</span></div>`;
                 hP += `<div class="card" style="display:flex"><b>${p.n}</b> <span style="float:right">👑 ${p.mvp||0} | ⭐ ${p.potm||0}</span></div>`;
-                
-                hA += `<div class="card" style="display:block">
-                    <b>${p.n}</b> <button style="color:red; float:right; border:none; background:none;" onclick="if(confirm('Eliminare?')){data.ps=data.ps.filter(x=>x.id!==${p.id}); sync()}">🗑️ ELIMINA</button>
-                    <div class="vote-control">
-                        <button class="btn-v btn-minus" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].v_adm['${activeAdm}']=Math.max(0,data.ps[i].v_adm['${activeAdm}']-0.5); sync()">-</button>
-                        <span class="v-val" style="color:var(--oro)">${p.v_adm[activeAdm]}</span>
-                        <button class="btn-v btn-plus" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].v_adm['${activeAdm}']+=0.5; sync()">+</button>
-                    </div>
-                    <div class="stat-row">
-                        <span>⚽ ${p.g||0} | 👟 ${p.a||0}</span> 
-                        <div style="display: flex; gap: 5px;">
-                            <button class="btn-v btn-minus" onclick="updateStat(${p.id},'g',-1)">-</button>
-                            <button class="btn-v btn-plus" onclick="updateStat(${p.id},'g',1)">⚽+</button>
-                            <button class="btn-v btn-minus" onclick="updateStat(${p.id},'a',-1)">-</button>
-                            <button class="btn-v btn-plus" onclick="updateStat(${p.id},'a',1)">👟+</button>
-                        </div>
-                    </div>
-                </div>`;
+                hA += `<div class="card" style="display:block"><b>${p.n}</b> <button style="color:red; float:right; border:none; background:none;" onclick="if(confirm('Eliminare?')){data.ps=data.ps.filter(x=>x.id!==${p.id}); sync()}">🗑️ ELIMINA</button><div class="vote-control"><button class="btn-v btn-minus" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].v_adm['${activeAdm}']=Math.max(0,data.ps[i].v_adm['${activeAdm}']-0.5); sync()">-</button><span class="v-val" style="color:var(--oro)">${p.v_adm[activeAdm]}</span><button class="btn-v btn-plus" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].v_adm['${activeAdm}']+=0.5; sync()">+</button></div><div class="stat-row"><span>⚽ ${p.g||0} | 👟 ${p.a||0}</span><div style="display: flex; gap: 5px;"><button class="btn-v btn-minus" onclick="updateStat(${p.id},'g',-1)">-</button><button class="btn-v btn-plus" onclick="updateStat(${p.id},'g',1)">⚽+</button><button class="btn-v btn-minus" onclick="updateStat(${p.id},'a',-1)">-</button><button class="btn-v btn-plus" onclick="updateStat(${p.id},'a',1)">👟+</button></div></div></div>`;
             });
-
             if(window.viewMode === 'roles') {
                 ruoliOrdine.forEach(r => { if(gruppi[r]) hR += `<h4 style="color:var(--oro); border-bottom:1px solid #333; padding-bottom:5px; margin:20px 0 10px 0; text-transform:uppercase; font-size:12px; letter-spacing:1px; font-family:'Oswald'">${r}</h4>` + gruppi[r]; });
             } else { hR += listaSemplice; }
-
             (data.matches || []).forEach((m,idx) => { hMatch += `<div class="card" style="display:flex"><b>${m.d}</b>: ${m.ris} vs ${m.avv} <button style="background:none; border:none; float:right" onclick="data.matches.splice(${idx},1); sync()">🗑️</button></div>`; });
             (data.news || []).forEach((n,idx) => { hNews += `<div class="card" style="display:block"><small>${n.d}</small><p>${n.txt}</p><button style="background:none; border:none; color:red" onclick="data.news.splice(${idx},1); sync()">🗑️ Elimina</button></div>`; });
             
-            // --- LOGICA GRID CALENDAR (STILE FOTO) ---
-            const ora = new Date();
-            const meseCorrente = ora.getMonth();
-            const annoCorrente = ora.getFullYear();
-            const nomiMesi = ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"];
-            const primoGiornoMese = new Date(annoCorrente, meseCorrente, 1).getDay();
-            const giorniNelMese = new Date(annoCorrente, meseCorrente + 1, 0).getDate();
+            const ora = new Date(); const meseCorrente = ora.getMonth(); const annoCorrente = ora.getFullYear(); const nomiMesi = ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"];
+            const primoGiornoMese = new Date(annoCorrente, meseCorrente, 1).getDay(); const giorniNelMese = new Date(annoCorrente, meseCorrente + 1, 0).getDate();
             const startOffset = primoGiornoMese === 0 ? 6 : primoGiornoMese - 1;
-
-            let hCal = `<div class="calendar-wrapper">
-                <div class="calendar-header">${nomiMesi[meseCorrente]} ${annoCorrente}</div>
-                <div class="calendar-grid">
-                    <div class="calendar-day-label">L</div><div class="calendar-day-label">M</div><div class="calendar-day-label">M</div>
-                    <div class="calendar-day-label">G</div><div class="calendar-day-label">V</div><div class="calendar-day-label">S</div>
-                    <div class="calendar-day-label">D</div>`;
-            
+            let hCal = `<div class="calendar-wrapper"><div class="calendar-header">${nomiMesi[meseCorrente]} ${annoCorrente}</div><div class="calendar-grid"><div class="calendar-day-label">L</div><div class="calendar-day-label">M</div><div class="calendar-day-label">M</div><div class="calendar-day-label">G</div><div class="calendar-day-label">V</div><div class="calendar-day-label">S</div><div class="calendar-day-label">D</div>`;
             for(let i=0; i<startOffset; i++) hCal += `<div class="calendar-cell" style="opacity:0"></div>`;
-            
             for(let d=1; d<=giorniNelMese; d++) {
                 const dataLoop = new Date(annoCorrente, meseCorrente, d).toLocaleDateString();
                 const eventiOggi = (data.calendar || []).filter(c => new Date(c.dt).toLocaleDateString() === dataLoop);
                 const isToday = dataLoop === ora.toLocaleDateString();
-                
-                hCal += `<div class="calendar-cell ${eventiOggi.length > 0 ? 'has-event' : ''} ${isToday ? 'today' : ''}" onclick="showDayEvents('${dataLoop}')">
-                    ${d}
-                    ${eventiOggi.length > 0 ? '<div class="event-dot"></div>' : ''}
-                </div>`;
+                hCal += `<div class="calendar-cell ${eventiOggi.length > 0 ? 'has-event' : ''} ${isToday ? 'today' : ''}" onclick="showDayEvents('${dataLoop}')">${d}${eventiOggi.length > 0 ? '<div class="event-dot"></div>' : ''}</div>`;
             }
             hCal += `</div><div id="selected-day-info" class="selected-event-info"></div></div>`;
-
             document.getElementById('l-rosa').innerHTML = hR; document.getElementById('l-admin').innerHTML = hA;
             document.getElementById('l-mercato').innerHTML = hMk; document.getElementById('l-partite').innerHTML = hMatch;
             document.getElementById('l-news').innerHTML = hNews; document.getElementById('l-premi').innerHTML = hP;
             document.getElementById('l-calendario').innerHTML = hCal;
-
             const pl = document.getElementById('pitch-players'); pl.innerHTML = "";
             data.ps.filter(p => p.convocato).forEach(p => {
                 let pBadge = ""; if(p.id === kingId && maxMvp > 0) pBadge = "👑"; else if(p.id === topPlayerId && maxMedia > 6.5) pBadge = "🔥"; else if(p.id === wallId && maxDefMedia > 6) pBadge = "🧱";
@@ -606,17 +562,11 @@
             drawTacticLines();
         }
 
-        // Funzione per mostrare eventi del giorno cliccato
         window.showDayEvents = function(dataS) {
             const evs = (data.calendar || []).filter(c => new Date(c.dt).toLocaleDateString() === dataS);
             let html = `<h4 style="color:var(--oro); font-size:12px; margin-bottom:10px;">EVENTI DEL ${dataS}</h4>`;
-            if(evs.length === 0) html += `<p style="font-size:12px; color:#666">Nessuna partita in programma.</p>`;
-            evs.forEach(e => {
-                html += `<div class="card" style="flex-direction:row; justify-content:space-between; align-items:center; min-height:auto; padding:10px; margin-bottom:5px;">
-                    <div style="font-family:'Oswald'"><span style="color:var(--oro)">${e.tipo}</span> vs <b>${e.avv}</b></div>
-                    <div style="color:red; cursor:pointer" onclick="data.calendar = data.calendar.filter(x=>x.id != ${e.id}); sync()">🗑️</div>
-                </div>`;
-            });
+            if(evs.length === 0) html += `<p style="font-size:12px; color:#666">Nessuna partita.</p>`;
+            evs.forEach(e => { html += `<div class="card" style="flex-direction:row; justify-content:space-between; align-items:center; min-height:auto; padding:10px; margin-bottom:5px;"><div><span style="color:var(--oro)">${e.tipo}</span> vs <b>${e.avv}</b></div><div style="color:red; cursor:pointer" onclick="data.calendar = data.calendar.filter(x=>x.id != ${e.id}); sync()">🗑️</div></div>`; });
             document.getElementById('selected-day-info').innerHTML = html;
         };
 
