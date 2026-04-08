@@ -176,6 +176,70 @@
         #tactic-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; }
         .tactic-line { stroke: var(--oro); stroke-width: 1.5; stroke-dasharray: 4; opacity: 0.4; animation: dash 10s linear infinite; }
         @keyframes dash { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+
+        /* --- NUOVO STILE CARD EVENTO CALENDARIO --- */
+        .page#p-calendario .card {
+            display: flex !important;
+            flex-direction: row !important;
+            justify-content: space-between;
+            align-items: center;
+            min-height: auto;
+            padding: 20px;
+            gap: 15px;
+        }
+        .event-details {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-grow: 1;
+        }
+        .event-badge-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 100px;
+            text-align: center;
+        }
+        .event-type-badge {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--oro);
+            border-radius: 8px;
+            color: var(--oro);
+            font-family: 'Oswald';
+            font-size: 11px;
+            padding: 4px 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        .event-separator {
+            width: 1px;
+            height: 50px;
+            background: rgba(212, 175, 55, 0.3);
+        }
+        .event-opponent-name {
+            font-family: 'Oswald';
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white;
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+        .event-meta {
+            text-align: right;
+            font-size: 13px;
+            color: #ccc;
+        }
+        .event-delete-icon {
+            color: #777;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: color 0.2s;
+        }
+        .event-delete-icon:hover {
+            color: #c61c23;
+        }
     </style>
 </head>
 <body>
@@ -375,17 +439,23 @@
             if(txt){ if(!data.news) data.news=[]; data.news.unshift({txt, d: new Date().toLocaleString()}); sync(); document.getElementById('news-text').value=''; }
         }
 
+        /* --- LOGICA ANALISI TATTICA --- */
         function drawTacticLines() {
             const svg = document.getElementById('tactic-svg');
             if(!svg) return;
             svg.innerHTML = '';
             const activePlayers = data.ps.filter(p => p.convocato);
+            
+            // Ordiniamo per Y (ruolo approssimativo in campo)
             activePlayers.sort((a,b) => b.y - a.y);
+
             for(let i=0; i<activePlayers.length; i++) {
                 for(let j=i+1; j<activePlayers.length; j++) {
                     const p1 = activePlayers[i];
                     const p2 = activePlayers[j];
                     const dist = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
+
+                    // Colleghiamo solo giocatori vicini per non creare confusione (reparti)
                     if(dist < 35) {
                         const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
                         line.setAttribute("x1", (p1.x + 7) + "%");
@@ -503,9 +573,19 @@
             (data.matches || []).forEach((m,idx) => { hMatch += `<div class="card" style="display:flex"><b>${m.d}</b>: ${m.ris} vs ${m.avv} <button style="background:none; border:none; float:right" onclick="data.matches.splice(${idx},1); sync()">🗑️</button></div>`; });
             (data.news || []).forEach((n,idx) => { hNews += `<div class="card" style="display:block"><small>${n.d}</small><p>${n.txt}</p><button style="background:none; border:none; color:red" onclick="data.news.splice(${idx},1); sync()">🗑️ Elimina</button></div>`; });
             (data.calendar || []).forEach((c,idx) => {
-                const dateObj = new Date(c.dt); 
-                const formatData = dateObj.toLocaleDateString() + " ore " + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                hCal += `<div class="card" style="display:flex"><div><small style="color:var(--oro); font-weight:bold">${c.tipo || 'Partita'}</small><br><span style="color:white">${formatData}</span><br><b style="font-size:1.2rem">${c.avv}</b></div><button style="background:none; border:none; float:right; color:red" onclick="data.calendar.splice(${idx},1); sync()">🗑️</button></div>`;
+                const dateObj = new Date(c.dt); const formatData = dateObj.toLocaleDateString() + " ore " + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                // --- NUOVA VISUALIZZAZIONE EVENTO ELEGANTE ---
+                hCal += `<div class="card" style="display:flex">
+                    <div class="event-details">
+                        <div class="event-badge-container">
+                            <span class="event-type-badge">${c.tipo || 'Partita'}</span>
+                            <div class="event-meta">${formatData}</div>
+                        </div>
+                        <div class="event-separator"></div>
+                        <div class="event-opponent-name">${c.avv}</div>
+                    </div>
+                    <div onclick="data.calendar.splice(${idx},1); sync()" class="event-delete-icon">🗑️</div>
+                </div>`;
             });
 
             document.getElementById('l-rosa').innerHTML = hR; document.getElementById('l-admin').innerHTML = hA;
@@ -525,13 +605,13 @@
                     const t = e.touches ? e.touches[0] : e;
                     p.x = ((t.clientX - rect.left) / rect.width) * 100 - 7; p.y = ((t.clientY - rect.top) / rect.height) * 100 - 5;
                     d.style.left = p.x + "%"; d.style.top = p.y + "%";
-                    drawTacticLines();
+                    drawTacticLines(); // Aggiorna linee durante il movimento
                 };
                 const end = () => { if(isD) { isD = false; sync(); } };
                 d.addEventListener('touchstart', start); window.addEventListener('touchmove', move, {passive:false}); window.addEventListener('touchend', end);
                 pl.appendChild(d);
             });
-            drawTacticLines();
+            drawTacticLines(); // Disegna al caricamento
         }
 
         function openP(id) {
@@ -540,12 +620,14 @@
             document.getElementById('m-ruolo-txt').innerText = fullRoles[p.r] || p.r;
             document.getElementById('m-nome').innerText = p.n;
             document.getElementById('m-numero-big').innerText = p.m;
+            
             document.getElementById('st-g').innerText = p.g || 0;
             document.getElementById('st-a').innerText = p.a || 0;
             document.getElementById('st-mvp').innerText = p.mvp || 0;
             document.getElementById('st-potm').innerText = p.potm || 0;
             document.getElementById('st-yl').innerText = p.yl || 0;
             document.getElementById('st-rd').innerText = p.rd || 0;
+            
             document.getElementById('modal-player').style.display='flex';
         }
     </script>
