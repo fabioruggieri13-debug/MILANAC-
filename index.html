@@ -70,8 +70,8 @@
         .bg-number {
             position: absolute;
             right: 12px; 
-            top: 5px; /* Spostato in alto */
-            transform: none; /* Rimosso centramento verticale */
+            top: 5px; 
+            transform: none; 
             font-size: 55px; 
             font-weight: 900;
             z-index: 0;
@@ -114,7 +114,6 @@
         .btn-plus { background: #2e7d32; color: white; }
         .btn-minus { background: #c61c23; color: white; }
 
-        /* --- STILE MODAL GIOCATORE --- */
         #modal-player { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 5000; display: none; padding: 20px; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
         .modal-content { 
             background: linear-gradient(180deg, #151515 0%, #000 100%); 
@@ -172,6 +171,11 @@
         }
         .stat-label { font-size: 10px; color: #888; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; margin-bottom: 2px; }
         .stat-value { font-family: 'Oswald'; font-size: 26px; color: white; font-weight: 700; line-height: 1; }
+
+        /* --- STILE ANALISI TATTICA --- */
+        #tactic-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; }
+        .tactic-line { stroke: var(--oro); stroke-width: 1.5; stroke-dasharray: 4; opacity: 0.4; animation: dash 10s linear infinite; }
+        @keyframes dash { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
     </style>
 </head>
 <body>
@@ -217,6 +221,7 @@
                 <select id="mod-select" onchange="setModulo(this.value)"></select>
             </div>
             <div id="pitch">
+                <svg id="tactic-svg"></svg>
                 <div class="p-line mid-line"></div>
                 <div class="p-line mid-circle"></div>
                 <div class="mid-dot"></div>
@@ -364,6 +369,36 @@
             if(txt){ if(!data.news) data.news=[]; data.news.unshift({txt, d: new Date().toLocaleString()}); sync(); document.getElementById('news-text').value=''; }
         }
 
+        /* --- LOGICA ANALISI TATTICA --- */
+        function drawTacticLines() {
+            const svg = document.getElementById('tactic-svg');
+            if(!svg) return;
+            svg.innerHTML = '';
+            const activePlayers = data.ps.filter(p => p.convocato);
+            
+            // Ordiniamo per Y (ruolo approssimativo in campo)
+            activePlayers.sort((a,b) => b.y - a.y);
+
+            for(let i=0; i<activePlayers.length; i++) {
+                for(let j=i+1; j<activePlayers.length; j++) {
+                    const p1 = activePlayers[i];
+                    const p2 = activePlayers[j];
+                    const dist = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
+
+                    // Colleghiamo solo giocatori vicini per non creare confusione (reparti)
+                    if(dist < 35) {
+                        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                        line.setAttribute("x1", (p1.x + 7) + "%");
+                        line.setAttribute("y1", (p1.y + 5) + "%");
+                        line.setAttribute("x2", (p2.x + 7) + "%");
+                        line.setAttribute("y2", (p2.y + 5) + "%");
+                        line.setAttribute("class", "tactic-line");
+                        svg.appendChild(line);
+                    }
+                }
+            }
+        }
+
         function render() {
             let hR="", hA="", hMk="", hP="", hMatch="", hNews="", hCal="";
             const activeAdm = document.getElementById('active-admin').value;
@@ -489,11 +524,13 @@
                     const t = e.touches ? e.touches[0] : e;
                     p.x = ((t.clientX - rect.left) / rect.width) * 100 - 7; p.y = ((t.clientY - rect.top) / rect.height) * 100 - 5;
                     d.style.left = p.x + "%"; d.style.top = p.y + "%";
+                    drawTacticLines(); // Aggiorna linee durante il movimento
                 };
                 const end = () => { if(isD) { isD = false; sync(); } };
                 d.addEventListener('touchstart', start); window.addEventListener('touchmove', move, {passive:false}); window.addEventListener('touchend', end);
                 pl.appendChild(d);
             });
+            drawTacticLines(); // Disegna al caricamento
         }
 
         function openP(id) {
