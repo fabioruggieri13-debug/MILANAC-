@@ -240,7 +240,12 @@
         <div id="p-calendario" class="page">
             <h3 style="color:var(--oro); font-family: 'Oswald';">CALENDARIO PROSSIME PARTITE</h3>
             <div class="card" style="display:block;">
-                <input type="text" id="cal-avv" placeholder="Avversario">
+                <select id="cal-tipo">
+                    <option value="🏆 Campionato">Campionato</option>
+                    <option value="🤝 Amichevole">Amichevole</option>
+                    <option value="🏅 Torneo">Torneo</option>
+                </select>
+                <input type="text" id="cal-avv" placeholder="Nome Avversario">
                 <input type="datetime-local" id="cal-data">
                 <button class="btn-main" onclick="addCalendarEvent()">AGGIUNGI A CALENDARIO</button>
             </div>
@@ -354,9 +359,10 @@
         function addCalendarEvent() {
             const avv = document.getElementById('cal-avv').value;
             const dataOra = document.getElementById('cal-data').value;
+            const tipo = document.getElementById('cal-tipo').value;
             if(avv && dataOra) {
                 if(!data.calendar) data.calendar = [];
-                data.calendar.push({avv, dt: dataOra});
+                data.calendar.push({avv, dt: dataOra, tipo: tipo});
                 data.calendar.sort((a,b) => new Date(a.dt) - new Date(b.dt));
                 sync();
                 document.getElementById('cal-avv').value = '';
@@ -369,23 +375,17 @@
             if(txt){ if(!data.news) data.news=[]; data.news.unshift({txt, d: new Date().toLocaleString()}); sync(); document.getElementById('news-text').value=''; }
         }
 
-        /* --- LOGICA ANALISI TATTICA --- */
         function drawTacticLines() {
             const svg = document.getElementById('tactic-svg');
             if(!svg) return;
             svg.innerHTML = '';
             const activePlayers = data.ps.filter(p => p.convocato);
-            
-            // Ordiniamo per Y (ruolo approssimativo in campo)
             activePlayers.sort((a,b) => b.y - a.y);
-
             for(let i=0; i<activePlayers.length; i++) {
                 for(let j=i+1; j<activePlayers.length; j++) {
                     const p1 = activePlayers[i];
                     const p2 = activePlayers[j];
                     const dist = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
-
-                    // Colleghiamo solo giocatori vicini per non creare confusione (reparti)
                     if(dist < 35) {
                         const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
                         line.setAttribute("x1", (p1.x + 7) + "%");
@@ -503,8 +503,9 @@
             (data.matches || []).forEach((m,idx) => { hMatch += `<div class="card" style="display:flex"><b>${m.d}</b>: ${m.ris} vs ${m.avv} <button style="background:none; border:none; float:right" onclick="data.matches.splice(${idx},1); sync()">🗑️</button></div>`; });
             (data.news || []).forEach((n,idx) => { hNews += `<div class="card" style="display:block"><small>${n.d}</small><p>${n.txt}</p><button style="background:none; border:none; color:red" onclick="data.news.splice(${idx},1); sync()">🗑️ Elimina</button></div>`; });
             (data.calendar || []).forEach((c,idx) => {
-                const dateObj = new Date(c.dt); const formatData = dateObj.toLocaleDateString() + " ore " + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                hCal += `<div class="card" style="display:flex"><div><span style="color:var(--oro)">${formatData}</span><br><b>${c.avv}</b></div><button style="background:none; border:none; float:right; color:red" onclick="data.calendar.splice(${idx},1); sync()">🗑️</button></div>`;
+                const dateObj = new Date(c.dt); 
+                const formatData = dateObj.toLocaleDateString() + " ore " + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                hCal += `<div class="card" style="display:flex"><div><small style="color:var(--oro); font-weight:bold">${c.tipo || 'Partita'}</small><br><span style="color:white">${formatData}</span><br><b style="font-size:1.2rem">${c.avv}</b></div><button style="background:none; border:none; float:right; color:red" onclick="data.calendar.splice(${idx},1); sync()">🗑️</button></div>`;
             });
 
             document.getElementById('l-rosa').innerHTML = hR; document.getElementById('l-admin').innerHTML = hA;
@@ -524,13 +525,13 @@
                     const t = e.touches ? e.touches[0] : e;
                     p.x = ((t.clientX - rect.left) / rect.width) * 100 - 7; p.y = ((t.clientY - rect.top) / rect.height) * 100 - 5;
                     d.style.left = p.x + "%"; d.style.top = p.y + "%";
-                    drawTacticLines(); // Aggiorna linee durante il movimento
+                    drawTacticLines();
                 };
                 const end = () => { if(isD) { isD = false; sync(); } };
                 d.addEventListener('touchstart', start); window.addEventListener('touchmove', move, {passive:false}); window.addEventListener('touchend', end);
                 pl.appendChild(d);
             });
-            drawTacticLines(); // Disegna al caricamento
+            drawTacticLines();
         }
 
         function openP(id) {
@@ -539,14 +540,12 @@
             document.getElementById('m-ruolo-txt').innerText = fullRoles[p.r] || p.r;
             document.getElementById('m-nome').innerText = p.n;
             document.getElementById('m-numero-big').innerText = p.m;
-            
             document.getElementById('st-g').innerText = p.g || 0;
             document.getElementById('st-a').innerText = p.a || 0;
             document.getElementById('st-mvp').innerText = p.mvp || 0;
             document.getElementById('st-potm').innerText = p.potm || 0;
             document.getElementById('st-yl').innerText = p.yl || 0;
             document.getElementById('st-rd').innerText = p.rd || 0;
-            
             document.getElementById('modal-player').style.display='flex';
         }
     </script>
