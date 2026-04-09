@@ -456,7 +456,7 @@
             
             <div class="tactic-controls">
                 <button class="btn-tactic-action" onclick="document.getElementById('convocati-modal').style.display='block'">👥 Seleziona Convocati</button>
-                <button class="btn-tactic-action" style="border-color:var(--oro)" onclick="resetPositionsToModule()">🔄 Applica Posizioni Modulo</button>
+                <button class="btn-tactic-action" style="background:#C61C23; border-color:white;" onclick="shareSquad()">📲 Condividi</button>
             </div>
 
             <div id="pitch">
@@ -599,15 +599,16 @@
             sync();
         }
 
-        function resetPositionsToModule() {
-            const conv = data.ps.filter(p => p.convocato);
-            conv.forEach((p, i) => { 
-                if(modali[data.mod][i]) { 
-                    p.x = modali[data.mod][i].x; 
-                    p.y = modali[data.mod][i].y; 
-                } 
-            });
-            sync();
+        async function shareSquad() {
+            const conv = data.ps.filter(p => p.convocato).map(p => `${p.m}. ${p.n} (${p.r})`).join('\n');
+            const text = `📋 FORMAZIONE MILANAC (${data.mod}):\n\n${conv}\n\nScarica l'app per i dettagli!`;
+            if (navigator.share) {
+                try {
+                    await navigator.share({ title: 'Formazione Milanac', text: text, url: window.location.href });
+                } catch (err) { console.log('Errore condivisione'); }
+            } else {
+                alert("La condivisione non è supportata su questo browser. Copia manualmente:\n\n" + text);
+            }
         }
 
         function addMatch() {
