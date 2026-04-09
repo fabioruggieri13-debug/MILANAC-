@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Teko:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root { --rosso: #C61C23; --oro: #D4AF37; --nero: #000; --erba-scura: #1b5e20; --erba-chiara: #2e7d32; --linee: rgba(255,255,255,0.9); }
         body { margin: 0; background: var(--nero); color: white; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; touch-action: none; }
@@ -600,14 +601,37 @@
         }
 
         async function shareSquad() {
-            const conv = data.ps.filter(p => p.convocato).map(p => `${p.m}. ${p.n} (${p.r})`).join('\n');
-            const text = `📋 FORMAZIONE MILANAC (${data.mod}):\n\n${conv}\n\nScarica l'app per i dettagli!`;
-            if (navigator.share) {
-                try {
-                    await navigator.share({ title: 'Formazione Milanac', text: text, url: window.location.href });
-                } catch (err) { console.log('Errore condivisione'); }
-            } else {
-                alert("La condivisione non è supportata su questo browser. Copia manualmente:\n\n" + text);
+            const pitch = document.getElementById('pitch');
+            try {
+                // Cattura l'elemento pitch come immagine
+                const canvas = await html2canvas(pitch, {
+                    useCORS: true,
+                    backgroundColor: '#2e7d32',
+                    scale: 2 // Aumenta la risoluzione
+                });
+                
+                const dataUrl = canvas.toDataURL("image/jpeg", 0.8);
+                const blob = await (await fetch(dataUrl)).blob();
+                const file = new File([blob], 'formazione-milanac.jpg', { type: 'image/jpeg' });
+
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    await navigator.share({
+                        files: [file],
+                        title: 'Formazione Milanac',
+                        text: `📋 Formazione Milanac (${data.mod})`
+                    });
+                } else {
+                    // Fallback: download dell'immagine se la condivisione diretta non è supportata
+                    const link = document.createElement('a');
+                    link.download = 'formazione-milanac.jpg';
+                    link.href = dataUrl;
+                    link.click();
+                }
+            } catch (err) {
+                console.error('Errore durante la generazione della grafica:', err);
+                // Fallback testuale in caso di errore critico
+                const conv = data.ps.filter(p => p.convocato).map(p => `${p.m}. ${p.n}`).join('\n');
+                alert("Impossibile generare la grafica. Ecco il testo:\n\n" + conv);
             }
         }
 
