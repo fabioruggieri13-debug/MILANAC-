@@ -34,12 +34,14 @@
         .btn-entrance { padding: 16px 55px; margin-top: 50px; background: linear-gradient(180deg, #e3262e 0%, #a01115 50%, #8b1216 100%); color: white; border: 3px solid var(--oro); border-radius: 50px; font-family: 'Oswald'; font-weight: bold; font-size: 16px; text-transform: uppercase; letter-spacing: 2.5px; cursor: pointer; position: relative; overflow: hidden; z-index: 10; box-shadow: 0 10px 25px rgba(0,0,0,0.7), inset 0 2px 5px rgba(255,255,255,0.3); transition: all 0.3s ease-out; -webkit-tap-highlight-color: transparent; }
         .btn-entrance::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%); border-radius: 50px 50px 0 0; pointer-events: none; }
         .btn-entrance:hover, .btn-entrance:active { transform: translateY(-4px) scale(1.02); box-shadow: 0 15px 35px rgba(198, 28, 35, 0.6), inset 0 2px 5px rgba(255,255,255,0.4); background: linear-gradient(180deg, #ff333a 0%, #C61C23 100%); border-color: #fff; }
+
         header { height: 60px; border-bottom: 2px solid var(--rosso); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; background: #000; z-index: 2000; position: relative; }
         .sidebar { position: fixed; top: 0; right: -100%; width: 280px; height: 100%; background: rgba(5,5,5,0.98); transition: 0.4s; z-index: 3000; border-left: 2px solid var(--rosso); padding-top: 60px; }
         .sidebar.active { right: 0; }
         .sidebar button { width: 100%; padding: 18px; background: none; border: none; color: white; text-align: left; font-weight: bold; border-bottom: 1px solid #222; text-transform: uppercase; cursor: pointer; font-family: 'Oswald'; }
         .container { height: calc(100vh - 60px); overflow-y: auto; padding: 15px; box-sizing: border-box; padding-bottom: 60px; }
         .page { display: none; } .page.active { display: block; }
+
         /* ======================================================
            CAMPO DA GIOCO
         ====================================================== */
@@ -62,9 +64,11 @@
         .box-small-bot { bottom: -2px !important; left: 50% !important; width: 32% !important; height: 6% !important; transform: translateX(-50%) !important; border-bottom: none !important; }
         .penalty-dot-bot { bottom: 13% !important; left: 50% !important; width: 5px !important; height: 5px !important; background: #fff !important; border-radius: 50% !important; transform: translateX(-50%) !important; position: absolute !important; }
         .arc-bot { bottom: 18% !important; left: 50% !important; width: 25% !important; height: 10% !important; border: 2px solid rgba(255,255,255,0.9) !important; border-radius: 50% 50% 0 0 / 100% 100% 0 0 !important; transform: translateX(-50%) !important; border-bottom: none !important; position: absolute !important; }
+
         /* ======================================================
            HEATMAP PROFESSIONALE
         ====================================================== */
+
         /* Canvas heatmap sovrapposto al campo */
         #heatmap-canvas {
             position: absolute;
@@ -75,6 +79,7 @@
             opacity: 0.82;
             transition: opacity 0.3s;
         }
+
         /* SVG per frecce tattiche */
         #arrows-svg {
             position: absolute;
@@ -93,10 +98,12 @@
             opacity: 0.92;
             filter: drop-shadow(0 0 4px rgba(255,215,0,0.8));
         }
+
         /* SVG per linee tattiche esistenti */
         #tactic-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; }
         .tactic-line { stroke: var(--oro); stroke-width: 1.5; stroke-dasharray: 4; opacity: 0.4; animation: dash 10s linear infinite; }
         @keyframes dash { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+
         /* ======================================================
            PANNELLO CONTROLLO HEATMAP
         ====================================================== */
@@ -147,6 +154,7 @@
             box-shadow: 0 0 10px rgba(198,28,35,0.5);
         }
         .btn-hm-tool:active { transform: scale(0.95); }
+
         /* Intensità brush */
         .intensity-row {
             display: flex;
@@ -179,6 +187,7 @@
             border: 2px solid #000;
             box-shadow: 0 0 6px rgba(212,175,55,0.8);
         }
+
         /* Zone preset */
         .zone-presets {
             display: grid;
@@ -205,6 +214,7 @@
             color: white;
             transform: scale(0.95);
         }
+
         /* Legenda colori heatmap */
         .heatmap-legend {
             display: flex;
@@ -229,6 +239,7 @@
             color: #666;
             text-transform: uppercase;
         }
+
         /* Separatore sezioni */
         .section-divider {
             display: flex;
@@ -250,6 +261,7 @@
             height: 1px;
             background: #2a2a2a;
         }
+
         /* ======================================================
            GIOCATORI SUL CAMPO
         ====================================================== */
@@ -257,6 +269,7 @@
         .jersey { width: 44px; height: 44px; background: #000; border: 3px solid var(--rosso); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; margin: 0 auto; color: var(--oro); font-size: 18px; position: relative; font-family: 'Oswald'; }
         .badge-icon { position: absolute; top: -8px; right: -8px; font-size: 16px; background: rgba(0,0,0,0.8); border-radius: 50%; padding: 2px; }
         .p-name { background: rgba(0,0,0,0.85); font-size: 11px; padding: 2px 6px; border-radius: 10px; margin-top: 4px; display: inline-block; font-weight: bold; text-transform: uppercase; color: white; font-family: 'Teko'; }
+
         /* ======================================================
            CARD GIOCATORI ROSA
         ====================================================== */
@@ -276,6 +289,7 @@
         .btn-v { width: 32px; height: 32px; border-radius: 5px; border: none; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .btn-plus { background: #2e7d32; color: white; }
         .btn-minus { background: #c61c23; color: white; }
+
         /* ======================================================
            MODAL GIOCATORE
         ====================================================== */
@@ -288,6 +302,7 @@
         .stat-item { display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.03); padding: 10px; border-radius: 10px; min-height: 60px; }
         .stat-label { font-size: 10px; color: #888; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; margin-bottom: 2px; }
         .stat-value { font-family: 'Oswald'; font-size: 26px; color: white; font-weight: 700; line-height: 1; }
+
         /* ======================================================
            CALENDARIO
         ====================================================== */
@@ -304,13 +319,16 @@
         .event-dot { width: 6px; height: 6px; background: var(--oro); border-radius: 50%; margin-top: 4px; box-shadow: 0 0 5px var(--oro); }
         .selected-event-info { margin-top: 25px; border-top: 2px solid rgba(212, 175, 55, 0.3); padding-top: 15px; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
         /* ======================================================
            CONVOCATI MODAL
         ====================================================== */
         .convocati-list { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 6000; display: none; padding: 20px; overflow-y: auto; }
+
         /* Bottoni azione tattica */
         .tactic-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
         .btn-tactic-action { padding: 10px; background: #222; border: 1px solid var(--rosso); color: white; border-radius: 8px; font-family: 'Oswald'; font-size: 12px; text-transform: uppercase; cursor: pointer; }
+
         /* ======================================================
            MODAL LOGIN ADMIN
         ====================================================== */
@@ -450,6 +468,7 @@
             margin-top: 8px;
             min-height: 18px;
         }
+
         /* ======================================================
            STORICO VOTI — badge partita
         ====================================================== */
@@ -536,6 +555,7 @@
     </style>
 </head>
 <body>
+
 <!-- INTRO -->
 <div id="intro">
     <div class="intro-container">
@@ -547,10 +567,12 @@
         ">ENTRA NEL CLUB</button>
     </div>
 </div>
+
 <header>
     <div style="font-weight:900; color:var(--rosso); font-size:22px; font-family: 'Oswald';">MILANAC</div>
     <div onclick="document.querySelector('.sidebar').classList.add('active')" style="font-size:30px; cursor:pointer; color:var(--rosso)">☰</div>
 </header>
+
 <nav class="sidebar">
     <button onclick="go('rosa')">🛡️ Rosa</button>
     <button onclick="go('tattica')">📋 Formazione</button>
@@ -562,7 +584,9 @@
     <button onclick="goAdmin()">⚙️ Area Admin</button>
     <button onclick="document.querySelector('.sidebar').classList.remove('active')">Chiudi</button>
 </nav>
+
 <div class="container">
+
     <!-- NEWS -->
     <div id="p-news" class="page">
         <h2 style="color:var(--oro); font-family: 'Oswald';">NEWS & COMUNICATI</h2>
@@ -572,6 +596,7 @@
         </div>
         <div id="l-news"></div>
     </div>
+
     <!-- ROSA -->
     <div id="p-rosa" class="page active"><div id="l-rosa"></div></div>
     
@@ -579,11 +604,13 @@
          SEZIONE TATTICA CON HEATMAP PROFESSIONALE
     ====================================================== -->
     <div id="p-tattica" class="page">
+
         <!-- PANNELLO HEATMAP -->
         <div class="heatmap-panel">
             <div class="heatmap-panel-title">
                 🔥 HEATMAP TATTICA
             </div>
+
             <!-- Strumenti -->
             <div class="hm-tools-row">
                 <button class="btn-hm-tool active" id="tool-heat" onclick="setTool('heat')">🔥 Calore</button>
@@ -591,11 +618,13 @@
                 <button class="btn-hm-tool" id="tool-erase" onclick="setTool('erase')">✕ Cancella</button>
                 <button class="btn-hm-tool" id="tool-clear" onclick="clearAll()" style="border-color:#C61C23;">🗑 Reset</button>
             </div>
+
             <!-- Intensità -->
             <div class="intensity-row">
                 <span class="intensity-label">Intensità</span>
                 <input type="range" class="intensity-slider" id="brush-intensity" min="1" max="10" value="6">
             </div>
+
             <!-- Zone preset -->
             <div class="section-divider"><span>Zone rapide</span></div>
             <div class="zone-presets">
@@ -608,6 +637,7 @@
                 <button class="btn-zone-preset" onclick="paintZone('portaDif')">⬇ Porta Dif.</button>
                 <button class="btn-zone-preset" onclick="paintZone('tuttoCampo')">Full Field</button>
             </div>
+
             <!-- Legenda -->
             <div class="heatmap-legend">
                 <span class="legend-txt">Bassa</span>
@@ -615,15 +645,18 @@
                 <span class="legend-txt">Alta</span>
             </div>
         </div>
+
         <!-- Azioni formazione -->
         <div class="tactic-controls">
             <button class="btn-tactic-action" onclick="document.getElementById('convocati-modal').style.display='block'">👥 Convocati</button>
             <button class="btn-tactic-action" style="background:#C61C23; border-color:white;" onclick="shareSquad()">📲 Condividi</button>
         </div>
+
         <!-- CAMPO -->
         <div id="pitch">
             <!-- Canvas heatmap -->
             <canvas id="heatmap-canvas"></canvas>
+
             <!-- SVG frecce tattiche disegnate a mano -->
             <svg id="arrows-svg">
                 <defs>
@@ -639,8 +672,10 @@
                     </filter>
                 </defs>
             </svg>
+
             <!-- SVG linee tattiche tra giocatori -->
             <svg id="tactic-svg"></svg>
+
             <!-- Linee campo -->
             <div class="p-line mid-line"></div>
             <div class="p-line mid-circle"></div>
@@ -653,19 +688,23 @@
             <div class="p-line box-small-bot"></div>
             <div class="arc-bot"></div>
             <div class="penalty-dot-bot"></div>
+
             <!-- Giocatori -->
             <div id="pitch-players"></div>
         </div>
+
         <p style="text-align:center; font-size:10px; color:#555; margin-top:8px;">
             🔥 Dipingi zone di calore · ➜ Disegna frecce di movimento · Trascina giocatori
         </p>
     </div>
+
     <!-- CONVOCATI -->
     <div id="convocati-modal" class="convocati-list">
         <h3 style="color:var(--oro); font-family:'Oswald'">CONVOCATI PER LA PARTITA</h3>
         <div id="list-convocabili"></div>
         <button class="btn-main" style="margin-top:20px" onclick="document.getElementById('convocati-modal').style.display='none'">SALVA E CHIUDI</button>
     </div>
+
     <!-- CALENDARIO -->
     <div id="p-calendario" class="page">
         <h3 style="color:var(--oro); font-family: 'Oswald';">CALENDARIO</h3>
@@ -684,8 +723,10 @@
         </div>
         <div id="l-calendario"></div>
     </div>
+
     <!-- MERCATO -->
     <div id="p-mercato" class="page"><h3 style="font-family: 'Oswald';">VALORI DI MERCATO</h3><div id="l-mercato"></div></div>
+
     <!-- PARTITE -->
     <div id="p-partite" class="page">
         <h3 style="font-family: 'Oswald';">RISULTATI PARTITE</h3>
@@ -696,6 +737,7 @@
         </div>
         <div id="l-partite"></div>
     </div>
+
     <!-- PREMI -->
     <div id="p-premi" class="page"><h3 style="font-family: 'Oswald';">HALL OF FAME</h3><div id="l-premi"></div></div>
     
@@ -733,6 +775,7 @@
         <div id="l-storico-voti"></div>
     </div>
 </div>
+
 <!-- MODAL LOGIN ADMIN -->
 <div id="modal-admin-login" style="position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:9000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(10px);">
     <div class="admin-login-box">
@@ -776,6 +819,7 @@
         <button style="background:none;border:none;color:#444;font-family:'Oswald';font-size:12px;cursor:pointer;margin-top:5px;" onclick="closeAdminLogin()">ANNULLA</button>
     </div>
 </div>
+
 <!-- MODAL GIOCATORE -->
 <div id="modal-player" onclick="this.style.display='none'">
     <div class="modal-content" onclick="event.stopPropagation()">
@@ -793,6 +837,7 @@
         <button class="btn-main" style="margin-top:30px; border-radius:15px; margin-bottom:10px;" onclick="document.getElementById('modal-player').style.display='none'">CHIUDI</button>
     </div>
 </div>
+
 <script>
     /* ============================================================
        FIREBASE
@@ -802,6 +847,7 @@
     const db = firebase.firestore();
     let data = { ps: [], mod: '4-4-2', matches: [], news: [], calendar: [], voteHistory: [] };
     let viewDate = new Date();
+
     // ---- ADMIN AUTH ----
     // Credenziali per ogni admin: { pin: '1234', pwd: 'password' }
     // IMPORTANTE: cambia questi valori prima di distribuire l'app!
@@ -817,8 +863,10 @@
     let loginTarget = null;    // admin selezionato nel login modal
     let pinBuffer = '';
     let loginMode = 'pin';     // 'pin' | 'pwd'
+
     db.collection("milanac").doc("v84_final").onSnapshot(doc => { if(doc.exists) { data = doc.data(); if(!data.voteHistory) data.voteHistory=[]; render(); } });
     function sync() { db.collection("milanac").doc("v84_final").set(data); }
+
     /* ============================================================
        NAVIGAZIONE
     ============================================================ */
@@ -832,6 +880,7 @@
     function goAdmin() {
         openAdminLogin();
     }
+
     /* ============================================================
        ADMIN LOGIN SYSTEM
     ============================================================ */
@@ -922,6 +971,7 @@
         document.getElementById('vote-session-wrap').style.display = 'none';
         go('rosa');
     }
+
     /* ============================================================
        SESSIONE VOTI PARTITA
     ============================================================ */
@@ -971,6 +1021,7 @@
         session.votes[playerId][currentAdmin] = Math.min(10, Math.max(1, parseFloat((cur + delta).toFixed(1))));
         sync();
     }
+
     /* ============================================================
        HEATMAP ENGINE
     ============================================================ */
@@ -981,6 +1032,7 @@
     let isDrawing = false;
     let arrowStart = null;
     let arrows = [];           // array frecce salvate { x1,y1,x2,y2 }
+
     // Inizializza griglia vuota
     function initGrid() {
         heatGrid = [];
@@ -990,6 +1042,7 @@
         }
     }
     initGrid();
+
     function initHeatmapCanvas() {
         const pitch = document.getElementById('pitch');
         const canvas = document.getElementById('heatmap-canvas');
@@ -999,6 +1052,7 @@
         drawHeatmap();
         setupPitchInteraction();
     }
+
     /* Disegna la heatmap sul canvas usando interpolazione radiale */
     function drawHeatmap() {
         const canvas = document.getElementById('heatmap-canvas');
@@ -1007,8 +1061,10 @@
         const W = canvas.width;
         const H = canvas.height;
         ctx.clearRect(0, 0, W, H);
+
         const cellW = W / GRID_COLS;
         const cellH = H / GRID_ROWS;
+
         for (let r = 0; r < GRID_ROWS; r++) {
             for (let c = 0; c < GRID_COLS; c++) {
                 const val = Math.min(1, heatGrid[r][c]);
@@ -1043,6 +1099,7 @@
         }
         drawArrows();
     }
+
     function drawArrows() {
         const svg = document.getElementById('arrows-svg');
         if (!svg) return;
@@ -1059,12 +1116,14 @@
             svg.appendChild(path);
         });
     }
+
     /* Converti coordinate pixel → griglia */
     function pixelToGrid(px, py, canvas) {
         const col = Math.floor((px / canvas.width) * GRID_COLS);
         const row = Math.floor((py / canvas.height) * GRID_ROWS);
         return { col: Math.max(0, Math.min(GRID_COLS - 1, col)), row: Math.max(0, Math.min(GRID_ROWS - 1, row)) };
     }
+
     /* Pittura calore su un punto con brush rotondo */
     function paintHeat(px, py, canvas, intensity) {
         const { col, row } = pixelToGrid(px, py, canvas);
@@ -1080,6 +1139,7 @@
             }
         }
     }
+
     /* Cancella area */
     function eraseHeat(px, py, canvas) {
         const { col, row } = pixelToGrid(px, py, canvas);
@@ -1092,6 +1152,7 @@
             }
         }
     }
+
     /* Ottieni coordinate evento toccato/cliccato relative al canvas */
     function getEventPos(e, canvas) {
         const rect = canvas.getBoundingClientRect();
@@ -1103,6 +1164,7 @@
             y: (t.clientY - rect.top) * scaleY
         };
     }
+
     let _rafPending = false;
     function setupPitchInteraction() {
         const canvas = document.getElementById('heatmap-canvas');
@@ -1112,6 +1174,7 @@
         const newCanvas = canvas.cloneNode(true);
         canvas.parentNode.replaceChild(newCanvas, canvas);
         const c = document.getElementById('heatmap-canvas');
+
         const onStart = (e) => {
             if (currentTool === 'arrow') {
                 const pos = getEventPos(e, c);
@@ -1153,15 +1216,18 @@
             }
             isDrawing = false;
         };
+
         c.addEventListener('mousedown', onStart);
         c.addEventListener('mousemove', onMove);
         window.addEventListener('mouseup', onEnd);
         c.addEventListener('touchstart', onStart, { passive: true });
         c.addEventListener('touchmove', onMove, { passive: false });
         c.addEventListener('touchend', onEnd);
+
         // Aggiorna pointer-events: il canvas deve catturare eventi solo se tool attivo
         c.style.pointerEvents = 'auto';
     }
+
     /* ============================================================
        TOOL SELECTOR
     ============================================================ */
@@ -1177,6 +1243,7 @@
         const c = document.getElementById('heatmap-canvas');
         if (c) c.style.cursor = t === 'arrow' ? 'crosshair' : t === 'erase' ? 'cell' : 'default';
     }
+
     function clearAll() {
         initGrid();
         arrows = [];
@@ -1184,6 +1251,7 @@
         const svg = document.getElementById('arrows-svg');
         if (svg) svg.querySelectorAll('.arrow-path').forEach(el => el.remove());
     }
+
     /* ============================================================
        ZONE PRESET — dipinge zone tattiche predefinite
     ============================================================ */
@@ -1197,6 +1265,7 @@
         portaDif:     { rStart: 48, rEnd: 60, cStart: 10, cEnd: 30, intensity: 0.85 },
         tuttoCampo:   { rStart: 5,  rEnd: 55, cStart: 3,  cEnd: 37, intensity: 0.45 }
     };
+
     function paintZone(zoneKey) {
         const z = ZONE_DEFS[zoneKey];
         if (!z) return;
@@ -1213,6 +1282,7 @@
         event.target.classList.add('flashing');
         setTimeout(() => event.target.classList.remove('flashing'), 400);
     }
+
     /* ============================================================
        LINEE TATTICHE TRA GIOCATORI
     ============================================================ */
@@ -1236,6 +1306,7 @@
             }
         }
     }
+
     /* ============================================================
        CONDIVISIONE
     ============================================================ */
@@ -1259,6 +1330,7 @@
             alert("Impossibile generare la grafica.\n\n" + conv);
         }
     }
+
     /* ============================================================
        CRUD DATI
     ============================================================ */
@@ -1296,10 +1368,12 @@
         const txt = document.getElementById('news-text').value;
         if (txt) { if (!data.news) data.news = []; data.news.unshift({ txt, d: new Date().toLocaleString() }); sync(); document.getElementById('news-text').value = ''; }
     }
+
     /* ============================================================
        CALENDARIO NAVIGAZIONE
     ============================================================ */
     window.changeMonth = function (dir) { viewDate.setMonth(viewDate.getMonth() + dir); render(); };
+
     /* ============================================================
        RENDER PRINCIPALE
     ============================================================ */
@@ -1307,6 +1381,7 @@
         let hR = "", hA = "", hMk = "", hP = "", hMatch = "", hNews = "", hConv = "";
         const activeAdm = document.getElementById('active-admin').value;
         let maxMedia = -1, topPlayerId = null, maxMvp = -1, kingId = null, maxDefMedia = -1, wallId = null;
+
         data.ps.forEach(p => {
             const voti = Object.values(p.v_adm || {});
             const media = parseFloat((voti.reduce((a, b) => a + b, 0) / (voti.length || 1)).toFixed(1));
@@ -1314,6 +1389,7 @@
             if ((p.mvp || 0) > maxMvp) { maxMvp = p.mvp; kingId = p.id; }
             if (p.r === 'DIF' && media > maxDefMedia) { maxDefMedia = media; wallId = p.id; }
         });
+
         if (!window.viewMode) window.viewMode = 'roles';
         hR = `<div style="margin-bottom:10px;background:#111;padding:10px;border-radius:8px;border:1px solid var(--oro);display:flex;align-items:center;gap:10px">
             <span style="font-size:12px;font-weight:bold;color:var(--oro);text-transform:uppercase;font-family:'Oswald'">Visualizza:</span>
@@ -1325,9 +1401,11 @@
                 <option value="CEN" ${window.viewMode === 'CEN' ? 'selected' : ''}>CEN</option>
                 <option value="ATT" ${window.viewMode === 'ATT' ? 'selected' : ''}>ATT</option>
             </select></div>`;
+
         const ruoliOrdine = ['POR', 'DIF', 'CEN', 'ATT'];
         const gruppi = { 'POR': '', 'DIF': '', 'CEN': '', 'ATT': '' };
         let listaSemplice = "";
+
         data.ps.forEach(p => {
             const voti = Object.values(p.v_adm || {});
             const media = (voti.reduce((a, b) => a + b, 0) / (voti.length || 1)).toFixed(1);
@@ -1335,10 +1413,13 @@
             if (p.id === kingId && maxMvp > 0) bIcons += "👑";
             if (p.id === topPlayerId && maxMedia > 6) bIcons += "🔥";
             if (p.id === wallId && maxDefMedia > 6) bIcons += "🧱";
+
             const playerCard = `<div class="card" onclick="openP(${p.id})"><div class="bg-number">${p.m}</div><div class="card-left"><span class="role-badge">${p.r}</span><span class="player-name-new">${p.n} ${bIcons}</span><span class="player-sub">Media: ${media}</span></div><div class="card-right"><button class="btn-status" style="background:${p.convocato ? '#2e7d32' : '#222'}; color: white;">${p.convocato ? 'IN CAMPO' : 'RISERVA'}</button><button class="btn-status" style="background:#C61C23; color: white;" onclick="event.stopPropagation(); const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">SCHIERA</button></div></div>`;
+
             if (window.viewMode === 'all') { listaSemplice += playerCard; }
             else if (window.viewMode === 'roles') { if (gruppi[p.r] !== undefined) gruppi[p.r] += playerCard; else gruppi['ATT'] += playerCard; }
             else if (window.viewMode === p.r) { listaSemplice += playerCard; }
+
             hConv += `<div class="card" style="min-height:auto; padding:10px; margin-bottom:5px; border-left:5px solid ${p.convocato ? '#2e7d32' : '#222'}">
                 <b>${p.n}</b> (${p.r})
                 <button class="btn-status" style="float:right; width:auto; padding:5px 15px; background:${p.convocato ? '#C61C23' : '#2e7d32'}" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">${p.convocato ? 'RIMUOVI' : 'AGGIUNGI'}</button>
@@ -1379,11 +1460,14 @@
                 </div>`;
             }
         });
+
         if (window.viewMode === 'roles') {
             ruoliOrdine.forEach(r => { if (gruppi[r]) hR += `<h4 style="color:var(--oro); border-bottom:1px solid #333; padding-bottom:5px; margin:20px 0 10px 0; text-transform:uppercase; font-size:12px; letter-spacing:1px; font-family:'Oswald'">${r}</h4>` + gruppi[r]; });
         } else { hR += listaSemplice; }
+
         (data.matches || []).forEach((m, idx) => { hMatch += `<div class="card" style="display:flex"><b>${m.d}</b>: ${m.ris} vs ${m.avv} <button style="background:none; border:none; float:right" onclick="data.matches.splice(${idx},1); sync()">🗑️</button></div>`; });
         (data.news || []).forEach((n, idx) => { hNews += `<div class="card" style="display:block"><small>${n.d}</small><p>${n.txt}</p><button style="background:none; border:none; color:red" onclick="data.news.splice(${idx},1); sync()">🗑️ Elimina</button></div>`; });
+
         // Calendario
         const meseVis = viewDate.getMonth(), annoVis = viewDate.getFullYear();
         const nomiMesi = ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"];
@@ -1400,6 +1484,7 @@
             hCal += `<div class="calendar-cell ${eventiOggi.length > 0 ? 'has-event' : ''} ${isToday ? 'today' : ''}" onclick="showDayEvents('${dataLoop}')">${d}${eventiOggi.length > 0 ? '<div class="event-dot"></div>' : ''}</div>`;
         }
         hCal += `</div><div id="selected-day-info" class="selected-event-info"></div></div>`;
+
         // Aggiorna selector partite per sessione voto
         const selPV = document.getElementById('sel-partita-voto');
         if(selPV) {
@@ -1460,6 +1545,7 @@
             hStorico += `</div>`;
         });
         if(!hStorico) hStorico = '<p style="color:#555;font-size:13px;text-align:center;">Nessuna sessione voto ancora aperta.</p>';
+
         document.getElementById('l-rosa').innerHTML = hR;
         document.getElementById('l-admin').innerHTML = hA;
         const storicoEl = document.getElementById('l-storico-voti');
@@ -1473,6 +1559,7 @@
         document.getElementById('l-premi').innerHTML = hP;
         document.getElementById('l-calendario').innerHTML = hCal;
         document.getElementById('list-convocabili').innerHTML = hConv;
+
         // Giocatori sul campo
         const pl = document.getElementById('pitch-players');
         pl.innerHTML = "";
@@ -1485,6 +1572,7 @@
             d.className = 'player'; d.style.left = p.x + "%"; d.style.top = p.y + "%";
             d.innerHTML = `<div class="jersey">${p.m}${pBadge ? `<span class="badge-icon">${pBadge}</span>` : ''}</div><div class="p-name">${p.n}</div>`;
             d.onclick = () => openP(p.id);
+
             let isD = false;
             const start = () => isD = true;
             const move = (e) => {
@@ -1503,11 +1591,13 @@
             pl.appendChild(d);
         });
         drawTacticLines();
+
         // Se la sezione tattica è attiva, aggiorna il canvas
         if (document.getElementById('p-tattica').classList.contains('active')) {
             setTimeout(initHeatmapCanvas, 50);
         }
     }
+
     /* ============================================================
        MODALE EVENTI CALENDARIO
     ============================================================ */
@@ -1528,6 +1618,7 @@
         });
         document.getElementById('selected-day-info').innerHTML = html;
     };
+
     /* ============================================================
        MODALE GIOCATORE
     ============================================================ */
@@ -1545,6 +1636,7 @@
         document.getElementById('st-rd').innerText = p.rd || 0;
         document.getElementById('modal-player').style.display = 'flex';
     }
+
     // Ridimensiona canvas se la finestra cambia
     window.addEventListener('resize', () => {
         if (document.getElementById('p-tattica').classList.contains('active')) {
