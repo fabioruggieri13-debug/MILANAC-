@@ -7,12 +7,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Teko:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script
+src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root { --rosso: #C61C23; --oro: #D4AF37; --nero: #000; --erba-scura: #1b5e20; --erba-chiara: #2e7d32; --linee: rgba(255,255,255,0.9); }
         body { margin: 0; background: var(--nero); color: white; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; touch-action: none; }
-        
-        #intro { 
+#intro { 
             position: fixed; inset: 0; 
             background: radial-gradient(circle, rgba(198, 28, 35, 0.15) 0%, rgba(0,0,0,1) 80%), #000;
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
@@ -24,7 +24,7 @@
             background-size: 50px 50px; animation: particlesMove 20s linear infinite; opacity: 0.3; z-index: -1;
         }
         @keyframes particlesMove { from { background-position: 0 0; } to { background-position: 500px 1000px; } }
-        .intro-container { position: relative; display: flex; flex-direction: column; align-items: center; transform-style: preserve-3d; }
+.intro-container { position: relative; display: flex; flex-direction: column; align-items: center; transform-style: preserve-3d; }
         .intro-logo { width: 80%; max-width: 320px; mix-blend-mode: lighten; filter: drop-shadow(0 10px 30px rgba(0,0,0,0.8)) brightness(1.1); animation: logoEntrance 1.5s ease-out, logoFloat3D 4s infinite ease-in-out; margin-bottom: 40px; transform-style: preserve-3d; position: relative; }
         .intro-shadow { width: 150px; height: 20px; background: rgba(0,0,0,0.6); border-radius: 50%; filter: blur(10px); margin-top: -30px; margin-bottom: 30px; animation: shadowPulse 4s infinite ease-in-out; }
         @keyframes shadowPulse { 0%, 100% { transform: scale(1.2); opacity: 0.5; } 50% { transform: scale(0.8); opacity: 0.2; } }
@@ -33,13 +33,15 @@
         #intro.fade-out { transform: scale(2) translateZ(500px); opacity: 0; filter: blur(15px); pointer-events: none; }
         .btn-entrance { padding: 16px 55px; margin-top: 50px; background: linear-gradient(180deg, #e3262e 0%, #a01115 50%, #8b1216 100%); color: white; border: 3px solid var(--oro); border-radius: 50px; font-family: 'Oswald'; font-weight: bold; font-size: 16px; text-transform: uppercase; letter-spacing: 2.5px; cursor: pointer; position: relative; overflow: hidden; z-index: 10; box-shadow: 0 10px 25px rgba(0,0,0,0.7), inset 0 2px 5px rgba(255,255,255,0.3); transition: all 0.3s ease-out; -webkit-tap-highlight-color: transparent; }
         .btn-entrance::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%); border-radius: 50px 50px 0 0; pointer-events: none; }
-        .btn-entrance:hover, .btn-entrance:active { transform: translateY(-4px) scale(1.02); box-shadow: 0 15px 35px rgba(198, 28, 35, 0.6), inset 0 2px 5px rgba(255,255,255,0.4); background: linear-gradient(180deg, #ff333a 0%, #C61C23 100%); border-color: #fff; }
+.btn-entrance:hover, .btn-entrance:active { transform: translateY(-4px) scale(1.02); box-shadow: 0 15px 35px rgba(198, 28, 35, 0.6), inset 0 2px 5px rgba(255,255,255,0.4); background: linear-gradient(180deg, #ff333a 0%, #C61C23 100%); border-color: #fff; }
+
         header { height: 60px; border-bottom: 2px solid var(--rosso); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; background: #000; z-index: 2000; position: relative; }
         .sidebar { position: fixed; top: 0; right: -100%; width: 280px; height: 100%; background: rgba(5,5,5,0.98); transition: 0.4s; z-index: 3000; border-left: 2px solid var(--rosso); padding-top: 60px; }
         .sidebar.active { right: 0; }
         .sidebar button { width: 100%; padding: 18px; background: none; border: none; color: white; text-align: left; font-weight: bold; border-bottom: 1px solid #222; text-transform: uppercase; cursor: pointer; font-family: 'Oswald'; }
         .container { height: calc(100vh - 60px); overflow-y: auto; padding: 15px; box-sizing: border-box; padding-bottom: 60px; }
         .page { display: none; } .page.active { display: block; }
+
         /* ======================================================
            CAMPO DA GIOCO
         ====================================================== */
@@ -56,15 +58,18 @@
         .mid-dot { top: 50% !important; left: 50% !important; width: 6px !important; height: 6px !important; background: #fff !important; border-radius: 50% !important; transform: translate(-50%, -50%) !important; position: absolute !important; }
         .box-large-top { top: -2px !important; left: 50% !important; width: 66% !important; height: 18% !important; transform: translateX(-50%) !important; border-top: none !important; }
         .box-small-top { top: -2px !important; left: 50% !important; width: 32% !important; height: 6% !important; transform: translateX(-50%) !important; border-top: none !important; }
-        .penalty-dot-top { top: 13% !important; left: 50% !important; width: 5px !important; height: 5px !important; background: #fff !important; border-radius: 50% !important; transform: translateX(-50%) !important; position: absolute !important; }
+        .penalty-dot-top { top: 13% !important; left: 50% !important; width: 5px !important; height: 5px !important; background: #fff !important; border-radius: 50% !important; transform:
+translateX(-50%) !important; position: absolute !important; }
         .arc-top { top: 18% !important; left: 50% !important; width: 25% !important; height: 10% !important; border: 2px solid rgba(255,255,255,0.9) !important; border-radius: 0 0 50% 50% / 0 0 100% 100% !important; transform: translateX(-50%) !important; border-top: none !important; position: absolute !important; }
         .box-large-bot { bottom: -2px !important; left: 50% !important; width: 66% !important; height: 18% !important; transform: translateX(-50%) !important; border-bottom: none !important; }
         .box-small-bot { bottom: -2px !important; left: 50% !important; width: 32% !important; height: 6% !important; transform: translateX(-50%) !important; border-bottom: none !important; }
         .penalty-dot-bot { bottom: 13% !important; left: 50% !important; width: 5px !important; height: 5px !important; background: #fff !important; border-radius: 50% !important; transform: translateX(-50%) !important; position: absolute !important; }
         .arc-bot { bottom: 18% !important; left: 50% !important; width: 25% !important; height: 10% !important; border: 2px solid rgba(255,255,255,0.9) !important; border-radius: 50% 50% 0 0 / 100% 100% 0 0 !important; transform: translateX(-50%) !important; border-bottom: none !important; position: absolute !important; }
+
         /* ======================================================
            HEATMAP PROFESSIONALE
         ====================================================== */
+
         /* Canvas heatmap sovrapposto al campo */
         #heatmap-canvas {
             position: absolute;
@@ -75,6 +80,7 @@
             opacity: 0.82;
             transition: opacity 0.3s;
         }
+
         /* SVG per frecce tattiche */
         #arrows-svg {
             position: absolute;
@@ -93,10 +99,12 @@
             opacity: 0.92;
             filter: drop-shadow(0 0 4px rgba(255,215,0,0.8));
         }
+
         /* SVG per linee tattiche esistenti */
         #tactic-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; }
         .tactic-line { stroke: var(--oro); stroke-width: 1.5; stroke-dasharray: 4; opacity: 0.4; animation: dash 10s linear infinite; }
         @keyframes dash { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+
         /* ======================================================
            PANNELLO CONTROLLO HEATMAP
         ====================================================== */
@@ -141,12 +149,14 @@
             text-align: center;
         }
         .btn-hm-tool.active {
-            background: linear-gradient(180deg, #C61C23 0%, #8b0f12 100%);
+            background:
+linear-gradient(180deg, #C61C23 0%, #8b0f12 100%);
             border-color: var(--oro);
             color: white;
             box-shadow: 0 0 10px rgba(198,28,35,0.5);
         }
         .btn-hm-tool:active { transform: scale(0.95); }
+
         /* Intensità brush */
         .intensity-row {
             display: flex;
@@ -179,6 +189,7 @@
             border: 2px solid #000;
             box-shadow: 0 0 6px rgba(212,175,55,0.8);
         }
+
         /* Zone preset */
         .zone-presets {
             display: grid;
@@ -205,6 +216,7 @@
             color: white;
             transform: scale(0.95);
         }
+
         /* Legenda colori heatmap */
         .heatmap-legend {
             display: flex;
@@ -229,6 +241,7 @@
             color: #666;
             text-transform: uppercase;
         }
+
         /* Separatore sezioni */
         .section-divider {
             display: flex;
@@ -250,13 +263,15 @@
             height: 1px;
             background: #2a2a2a;
         }
+
         /* ======================================================
            GIOCATORI SUL CAMPO
         ====================================================== */
         .player { position: absolute; width: 54px; text-align: center; cursor: move; z-index: 100; touch-action: none; }
-        .jersey { width: 44px; height: 44px; background: #000; border: 3px solid var(--rosso); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; margin: 0 auto; color: var(--oro); font-size: 18px; position: relative; font-family: 'Oswald'; }
+.jersey { width: 44px; height: 44px; background: #000; border: 3px solid var(--rosso); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; margin: 0 auto; color: var(--oro); font-size: 18px; position: relative; font-family: 'Oswald'; }
         .badge-icon { position: absolute; top: -8px; right: -8px; font-size: 16px; background: rgba(0,0,0,0.8); border-radius: 50%; padding: 2px; }
         .p-name { background: rgba(0,0,0,0.85); font-size: 11px; padding: 2px 6px; border-radius: 10px; margin-top: 4px; display: inline-block; font-weight: bold; text-transform: uppercase; color: white; font-family: 'Teko'; }
+
         /* ======================================================
            CARD GIOCATORI ROSA
         ====================================================== */
@@ -276,6 +291,7 @@
         .btn-v { width: 32px; height: 32px; border-radius: 5px; border: none; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .btn-plus { background: #2e7d32; color: white; }
         .btn-minus { background: #c61c23; color: white; }
+
         /* ======================================================
            MODAL GIOCATORE
         ====================================================== */
@@ -285,9 +301,11 @@
         #m-nome { font-family: 'Teko', sans-serif; font-size: 45px; font-weight: 700; margin: 5px 0; text-transform: uppercase; line-height: 1; letter-spacing: 1px; color: white; }
         #m-numero-big { font-family: 'Oswald', sans-serif; font-size: 110px; font-weight: 700; line-height: 1; margin: 10px 0 20px 0; background: linear-gradient(180deg, #FFE08E 0%, #D4AF37 50%, #8A6E2F 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.9)); display: block; }
         .m-stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 20px; }
-        .stat-item { display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.03); padding: 10px; border-radius: 10px; min-height: 60px; }
+        .stat-item { display: flex;
+flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.03); padding: 10px; border-radius: 10px; min-height: 60px; }
         .stat-label { font-size: 10px; color: #888; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; margin-bottom: 2px; }
         .stat-value { font-family: 'Oswald'; font-size: 26px; color: white; font-weight: 700; line-height: 1; }
+
         /* ======================================================
            CALENDARIO
         ====================================================== */
@@ -304,238 +322,19 @@
         .event-dot { width: 6px; height: 6px; background: var(--oro); border-radius: 50%; margin-top: 4px; box-shadow: 0 0 5px var(--oro); }
         .selected-event-info { margin-top: 25px; border-top: 2px solid rgba(212, 175, 55, 0.3); padding-top: 15px; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
         /* ======================================================
            CONVOCATI MODAL
         ====================================================== */
         .convocati-list { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 6000; display: none; padding: 20px; overflow-y: auto; }
+
         /* Bottoni azione tattica */
         .tactic-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
         .btn-tactic-action { padding: 10px; background: #222; border: 1px solid var(--rosso); color: white; border-radius: 8px; font-family: 'Oswald'; font-size: 12px; text-transform: uppercase; cursor: pointer; }
-        /* ======================================================
-           MODAL LOGIN ADMIN
-        ====================================================== */
-        #modal-admin-login {
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,0.96);
-            z-index: 9000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(10px);
-        }
-        .admin-login-box {
-            background: linear-gradient(160deg, #111 0%, #050505 100%);
-            border: 2px solid var(--oro);
-            border-radius: 24px;
-            padding: 30px 25px;
-            width: 88%;
-            max-width: 340px;
-            text-align: center;
-            box-shadow: 0 0 60px rgba(198,28,35,0.2);
-        }
-        .admin-login-title {
-            font-family: 'Oswald';
-            font-size: 13px;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 6px;
-        }
-        .admin-login-name {
-            font-family: 'Teko';
-            font-size: 42px;
-            font-weight: 700;
-            color: white;
-            text-transform: uppercase;
-            margin: 0 0 20px;
-            line-height: 1;
-        }
-        /* Selezione admin */
-        .admin-selector {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-        .admin-btn {
-            padding: 10px 5px;
-            background: #1a1a1a;
-            border: 1.5px solid #333;
-            color: #aaa;
-            border-radius: 10px;
-            font-family: 'Oswald';
-            font-size: 12px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .admin-btn.selected {
-            background: rgba(198,28,35,0.25);
-            border-color: var(--rosso);
-            color: white;
-        }
-        /* PIN pad */
-        .pin-display {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        .pin-dot {
-            width: 14px; height: 14px;
-            border-radius: 50%;
-            border: 2px solid #444;
-            background: transparent;
-            transition: all 0.2s;
-        }
-        .pin-dot.filled {
-            background: var(--oro);
-            border-color: var(--oro);
-            box-shadow: 0 0 8px rgba(212,175,55,0.6);
-        }
-        .pin-dot.error { background: var(--rosso); border-color: var(--rosso); animation: shake 0.3s ease; }
-        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
-        .pin-pad {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .pin-key {
-            aspect-ratio: 1;
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            color: white;
-            border-radius: 12px;
-            font-family: 'Oswald';
-            font-size: 22px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.15s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .pin-key:active { background: #333; transform: scale(0.94); }
-        .pin-key.del { font-size: 16px; color: #888; }
-        .pin-key.empty { background: transparent; border: none; cursor: default; }
-        /* Input password testuale */
-        .pwd-input-wrap { margin-bottom: 15px; }
-        .pwd-input-wrap input {
-            text-align: center;
-            font-family: 'Oswald';
-            font-size: 18px;
-            letter-spacing: 4px;
-            background: #111;
-            border: 1.5px solid #333;
-            border-radius: 10px;
-            color: white;
-            padding: 12px;
-        }
-        .login-toggle {
-            font-family: 'Oswald';
-            font-size: 11px;
-            color: #555;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            margin-bottom: 15px;
-            display: inline-block;
-            text-decoration: underline;
-        }
-        .login-error {
-            color: var(--rosso);
-            font-family: 'Oswald';
-            font-size: 12px;
-            margin-top: 8px;
-            min-height: 18px;
-        }
-        /* ======================================================
-           STORICO VOTI — badge partita
-        ====================================================== */
-        .match-vote-session {
-            background: linear-gradient(135deg, #111 0%, #0a0a0a 100%);
-            border: 1px solid rgba(212,175,55,0.3);
-            border-radius: 16px;
-            padding: 14px;
-            margin-bottom: 8px;
-        }
-        .mvs-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .mvs-match {
-            font-family: 'Teko';
-            font-size: 20px;
-            color: white;
-            text-transform: uppercase;
-        }
-        .mvs-date { font-size: 11px; color: #666; font-family: 'Oswald'; }
-        .mvs-votes-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 6px;
-        }
-        .mvs-vote-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(255,255,255,0.03);
-            padding: 5px 10px;
-            border-radius: 8px;
-        }
-        .mvs-player-name { font-size: 12px; font-family: 'Oswald'; color: #ccc; }
-        .mvs-vote-val {
-            font-family: 'Oswald';
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--oro);
-        }
-        /* Barra voto nascosto */
-        .vote-hidden-bar {
-            background: #1a1a1a;
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-            font-family: 'Oswald';
-            font-size: 12px;
-            color: #555;
-            letter-spacing: 1px;
-            margin-top: 5px;
-        }
-        /* Admin badge nell'header */
-        #admin-badge {
-            display: none;
-            align-items: center;
-            gap: 6px;
-            background: rgba(198,28,35,0.15);
-            border: 1px solid rgba(198,28,35,0.4);
-            border-radius: 20px;
-            padding: 4px 12px;
-            font-family: 'Oswald';
-            font-size: 12px;
-            color: var(--oro);
-            cursor: pointer;
-        }
-        /* Sessione voto attiva */
-        .vote-session-banner {
-            background: linear-gradient(90deg, rgba(198,28,35,0.2) 0%, rgba(198,28,35,0.05) 100%);
-            border: 1px solid rgba(198,28,35,0.5);
-            border-radius: 10px;
-            padding: 10px 14px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .vsb-label { font-family: 'Oswald'; font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
-        .vsb-match { font-family: 'Teko'; font-size: 20px; color: white; }
-        .vsb-btn { background: var(--rosso); border: none; color: white; font-family: 'Oswald'; font-size: 11px; padding: 6px 12px; border-radius: 8px; cursor: pointer; text-transform: uppercase; }
     </style>
 </head>
 <body>
+
 <!-- INTRO -->
 <div id="intro">
     <div class="intro-container">
@@ -547,6 +346,7 @@
         ">ENTRA NEL CLUB</button>
     </div>
 </div>
+
 <header>
     <div style="font-weight:900; color:var(--rosso); font-size:22px; font-family: 'Oswald';">MILANAC</div>
     <div onclick="document.querySelector('.sidebar').classList.add('active')" style="font-size:30px; cursor:pointer; color:var(--rosso)">☰</div>
@@ -562,7 +362,9 @@
     <button onclick="goAdmin()">⚙️ Area Admin</button>
     <button onclick="document.querySelector('.sidebar').classList.remove('active')">Chiudi</button>
 </nav>
+
 <div class="container">
+
     <!-- NEWS -->
     <div id="p-news" class="page">
         <h2 style="color:var(--oro); font-family: 'Oswald';">NEWS & COMUNICATI</h2>
@@ -572,6 +374,7 @@
         </div>
         <div id="l-news"></div>
     </div>
+
     <!-- ROSA -->
     <div id="p-rosa" class="page active"><div id="l-rosa"></div></div>
     
@@ -579,11 +382,13 @@
          SEZIONE TATTICA CON HEATMAP PROFESSIONALE
     ====================================================== -->
     <div id="p-tattica" class="page">
+
         <!-- PANNELLO HEATMAP -->
         <div class="heatmap-panel">
             <div class="heatmap-panel-title">
                 🔥 HEATMAP TATTICA
             </div>
+
             <!-- Strumenti -->
             <div class="hm-tools-row">
                 <button class="btn-hm-tool active" id="tool-heat" onclick="setTool('heat')">🔥 Calore</button>
@@ -591,11 +396,13 @@
                 <button class="btn-hm-tool" id="tool-erase" onclick="setTool('erase')">✕ Cancella</button>
                 <button class="btn-hm-tool" id="tool-clear" onclick="clearAll()" style="border-color:#C61C23;">🗑 Reset</button>
             </div>
+
             <!-- Intensità -->
             <div class="intensity-row">
                 <span class="intensity-label">Intensità</span>
                 <input type="range" class="intensity-slider" id="brush-intensity" min="1" max="10" value="6">
             </div>
+
             <!-- Zone preset -->
             <div class="section-divider"><span>Zone rapide</span></div>
             <div class="zone-presets">
@@ -608,6 +415,7 @@
                 <button class="btn-zone-preset" onclick="paintZone('portaDif')">⬇ Porta Dif.</button>
                 <button class="btn-zone-preset" onclick="paintZone('tuttoCampo')">Full Field</button>
             </div>
+
             <!-- Legenda -->
             <div class="heatmap-legend">
                 <span class="legend-txt">Bassa</span>
@@ -615,15 +423,18 @@
                 <span class="legend-txt">Alta</span>
             </div>
         </div>
+
         <!-- Azioni formazione -->
         <div class="tactic-controls">
             <button class="btn-tactic-action" onclick="document.getElementById('convocati-modal').style.display='block'">👥 Convocati</button>
             <button class="btn-tactic-action" style="background:#C61C23; border-color:white;" onclick="shareSquad()">📲 Condividi</button>
         </div>
+
         <!-- CAMPO -->
         <div id="pitch">
             <!-- Canvas heatmap -->
             <canvas id="heatmap-canvas"></canvas>
+
             <!-- SVG frecce tattiche disegnate a mano -->
             <svg id="arrows-svg">
                 <defs>
@@ -639,33 +450,25 @@
                     </filter>
                 </defs>
             </svg>
+
             <!-- SVG linee tattiche tra giocatori -->
             <svg id="tactic-svg"></svg>
-            <!-- Linee campo -->
-            <div class="p-line mid-line"></div>
-            <div class="p-line mid-circle"></div>
-            <div class="mid-dot"></div>
-            <div class="p-line box-large-top"></div>
-            <div class="p-line box-small-top"></div>
-            <div class="arc-top"></div>
-            <div class="penalty-dot-top"></div>
-            <div class="p-line box-large-bot"></div>
-            <div class="p-line box-small-bot"></div>
-            <div class="arc-bot"></div>
-            <div class="penalty-dot-bot"></div>
-            <!-- Giocatori -->
+<!-- Giocatori -->
             <div id="pitch-players"></div>
         </div>
+
         <p style="text-align:center; font-size:10px; color:#555; margin-top:8px;">
             🔥 Dipingi zone di calore · ➜ Disegna frecce di movimento · Trascina giocatori
         </p>
     </div>
+
     <!-- CONVOCATI -->
     <div id="convocati-modal" class="convocati-list">
         <h3 style="color:var(--oro); font-family:'Oswald'">CONVOCATI PER LA PARTITA</h3>
         <div id="list-convocabili"></div>
         <button class="btn-main" style="margin-top:20px" onclick="document.getElementById('convocati-modal').style.display='none'">SALVA E CHIUDI</button>
     </div>
+
     <!-- CALENDARIO -->
     <div id="p-calendario" class="page">
         <h3 style="color:var(--oro); font-family: 'Oswald';">CALENDARIO</h3>
@@ -684,8 +487,10 @@
         </div>
         <div id="l-calendario"></div>
     </div>
+
     <!-- MERCATO -->
     <div id="p-mercato" class="page"><h3 style="font-family: 'Oswald';">VALORI DI MERCATO</h3><div id="l-mercato"></div></div>
+
     <!-- PARTITE -->
     <div id="p-partite" class="page">
         <h3 style="font-family: 'Oswald';">RISULTATI PARTITE</h3>
@@ -696,86 +501,31 @@
         </div>
         <div id="l-partite"></div>
     </div>
+
     <!-- PREMI -->
     <div id="p-premi" class="page"><h3 style="font-family: 'Oswald';">HALL OF FAME</h3><div id="l-premi"></div></div>
     
     <!-- ADMIN -->
     <div id="p-admin" class="page">
-        <div style="display:flex;align-items:center;justify-content:space-between;background:linear-gradient(90deg,rgba(198,28,35,0.15),transparent);border:1px solid rgba(198,28,35,0.3);border-radius:12px;padding:12px 16px;margin-bottom:14px;">
-            <div>
-                <div style="font-family:'Oswald';font-size:10px;color:#666;text-transform:uppercase;letter-spacing:2px;">Loggato come</div>
-                <div style="font-family:'Teko';font-size:28px;color:white;" id="admin-logged-name">—</div>
-            </div>
-            <button onclick="adminLogout()" style="background:#1a1a1a;border:1px solid #333;color:#888;font-family:'Oswald';font-size:11px;padding:8px 14px;border-radius:8px;cursor:pointer;text-transform:uppercase;">Esci</button>
-        </div>
-        <div id="vote-session-wrap" style="display:none;margin-bottom:14px;">
-            <div class="vote-session-banner">
-                <div><div class="vsb-label">Sessione voto attiva</div><div class="vsb-match" id="vsb-match-name">—</div></div>
-                <button class="vsb-btn" onclick="closeVoteSession()">Chiudi sessione</button>
-            </div>
-        </div>
-        <div class="card" style="display:block;margin-bottom:12px;">
-            <h4 style="font-family:'Oswald';color:var(--oro);margin-top:0;">📋 SESSIONE VOTI PARTITA</h4>
-            <p style="font-size:13px;color:#888;margin:0 0 10px;">Seleziona la partita appena disputata per aprire la sessione di voto.</p>
-            <select id="sel-partita-voto" style="margin-bottom:8px;"><option value="">— Seleziona partita —</option></select>
-            <button class="btn-main" onclick="openVoteSession()" style="background:#2e7d32;">✅ APRI SESSIONE VOTO</button>
-        </div>
-        <div class="card" style="display:block;margin-bottom:12px;">
-            <h4 style="font-family:'Oswald';margin-top:0;">NUOVO GIOCATORE</h4>
+        <div class="card" style="display:block;">
+            <h3 style="font-family: 'Oswald';">PANNELLO ADMIN</h3>
+            <label>Admin Corrente:</label>
+            <select id="active-admin" onchange="render()">
+                <option value="Fabio">Fabio</option><option value="Beppe">Beppe</option>
+                <option value="Christian">Christian</option><option value="Vicio">Vicio</option>
+                <option value="Martin">Martin</option>
+            </select>
+            <hr>
+            <h4>NUOVO GIOCATORE</h4>
             <input type="text" id="in-n" placeholder="Nome">
             <input type="number" id="in-m" placeholder="Numero">
             <select id="in-r"><option>POR</option><option>DIF</option><option>CEN</option><option>ATT</option></select>
             <button class="btn-main" onclick="addP()">AGGIUNGI</button>
         </div>
-        <select id="active-admin" style="display:none"></select>
         <div id="l-admin"></div>
-        <h4 style="font-family:'Oswald';color:var(--oro);margin-top:20px;border-top:1px solid #222;padding-top:15px;">📊 STORICO VOTI</h4>
-        <div id="l-storico-voti"></div>
     </div>
 </div>
-<!-- MODAL LOGIN ADMIN -->
-<div id="modal-admin-login" style="position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:9000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(10px);">
-    <div class="admin-login-box">
-        <div class="admin-login-title">⚙️ Accesso Admin</div>
-        <div class="admin-login-name" id="login-selected-name">Seleziona admin</div>
-        <div class="admin-selector">
-            <button class="admin-btn" onclick="selectAdminLogin('Fabio')">Fabio</button>
-            <button class="admin-btn" onclick="selectAdminLogin('Beppe')">Beppe</button>
-            <button class="admin-btn" onclick="selectAdminLogin('Christian')">Christian</button>
-            <button class="admin-btn" onclick="selectAdminLogin('Vicio')">Vicio</button>
-            <button class="admin-btn" onclick="selectAdminLogin('Martin')">Martin</button>
-        </div>
-        <span class="login-toggle" id="login-toggle" onclick="toggleLoginMode()">Usa password testuale</span>
-        <div id="pin-section">
-            <div class="pin-display">
-                <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div>
-                <div class="pin-dot" id="pd2"></div><div class="pin-dot" id="pd3"></div>
-            </div>
-            <div class="pin-pad">
-                <button class="pin-key" onclick="pinPress('1')">1</button>
-                <button class="pin-key" onclick="pinPress('2')">2</button>
-                <button class="pin-key" onclick="pinPress('3')">3</button>
-                <button class="pin-key" onclick="pinPress('4')">4</button>
-                <button class="pin-key" onclick="pinPress('5')">5</button>
-                <button class="pin-key" onclick="pinPress('6')">6</button>
-                <button class="pin-key" onclick="pinPress('7')">7</button>
-                <button class="pin-key" onclick="pinPress('8')">8</button>
-                <button class="pin-key" onclick="pinPress('9')">9</button>
-                <div class="pin-key empty"></div>
-                <button class="pin-key" onclick="pinPress('0')">0</button>
-                <button class="pin-key del" onclick="pinDel()">&#x232B;</button>
-            </div>
-        </div>
-        <div id="pwd-section" style="display:none;">
-            <div class="pwd-input-wrap">
-                <input type="password" id="pwd-input" placeholder="Password..." onkeydown="if(event.key==='Enter') tryAdminLogin()">
-            </div>
-            <button class="btn-main" onclick="tryAdminLogin()" style="border-radius:10px;margin-bottom:10px;">ACCEDI</button>
-        </div>
-        <div class="login-error" id="login-error"></div>
-        <button style="background:none;border:none;color:#444;font-family:'Oswald';font-size:12px;cursor:pointer;margin-top:5px;" onclick="closeAdminLogin()">ANNULLA</button>
-    </div>
-</div>
+
 <!-- MODAL GIOCATORE -->
 <div id="modal-player" onclick="this.style.display='none'">
     <div class="modal-content" onclick="event.stopPropagation()">
@@ -793,6 +543,7 @@
         <button class="btn-main" style="margin-top:30px; border-radius:15px; margin-bottom:10px;" onclick="document.getElementById('modal-player').style.display='none'">CHIUDI</button>
     </div>
 </div>
+
 <script>
     /* ============================================================
        FIREBASE
@@ -800,25 +551,27 @@
     const firebaseConfig = { apiKey: "AIzaSyDbO_AxHKz1avQpYscoSSLpEfmFaL8MRGg", authDomain: "milanac-proclub.firebaseapp.com", projectId: "milanac-proclub", storageBucket: "milanac-proclub.firebasestorage.app", messagingSenderId: "61702234008", appId: "1:61702234008:web:aa597d8600d0a8251895ed" };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
-    let data = { ps: [], mod: '4-4-2', matches: [], news: [], calendar: [], voteHistory: [] };
+    let data = { ps: [], mod: '4-4-2', matches: [], news: [], calendar: [] };
+    const PASS = "milanac";
     let viewDate = new Date();
-    // ---- ADMIN AUTH ----
-    // Credenziali per ogni admin: { pin: '1234', pwd: 'password' }
-    // IMPORTANTE: cambia questi valori prima di distribuire l'app!
-    const ADMIN_CREDS = {
-        'Fabio':    { pin: '1111', pwd: 'fabio123' },
-        'Beppe':    { pin: '2222', pwd: 'beppe123' },
-        'Christian':{ pin: '3333', pwd: 'christian123' },
-        'Vicio':    { pin: '4444', pwd: 'vicio123' },
-        'Martin':   { pin: '5555', pwd: 'martin123' }
-    };
-    let currentAdmin = null;   // admin loggato
-    let currentVoteSession = null; // { matchId, matchLabel } sessione voto aperta
-    let loginTarget = null;    // admin selezionato nel login modal
-    let pinBuffer = '';
-    let loginMode = 'pin';     // 'pin' | 'pwd'
-    db.collection("milanac").doc("v84_final").onSnapshot(doc => { if(doc.exists) { data = doc.data(); if(!data.voteHistory) data.voteHistory=[]; render(); } });
-    function sync() { db.collection("milanac").doc("v84_final").set(data); }
+
+    db.collection("milanac").doc("v84_final").onSnapshot(doc => { if(doc.exists) { data = doc.data(); render(); } });
+    function sync() {
+
+            <!-- Linee campo -->
+            <div class="p-line mid-line"></div>
+            <div class="p-line mid-circle"></div>
+            <div class="mid-dot"></div>
+            <div class="p-line box-large-top"></div>
+            <div class="p-line box-small-top"></div>
+            <div class="arc-top"></div>
+            <div class="penalty-dot-top"></div>
+            <div class="p-line box-large-bot"></div>
+            <div class="p-line box-small-bot"></div>
+            <div class="arc-bot"></div>
+            <div class="penalty-dot-bot"></div>
+db.collection("milanac").doc("v84_final").set(data); }
+
     /* ============================================================
        NAVIGAZIONE
     ============================================================ */
@@ -830,147 +583,10 @@
         if (p === 'tattica') { setTimeout(initHeatmapCanvas, 100); }
     }
     function goAdmin() {
-        openAdminLogin();
+        let p = prompt("Inserisci la Password Admin:");
+        if (p === PASS) { go('admin'); } else { alert("Accesso Negato!"); go('rosa'); }
     }
-    /* ============================================================
-       ADMIN LOGIN SYSTEM
-    ============================================================ */
-    function openAdminLogin() {
-        pinBuffer = '';
-        loginTarget = null;
-        loginMode = 'pin';
-        document.getElementById('login-selected-name').innerText = 'Seleziona admin';
-        document.getElementById('login-error').innerText = '';
-        document.getElementById('pin-section').style.display = 'block';
-        document.getElementById('pwd-section').style.display = 'none';
-        document.getElementById('login-toggle').innerText = 'Usa password testuale';
-        document.querySelectorAll('.admin-btn').forEach(b => b.classList.remove('selected'));
-        updatePinDisplay();
-        document.getElementById('modal-admin-login').style.display = 'flex';
-    }
-    function closeAdminLogin() {
-        document.getElementById('modal-admin-login').style.display = 'none';
-    }
-    function selectAdminLogin(name) {
-        loginTarget = name;
-        pinBuffer = '';
-        updatePinDisplay();
-        document.getElementById('login-selected-name').innerText = name;
-        document.getElementById('login-error').innerText = '';
-        document.querySelectorAll('.admin-btn').forEach(b => {
-            b.classList.toggle('selected', b.innerText === name);
-        });
-    }
-    function toggleLoginMode() {
-        loginMode = loginMode === 'pin' ? 'pwd' : 'pin';
-        document.getElementById('pin-section').style.display = loginMode === 'pin' ? 'block' : 'none';
-        document.getElementById('pwd-section').style.display = loginMode === 'pwd' ? 'block' : 'none';
-        document.getElementById('login-toggle').innerText = loginMode === 'pin' ? 'Usa password testuale' : 'Usa PIN numerico';
-        document.getElementById('login-error').innerText = '';
-        pinBuffer = '';
-        updatePinDisplay();
-    }
-    function updatePinDisplay() {
-        for(let i=0; i<4; i++){
-            const dot = document.getElementById('pd'+i);
-            if(!dot) continue;
-            dot.classList.remove('filled','error');
-            if(i < pinBuffer.length) dot.classList.add('filled');
-        }
-    }
-    function pinPress(digit) {
-        if(!loginTarget){ document.getElementById('login-error').innerText = 'Seleziona prima un admin.'; return; }
-        if(pinBuffer.length >= 4) return;
-        pinBuffer += digit;
-        updatePinDisplay();
-        if(pinBuffer.length === 4) {
-            setTimeout(tryAdminLogin, 150);
-        }
-    }
-    function pinDel() {
-        pinBuffer = pinBuffer.slice(0,-1);
-        updatePinDisplay();
-        document.getElementById('login-error').innerText = '';
-    }
-    function tryAdminLogin() {
-        if(!loginTarget){ document.getElementById('login-error').innerText = 'Seleziona prima un admin.'; return; }
-        const creds = ADMIN_CREDS[loginTarget];
-        let ok = false;
-        if(loginMode === 'pin') {
-            ok = pinBuffer === creds.pin;
-        } else {
-            const pwd = document.getElementById('pwd-input').value;
-            ok = pwd === creds.pwd;
-            document.getElementById('pwd-input').value = '';
-        }
-        if(ok) {
-            currentAdmin = loginTarget;
-            document.getElementById('modal-admin-login').style.display = 'none';
-            document.getElementById('admin-logged-name').innerText = currentAdmin;
-            go('admin');
-        } else {
-            document.getElementById('login-error').innerText = '❌ Credenziali errate';
-            // Effetto shake sui pallini PIN
-            for(let i=0;i<4;i++){const d=document.getElementById('pd'+i); if(d){d.classList.add('error'); setTimeout(()=>d.classList.remove('error'),400);}}
-            pinBuffer = '';
-            setTimeout(updatePinDisplay, 420);
-        }
-    }
-    function adminLogout() {
-        currentAdmin = null;
-        currentVoteSession = null;
-        document.getElementById('vote-session-wrap').style.display = 'none';
-        go('rosa');
-    }
-    /* ============================================================
-       SESSIONE VOTI PARTITA
-    ============================================================ */
-    function openVoteSession() {
-        if(!currentAdmin){ alert('Devi essere loggato come admin.'); return; }
-        const sel = document.getElementById('sel-partita-voto');
-        const val = sel.value;
-        if(!val){ alert('Seleziona una partita.'); return; }
-        const match = data.matches.find(m => m.id == val);
-        if(!match){ alert('Partita non trovata.'); return; }
-        // Controlla se esiste già una sessione per questa partita
-        const existing = (data.voteHistory||[]).find(s => s.matchId == val);
-        if(existing) {
-            const go2 = confirm('Esiste già una sessione voto per questa partita. Vuoi riaprirla per aggiungere i tuoi voti?');
-            if(!go2) return;
-            currentVoteSession = { matchId: val, matchLabel: `${match.ris} vs ${match.avv} (${match.d})` };
-        } else {
-            // Crea nuova sessione
-            const session = {
-                id: Date.now(),
-                matchId: val,
-                matchLabel: `${match.ris} vs ${match.avv} (${match.d})`,
-                createdAt: new Date().toLocaleString(),
-                votes: {}  // { playerId: { adminName: voto } }
-            };
-            if(!data.voteHistory) data.voteHistory = [];
-            data.voteHistory.unshift(session);
-            sync();
-            currentVoteSession = { matchId: val, matchLabel: session.matchLabel };
-        }
-        document.getElementById('vsb-match-name').innerText = currentVoteSession.matchLabel;
-        document.getElementById('vote-session-wrap').style.display = 'block';
-        render();
-        alert('✅ Sessione aperta! Ora puoi votare i giocatori qui sotto.');
-    }
-    function closeVoteSession() {
-        currentVoteSession = null;
-        document.getElementById('vote-session-wrap').style.display = 'none';
-        render();
-    }
-    function setVoteInSession(playerId, delta) {
-        if(!currentAdmin || !currentVoteSession) return;
-        const session = (data.voteHistory||[]).find(s => s.matchId == currentVoteSession.matchId);
-        if(!session) return;
-        if(!session.votes[playerId]) session.votes[playerId] = {};
-        const cur = session.votes[playerId][currentAdmin] || 6;
-        session.votes[playerId][currentAdmin] = Math.min(10, Math.max(1, parseFloat((cur + delta).toFixed(1))));
-        sync();
-    }
+
     /* ============================================================
        HEATMAP ENGINE
     ============================================================ */
@@ -981,6 +597,7 @@
     let isDrawing = false;
     let arrowStart = null;
     let arrows = [];           // array frecce salvate { x1,y1,x2,y2 }
+
     // Inizializza griglia vuota
     function initGrid() {
         heatGrid = [];
@@ -990,6 +607,7 @@
         }
     }
     initGrid();
+
     function initHeatmapCanvas() {
         const pitch = document.getElementById('pitch');
         const canvas = document.getElementById('heatmap-canvas');
@@ -999,6 +617,7 @@
         drawHeatmap();
         setupPitchInteraction();
     }
+
     /* Disegna la heatmap sul canvas usando interpolazione radiale */
     function drawHeatmap() {
         const canvas = document.getElementById('heatmap-canvas');
@@ -1007,8 +626,10 @@
         const W = canvas.width;
         const H = canvas.height;
         ctx.clearRect(0, 0, W, H);
+
         const cellW = W / GRID_COLS;
         const cellH = H / GRID_ROWS;
+
         for (let r = 0; r < GRID_ROWS; r++) {
             for (let c = 0; c < GRID_COLS; c++) {
                 const val = Math.min(1, heatGrid[r][c]);
@@ -1043,6 +664,7 @@
         }
         drawArrows();
     }
+
     function drawArrows() {
         const svg = document.getElementById('arrows-svg');
         if (!svg) return;
@@ -1059,12 +681,14 @@
             svg.appendChild(path);
         });
     }
+
     /* Converti coordinate pixel → griglia */
     function pixelToGrid(px, py, canvas) {
         const col = Math.floor((px / canvas.width) * GRID_COLS);
         const row = Math.floor((py / canvas.height) * GRID_ROWS);
         return { col: Math.max(0, Math.min(GRID_COLS - 1, col)), row: Math.max(0, Math.min(GRID_ROWS - 1, row)) };
     }
+
     /* Pittura calore su un punto con brush rotondo */
     function paintHeat(px, py, canvas, intensity) {
         const { col, row } = pixelToGrid(px, py, canvas);
@@ -1080,6 +704,7 @@
             }
         }
     }
+
     /* Cancella area */
     function eraseHeat(px, py, canvas) {
         const { col, row } = pixelToGrid(px, py, canvas);
@@ -1092,6 +717,7 @@
             }
         }
     }
+
     /* Ottieni coordinate evento toccato/cliccato relative al canvas */
     function getEventPos(e, canvas) {
         const rect = canvas.getBoundingClientRect();
@@ -1103,6 +729,7 @@
             y: (t.clientY - rect.top) * scaleY
         };
     }
+
     let _rafPending = false;
     function setupPitchInteraction() {
         const canvas = document.getElementById('heatmap-canvas');
@@ -1110,8 +737,9 @@
         if (!canvas || !pitch) return;
         // Rimuovi listener vecchi clonando
         const newCanvas = canvas.cloneNode(true);
-        canvas.parentNode.replaceChild(newCanvas, canvas);
+canvas.parentNode.replaceChild(newCanvas, canvas);
         const c = document.getElementById('heatmap-canvas');
+
         const onStart = (e) => {
             if (currentTool === 'arrow') {
                 const pos = getEventPos(e, c);
@@ -1153,15 +781,18 @@
             }
             isDrawing = false;
         };
+
         c.addEventListener('mousedown', onStart);
         c.addEventListener('mousemove', onMove);
         window.addEventListener('mouseup', onEnd);
         c.addEventListener('touchstart', onStart, { passive: true });
         c.addEventListener('touchmove', onMove, { passive: false });
         c.addEventListener('touchend', onEnd);
+
         // Aggiorna pointer-events: il canvas deve catturare eventi solo se tool attivo
         c.style.pointerEvents = 'auto';
     }
+
     /* ============================================================
        TOOL SELECTOR
     ============================================================ */
@@ -1177,6 +808,7 @@
         const c = document.getElementById('heatmap-canvas');
         if (c) c.style.cursor = t === 'arrow' ? 'crosshair' : t === 'erase' ? 'cell' : 'default';
     }
+
     function clearAll() {
         initGrid();
         arrows = [];
@@ -1184,6 +816,7 @@
         const svg = document.getElementById('arrows-svg');
         if (svg) svg.querySelectorAll('.arrow-path').forEach(el => el.remove());
     }
+
     /* ============================================================
        ZONE PRESET — dipinge zone tattiche predefinite
     ============================================================ */
@@ -1197,6 +830,7 @@
         portaDif:     { rStart: 48, rEnd: 60, cStart: 10, cEnd: 30, intensity: 0.85 },
         tuttoCampo:   { rStart: 5,  rEnd: 55, cStart: 3,  cEnd: 37, intensity: 0.45 }
     };
+
     function paintZone(zoneKey) {
         const z = ZONE_DEFS[zoneKey];
         if (!z) return;
@@ -1213,6 +847,7 @@
         event.target.classList.add('flashing');
         setTimeout(() => event.target.classList.remove('flashing'), 400);
     }
+
     /* ============================================================
        LINEE TATTICHE TRA GIOCATORI
     ============================================================ */
@@ -1236,6 +871,7 @@
             }
         }
     }
+
     /* ============================================================
        CONDIVISIONE
     ============================================================ */
@@ -1257,13 +893,13 @@
         } catch (err) {
             const conv = data.ps.filter(p => p.convocato).map(p => `${p.m}. ${p.n}`).join('\n');
             alert("Impossibile generare la grafica.\n\n" + conv);
-        }
+}
     }
+
     /* ============================================================
        CRUD DATI
     ============================================================ */
     function addP() {
-        if(!currentAdmin){ alert('Devi essere loggato come admin.'); return; }
         const n = document.getElementById('in-n').value, m = document.getElementById('in-m').value, r = document.getElementById('in-r').value;
         if (n && m) { data.ps.push({ id: Date.now(), n, m, r, g: 0, a: 0, mvp: 0, yl: 0, rd: 0, potm: 0, convocato: false, x: 43, y: 80, v_adm: { "Fabio": 6, "Beppe": 6, "Christian": 6, "Vicio": 6, "Martin": 6 } }); sync(); }
     }
@@ -1274,7 +910,7 @@
     }
     function addMatch() {
         const avv = document.getElementById('m-avv').value, ris = document.getElementById('m-ris').value;
-        if (avv && ris) { if (!data.matches) data.matches = []; data.matches.unshift({ id: Date.now(), avv, ris, d: new Date().toLocaleDateString() }); sync(); }
+        if (avv && ris) { if (!data.matches) data.matches = []; data.matches.unshift({ avv, ris, d: new Date().toLocaleDateString() }); sync(); }
     }
     function addCalendarEvent() {
         const avv = document.getElementById('cal-avv').value;
@@ -1296,10 +932,12 @@
         const txt = document.getElementById('news-text').value;
         if (txt) { if (!data.news) data.news = []; data.news.unshift({ txt, d: new Date().toLocaleString() }); sync(); document.getElementById('news-text').value = ''; }
     }
+
     /* ============================================================
        CALENDARIO NAVIGAZIONE
     ============================================================ */
     window.changeMonth = function (dir) { viewDate.setMonth(viewDate.getMonth() + dir); render(); };
+
     /* ============================================================
        RENDER PRINCIPALE
     ============================================================ */
@@ -1307,6 +945,7 @@
         let hR = "", hA = "", hMk = "", hP = "", hMatch = "", hNews = "", hConv = "";
         const activeAdm = document.getElementById('active-admin').value;
         let maxMedia = -1, topPlayerId = null, maxMvp = -1, kingId = null, maxDefMedia = -1, wallId = null;
+
         data.ps.forEach(p => {
             const voti = Object.values(p.v_adm || {});
             const media = parseFloat((voti.reduce((a, b) => a + b, 0) / (voti.length || 1)).toFixed(1));
@@ -1314,6 +953,7 @@
             if ((p.mvp || 0) > maxMvp) { maxMvp = p.mvp; kingId = p.id; }
             if (p.r === 'DIF' && media > maxDefMedia) { maxDefMedia = media; wallId = p.id; }
         });
+
         if (!window.viewMode) window.viewMode = 'roles';
         hR = `<div style="margin-bottom:10px;background:#111;padding:10px;border-radius:8px;border:1px solid var(--oro);display:flex;align-items:center;gap:10px">
             <span style="font-size:12px;font-weight:bold;color:var(--oro);text-transform:uppercase;font-family:'Oswald'">Visualizza:</span>
@@ -1325,9 +965,11 @@
                 <option value="CEN" ${window.viewMode === 'CEN' ? 'selected' : ''}>CEN</option>
                 <option value="ATT" ${window.viewMode === 'ATT' ? 'selected' : ''}>ATT</option>
             </select></div>`;
+
         const ruoliOrdine = ['POR', 'DIF', 'CEN', 'ATT'];
         const gruppi = { 'POR': '', 'DIF': '', 'CEN': '', 'ATT': '' };
         let listaSemplice = "";
+
         data.ps.forEach(p => {
             const voti = Object.values(p.v_adm || {});
             const media = (voti.reduce((a, b) => a + b, 0) / (voti.length || 1)).toFixed(1);
@@ -1335,59 +977,33 @@
             if (p.id === kingId && maxMvp > 0) bIcons += "👑";
             if (p.id === topPlayerId && maxMedia > 6) bIcons += "🔥";
             if (p.id === wallId && maxDefMedia > 6) bIcons += "🧱";
+
             const playerCard = `<div class="card" onclick="openP(${p.id})"><div class="bg-number">${p.m}</div><div class="card-left"><span class="role-badge">${p.r}</span><span class="player-name-new">${p.n} ${bIcons}</span><span class="player-sub">Media: ${media}</span></div><div class="card-right"><button class="btn-status" style="background:${p.convocato ? '#2e7d32' : '#222'}; color: white;">${p.convocato ? 'IN CAMPO' : 'RISERVA'}</button><button class="btn-status" style="background:#C61C23; color: white;" onclick="event.stopPropagation(); const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">SCHIERA</button></div></div>`;
+
             if (window.viewMode === 'all') { listaSemplice += playerCard; }
             else if (window.viewMode === 'roles') { if (gruppi[p.r] !== undefined) gruppi[p.r] += playerCard; else gruppi['ATT'] += playerCard; }
             else if (window.viewMode === p.r) { listaSemplice += playerCard; }
+
             hConv += `<div class="card" style="min-height:auto; padding:10px; margin-bottom:5px; border-left:5px solid ${p.convocato ? '#2e7d32' : '#222'}">
                 <b>${p.n}</b> (${p.r})
                 <button class="btn-status" style="float:right; width:auto; padding:5px 15px; background:${p.convocato ? '#C61C23' : '#2e7d32'}" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">${p.convocato ? 'RIMUOVI' : 'AGGIUNGI'}</button>
             </div>`;
             hMk += `<div class="card" style="display:flex"><b>${p.n}</b> <span style="float:right; color:var(--oro)">€${(10 + (media - 6) * 5 + (p.g || 0) * 2).toFixed(1)}M</span></div>`;
             hP += `<div class="card" style="display:flex"><b>${p.n}</b> <span style="float:right">👑 ${p.mvp || 0} | ⭐ ${p.potm || 0}</span></div>`;
-            // Admin card con voto sessione
-            if(currentAdmin) {
-                let sessionVoteHtml = '';
-                if(currentVoteSession) {
-                    const sess = (data.voteHistory||[]).find(s => s.matchId == currentVoteSession.matchId);
-                    const myVote = sess && sess.votes[p.id] && sess.votes[p.id][currentAdmin] !== undefined ? sess.votes[p.id][currentAdmin] : 6;
-                    sessionVoteHtml = `<div style="background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.3);border-radius:10px;padding:10px;margin-top:8px;">
-                        <div style="font-family:'Oswald';font-size:10px;color:var(--oro);letter-spacing:1px;margin-bottom:6px;">VOTO PARTITA (${currentVoteSession.matchLabel.split(' (')[0]})</div>
-                        <div class="vote-control">
-                            <button class="btn-v btn-minus" onclick="setVoteInSession(${p.id},-0.5); render()">-</button>
-                            <span class="v-val" style="color:var(--oro)">${myVote}</span>
-                            <button class="btn-v btn-plus" onclick="setVoteInSession(${p.id},0.5); render()">+</button>
-                        </div>
-                    </div>`;
-                } else {
-                    sessionVoteHtml = '<div class="vote-hidden-bar">Apri una sessione voto per valutare</div>';
-                }
-                hA += `<div class="card" style="display:block">
-                    <div style="display:flex;justify-content:space-between;align-items:center;">
-                        <b style="font-family:'Teko';font-size:22px;">${p.n} <span style="font-size:14px;color:#666">${p.r}</span></b>
-                        <button style="color:red;border:none;background:none;font-size:18px;" onclick="if(confirm('Eliminare ${p.n}?')){data.ps=data.ps.filter(x=>x.id!==${p.id}); sync()}">🗑️</button>
-                    </div>
-                    ${sessionVoteHtml}
-                    <div class="stat-row" style="margin-top:8px;"><span>⚽ ${p.g||0} | 👟 ${p.a||0}</span>
-                        <div style="display:flex;gap:5px;">
-                            <button class="btn-v btn-minus" onclick="updateStat(${p.id},'g',-1)">-</button>
-                            <button class="btn-v btn-plus" onclick="updateStat(${p.id},'g',1)">⚽+</button>
-                            <button class="btn-v btn-minus" onclick="updateStat(${p.id},'a',-1)">-</button>
-                            <button class="btn-v btn-plus" onclick="updateStat(${p.id},'a',1)">👟+</button>
-                        </div>
-                    </div>
-                </div>`;
-            }
+            hA += `<div class="card" style="display:block"><b>${p.n}</b> <button style="color:red; float:right; border:none; background:none;" onclick="if(confirm('Eliminare?')){data.ps=data.ps.filter(x=>x.id!==${p.id}); sync()}">🗑️ ELIMINA</button><div class="vote-control"><button class="btn-v btn-minus" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].v_adm['${activeAdm}']=Math.max(0,data.ps[i].v_adm['${activeAdm}']-0.5); sync()">-</button><span class="v-val" style="color:var(--oro)">${p.v_adm[activeAdm]}</span><button class="btn-v btn-plus" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].v_adm['${activeAdm}']+=0.5; sync()">+</button></div><div class="stat-row"><span>⚽ ${p.g || 0} | 👟 ${p.a || 0}</span><div style="display: flex; gap: 5px;"><button class="btn-v btn-minus" onclick="updateStat(${p.id},'g',-1)">-</button><button class="btn-v btn-plus" onclick="updateStat(${p.id},'g',1)">⚽+</button><button class="btn-v btn-minus" onclick="updateStat(${p.id},'a',-1)">-</button><button class="btn-v btn-plus" onclick="updateStat(${p.id},'a',1)">👟+</button></div></div></div>`;
         });
+
         if (window.viewMode === 'roles') {
             ruoliOrdine.forEach(r => { if (gruppi[r]) hR += `<h4 style="color:var(--oro); border-bottom:1px solid #333; padding-bottom:5px; margin:20px 0 10px 0; text-transform:uppercase; font-size:12px; letter-spacing:1px; font-family:'Oswald'">${r}</h4>` + gruppi[r]; });
         } else { hR += listaSemplice; }
+
         (data.matches || []).forEach((m, idx) => { hMatch += `<div class="card" style="display:flex"><b>${m.d}</b>: ${m.ris} vs ${m.avv} <button style="background:none; border:none; float:right" onclick="data.matches.splice(${idx},1); sync()">🗑️</button></div>`; });
         (data.news || []).forEach((n, idx) => { hNews += `<div class="card" style="display:block"><small>${n.d}</small><p>${n.txt}</p><button style="background:none; border:none; color:red" onclick="data.news.splice(${idx},1); sync()">🗑️ Elimina</button></div>`; });
+
         // Calendario
         const meseVis = viewDate.getMonth(), annoVis = viewDate.getFullYear();
         const nomiMesi = ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"];
-        const primoGiornoMese = new Date(annoVis, meseVis, 1).getDay();
+const primoGiornoMese = new Date(annoVis, meseVis, 1).getDay();
         const giorniNelMese = new Date(annoVis, meseVis + 1, 0).getDate();
         const startOffset = primoGiornoMese === 0 ? 6 : primoGiornoMese - 1;
         let hCal = `<div class="calendar-wrapper"><div class="calendar-header"><button class="cal-nav-btn" onclick="changeMonth(-1)">◀</button><span>${nomiMesi[meseVis]} ${annoVis}</span><button class="cal-nav-btn" onclick="changeMonth(1)">▶</button></div><div class="calendar-grid"><div class="calendar-day-label">L</div><div class="calendar-day-label">M</div><div class="calendar-day-label">M</div><div class="calendar-day-label">G</div><div class="calendar-day-label">V</div><div class="calendar-day-label">S</div><div class="calendar-day-label">D</div>`;
@@ -1400,79 +1016,16 @@
             hCal += `<div class="calendar-cell ${eventiOggi.length > 0 ? 'has-event' : ''} ${isToday ? 'today' : ''}" onclick="showDayEvents('${dataLoop}')">${d}${eventiOggi.length > 0 ? '<div class="event-dot"></div>' : ''}</div>`;
         }
         hCal += `</div><div id="selected-day-info" class="selected-event-info"></div></div>`;
-        // Aggiorna selector partite per sessione voto
-        const selPV = document.getElementById('sel-partita-voto');
-        if(selPV) {
-            const curVal = selPV.value;
-            selPV.innerHTML = '<option value="">— Seleziona partita —</option>';
-            (data.matches||[]).forEach(m => {
-                const opt = document.createElement('option');
-                opt.value = m.id || m.avv+m.d;
-                opt.innerText = `${m.ris} vs ${m.avv} (${m.d})`;
-                selPV.appendChild(opt);
-            });
-            selPV.value = curVal;
-        }
-        // Storico voti
-        let hStorico = '';
-        (data.voteHistory||[]).forEach(sess => {
-            const adminNames = Object.keys(ADMIN_CREDS);
-            // Determina se l'utente corrente ha già votato in questa sessione
-            const myVotes = sess.votes && Object.keys(sess.votes).length > 0 && currentAdmin &&
-                Object.values(sess.votes).some(v => v[currentAdmin] !== undefined);
-            const othersVoted = currentAdmin && adminNames.some(a => a !== currentAdmin &&
-                Object.values(sess.votes||{}).some(v => v[a] !== undefined));
-            const canSeeOthers = myVotes; // vedi voti altrui solo se hai votato tu
-            hStorico += `<div class="match-vote-session">
-                <div class="mvs-header">
-                    <div><div class="mvs-match">${sess.matchLabel}</div><div class="mvs-date">${sess.createdAt}</div></div>
-                    <div style="font-size:11px;color:#666;font-family:'Oswald'">${Object.keys(sess.votes||{}).length} votati</div>
-                </div>`;
-            if(!currentAdmin) {
-                hStorico += `<div class="vote-hidden-bar">🔒 Accedi come admin per vedere i voti</div>`;
-            } else if(!myVotes && othersVoted) {
-                hStorico += `<div class="vote-hidden-bar">👁 Vota prima tu per sbloccare i voti degli altri admin</div>`;
-            } else if(Object.keys(sess.votes||{}).length > 0) {
-                hStorico += `<div class="mvs-votes-grid">`;
-                data.ps.forEach(p => {
-                    const pVotes = sess.votes[p.id] || {};
-                    const vals = Object.values(pVotes);
-                    if(vals.length === 0) return;
-                    const media = vals.length ? (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1) : '—';
-                    const myV = pVotes[currentAdmin] !== undefined ? pVotes[currentAdmin] : '—';
-                    let detailHtml = '';
-                    if(canSeeOthers) {
-                        detailHtml = adminNames.filter(a => pVotes[a] !== undefined)
-                            .map(a => `<span style="font-size:9px;color:#666">${a[0]}:${pVotes[a]}</span>`).join(' ');
-                    }
-                    hStorico += `<div class="mvs-vote-row">
-                        <div><div class="mvs-player-name">${p.n}</div>${detailHtml}</div>
-                        <div style="text-align:right">
-                            <div class="mvs-vote-val">${canSeeOthers ? media : myV}</div>
-                            <div style="font-size:9px;color:#555">${canSeeOthers ? 'media' : 'tu'}</div>
-                        </div>
-                    </div>`;
-                });
-                hStorico += `</div>`;
-            } else {
-                hStorico += `<div class="vote-hidden-bar">Nessun voto ancora inserito</div>`;
-            }
-            hStorico += `</div>`;
-        });
-        if(!hStorico) hStorico = '<p style="color:#555;font-size:13px;text-align:center;">Nessuna sessione voto ancora aperta.</p>';
+
         document.getElementById('l-rosa').innerHTML = hR;
         document.getElementById('l-admin').innerHTML = hA;
-        const storicoEl = document.getElementById('l-storico-voti');
-        if(storicoEl) storicoEl.innerHTML = hStorico;
-        // Aggiorna nome admin loggato
-        const adminNameEl = document.getElementById('admin-logged-name');
-        if(adminNameEl) adminNameEl.innerText = currentAdmin || '—';
         document.getElementById('l-mercato').innerHTML = hMk;
         document.getElementById('l-partite').innerHTML = hMatch;
         document.getElementById('l-news').innerHTML = hNews;
         document.getElementById('l-premi').innerHTML = hP;
         document.getElementById('l-calendario').innerHTML = hCal;
         document.getElementById('list-convocabili').innerHTML = hConv;
+
         // Giocatori sul campo
         const pl = document.getElementById('pitch-players');
         pl.innerHTML = "";
@@ -1485,6 +1038,7 @@
             d.className = 'player'; d.style.left = p.x + "%"; d.style.top = p.y + "%";
             d.innerHTML = `<div class="jersey">${p.m}${pBadge ? `<span class="badge-icon">${pBadge}</span>` : ''}</div><div class="p-name">${p.n}</div>`;
             d.onclick = () => openP(p.id);
+
             let isD = false;
             const start = () => isD = true;
             const move = (e) => {
@@ -1503,11 +1057,13 @@
             pl.appendChild(d);
         });
         drawTacticLines();
+
         // Se la sezione tattica è attiva, aggiorna il canvas
         if (document.getElementById('p-tattica').classList.contains('active')) {
             setTimeout(initHeatmapCanvas, 50);
         }
     }
+
     /* ============================================================
        MODALE EVENTI CALENDARIO
     ============================================================ */
@@ -1528,6 +1084,7 @@
         });
         document.getElementById('selected-day-info').innerHTML = html;
     };
+
     /* ============================================================
        MODALE GIOCATORE
     ============================================================ */
@@ -1545,6 +1102,7 @@
         document.getElementById('st-rd').innerText = p.rd || 0;
         document.getElementById('modal-player').style.display = 'flex';
     }
+
     // Ridimensiona canvas se la finestra cambia
     window.addEventListener('resize', () => {
         if (document.getElementById('p-tattica').classList.contains('active')) {
