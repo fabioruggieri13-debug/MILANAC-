@@ -42,6 +42,11 @@
         .container { height: calc(100vh - 60px); overflow-y: auto; padding: 15px; box-sizing: border-box; padding-bottom: 60px; }
         .page { display: none; } .page.active { display: block; }
 
+        @keyframes ledPulse {
+            0%, 100% { box-shadow: 0 0 4px #4caf50; opacity: 1; }
+            50% { box-shadow: 0 0 12px #4caf50, 0 0 20px rgba(76,175,80,0.4); opacity: 0.7; }
+        }
+
         /* ======================================================
            CAMPO DA GIOCO
         ====================================================== */
@@ -731,22 +736,34 @@
     <div id="p-mercato" class="page">
         <h3 style="font-family:'Oswald';color:var(--oro);margin-bottom:14px;">📰 PAGELLE PARTITA</h3>
 
-        <!-- Form scrittura pagella (solo admin) -->
-        <div id="pagella-form-wrap" style="display:none;margin-bottom:16px;">
-            <div style="background:linear-gradient(145deg,#111,#080808);border:1px solid rgba(212,175,55,0.3);border-radius:16px;padding:14px;">
-                <div style="font-family:'Oswald';font-size:11px;color:var(--oro);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;">✍️ Scrivi Pagella</div>
-                <select id="pagella-match-sel" style="margin-bottom:8px;font-family:'Oswald';">
-                    <option value="">— Seleziona partita —</option>
-                </select>
-                <div id="pagella-players-votes" style="margin-bottom:10px;"></div>
-                <div style="font-family:'Oswald';font-size:10px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Commento Partita</div>
-                <textarea id="pagella-commento" placeholder="Scrivi il commento alla partita (stile giornalistico)..."
-                    style="min-height:100px;font-size:14px;line-height:1.5;resize:vertical;font-family:'Segoe UI',sans-serif;"></textarea>
-                <button class="btn-main" onclick="salvaPagella()" style="border-radius:10px;margin-top:8px;">📤 PUBBLICA PAGELLA</button>
+        <!-- Login rapido pagelle (se non admin) -->
+        <div id="pagella-login-prompt" style="display:block;margin-bottom:14px;">
+            <div style="background:#111;border:1px solid rgba(198,28,35,0.3);border-radius:14px;padding:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
+                <div style="font-family:'Oswald';font-size:12px;color:#666;text-transform:uppercase;letter-spacing:1px;">🔒 Accedi per scrivere pagelle</div>
+                <button onclick="openAdminLogin()" style="background:var(--rosso);border:none;color:white;font-family:'Oswald';font-size:11px;padding:8px 16px;border-radius:8px;cursor:pointer;text-transform:uppercase;white-space:nowrap;">ACCEDI</button>
             </div>
         </div>
-        <div id="pagella-login-prompt" style="background:#111;border:1px solid #222;border-radius:12px;padding:14px;text-align:center;margin-bottom:16px;display:block;">
-            <div style="font-family:'Oswald';font-size:12px;color:#555;text-transform:uppercase;letter-spacing:1px;">🔒 Solo gli admin possono scrivere pagelle</div>
+
+        <!-- Form scrittura pagella (solo admin) -->
+        <div id="pagella-form-wrap" style="display:none;margin-bottom:16px;">
+            <div style="background:linear-gradient(145deg,#111,#080808);border:1px solid rgba(212,175,55,0.3);border-radius:18px;overflow:hidden;">
+                <!-- Header form -->
+                <div style="background:linear-gradient(90deg,rgba(198,28,35,0.2),transparent);padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;">
+                    <div>
+                        <div style="font-family:'Oswald';font-size:11px;color:var(--oro);text-transform:uppercase;letter-spacing:2px;">✍️ Nuova Pagella</div>
+                        <div style="font-family:'Teko';font-size:20px;color:white;" id="pagella-admin-label">—</div>
+                    </div>
+                    <select id="pagella-match-sel" style="background:#1a1a1a;border:1px solid #333;color:white;font-family:'Oswald';font-size:12px;padding:8px;border-radius:8px;max-width:160px;">
+                        <option value="">— Partita —</option>
+                    </select>
+                </div>
+                <!-- Lista giocatori con voto + commento individuale -->
+                <div id="pagella-players-votes" style="padding:4px 0;"></div>
+                <!-- Pubblica -->
+                <div style="padding:12px 14px;border-top:1px solid rgba(255,255,255,0.05);">
+                    <button class="btn-main" onclick="salvaPagella()" style="border-radius:10px;">📤 PUBBLICA PAGELLA</button>
+                </div>
+            </div>
         </div>
 
         <!-- Lista pagelle pubblicate -->
@@ -1503,35 +1520,57 @@
 
     function renderPagellaVotes() {
         const container = document.getElementById('pagella-players-votes');
+        const adminLbl = document.getElementById('pagella-admin-label');
+        if(adminLbl) adminLbl.innerText = currentAdmin || '—';
         if(!container) return;
         if(!currentAdmin) { container.innerHTML = ''; return; }
-        if(data.ps.length === 0) { container.innerHTML = '<p style="color:#555;font-size:12px;">Aggiungi prima dei giocatori.</p>'; return; }
-        container.innerHTML = `
-            <div style="font-family:'Oswald';font-size:10px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Voti Giocatori</div>
-            ${data.ps.map(p => {
-                const v = pagellaVoti[p.id] !== undefined ? pagellaVoti[p.id] : 6;
-                const vColor = v >= 7 ? '#4caf50' : v >= 6 ? '#D4AF37' : '#ef5350';
-                return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-                    <span style="font-family:'Teko';font-size:16px;color:white;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.n} <span style="font-size:11px;color:#555;">${p.rs||p.r}</span></span>
-                    <button onclick="pagellaVoti[${p.id}]=Math.max(1,parseFloat(((pagellaVoti[${p.id}]||6)-0.5).toFixed(1)));renderPagellaVotes()"
-                        style="width:26px;height:26px;background:#c62828;border:none;color:white;border-radius:5px;cursor:pointer;font-weight:900;">-</button>
-                    <span style="font-family:'Oswald';font-size:18px;font-weight:900;color:${vColor};min-width:32px;text-align:center;">${v}</span>
-                    <button onclick="pagellaVoti[${p.id}]=Math.min(10,parseFloat(((pagellaVoti[${p.id}]||6)+0.5).toFixed(1)));renderPagellaVotes()"
-                        style="width:26px;height:26px;background:#2e7d32;border:none;color:white;border-radius:5px;cursor:pointer;font-weight:900;">+</button>
-                </div>`;
-            }).join('')}`;
+        if(data.ps.length === 0) { container.innerHTML = '<p style="color:#555;font-size:12px;padding:12px;">Aggiungi prima dei giocatori.</p>'; return; }
+        // Genera una riga per ogni giocatore: numero | nome ruolo | - voto + | textarea commento
+        container.innerHTML = data.ps.map(p => {
+            const v = pagellaVoti[p.id] !== undefined ? pagellaVoti[p.id].voto : 6;
+            const comm = pagellaVoti[p.id] !== undefined ? pagellaVoti[p.id].commento : '';
+            const vColor = v >= 7.5 ? '#4caf50' : v >= 6.5 ? '#8bc34a' : v >= 6 ? '#D4AF37' : v >= 5 ? '#ff9800' : '#ef5350';
+            const vLabel = v >= 8 ? 'OTTIMO' : v >= 7 ? 'BUONO' : v >= 6.5 ? 'SUFFICIENTE+' : v >= 6 ? 'SUFFICIENTE' : v >= 5 ? 'INSUFFICIENTE' : 'SCARSO';
+            return `<div style="border-bottom:1px solid rgba(255,255,255,0.05);padding:10px 14px;">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                    <div style="width:30px;height:30px;border-radius:50%;background:#111;border:2px solid var(--rosso);
+                        display:flex;align-items:center;justify-content:center;font-family:'Oswald';font-size:12px;color:var(--oro);flex-shrink:0;">${p.m}</div>
+                    <div style="flex:1;min-width:0;">
+                        <span style="font-family:'Teko';font-size:18px;color:white;">${p.n}</span>
+                        <span style="font-size:10px;color:#555;font-family:'Oswald';margin-left:4px;">${p.rs||p.r}</span>
+                    </div>
+                    <button onclick="if(!pagellaVoti[${p.id}])pagellaVoti[${p.id}]={voto:6,commento:''};pagellaVoti[${p.id}].voto=Math.max(1,parseFloat((pagellaVoti[${p.id}].voto-0.5).toFixed(1)));renderPagellaVotes()"
+                        style="width:28px;height:28px;background:#c62828;border:none;color:white;border-radius:6px;cursor:pointer;font-size:16px;font-weight:900;flex-shrink:0;">−</button>
+                    <div style="text-align:center;min-width:44px;">
+                        <div style="font-family:'Oswald';font-size:22px;font-weight:900;color:${vColor};line-height:1;">${v}</div>
+                        <div style="font-size:8px;color:${vColor};font-family:'Oswald';opacity:0.7;">${vLabel}</div>
+                    </div>
+                    <button onclick="if(!pagellaVoti[${p.id}])pagellaVoti[${p.id}]={voto:6,commento:''};pagellaVoti[${p.id}].voto=Math.min(10,parseFloat((pagellaVoti[${p.id}].voto+0.5).toFixed(1)));renderPagellaVotes()"
+                        style="width:28px;height:28px;background:#2e7d32;border:none;color:white;border-radius:6px;cursor:pointer;font-size:16px;font-weight:900;flex-shrink:0;">+</button>
+                </div>
+                <textarea placeholder="Commento su ${p.n}..." rows="2"
+                    onchange="if(!pagellaVoti[${p.id}])pagellaVoti[${p.id}]={voto:6,commento:''};pagellaVoti[${p.id}].commento=this.value"
+                    style="width:100%;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);color:#bbb;
+                    border-radius:8px;padding:8px;font-size:13px;font-family:'Segoe UI',sans-serif;resize:none;box-sizing:border-box;line-height:1.4;">${comm}</textarea>
+            </div>`;
+        }).join('');
     }
 
     function salvaPagella() {
         if(!currentAdmin) { alert('Devi essere loggato.'); return; }
         const sel = document.getElementById('pagella-match-sel');
-        const commento = document.getElementById('pagella-commento').value.trim();
         if(!sel || !sel.value) { alert('Seleziona una partita.'); return; }
-        const match = data.matches.find(m => (m.id||m.avv+m.d) == sel.value);
+        const match = data.matches.find(m => (m.id||(m.avv+m.d)) == sel.value);
         if(!match) { alert('Partita non trovata.'); return; }
-        // Copia voti correnti
+        // Salva voto e commento individuale per ogni giocatore
         const votiFinali = {};
-        data.ps.forEach(p => { votiFinali[p.id] = pagellaVoti[p.id] !== undefined ? pagellaVoti[p.id] : 6; });
+        data.ps.forEach(p => {
+            const entry = pagellaVoti[p.id];
+            votiFinali[p.id] = {
+                voto: entry ? entry.voto : 6,
+                commento: entry ? (entry.commento || '') : ''
+            };
+        });
         if(!data.pagelle) data.pagelle = [];
         data.pagelle.unshift({
             id: Date.now(),
@@ -1539,11 +1578,9 @@
             matchLabel: `${match.ris} vs ${match.avv} (${match.d})`,
             author: currentAdmin,
             date: new Date().toLocaleDateString(),
-            voti: votiFinali,
-            commento
+            voti: votiFinali
         });
         sync();
-        document.getElementById('pagella-commento').value = '';
         pagellaVoti = {};
         renderPagellaVotes();
         alert('✅ Pagella pubblicata!');
@@ -1608,16 +1645,17 @@
                 </div>
                 <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;">
                     <div style="width:8px;height:8px;border-radius:50%;
-                        background:${p.convocato ? '#4caf50' : '#444'};
-                        box-shadow:${p.convocato ? '0 0 8px #4caf50' : 'none'};"></div>
+                        background:${p.convocato ? '#4caf50' : '#333'};
+                        box-shadow:${p.convocato ? '0 0 8px #4caf50' : 'none'};
+                        animation:${p.convocato ? 'ledPulse 1.8s infinite' : 'none'};"></div>
                     <button style="padding:5px 10px;border-radius:8px;border:none;
-                        background:${p.convocato ? '#1a1a1a' : '#1b5e20'};
-                        border:1px solid ${p.convocato ? '#333' : '#2e7d32'};
-                        color:${p.convocato ? '#888' : '#4caf50'};
+                        background:${p.convocato ? '#1b5e20' : '#1a1a1a'};
+                        border:1px solid ${p.convocato ? '#2e7d32' : '#333'};
+                        color:${p.convocato ? '#4caf50' : '#555'};
                         font-family:'Oswald';font-size:10px;font-weight:700;cursor:pointer;
                         text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;"
                         onclick="event.stopPropagation(); const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">
-                        ${p.convocato ? 'NON DISP.' : 'DISPONIBILE'}
+                        ${p.convocato ? 'DISPONIBILE' : 'NON DISP.'}
                     </button>
                 </div>
             </div>`;
@@ -1830,30 +1868,43 @@
                 pagelleEl.innerHTML = '<p style="color:#444;text-align:center;font-family:Oswald;font-size:13px;padding:20px 0;">Nessuna pagella pubblicata ancora.</p>';
             } else {
                 pagelleEl.innerHTML = pagelle.map((pg, idx) => {
-                    const votiHtml = Object.keys(pg.voti||{}).map(pid => {
+                    const canDelete = currentAdmin === pg.author;
+                    // Ordina giocatori per voto decrescente
+                    const sortedIds = Object.keys(pg.voti||{}).sort((a,b) => {
+                        const va = typeof pg.voti[a] === 'object' ? pg.voti[a].voto : pg.voti[a];
+                        const vb = typeof pg.voti[b] === 'object' ? pg.voti[b].voto : pg.voti[b];
+                        return vb - va;
+                    });
+                    const votiHtml = sortedIds.map(pid => {
                         const player = data.ps.find(x => x.id == pid);
                         if(!player) return '';
-                        const v = pg.voti[pid];
-                        const vColor = v >= 7 ? '#4caf50' : v >= 6 ? '#D4AF37' : '#ef5350';
-                        return `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.04);">
-                            <div style="display:flex;align-items:center;gap:8px;">
-                                <span style="font-family:'Oswald';font-size:13px;color:#888;">${player.rs||player.r}</span>
-                                <span style="font-family:'Teko';font-size:18px;color:white;">${player.n}</span>
+                        const entry = pg.voti[pid];
+                        const v = typeof entry === 'object' ? entry.voto : entry;
+                        const comm = typeof entry === 'object' ? entry.commento : '';
+                        const vColor = v >= 7.5 ? '#4caf50' : v >= 6.5 ? '#8bc34a' : v >= 6 ? '#D4AF37' : v >= 5 ? '#ff9800' : '#ef5350';
+                        return `<div style="padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.04);">
+                            <div style="display:flex;align-items:center;gap:10px;">
+                                <div style="min-width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.04);
+                                    display:flex;align-items:center;justify-content:center;">
+                                    <span style="font-family:'Oswald';font-size:20px;font-weight:900;color:${vColor};">${v}</span>
+                                </div>
+                                <div style="flex:1;">
+                                    <span style="font-family:'Teko';font-size:18px;color:white;">${player.n}</span>
+                                    <span style="font-size:10px;color:#555;font-family:'Oswald';margin-left:5px;">${player.rs||player.r}</span>
+                                    ${comm ? `<div style="font-size:12px;color:#888;font-style:italic;margin-top:2px;line-height:1.4;">"${comm}"</div>` : ''}
+                                </div>
                             </div>
-                            <span style="font-family:'Oswald';font-size:22px;font-weight:900;color:${vColor};">${v}</span>
                         </div>`;
                     }).join('');
-                    const canDelete = currentAdmin === pg.author;
                     return `<div style="background:linear-gradient(145deg,#111,#080808);border:1px solid rgba(255,255,255,0.07);border-radius:18px;overflow:hidden;margin-bottom:14px;">
-                        <div style="background:linear-gradient(90deg,rgba(198,28,35,0.15),transparent);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.06);">
+                        <div style="background:linear-gradient(90deg,rgba(198,28,35,0.2),transparent);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.06);">
                             <div>
                                 <div style="font-family:'Teko';font-size:22px;color:white;text-transform:uppercase;">${pg.matchLabel}</div>
-                                <div style="font-size:10px;color:#555;font-family:'Oswald';">Pagella di ${pg.author} · ${pg.date}</div>
+                                <div style="font-size:10px;color:#555;font-family:'Oswald';">✍️ ${pg.author} · ${pg.date}</div>
                             </div>
                             ${canDelete ? `<button onclick="data.pagelle.splice(${idx},1);sync()" style="background:none;border:none;color:#444;font-size:18px;cursor:pointer;">🗑️</button>` : ''}
                         </div>
-                        ${votiHtml ? `<div style="padding:4px 0;">${votiHtml}</div>` : ''}
-                        ${pg.commento ? `<div style="padding:14px 16px;font-size:14px;color:#bbb;line-height:1.6;font-style:italic;border-top:1px solid rgba(255,255,255,0.05);">"${pg.commento}"</div>` : ''}
+                        ${votiHtml ? `<div>${votiHtml}</div>` : ''}
                     </div>`;
                 }).join('');
             }
