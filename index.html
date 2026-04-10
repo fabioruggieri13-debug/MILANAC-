@@ -494,51 +494,74 @@
             color: white;
         }
         /* PIN pad */
+        /* ── PIN PAD iOS-style ── */
         .pin-display {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 12px;
+            gap: 18px;
+            margin-bottom: 20px;
         }
         .pin-dot {
             width: 14px; height: 14px;
             border-radius: 50%;
             border: 2px solid #444;
             background: transparent;
-            transition: all 0.2s;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .pin-dot.filled {
             background: var(--oro);
             border-color: var(--oro);
-            box-shadow: 0 0 8px rgba(212,175,55,0.6);
+            box-shadow: 0 0 12px rgba(212,175,55,0.85);
+            transform: scale(1.18);
         }
-        .pin-dot.error { background: var(--rosso); border-color: var(--rosso); animation: shake 0.3s ease; }
-        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+        .pin-dot.error { background: var(--rosso); border-color: var(--rosso); animation: shake 0.35s ease; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 60%{transform:translateX(8px)} 80%{transform:translateX(-4px)} }
         .pin-pad {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 7px;
+            gap: 10px;
             margin-bottom: 10px;
         }
         .pin-key {
-            aspect-ratio: 1;
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
+            height: 68px;
+            background: rgba(255,255,255,0.07);
+            border: none;
             color: white;
-            border-radius: 10px;
+            border-radius: 18px;
             font-family: 'Oswald';
-            font-size: 20px;
-            font-weight: 700;
+            font-size: 26px;
+            font-weight: 400;
             cursor: pointer;
-            transition: all 0.15s;
+            transition: background 0.1s ease, transform 0.1s ease, box-shadow 0.1s ease;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 8px 0;
+            gap: 0px;
+            -webkit-tap-highlight-color: transparent;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.45);
+            letter-spacing: 0;
         }
-        .pin-key:active { background: #333; transform: scale(0.94); }
-        .pin-key.del { font-size: 16px; color: #888; }
-        .pin-key.empty { background: transparent; border: none; cursor: default; }
+        .pin-key .pin-sub {
+            font-size: 7.5px;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 1.8px;
+            font-family: 'Oswald';
+            text-transform: uppercase;
+            line-height: 1;
+            margin-top: 1px;
+        }
+        .pin-key:active {
+            background: rgba(212,175,55,0.22);
+            transform: scale(0.92);
+            box-shadow: 0 0 12px rgba(212,175,55,0.3);
+        }
+        .pin-key.del {
+            font-size: 22px;
+            color: rgba(255,255,255,0.55);
+            background: rgba(255,255,255,0.04);
+        }
+        .pin-key.empty { background: transparent; border: none; cursor: default; box-shadow: none; }
         /* Input password testuale */
         .pwd-input-wrap { margin-bottom: 15px; }
         .pwd-input-wrap input {
@@ -1055,18 +1078,18 @@
                 <div class="pin-dot" id="pd2"></div><div class="pin-dot" id="pd3"></div>
             </div>
             <div class="pin-pad">
-                <button class="pin-key" onclick="pinPress('1')">1</button>
-                <button class="pin-key" onclick="pinPress('2')">2</button>
-                <button class="pin-key" onclick="pinPress('3')">3</button>
-                <button class="pin-key" onclick="pinPress('4')">4</button>
-                <button class="pin-key" onclick="pinPress('5')">5</button>
-                <button class="pin-key" onclick="pinPress('6')">6</button>
-                <button class="pin-key" onclick="pinPress('7')">7</button>
-                <button class="pin-key" onclick="pinPress('8')">8</button>
-                <button class="pin-key" onclick="pinPress('9')">9</button>
+                <button class="pin-key" onclick="pinPress('1')">1<span class="pin-sub">&nbsp;</span></button>
+                <button class="pin-key" onclick="pinPress('2')">2<span class="pin-sub">ABC</span></button>
+                <button class="pin-key" onclick="pinPress('3')">3<span class="pin-sub">DEF</span></button>
+                <button class="pin-key" onclick="pinPress('4')">4<span class="pin-sub">GHI</span></button>
+                <button class="pin-key" onclick="pinPress('5')">5<span class="pin-sub">JKL</span></button>
+                <button class="pin-key" onclick="pinPress('6')">6<span class="pin-sub">MNO</span></button>
+                <button class="pin-key" onclick="pinPress('7')">7<span class="pin-sub">PQRS</span></button>
+                <button class="pin-key" onclick="pinPress('8')">8<span class="pin-sub">TUV</span></button>
+                <button class="pin-key" onclick="pinPress('9')">9<span class="pin-sub">WXYZ</span></button>
                 <div class="pin-key empty"></div>
-                <button class="pin-key" onclick="pinPress('0')">0</button>
-                <button class="pin-key del" onclick="pinDel()">&#x232B;</button>
+                <button class="pin-key" onclick="pinPress('0')">0<span class="pin-sub">+</span></button>
+                <button class="pin-key del" onclick="pinDel()">⌫</button>
             </div>
         </div>
         <div id="pwd-section" style="display:none;">
