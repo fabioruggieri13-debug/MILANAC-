@@ -494,74 +494,51 @@
             color: white;
         }
         /* PIN pad */
-        /* ── PIN PAD iOS-style ── */
         .pin-display {
             display: flex;
             justify-content: center;
-            gap: 18px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 12px;
         }
         .pin-dot {
             width: 14px; height: 14px;
             border-radius: 50%;
             border: 2px solid #444;
             background: transparent;
-            transition: all 0.15s cubic-bezier(0.34,1.56,0.64,1);
+            transition: all 0.2s;
         }
         .pin-dot.filled {
             background: var(--oro);
             border-color: var(--oro);
-            box-shadow: 0 0 12px rgba(212,175,55,0.8);
-            transform: scale(1.15);
+            box-shadow: 0 0 8px rgba(212,175,55,0.6);
         }
-        .pin-dot.error { background: var(--rosso); border-color: var(--rosso); animation: shake 0.35s ease; }
-        @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 60%{transform:translateX(8px)} 80%{transform:translateX(-4px)} }
+        .pin-dot.error { background: var(--rosso); border-color: var(--rosso); animation: shake 0.3s ease; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
         .pin-pad {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            gap: 7px;
             margin-bottom: 10px;
         }
         .pin-key {
-            height: 68px;
-            background: rgba(255,255,255,0.07);
-            border: none;
+            aspect-ratio: 1;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
             color: white;
-            border-radius: 18px;
+            border-radius: 10px;
             font-family: 'Oswald';
-            font-size: 26px;
-            font-weight: 400;
+            font-size: 20px;
+            font-weight: 700;
             cursor: pointer;
-            transition: background 0.1s, transform 0.1s;
+            transition: all 0.15s;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 0px;
-            -webkit-tap-highlight-color: transparent;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.45);
-            letter-spacing: 0;
+            padding: 8px 0;
         }
-        .pin-key .pin-sub {
-            font-size: 7.5px;
-            color: rgba(255,255,255,0.45);
-            letter-spacing: 1.8px;
-            font-family: 'Oswald';
-            text-transform: uppercase;
-            line-height: 1;
-            margin-top: 1px;
-        }
-        .pin-key:active {
-            background: rgba(212,175,55,0.22);
-            transform: scale(0.93);
-            box-shadow: none;
-        }
-        .pin-key.del {
-            font-size: 22px;
-            color: rgba(255,255,255,0.6);
-            background: rgba(255,255,255,0.04);
-        }
-        .pin-key.empty { background: transparent; border: none; cursor: default; box-shadow: none; }
+        .pin-key:active { background: #333; transform: scale(0.94); }
+        .pin-key.del { font-size: 16px; color: #888; }
+        .pin-key.empty { background: transparent; border: none; cursor: default; }
         /* Input password testuale */
         .pwd-input-wrap { margin-bottom: 15px; }
         .pwd-input-wrap input {
@@ -677,116 +654,117 @@
         .vsb-match { font-family: 'Teko'; font-size: 20px; color: white; }
         .vsb-btn { background: var(--rosso); border: none; color: white; font-family: 'Oswald'; font-size: 11px; padding: 6px 12px; border-radius: 8px; cursor: pointer; text-transform: uppercase; }
 
-        /* ══════════════════════════════════════════════
-           FUT CARD — HALL OF FAME
-        ══════════════════════════════════════════════ */
-        #p-premi h3 { font-family: Oswald; color: var(--oro); margin-bottom: 6px; }
-        .premi-subtitle { font-family: Oswald; font-size: 10px; color: #444; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; }
+        /* ═══════════════════════════════════════════
+           SEZIONE PREMI — CLASSIFICA STAGIONALE
+        ═══════════════════════════════════════════ */
 
-        .fut-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 4px 0; }
-
-        .fut-card {
-            position: relative; border-radius: 18px; overflow: hidden;
-            aspect-ratio: 0.67; cursor: pointer;
-            transition: transform 0.18s ease, box-shadow 0.18s ease;
-            -webkit-tap-highlight-color: transparent;
+        /* Tab switcher */
+        .premi-tabs {
+            display: flex; gap: 6px; margin-bottom: 16px;
+            background: #0d0d0d; padding: 5px; border-radius: 14px;
+            border: 1px solid #1a1a1a;
         }
-        .fut-card:active { transform: scale(0.96) rotate(-0.5deg); }
-
-        /* Tipi carta */
-        .fc-bronze { background: linear-gradient(155deg,#5c3010 0%,#c07840 30%,#e8a060 50%,#c07840 70%,#5c3010 100%); }
-        .fc-silver  { background: linear-gradient(155deg,#404040 0%,#a0a0a0 30%,#d8d8d8 50%,#a0a0a0 70%,#404040 100%); }
-        .fc-gold    { background: linear-gradient(155deg,#7a5500 0%,#d4a017 30%,#ffe566 50%,#d4a017 70%,#7a5500 100%); }
-        .fc-inform  { background: linear-gradient(155deg,#1a0040 0%,#5c22b0 30%,#9060e0 50%,#5c22b0 70%,#1a0040 100%); }
-        .fc-toty    { background: linear-gradient(155deg,#001a08 0%,#0e6e2a 30%,#30d060 50%,#0e6e2a 70%,#001a08 100%); }
-        .fc-hero    { background: linear-gradient(155deg,#1a0808 0%,#8b0000 30%,#e02020 50%,#8b0000 70%,#1a0808 100%); }
-
-        /* Riflesso gloss sopra */
-        .fut-card::before {
-            content: '';
-            position: absolute; inset: 0; z-index: 2;
-            background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 40%, transparent 60%);
-            border-radius: 18px;
-            pointer-events: none;
+        .premi-tab {
+            flex: 1; padding: 9px 4px; border: none; border-radius: 10px;
+            background: transparent; color: #555; font-family: Oswald;
+            font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+            cursor: pointer; transition: all 0.2s; -webkit-tap-highlight-color: transparent;
         }
-        /* Bordo luminoso */
-        .fut-card::after {
-            content: '';
-            position: absolute; inset: 0; z-index: 1;
-            border-radius: 18px;
-            border: 1.5px solid rgba(255,255,255,0.25);
-            pointer-events: none;
+        .premi-tab.active {
+            background: var(--rosso); color: white;
+            box-shadow: 0 2px 10px rgba(198,28,35,0.5);
         }
 
-        .fut-inner {
-            position: relative; z-index: 3;
-            height: 100%; display: flex; flex-direction: column;
-            padding: 11px 11px 9px;
+        /* PODIO */
+        .podio-wrap {
+            display: flex; align-items: flex-end; justify-content: center;
+            gap: 8px; margin-bottom: 20px; padding: 0 4px;
         }
-        .fut-top { display: flex; justify-content: space-between; align-items: flex-start; }
-        .fut-left { display: flex; flex-direction: column; align-items: flex-start; }
-        .fut-ovr {
-            font-family: Oswald; font-size: 38px; font-weight: 900; line-height: 0.9;
-            text-shadow: 0 3px 10px rgba(0,0,0,0.7);
+        .podio-slot { display: flex; flex-direction: column; align-items: center; flex: 1; }
+        .podio-avatar {
+            border-radius: 50%; border: 3px solid transparent;
+            display: flex; align-items: center; justify-content: center;
+            font-family: Oswald; font-weight: 900; margin-bottom: 6px;
+            position: relative;
         }
-        .fut-pos-lbl {
-            font-family: Oswald; font-size: 11px; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 0.5px;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+        .podio-medal {
+            position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+            font-size: 20px; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.8));
+        }
+        .podio-name {
+            font-family: Teko; font-size: 17px; text-transform: uppercase;
+            color: white; text-align: center; line-height: 1;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            width: 100%;
+        }
+        .podio-val {
+            font-family: Oswald; font-size: 13px; font-weight: 900;
             margin-top: 2px;
         }
-        .fut-nation {
-            font-family: Oswald; font-size: 8px; color: rgba(0,0,0,0.5);
-            text-transform: uppercase; letter-spacing: 1px; margin-top: 3px;
-        }
-        .fut-badges { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; font-size: 13px; }
-
-        /* Avatar — numero maglia grande */
-        .fut-avatar-wrap {
-            flex: 1; display: flex; align-items: center; justify-content: center;
-            padding: 4px 0;
-        }
-        .fut-avatar {
-            width: 72px; height: 72px; border-radius: 50%;
-            background: rgba(0,0,0,0.28);
-            border: 2px solid rgba(255,255,255,0.22);
+        .podio-block {
+            width: 100%; border-radius: 10px 10px 4px 4px;
             display: flex; align-items: center; justify-content: center;
-            font-family: Oswald; font-size: 34px; font-weight: 900;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.6);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+            font-family: Oswald; font-size: 24px; font-weight: 900;
+            color: rgba(0,0,0,0.35); margin-top: 8px;
+            box-shadow: inset 0 -4px 0 rgba(0,0,0,0.25);
         }
+        /* Animazione ingresso podio */
+        @keyframes podioRise {
+            from { transform: scaleY(0); opacity: 0; transform-origin: bottom; }
+            to   { transform: scaleY(1); opacity: 1; transform-origin: bottom; }
+        }
+        .podio-block { animation: podioRise 0.6s ease-out both; }
+        .podio-slot:nth-child(1) .podio-block { animation-delay: 0.3s; }
+        .podio-slot:nth-child(2) .podio-block { animation-delay: 0.1s; }
+        .podio-slot:nth-child(3) .podio-block { animation-delay: 0.5s; }
 
-        .fut-name-wrap { text-align: center; margin-bottom: 7px; }
-        .fut-name {
-            font-family: Teko; font-size: 24px; font-weight: 700;
-            text-transform: uppercase; line-height: 1;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
-            letter-spacing: 0.5px;
+        /* CLASSIFICA lista */
+        .rank-list { display: flex; flex-direction: column; gap: 8px; }
+        .rank-row {
+            display: flex; align-items: center; gap: 10px;
+            background: linear-gradient(135deg, #111 0%, #0a0a0a 100%);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px; padding: 10px 14px;
+            position: relative; overflow: hidden;
         }
+        .rank-row.rank-1 { border-color: rgba(212,175,55,0.5); box-shadow: 0 0 15px rgba(212,175,55,0.12); }
+        .rank-row.rank-2 { border-color: rgba(180,180,180,0.4); }
+        .rank-row.rank-3 { border-color: rgba(180,100,40,0.4); }
+        /* Barra di sfondo animata */
+        .rank-bar {
+            position: absolute; left: 0; top: 0; height: 100%;
+            border-radius: 14px; opacity: 0.08;
+            transition: width 1.2s cubic-bezier(0.22,1,0.36,1);
+        }
+        .rank-pos {
+            font-family: Oswald; font-size: 20px; font-weight: 900;
+            min-width: 28px; text-align: center;
+        }
+        .rank-num { font-family: Oswald; font-size: 13px; min-width: 28px; text-align: center; color: var(--oro); }
+        .rank-name { font-family: Teko; font-size: 20px; color: white; flex: 1; text-transform: uppercase; }
+        .rank-role { font-family: Oswald; font-size: 9px; color: #555; margin-left: 4px; }
+        .rank-val { font-family: Oswald; font-size: 20px; font-weight: 900; }
 
-        .fut-divider { height: 1px; background: rgba(255,255,255,0.2); margin-bottom: 7px; }
+        /* TROFEI categoria */
+        .trofeo-card {
+            background: linear-gradient(135deg, #111 0%, #080808 100%);
+            border-radius: 18px; overflow: hidden; margin-bottom: 12px;
+        }
+        .trofeo-header {
+            padding: 14px 16px; display: flex; align-items: center; gap: 12px;
+        }
+        .trofeo-icon { font-size: 28px; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)); }
+        .trofeo-title { font-family: Oswald; font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 2px; }
+        .trofeo-winner { font-family: Teko; font-size: 28px; color: white; text-transform: uppercase; line-height: 1; }
+        .trofeo-stat { font-family: Oswald; font-size: 13px; font-weight: 900; margin-left: auto; }
 
-        .fut-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
-        .fut-stat {
-            display: flex; flex-direction: column; align-items: center; gap: 0px;
+        /* Sezioni titolo */
+        .section-label {
+            font-family: Oswald; font-size: 10px; color: #444;
+            text-transform: uppercase; letter-spacing: 2px;
+            margin: 16px 0 10px; display: flex; align-items: center; gap: 8px;
         }
-        .fut-sv {
-            font-family: Oswald; font-size: 16px; font-weight: 900; line-height: 1;
-            text-shadow: 0 1px 5px rgba(0,0,0,0.6);
-        }
-        .fut-sl {
-            font-family: Oswald; font-size: 7px; text-transform: uppercase;
-            letter-spacing: 0.5px; opacity: 0.65; line-height: 1;
-        }
-
-        /* Card tipo label */
-        .fut-type-badge {
-            position: absolute; top: 8px; right: 8px; z-index: 4;
-            font-family: Oswald; font-size: 8px; text-transform: uppercase;
-            letter-spacing: 1px; padding: 2px 6px; border-radius: 6px;
-            background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2);
-        }
-
+        .section-label::after { content: ''; flex: 1; height: 1px; background: #1a1a1a; }
     </style>
 </head>
 <body>
@@ -992,9 +970,15 @@
     </div>
     <!-- PREMI -->
     <div id="p-premi" class="page">
-        <h3 style="font-family:Oswald;color:var(--oro);margin-bottom:2px;">🏆 HALL OF FAME</h3>
-        <div class="premi-subtitle">Overall calcolato su media voti + statistiche</div>
-        <div class="fut-grid" id="l-premi"></div>
+        <h2 style="font-family:Oswald;color:var(--oro);margin:0 0 4px;">🏆 HALL OF FAME</h2>
+        <div style="font-family:Oswald;font-size:10px;color:#444;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;">Stagione 2025/26</div>
+        <!-- Tab switcher -->
+        <div class="premi-tabs">
+            <button class="premi-tab active" onclick="switchPremiTab('trofei',this)">🥇 Trofei</button>
+            <button class="premi-tab" onclick="switchPremiTab('classifica',this)">📊 Classifica</button>
+            <button class="premi-tab" onclick="switchPremiTab('media',this)">⭐ Media Voto</button>
+        </div>
+        <div id="l-premi"></div>
     </div>
     
     <!-- ADMIN -->
@@ -1071,18 +1055,18 @@
                 <div class="pin-dot" id="pd2"></div><div class="pin-dot" id="pd3"></div>
             </div>
             <div class="pin-pad">
-                <button class="pin-key" onclick="pinPress('1')">1<span class="pin-sub">&nbsp;</span></button>
-                <button class="pin-key" onclick="pinPress('2')">2<span class="pin-sub">ABC</span></button>
-                <button class="pin-key" onclick="pinPress('3')">3<span class="pin-sub">DEF</span></button>
-                <button class="pin-key" onclick="pinPress('4')">4<span class="pin-sub">GHI</span></button>
-                <button class="pin-key" onclick="pinPress('5')">5<span class="pin-sub">JKL</span></button>
-                <button class="pin-key" onclick="pinPress('6')">6<span class="pin-sub">MNO</span></button>
-                <button class="pin-key" onclick="pinPress('7')">7<span class="pin-sub">PQRS</span></button>
-                <button class="pin-key" onclick="pinPress('8')">8<span class="pin-sub">TUV</span></button>
-                <button class="pin-key" onclick="pinPress('9')">9<span class="pin-sub">WXYZ</span></button>
+                <button class="pin-key" onclick="pinPress('1')">1</button>
+                <button class="pin-key" onclick="pinPress('2')">2</button>
+                <button class="pin-key" onclick="pinPress('3')">3</button>
+                <button class="pin-key" onclick="pinPress('4')">4</button>
+                <button class="pin-key" onclick="pinPress('5')">5</button>
+                <button class="pin-key" onclick="pinPress('6')">6</button>
+                <button class="pin-key" onclick="pinPress('7')">7</button>
+                <button class="pin-key" onclick="pinPress('8')">8</button>
+                <button class="pin-key" onclick="pinPress('9')">9</button>
                 <div class="pin-key empty"></div>
-                <button class="pin-key" onclick="pinPress('0')">0<span class="pin-sub">+</span></button>
-                <button class="pin-key del" onclick="pinDel()">⌫</button>
+                <button class="pin-key" onclick="pinPress('0')">0</button>
+                <button class="pin-key del" onclick="pinDel()">&#x232B;</button>
             </div>
         </div>
         <div id="pwd-section" style="display:none;">
@@ -1149,6 +1133,7 @@
         document.querySelector('.sidebar').classList.remove('active');
         render();
         if (p === 'tattica') { setTimeout(initHeatmapCanvas, 100); }
+        if (p === 'premi') { setTimeout(renderPremi, 50); }
     }
     function goAdmin() {
         openAdminLogin();
@@ -1768,6 +1753,194 @@
         renderPagellaVotes();
         alert('✅ Pagella pubblicata!');
     }
+    /* ══════════════════════════════════════════
+       PREMI ENGINE
+    ══════════════════════════════════════════ */
+    let premiTab = 'trofei';
+
+    function switchPremiTab(tab, btn) {
+        premiTab = tab;
+        document.querySelectorAll('.premi-tab').forEach(b => b.classList.remove('active'));
+        if(btn) btn.classList.add('active');
+        renderPremi();
+    }
+
+    function getPlayerStats(p) {
+        // Media combinata voteHistory + pagelle
+        const votiFlat = [];
+        const matchIds = new Set();
+        (data.voteHistory||[]).forEach(sess => {
+            const pv = sess.votes && sess.votes[p.id] ? sess.votes[p.id] : {};
+            const vals = Object.values(pv);
+            if(vals.length > 0) {
+                matchIds.add(sess.matchId || sess.id || sess.createdAt || Math.random());
+                votiFlat.push(vals.reduce((a,b)=>a+b,0)/vals.length);
+            }
+        });
+        (data.pagelle||[]).forEach(pg => {
+            const entry = pg.voti && pg.voti[p.id];
+            if(entry !== undefined) {
+                const v = typeof entry==='object' ? entry.voto : entry;
+                if(v) { matchIds.add(pg.matchId || pg.id); votiFlat.push(v); }
+            }
+        });
+        const presenze = matchIds.size;
+        const media = votiFlat.length ? votiFlat.reduce((a,b)=>a+b,0)/votiFlat.length : 0;
+        return { presenze, media: parseFloat(media.toFixed(2)), votiFlat };
+    }
+
+    function renderPremi() {
+        const el = document.getElementById('l-premi');
+        if(!el) return;
+        if(!data.ps || data.ps.length === 0) {
+            el.innerHTML = '<p style="color:#444;text-align:center;font-family:Oswald;padding:40px 0;font-size:13px;">Nessun giocatore ancora.</p>';
+            return;
+        }
+
+        // Arricchisci ogni giocatore con stats calcolate
+        const players = data.ps.map(p => ({ ...p, _s: getPlayerStats(p) }));
+
+        if(premiTab === 'trofei') {
+            el.innerHTML = renderTrofei(players);
+            // Triggera barre animate dopo render
+            requestAnimationFrame(() => {
+                document.querySelectorAll('.rank-bar[data-w]').forEach(b => {
+                    b.style.width = b.dataset.w + '%';
+                });
+            });
+        } else if(premiTab === 'classifica') {
+            el.innerHTML = renderClassifica(players);
+            requestAnimationFrame(() => {
+                document.querySelectorAll('.rank-bar[data-w]').forEach(b => {
+                    b.style.width = b.dataset.w + '%';
+                });
+            });
+        } else if(premiTab === 'media') {
+            el.innerHTML = renderMediaVoto(players);
+            requestAnimationFrame(() => {
+                document.querySelectorAll('.rank-bar[data-w]').forEach(b => {
+                    b.style.width = b.dataset.w + '%';
+                });
+            });
+        }
+    }
+
+    function buildPodio(sorted, valFn, unit) {
+        if(sorted.length === 0) return '<p style="color:#444;text-align:center;font-family:Oswald;padding:20px;font-size:12px;">Nessun dato disponibile.</p>';
+        const top3 = sorted.slice(0,3);
+        // Riordina per podio: 2°, 1°, 3°
+        const order = top3.length === 1 ? [top3[0]] : top3.length === 2 ? [top3[1], top3[0]] : [top3[1], top3[0], top3[2]];
+        const heights = top3.length === 1 ? [80] : top3.length === 2 ? [60,90] : [60,90,45];
+        const medals = ['🥈','🥇','🥉'];
+        const colors = ['#a0a0a0','#D4AF37','#cd7f32'];
+        const avatarSizes = ['52px','64px','46px'];
+        const borders = [`3px solid #a0a0a0`,`3px solid #D4AF37`,`3px solid #cd7f32`];
+
+        let html = '<div class="podio-wrap">';
+        order.forEach((p, i) => {
+            const realRank = order === top3 ? i : (i===0?1:i===1?0:2);
+            const h = heights[i]; const medal = medals[i]; const color = colors[i];
+            const sz = avatarSizes[i];
+            const val = valFn(p);
+            html += `<div class="podio-slot">
+                <div class="podio-avatar" style="width:${sz};height:${sz};border:${borders[i]};background:#111;font-size:${i===1?'22':'16'}px;box-shadow:0 4px 20px rgba(0,0,0,0.6);">
+                    <span class="podio-medal">${medal}</span>
+                    ${p.m}
+                </div>
+                <div class="podio-name" style="color:${i===1?'white':'#aaa'};font-size:${i===1?'18':'15'}px;">${p.n}</div>
+                <div class="podio-val" style="color:${color};">${val}${unit}</div>
+                <div class="podio-block" style="height:${h}px;background:linear-gradient(180deg,${color}dd,${color}66);">${i===1?'1':(i===0?'2':'3')}</div>
+            </div>`;
+        });
+        html += '</div>';
+        return html;
+    }
+
+    function buildRankList(sorted, valFn, unit, barColor) {
+        if(sorted.length === 0) return '';
+        const maxVal = valFn(sorted[0]) || 1;
+        return '<div class="rank-list">' + sorted.map((p, i) => {
+            const val = valFn(p);
+            const pct = Math.round((val/maxVal)*100);
+            const rankClass = i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'';
+            const rankEmoji = i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}`;
+            return `<div class="rank-row ${rankClass}">
+                <div class="rank-bar" data-w="${pct}" style="background:${barColor};width:0%"></div>
+                <div class="rank-pos" style="color:${i<3?['#D4AF37','#a0a0a0','#cd7f32'][i]:'#444'}">${rankEmoji}</div>
+                <div style="flex:1;min-width:0;">
+                    <div style="display:flex;align-items:baseline;gap:4px;">
+                        <span class="rank-name">${p.n}</span>
+                        <span class="rank-role">${p.rs||p.r}</span>
+                    </div>
+                </div>
+                <div class="rank-val" style="color:${i===0?'var(--oro)':'white'}">${val}${unit}</div>
+            </div>`;
+        }).join('') + '</div>';
+    }
+
+    function renderTrofei(players) {
+        // Calcola vincitori per categoria
+        const byGoals   = [...players].sort((a,b)=>(b.g||0)-(a.g||0));
+        const byAssist  = [...players].sort((a,b)=>(b.a||0)-(a.a||0));
+        const byMvp     = [...players].sort((a,b)=>(b.mvp||0)-(a.mvp||0));
+        const byPotm    = [...players].sort((a,b)=>(b.potm||0)-(a.potm||0));
+        const byYellow  = [...players].sort((a,b)=>(b.yl||0)-(a.yl||0));
+        const byMedia   = [...players].filter(p=>p._s.votiFlat.length>0).sort((a,b)=>b._s.media-a._s.media);
+        const byPres    = [...players].sort((a,b)=>b._s.presenze-a._s.presenze);
+
+        const trofei = [
+            { icon:'⚽', title:'Capocannoniere', player: byGoals[0], val: byGoals[0]?.g||0, unit:' GOL', color:'#C61C23', bg:'rgba(198,28,35,0.1)' },
+            { icon:'👟', title:'Re degli Assist', player: byAssist[0], val: byAssist[0]?.a||0, unit:' ASS', color:'#4caf50', bg:'rgba(76,175,80,0.08)' },
+            { icon:'👑', title:'MVP della Stagione', player: byMvp[0], val: byMvp[0]?.mvp||0, unit:'×', color:'#D4AF37', bg:'rgba(212,175,55,0.1)' },
+            { icon:'⭐', title:'Player of the Month', player: byPotm[0], val: byPotm[0]?.potm||0, unit:'×', color:'#7986cb', bg:'rgba(121,134,203,0.1)' },
+            { icon:'📊', title:'Media Voto Stagionale', player: byMedia[0], val: byMedia[0]?byMedia[0]._s.media:'—', unit:'', color:'#29b6f6', bg:'rgba(41,182,246,0.08)' },
+            { icon:'🏟️', title:'Giocatore Più Presente', player: byPres[0], val: byPres[0]?._s.presenze||0, unit:' pres.', color:'#ff9800', bg:'rgba(255,152,0,0.08)' },
+            { icon:'🟨', title:'Fair Play (meno gialli)', player: byYellow[byYellow.length-1], val: byYellow[byYellow.length-1]?.yl||0, unit:' gialli', color:'#ffd600', bg:'rgba(255,214,0,0.08)' },
+        ];
+
+        return trofei.map(t => {
+            if(!t.player) return '';
+            return `<div class="trofeo-card" style="border:1px solid ${t.color}22;">
+                <div class="trofeo-header" style="background:${t.bg};">
+                    <span class="trofeo-icon">${t.icon}</span>
+                    <div style="flex:1;min-width:0;">
+                        <div class="trofeo-title">${t.title}</div>
+                        <div class="trofeo-winner">${t.player.n}</div>
+                        <div style="font-family:Oswald;font-size:10px;color:#555;">${t.player.rs||t.player.r}</div>
+                    </div>
+                    <div class="trofeo-stat" style="color:${t.color};">${t.val}${t.unit}</div>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    function renderClassifica(players) {
+        let html = '';
+        // Classifica Gol
+        const byGoals = [...players].filter(p=>(p.g||0)>0).sort((a,b)=>(b.g||0)-(a.g||0));
+        html += '<div class="section-label">⚽ Capocannonieri</div>';
+        html += byGoals.length > 0 ? buildPodio(byGoals, p=>p.g||0, ' gol') : '<p style="color:#444;font-family:Oswald;font-size:12px;text-align:center;padding:10px;">Nessun gol segnato</p>';
+        html += buildRankList(byGoals, p=>p.g||0, '', '#C61C23');
+        // Classifica Assist
+        const byAssist = [...players].filter(p=>(p.a||0)>0).sort((a,b)=>(b.a||0)-(a.a||0));
+        html += '<div class="section-label">👟 Re degli Assist</div>';
+        html += byAssist.length > 0 ? buildPodio(byAssist, p=>p.a||0, ' ass') : '<p style="color:#444;font-family:Oswald;font-size:12px;text-align:center;padding:10px;">Nessun assist registrato</p>';
+        html += buildRankList(byAssist, p=>p.a||0, '', '#4caf50');
+        return html;
+    }
+
+    function renderMediaVoto(players) {
+        let html = '';
+        const withVotes = [...players].filter(p=>p._s.votiFlat.length>0).sort((a,b)=>b._s.media-a._s.media);
+        const byPres = [...players].sort((a,b)=>b._s.presenze-a._s.presenze);
+        html += '<div class="section-label">⭐ Classifica Media Voto</div>';
+        html += withVotes.length > 0 ? buildPodio(withVotes, p=>p._s.media, '') : '<p style="color:#444;font-family:Oswald;font-size:12px;text-align:center;padding:10px;">Nessun voto registrato</p>';
+        html += buildRankList(withVotes, p=>p._s.media, '', '#D4AF37');
+        html += '<div class="section-label">🏟️ Presenze</div>';
+        html += buildRankList(byPres.filter(p=>p._s.presenze>0), p=>p._s.presenze, ' pres.', '#ff9800');
+        return html;
+    }
+
     function render() {
         let hR = "", hA = "", hMk = "", hP = "", hMatch = "", hNews = "", hConv = "";
         const activeAdm = document.getElementById('active-admin').value;
@@ -1844,66 +2017,7 @@
                 <button class="btn-status" style="float:right; width:auto; padding:5px 15px; background:${p.convocato ? '#C61C23' : '#2e7d32'}" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">${p.convocato ? 'RIMUOVI' : 'AGGIUNGI'}</button>
             </div>`;
             // hMk non più usato per mercato
-            // ── FUT CARD ──
-            {
-                // Calcola overall aggregando voteHistory + pagelle
-                const pgVoti = [];
-                (data.pagelle||[]).forEach(pg => {
-                    const e = pg.voti && pg.voti[p.id];
-                    if(e !== undefined) { const v = typeof e==='object'?e.voto:(e||6); if(v) pgVoti.push(v); }
-                });
-                (data.voteHistory||[]).forEach(sess => {
-                    const pv = sess.votes && sess.votes[p.id] ? Object.values(sess.votes[p.id]) : [];
-                    if(pv.length) pgVoti.push(pv.reduce((a,b)=>a+b,0)/pv.length);
-                });
-                const avgV = pgVoti.length ? pgVoti.reduce((a,b)=>a+b,0)/pgVoti.length : parseFloat(media)||6;
-                const ovr = Math.min(99, Math.round(avgV*9.2 + (p.mvp||0)*1.8 + (p.potm||0)*1 + (p.g||0)*0.6 + (p.a||0)*0.3));
-                // Tipo carta
-                let cardType, typeLbl;
-                if(ovr>=90){cardType='fc-toty';typeLbl='TOTY';}
-                else if(ovr>=86){cardType='fc-hero';typeLbl='HERO';}
-                else if(ovr>=82){cardType='fc-inform';typeLbl='IF';}
-                else if(ovr>=76){cardType='fc-gold';typeLbl='GOLD';}
-                else if(ovr>=70){cardType='fc-silver';typeLbl='SILVER';}
-                else{cardType='fc-bronze';typeLbl='BRONZE';}
-                // Colore testo in base al tipo
-                const tc = (cardType==='fc-toty')?'#b9f6ca':(cardType==='fc-hero')?'#ffcccc':(cardType==='fc-inform')?'#ddc8ff':(cardType==='fc-gold')?'#3a1e00':(cardType==='fc-silver')?'#1a1a1a':'#2a1200';
-                const badges = (p.mvp>0?'👑':'')+(p.potm>0?'⭐':'')+(p.g>=5?'🔥':'');
-                hP += `<div class="fut-card ${cardType}" onclick="openP(${p.id})">
-                    <div class="fut-type-badge" style="color:${tc};">${typeLbl}</div>
-                    <div class="fut-inner">
-                        <div class="fut-top">
-                            <div class="fut-left">
-                                <div class="fut-ovr" style="color:${tc};">${ovr}</div>
-                                <div class="fut-pos-lbl" style="color:${tc};">${p.rs||p.r}</div>
-                                <div class="fut-nation" style="color:${tc};opacity:0.55;">MILANAC FC</div>
-                            </div>
-                            <div class="fut-badges">${badges}</div>
-                        </div>
-                        <div class="fut-avatar-wrap">
-                            <div class="fut-avatar" style="color:${tc};">${p.m}</div>
-                        </div>
-                        <div class="fut-name-wrap">
-                            <div class="fut-name" style="color:${tc};">${p.n}</div>
-                        </div>
-                        <div class="fut-divider" style="background:${tc};opacity:0.25;"></div>
-                        <div class="fut-stats">
-                            <div class="fut-stat">
-                                <span class="fut-sv" style="color:${tc};">${p.g||0}</span>
-                                <span class="fut-sl" style="color:${tc};">GOL</span>
-                            </div>
-                            <div class="fut-stat">
-                                <span class="fut-sv" style="color:${tc};">${p.a||0}</span>
-                                <span class="fut-sl" style="color:${tc};">ASS</span>
-                            </div>
-                            <div class="fut-stat">
-                                <span class="fut-sv" style="color:${tc};">${p.mvp||0}</span>
-                                <span class="fut-sl" style="color:${tc};">MVP</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>`;
-            }
+            // hP: dati aggregati in premiData, renderati da renderPremi()
             // Admin card con voto sessione
             if(currentAdmin) {
                 let sessionVoteHtml = '';
@@ -2175,7 +2289,7 @@
         renderPagellaVotes();
         document.getElementById('l-partite').innerHTML = hMatch;
         document.getElementById('l-news').innerHTML = hNews;
-        document.getElementById('l-premi').innerHTML = hP;
+        if(document.getElementById('p-premi').classList.contains('active')) renderPremi();
         document.getElementById('l-calendario').innerHTML = hCal;
         document.getElementById('list-convocabili').innerHTML = hConv;
         // Giocatori sul campo
@@ -2254,35 +2368,20 @@
         document.getElementById('st-potm').innerText = p.potm || 0;
         document.getElementById('st-yl').innerText = p.yl || 0;
         document.getElementById('st-rd').innerText = p.rd || 0;
-        // ── Presenze: partite uniche in cui il giocatore compare (voteHistory + pagelle) ──
-        const matchIds = new Set();
-        const allVotiFlat = []; // tutti i singoli voti per la media
-
-        // Da voteHistory
-        (data.voteHistory||[]).forEach(sess => {
-            const pv = sess.votes && sess.votes[p.id] ? sess.votes[p.id] : {};
-            const vals = Object.values(pv);
+        // Calcola media storica da voteHistory
+        const allSessions = (data.voteHistory || []);
+        let totalVotes = 0, voteCount = 0;
+        allSessions.forEach(sess => {
+            const pVotes = sess.votes && sess.votes[p.id] ? sess.votes[p.id] : {};
+            const vals = Object.values(pVotes);
             if(vals.length > 0) {
-                matchIds.add(sess.matchId || sess.id || sess.createdAt);
                 const sessMedia = vals.reduce((a,b)=>a+b,0) / vals.length;
-                allVotiFlat.push(sessMedia);
+                totalVotes += sessMedia;
+                voteCount++;
             }
         });
-        // Da pagelle pubblicate
-        (data.pagelle||[]).forEach(pg => {
-            const entry = pg.voti && pg.voti[p.id];
-            if(entry !== undefined) {
-                const v = typeof entry === 'object' ? entry.voto : entry;
-                if(v) {
-                    matchIds.add(pg.matchId || pg.id);
-                    allVotiFlat.push(v);
-                }
-            }
-        });
-        const partiteGiocate = matchIds.size;
-        const mediaStorica = allVotiFlat.length > 0
-            ? (allVotiFlat.reduce((a,b)=>a+b,0) / allVotiFlat.length).toFixed(2)
-            : '—';
+        const mediaStorica = voteCount > 0 ? (totalVotes / voteCount).toFixed(2) : '—';
+        const partiteGiocate = voteCount;
         // Inserisci dati extra nel modal
         const extraEl = document.getElementById('m-extra-stats');
         if(extraEl) {
