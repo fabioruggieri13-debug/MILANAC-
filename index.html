@@ -777,7 +777,28 @@
             <h4 style="font-family:'Oswald';margin-top:0;">NUOVO GIOCATORE</h4>
             <input type="text" id="in-n" placeholder="Nome">
             <input type="number" id="in-m" placeholder="Numero">
-            <select id="in-r"><option>POR</option><option>DIF</option><option>CEN</option><option>ATT</option></select>
+            <select id="in-r">
+  <optgroup label="🥅 Portiere"><option value="POR|POR">POR — Portiere</option></optgroup>
+  <optgroup label="🛡️ Difensori">
+    <option value="DIF|DC">DIF — Difensore Centrale</option>
+    <option value="DIF|TD">DIF — Terzino Destro</option>
+    <option value="DIF|TS">DIF — Terzino Sinistro</option>
+    <option value="DIF|LIB">DIF — Libero</option>
+  </optgroup>
+  <optgroup label="⚙️ Centrocampisti">
+    <option value="CEN|CDC">CEN — Centrocampista Centrale</option>
+    <option value="CEN|CDM">CEN — Mediano/Davanti difesa</option>
+    <option value="CEN|CAM">CEN — Trequartista</option>
+    <option value="CEN|AD">CEN — Ala Destra</option>
+    <option value="CEN|AS">CEN — Ala Sinistra</option>
+    <option value="CEN|MEZ">CEN — Mezzala</option>
+  </optgroup>
+  <optgroup label="⚽ Attaccanti">
+    <option value="ATT|CF">ATT — Centravanti</option>
+    <option value="ATT|SS">ATT — Seconda Punta</option>
+    <option value="ATT|FP">ATT — Falso 9</option>
+  </optgroup>
+</select>
             <button class="btn-main" onclick="addP()">AGGIUNGI</button>
         </div>
         <select id="active-admin" style="display:none"></select>
@@ -837,6 +858,8 @@
         <div id="m-ruolo-txt">DIFENSORE</div>
         <h2 id="m-nome">BARESI</h2>
         <div id="m-numero-big">6</div>
+        <!-- Media stagione + partite giocate -->
+        <div id="m-extra-stats"></div>
         <div class="m-stats-grid">
             <div class="stat-item"><span class="stat-label">GOAL</span><span id="st-g" class="stat-value">0</span></div>
             <div class="stat-item"><span class="stat-label">ASSIST</span><span id="st-a" class="stat-value">0</span></div>
@@ -845,7 +868,7 @@
             <div class="stat-item"><span class="stat-label">GIALLI</span><span id="st-yl" class="stat-value">0</span></div>
             <div class="stat-item"><span class="stat-label">ROSSI</span><span id="st-rd" class="stat-value">0</span></div>
         </div>
-        <button class="btn-main" style="margin-top:30px; border-radius:15px; margin-bottom:10px;" onclick="document.getElementById('modal-player').style.display='none'">CHIUDI</button>
+        <button class="btn-main" style="margin-top:20px; border-radius:15px; margin-bottom:10px;" onclick="document.getElementById('modal-player').style.display='none'">CHIUDI</button>
     </div>
 </div>
 
@@ -1389,8 +1412,18 @@
     ============================================================ */
     function addP() {
         if(!currentAdmin){ alert('Devi essere loggato come admin.'); return; }
-        const n = document.getElementById('in-n').value, m = document.getElementById('in-m').value, r = document.getElementById('in-r').value;
-        if (n && m) { data.ps.push({ id: Date.now(), n, m, r, g: 0, a: 0, mvp: 0, yl: 0, rd: 0, potm: 0, convocato: false, x: 43, y: 80, v_adm: { "Fabio": 6, "Beppe": 6, "Christian": 6, "Vicio": 6, "Martin": 6 } }); sync(); }
+        const n = document.getElementById('in-n').value;
+        const m = document.getElementById('in-m').value;
+        const rv = document.getElementById('in-r').value; // es. "DIF|DC"
+        const parts = rv.split('|');
+        const r = parts[0];   // categoria: POR DIF CEN ATT
+        const rs = parts[1] || r; // ruolo specifico: DC TD etc.
+        if (n && m) {
+            data.ps.push({ id: Date.now(), n, m, r, rs, g: 0, a: 0, mvp: 0, yl: 0, rd: 0, potm: 0, convocato: false, x: 43, y: 80, v_adm: { "Fabio": 6, "Beppe": 6, "Christian": 6, "Vicio": 6, "Martin": 6 } });
+            sync();
+            document.getElementById('in-n').value = '';
+            document.getElementById('in-m').value = '';
+        }
     }
     function updateStat(id, key, val) {
         const i = data.ps.findIndex(x => x.id == id);
@@ -1477,7 +1510,38 @@
             if (p.id === topPlayerId && maxMedia > 6) bIcons += "🔥";
             if (p.id === wallId && maxDefMedia > 6) bIcons += "🧱";
 
-            const playerCard = `<div class="card" onclick="openP(${p.id})"><div class="bg-number">${p.m}</div><div class="card-left"><span class="role-badge">${p.r}</span><span class="player-name-new">${p.n} ${bIcons}</span><span class="player-sub">Media: ${media}</span></div><div class="card-right"><button class="btn-status" style="background:${p.convocato ? '#2e7d32' : '#222'}; color: white;">${p.convocato ? 'IN CAMPO' : 'RISERVA'}</button><button class="btn-status" style="background:#C61C23; color: white;" onclick="event.stopPropagation(); const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">SCHIERA</button></div></div>`;
+            const rsLabel = p.rs || p.r;
+            const convBg = p.convocato ? 'linear-gradient(90deg,#1b5e20,#2e7d32)' : '#1a1a1a';
+            const convColor = p.convocato ? '#4caf50' : '#555';
+            const playerCard = `<div onclick="openP(${p.id})" style="
+                display:flex; align-items:center; gap:10px;
+                background:linear-gradient(135deg,#111 0%,#080808 100%);
+                border:1px solid rgba(212,175,55,0.2);
+                border-radius:14px; padding:10px 12px; margin-bottom:7px;
+                cursor:pointer; position:relative; overflow:hidden;
+                transition:all 0.2s;">
+                <div style="width:38px;height:38px;border-radius:50%;background:#0a0a0a;border:2px solid var(--rosso);
+                    display:flex;align-items:center;justify-content:center;
+                    font-family:'Oswald';font-size:15px;font-weight:900;color:var(--oro);flex-shrink:0;">${p.m}</div>
+                <div style="flex:1;min-width:0;">
+                    <div style="display:flex;align-items:baseline;gap:6px;">
+                        <span style="font-family:'Teko';font-size:20px;font-weight:700;color:white;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.n}</span>
+                        <span style="font-size:10px;color:var(--oro);font-family:'Oswald';font-weight:700;letter-spacing:0.5px;white-space:nowrap;">${rsLabel} ${bIcons}</span>
+                    </div>
+                    <div style="font-size:11px;color:#555;font-family:'Oswald';">Media ${media} &nbsp;·&nbsp; ⚽${p.g||0} 👟${p.a||0}</div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:5px;flex-shrink:0;">
+                    <div style="width:8px;height:8px;border-radius:50%;background:${p.convocato ? '#4caf50' : '#333'};
+                        box-shadow:${p.convocato ? '0 0 6px #4caf50' : 'none'};align-self:flex-end;"></div>
+                    <button style="padding:5px 10px;border-radius:8px;border:none;
+                        background:${p.convocato ? '#C61C23' : '#2e7d32'};color:white;
+                        font-family:'Oswald';font-size:10px;font-weight:700;cursor:pointer;
+                        text-transform:uppercase;letter-spacing:0.5px;"
+                        onclick="event.stopPropagation(); const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">
+                        ${p.convocato ? 'OUT' : 'IN'}
+                    </button>
+                </div>
+            </div>`;
 
             if (window.viewMode === 'all') { listaSemplice += playerCard; }
             else if (window.viewMode === 'roles') { if (gruppi[p.r] !== undefined) gruppi[p.r] += playerCard; else gruppi['ATT'] += playerCard; }
@@ -1751,7 +1815,13 @@
     function openP(id) {
         const p = data.ps.find(x => x.id == id);
         const fullRoles = { 'POR': 'PORTIERE', 'DIF': 'DIFENSORE', 'CEN': 'CENTROCAMPISTA', 'ATT': 'ATTACCANTE' };
-        document.getElementById('m-ruolo-txt').innerText = fullRoles[p.r] || p.r;
+        const rsFullMap = {
+            'POR':'Portiere','DC':'Difensore Centrale','TD':'Terzino Destro','TS':'Terzino Sinistro','LIB':'Libero',
+            'CDC':'Centrocampista','CDM':'Mediano','CAM':'Trequartista','AD':'Ala Destra','AS':'Ala Sinistra','MEZ':'Mezzala',
+            'CF':'Centravanti','SS':'Seconda Punta','FP':'Falso 9'
+        };
+        const ruoloLabel = p.rs ? (rsFullMap[p.rs] || p.rs) : (fullRoles[p.r] || p.r);
+        document.getElementById('m-ruolo-txt').innerText = ruoloLabel;
         document.getElementById('m-nome').innerText = p.n;
         document.getElementById('m-numero-big').innerText = p.m;
         document.getElementById('st-g').innerText = p.g || 0;
@@ -1760,6 +1830,37 @@
         document.getElementById('st-potm').innerText = p.potm || 0;
         document.getElementById('st-yl').innerText = p.yl || 0;
         document.getElementById('st-rd').innerText = p.rd || 0;
+
+        // Calcola media storica da voteHistory
+        const allSessions = (data.voteHistory || []);
+        let totalVotes = 0, voteCount = 0;
+        allSessions.forEach(sess => {
+            const pVotes = sess.votes && sess.votes[p.id] ? sess.votes[p.id] : {};
+            const vals = Object.values(pVotes);
+            if(vals.length > 0) {
+                const sessMedia = vals.reduce((a,b)=>a+b,0) / vals.length;
+                totalVotes += sessMedia;
+                voteCount++;
+            }
+        });
+        const mediaStorica = voteCount > 0 ? (totalVotes / voteCount).toFixed(2) : '—';
+        const partiteGiocate = voteCount;
+
+        // Inserisci dati extra nel modal
+        const extraEl = document.getElementById('m-extra-stats');
+        if(extraEl) {
+            extraEl.innerHTML = `
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:5px;">
+                    <div style="background:rgba(212,175,55,0.07);border:1px solid rgba(212,175,55,0.25);border-radius:12px;padding:12px;text-align:center;">
+                        <div style="font-size:9px;color:#666;font-family:'Oswald';text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Media Stagione</div>
+                        <div style="font-family:'Oswald';font-size:30px;font-weight:900;color:var(--oro);">${mediaStorica}</div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:12px;text-align:center;">
+                        <div style="font-size:9px;color:#666;font-family:'Oswald';text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Partite</div>
+                        <div style="font-family:'Oswald';font-size:30px;font-weight:900;color:white;">${partiteGiocate}</div>
+                    </div>
+                </div>`;
+        }
         document.getElementById('modal-player').style.display = 'flex';
     }
 
