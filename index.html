@@ -1661,16 +1661,16 @@
             return `<div style="border-bottom:1px solid rgba(255,255,255,0.05);padding:10px 14px;">
                 <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
                     <div style="width:30px;height:30px;border-radius:50%;background:#111;border:2px solid var(--rosso);
-                        display:flex;align-items:center;justify-content:center;font-family:'Oswald';font-size:12px;color:var(--oro);flex-shrink:0;">${p.m}</div>
+                        display:flex;align-items:center;justify-content:center;font-family:Oswald;font-size:12px;color:var(--oro);flex-shrink:0;">${p.m}</div>
                     <div style="flex:1;min-width:0;">
-                        <span style="font-family:'Teko';font-size:18px;color:white;">${p.n}</span>
-                        <span style="font-size:10px;color:#555;font-family:'Oswald';margin-left:4px;">${p.rs||p.r}</span>
+                        <span style="font-family:Teko;font-size:18px;color:white;">${p.n}</span>
+                        <span style="font-size:10px;color:#555;font-family:Oswald;margin-left:4px;">${p.rs||p.r}</span>
                     </div>
                     <button onclick="if(!pagellaVoti[${p.id}])pagellaVoti[${p.id}]={voto:6,commento:''};pagellaVoti[${p.id}].voto=Math.max(1,parseFloat((pagellaVoti[${p.id}].voto-0.5).toFixed(1)));renderPagellaVotes()"
                         style="width:28px;height:28px;background:#c62828;border:none;color:white;border-radius:6px;cursor:pointer;font-size:16px;font-weight:900;flex-shrink:0;">−</button>
                     <div style="text-align:center;min-width:44px;">
-                        <div style="font-family:'Oswald';font-size:22px;font-weight:900;color:${vColor};line-height:1;">${v}</div>
-                        <div style="font-size:8px;color:${vColor};font-family:'Oswald';opacity:0.7;">${vLabel}</div>
+                        <div style="font-family:Oswald;font-size:22px;font-weight:900;color:${vColor};line-height:1;">${v}</div>
+                        <div style="font-size:8px;color:${vColor};font-family:Oswald;opacity:0.7;">${vLabel}</div>
                     </div>
                     <button onclick="if(!pagellaVoti[${p.id}])pagellaVoti[${p.id}]={voto:6,commento:''};pagellaVoti[${p.id}].voto=Math.min(10,parseFloat((pagellaVoti[${p.id}].voto+0.5).toFixed(1)));renderPagellaVotes()"
                         style="width:28px;height:28px;background:#2e7d32;border:none;color:white;border-radius:6px;cursor:pointer;font-size:16px;font-weight:900;flex-shrink:0;">+</button>
@@ -1678,7 +1678,7 @@
                 <textarea placeholder="Commento su ${p.n}..." rows="2"
                     onchange="if(!pagellaVoti[${p.id}])pagellaVoti[${p.id}]={voto:6,commento:''};pagellaVoti[${p.id}].commento=this.value"
                     style="width:100%;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);color:#bbb;
-                    border-radius:8px;padding:8px;font-size:13px;font-family:'Segoe UI',sans-serif;resize:none;box-sizing:border-box;line-height:1.4;">${comm}</textarea>
+                    border-radius:8px;padding:8px;font-size:13px;font-family:Segoe UI,sans-serif;resize:none;box-sizing:border-box;line-height:1.4;">${comm}</textarea>
             </div>`;
         }).join('');
     }
@@ -1728,8 +1728,8 @@
 
         if (!window.viewMode) window.viewMode = 'roles';
         hR = `<div style="margin-bottom:10px;background:#111;padding:10px;border-radius:8px;border:1px solid var(--oro);display:flex;align-items:center;gap:10px">
-            <span style="font-size:12px;font-weight:bold;color:var(--oro);text-transform:uppercase;font-family:'Oswald'">Visualizza:</span>
-            <select onchange="window.viewMode=this.value; render()" style="flex-grow:1; background:#222; color:white; border:1px solid #444; padding:8px; border-radius:4px; font-weight:bold; font-family:'Oswald'">
+            <span style="font-size:12px;font-weight:bold;color:var(--oro);text-transform:uppercase;font-family:Oswald">Visualizza:</span>
+            <select onchange="window.viewMode=this.value; render()" style="flex-grow:1; background:#222; color:white; border:1px solid #444; padding:8px; border-radius:4px; font-weight:bold; font-family:Oswald">
                 <option value="all" ${window.viewMode === 'all' ? 'selected' : ''}>TUTTI</option>
                 <option value="roles" ${window.viewMode === 'roles' ? 'selected' : ''}>RUOLO</option>
                 <option value="POR" ${window.viewMode === 'POR' ? 'selected' : ''}>POR</option>
@@ -1762,13 +1762,13 @@
                 transition:all 0.2s;">
                 <div style="width:38px;height:38px;border-radius:50%;background:#0a0a0a;border:2px solid var(--rosso);
                     display:flex;align-items:center;justify-content:center;
-                    font-family:'Oswald';font-size:15px;font-weight:900;color:var(--oro);flex-shrink:0;">${p.m}</div>
+                    font-family:Oswald;font-size:15px;font-weight:900;color:var(--oro);flex-shrink:0;">${p.m}</div>
                 <div style="flex:1;min-width:0;">
                     <div style="display:flex;align-items:baseline;gap:6px;">
-                        <span style="font-family:'Teko';font-size:20px;font-weight:700;color:white;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.n}</span>
-                        <span style="font-size:10px;color:var(--oro);font-family:'Oswald';font-weight:700;letter-spacing:0.5px;white-space:nowrap;">${rsLabel} ${bIcons}</span>
+                        <span style="font-family:Teko;font-size:20px;font-weight:700;color:white;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.n}</span>
+                        <span style="font-size:10px;color:var(--oro);font-family:Oswald;font-weight:700;letter-spacing:0.5px;white-space:nowrap;">${rsLabel} ${bIcons}</span>
                     </div>
-                    <div style="font-size:11px;color:#555;font-family:'Oswald';">Media ${media} &nbsp;·&nbsp; ⚽${p.g||0} 👟${p.a||0}</div>
+                    <div style="font-size:11px;color:#555;font-family:Oswald;">Media ${media} &nbsp;·&nbsp; ⚽${p.g||0} 👟${p.a||0}</div>
                 </div>
                 <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;">
                     <div style="width:8px;height:8px;border-radius:50%;
@@ -1779,7 +1779,7 @@
                         background:${p.convocato ? '#1b5e20' : '#1a1a1a'};
                         border:1px solid ${p.convocato ? '#2e7d32' : '#333'};
                         color:${p.convocato ? '#4caf50' : '#555'};
-                        font-family:'Oswald';font-size:10px;font-weight:700;cursor:pointer;
+                        font-family:Oswald;font-size:10px;font-weight:700;cursor:pointer;
                         text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;"
                         onclick="event.stopPropagation(); const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">
                         ${p.convocato ? 'DISPONIBILE' : 'NON DISP.'}
@@ -1804,7 +1804,7 @@
                     const sess = (data.voteHistory||[]).find(s => s.matchId == currentVoteSession.matchId);
                     const myVote = sess && sess.votes[p.id] && sess.votes[p.id][currentAdmin] !== undefined ? sess.votes[p.id][currentAdmin] : 6;
                     sessionVoteHtml = `<div style="background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.3);border-radius:10px;padding:10px;margin-top:8px;">
-                        <div style="font-family:'Oswald';font-size:10px;color:var(--oro);letter-spacing:1px;margin-bottom:6px;">VOTO PARTITA (${currentVoteSession.matchLabel.split(' (')[0]})</div>
+                        <div style="font-family:Oswald;font-size:10px;color:var(--oro);letter-spacing:1px;margin-bottom:6px;">VOTO PARTITA (${currentVoteSession.matchLabel.split(' (')[0]})</div>
                         <div class="vote-control">
                             <button class="btn-v btn-minus" onclick="setVoteInSession(${p.id},-0.5); render()">-</button>
                             <span class="v-val" style="color:var(--oro)">${myVote}</span>
@@ -1816,7 +1816,7 @@
                 }
                 hA += `<div class="card" style="display:block">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-                        <b style="font-family:'Teko';font-size:22px;">${p.n} <span style="font-size:14px;color:#666">${p.r}</span></b>
+                        <b style="font-family:Teko;font-size:22px;">${p.n} <span style="font-size:14px;color:#666">${p.r}</span></b>
                         <button style="color:red;border:none;background:none;font-size:18px;" onclick="if(confirm('Eliminare ${p.n}?')){data.ps=data.ps.filter(x=>x.id!==${p.id}); sync()}">🗑️</button>
                     </div>
                     ${sessionVoteHtml}
@@ -1830,34 +1830,34 @@
                     </div>
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px;">
                         <div style="background:#0d1f0d;border:1px solid #2e7d32;border-radius:8px;padding:6px;display:flex;justify-content:space-between;align-items:center;">
-                            <span style="font-size:11px;font-family:'Oswald';color:#4caf50;">🟨 GIALLI</span>
+                            <span style="font-size:11px;font-family:Oswald;color:#4caf50;">🟨 GIALLI</span>
                             <div style="display:flex;align-items:center;gap:4px;">
                                 <button class="btn-v btn-minus" style="width:26px;height:26px;" onclick="updateStat(${p.id},'yl',-1)">-</button>
-                                <span style="font-family:'Oswald';font-size:16px;color:#ffd600;min-width:20px;text-align:center">${p.yl||0}</span>
+                                <span style="font-family:Oswald;font-size:16px;color:#ffd600;min-width:20px;text-align:center">${p.yl||0}</span>
                                 <button class="btn-v btn-plus" style="width:26px;height:26px;" onclick="updateStat(${p.id},'yl',1)">+</button>
                             </div>
                         </div>
                         <div style="background:#1f0d0d;border:1px solid #c62828;border-radius:8px;padding:6px;display:flex;justify-content:space-between;align-items:center;">
-                            <span style="font-size:11px;font-family:'Oswald';color:#ef5350;">🟥 ROSSI</span>
+                            <span style="font-size:11px;font-family:Oswald;color:#ef5350;">🟥 ROSSI</span>
                             <div style="display:flex;align-items:center;gap:4px;">
                                 <button class="btn-v btn-minus" style="width:26px;height:26px;" onclick="updateStat(${p.id},'rd',-1)">-</button>
-                                <span style="font-family:'Oswald';font-size:16px;color:#ff5252;min-width:20px;text-align:center">${p.rd||0}</span>
+                                <span style="font-family:Oswald;font-size:16px;color:#ff5252;min-width:20px;text-align:center">${p.rd||0}</span>
                                 <button class="btn-v btn-plus" style="width:26px;height:26px;" onclick="updateStat(${p.id},'rd',1)">+</button>
                             </div>
                         </div>
                         <div style="background:#1a1500;border:1px solid #D4AF37;border-radius:8px;padding:6px;display:flex;justify-content:space-between;align-items:center;">
-                            <span style="font-size:11px;font-family:'Oswald';color:var(--oro);">👑 MVP</span>
+                            <span style="font-size:11px;font-family:Oswald;color:var(--oro);">👑 MVP</span>
                             <div style="display:flex;align-items:center;gap:4px;">
                                 <button class="btn-v btn-minus" style="width:26px;height:26px;" onclick="updateStat(${p.id},'mvp',-1)">-</button>
-                                <span style="font-family:'Oswald';font-size:16px;color:var(--oro);min-width:20px;text-align:center">${p.mvp||0}</span>
+                                <span style="font-family:Oswald;font-size:16px;color:var(--oro);min-width:20px;text-align:center">${p.mvp||0}</span>
                                 <button class="btn-v btn-plus" style="width:26px;height:26px;" onclick="updateStat(${p.id},'mvp',1)">+</button>
                             </div>
                         </div>
                         <div style="background:#0d0f1f;border:1px solid #3f51b5;border-radius:8px;padding:6px;display:flex;justify-content:space-between;align-items:center;">
-                            <span style="font-size:11px;font-family:'Oswald';color:#7986cb;">⭐ POTM</span>
+                            <span style="font-size:11px;font-family:Oswald;color:#7986cb;">⭐ POTM</span>
                             <div style="display:flex;align-items:center;gap:4px;">
                                 <button class="btn-v btn-minus" style="width:26px;height:26px;" onclick="updateStat(${p.id},'potm',-1)">-</button>
-                                <span style="font-family:'Oswald';font-size:16px;color:#7986cb;min-width:20px;text-align:center">${p.potm||0}</span>
+                                <span style="font-family:Oswald;font-size:16px;color:#7986cb;min-width:20px;text-align:center">${p.potm||0}</span>
                                 <button class="btn-v btn-plus" style="width:26px;height:26px;" onclick="updateStat(${p.id},'potm',1)">+</button>
                             </div>
                         </div>
@@ -1867,7 +1867,7 @@
         });
 
         if (window.viewMode === 'roles') {
-            ruoliOrdine.forEach(r => { if (gruppi[r]) hR += `<h4 style="color:var(--oro); border-bottom:1px solid #333; padding-bottom:5px; margin:20px 0 10px 0; text-transform:uppercase; font-size:12px; letter-spacing:1px; font-family:'Oswald'">${r}</h4>` + gruppi[r]; });
+            ruoliOrdine.forEach(r => { if (gruppi[r]) hR += `<h4 style="color:var(--oro); border-bottom:1px solid #333; padding-bottom:5px; margin:20px 0 10px 0; text-transform:uppercase; font-size:12px; letter-spacing:1px; font-family:Oswald">${r}</h4>` + gruppi[r]; });
         } else { hR += listaSemplice; }
 
         // Summary stats
@@ -1879,8 +1879,8 @@
             const par = tot - v - s;
             const stats = [{label:'VINTE',val:v,color:'#2e7d32'},{label:'PAREGG.',val:par,color:'#f57f17'},{label:'PERSE',val:s,color:'#c62828'}];
             msEl.innerHTML = stats.map(s2 => `<div style="background:linear-gradient(145deg,#111,#080808);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:12px;text-align:center;">
-                <div style="font-family:'Oswald';font-size:28px;font-weight:900;color:${s2.color};">${s2.val}</div>
-                <div style="font-size:10px;color:#555;font-family:'Oswald';letter-spacing:1px;text-transform:uppercase;">${s2.label}</div>
+                <div style="font-family:Oswald;font-size:28px;font-weight:900;color:${s2.color};">${s2.val}</div>
+                <div style="font-size:10px;color:#555;font-family:Oswald;letter-spacing:1px;text-transform:uppercase;">${s2.label}</div>
             </div>`).join('');
         }
 
@@ -1891,12 +1891,12 @@
                         : gF < gA ? { label:'S', color:'#c62828', bg:'rgba(198,40,40,0.15)' }
                         : { label:'P', color:'#f57f17', bg:'rgba(245,127,23,0.15)' };
             hMatch += `<div style="background:linear-gradient(135deg,#111 0%,#0a0a0a 100%);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:12px;position:relative;overflow:hidden;">
-                <div style="width:36px;height:36px;border-radius:10px;background:${esito.bg};border:1.5px solid ${esito.color};display:flex;align-items:center;justify-content:center;font-family:'Oswald';font-size:16px;font-weight:900;color:${esito.color};flex-shrink:0;">${esito.label}</div>
+                <div style="width:36px;height:36px;border-radius:10px;background:${esito.bg};border:1.5px solid ${esito.color};display:flex;align-items:center;justify-content:center;font-family:Oswald;font-size:16px;font-weight:900;color:${esito.color};flex-shrink:0;">${esito.label}</div>
                 <div style="flex:1;min-width:0;">
-                    <div style="font-family:'Teko';font-size:20px;color:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">vs ${m.avv}</div>
-                    <div style="font-size:11px;color:#555;font-family:'Oswald';">${m.d}</div>
+                    <div style="font-family:Teko;font-size:20px;color:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">vs ${m.avv}</div>
+                    <div style="font-size:11px;color:#555;font-family:Oswald;">${m.d}</div>
                 </div>
-                <div style="font-family:'Oswald';font-size:26px;font-weight:900;color:white;letter-spacing:2px;">${m.ris}</div>
+                <div style="font-family:Oswald;font-size:26px;font-weight:900;color:white;letter-spacing:2px;">${m.ris}</div>
                 <button style="background:none;border:none;color:#444;font-size:18px;cursor:pointer;padding:4px;flex-shrink:0;" onclick="data.matches.splice(${idx},1); sync()">🗑️</button>
             </div>`;
         });
@@ -1945,7 +1945,7 @@
             hStorico += `<div class="match-vote-session">
                 <div class="mvs-header">
                     <div><div class="mvs-match">${sess.matchLabel}</div><div class="mvs-date">${sess.createdAt}</div></div>
-                    <div style="font-size:11px;color:#666;font-family:'Oswald'">${Object.keys(sess.votes||{}).length} votati</div>
+                    <div style="font-size:11px;color:#666;font-family:Oswald">${Object.keys(sess.votes||{}).length} votati</div>
                 </div>`;
             if(!currentAdmin) {
                 hStorico += `<div class="vote-hidden-bar">🔒 Accedi come admin per vedere i voti</div>`;
@@ -1992,7 +1992,7 @@
         if(pagelleEl) {
             const pagelle = (data.pagelle || []);
             if(pagelle.length === 0) {
-                pagelleEl.innerHTML = '<p style="color:#444;text-align:center;font-family:'Oswald';font-size:13px;padding:30px 0;">Nessuna pagella pubblicata ancora.</p>';
+                pagelleEl.innerHTML = '<p style="color:#444;text-align:center;font-family:Oswald;font-size:13px;padding:30px 0;">Nessuna pagella pubblicata ancora.</p>';
             } else {
                 pagelleEl.innerHTML = pagelle.map((pg, idx) => {
                     const canDelete = currentAdmin === pg.author;
@@ -2121,7 +2121,7 @@
     ============================================================ */
     window.showDayEvents = function (dataS) {
         const evs = (data.calendar || []).filter(c => new Date(c.dt).toLocaleDateString() === dataS);
-        let html = `<h4 style="color:var(--oro); font-size:16px; margin-bottom:15px; font-family:'Oswald';">EVENTI DEL ${dataS}</h4>`;
+        let html = `<h4 style="color:var(--oro); font-size:16px; margin-bottom:15px; font-family:Oswald;">EVENTI DEL ${dataS}</h4>`;
         if (evs.length === 0) html += `<p style="font-size:14px; color:#888; text-align:center;">Nessun impegno ufficiale.</p>`;
         evs.forEach(e => {
             const oraFormattata = new Date(e.dt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -2180,12 +2180,12 @@
             extraEl.innerHTML = `
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:5px;">
                     <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:12px;text-align:center;">
-                        <div style="font-size:9px;color:#666;font-family:'Oswald';text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Presenze</div>
-                        <div style="font-family:'Oswald';font-size:30px;font-weight:900;color:white;">${partiteGiocate}</div>
+                        <div style="font-size:9px;color:#666;font-family:Oswald;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Presenze</div>
+                        <div style="font-family:Oswald;font-size:30px;font-weight:900;color:white;">${partiteGiocate}</div>
                     </div>
                     <div style="background:rgba(212,175,55,0.07);border:1px solid rgba(212,175,55,0.25);border-radius:12px;padding:12px;text-align:center;">
-                        <div style="font-size:9px;color:#666;font-family:'Oswald';text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Media Voto</div>
-                        <div style="font-family:'Oswald';font-size:30px;font-weight:900;color:var(--oro);">${mediaStorica}</div>
+                        <div style="font-size:9px;color:#666;font-family:Oswald;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Media Voto</div>
+                        <div style="font-family:Oswald;font-size:30px;font-weight:900;color:var(--oro);">${mediaStorica}</div>
                     </div>
                 </div>`;
         }
