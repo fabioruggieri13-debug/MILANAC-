@@ -1486,7 +1486,7 @@
         clearTimeout(_syncTimeout);
         _syncTimeout = setTimeout(() => {
             db.collection("milanac").doc("v84_final").set(data)
-                .then(() => showToast("✓ Salvato"))
+                .then(() => { /* salvataggio silenzioso */ })
                 .catch(e => showToast("⚠ Errore salvataggio", true));
         }, 400);
     }
@@ -1977,9 +1977,26 @@
             for(let i=0; i<byteStr.length; i++) arr[i] = byteStr.charCodeAt(i);
             const blob = new Blob([arr], { type: 'image/jpeg' });
             const file = new File([blob], 'formazione-milanac.jpg', { type: 'image/jpeg' });
-            if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                await navigator.share({ files: [file], title: 'Formazione Milanac', text: '📋 Formazione Milanac' });
-                showToast("✓ Condiviso!");
+            if (navigator.share) {
+                try {
+                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                        await navigator.share({ files: [file], title: 'Formazione Milanac', text: '📋 Formazione Milanac' });
+                    } else {
+                        await navigator.share({ title: 'Formazione Milanac', text: '📋 Formazione Milanac — ' + dataUrl });
+                    }
+                    showToast("✓ Condiviso!");
+                } catch(shareErr) {
+                    if (shareErr.name !== 'AbortError') {
+                        // Fallback: download diretto
+                        const link = document.createElement('a');
+                        link.download = 'formazione-milanac.jpg';
+                        link.href = dataUrl;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        showToast("✓ Immagine salvata!");
+                    }
+                }
             } else {
                 const link = document.createElement('a');
                 link.download = 'formazione-milanac.jpg';
