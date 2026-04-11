@@ -7,12 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Teko:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root { --rosso: #C61C23; --oro: #D4AF37; --nero: #000; --erba-scura: #1b5e20; --erba-chiara: #2e7d32; --linee: rgba(255,255,255,0.9); }
         body { margin: 0; background: var(--nero); color: white; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; touch-action: none; }
-        * { -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
         
         #intro { 
             position: fixed; inset: 0; 
@@ -881,118 +879,9 @@
             font-family: Oswald; font-size: 9px; color: #555;
             text-transform: uppercase; letter-spacing: 1px;
         }
-        /* Upload progress */
-        .upload-progress-wrap {
-            background: #111; border-radius: 10px; overflow: hidden;
-            height: 6px; margin: 10px 0;
-        }
-        .upload-progress-bar {
-            height: 100%; background: linear-gradient(90deg, var(--rosso), var(--oro));
-            border-radius: 10px; transition: width 0.3s ease;
-            width: 0%;
-        }
-        .upload-status {
-            font-family: Oswald; font-size: 11px; color: #888;
-            text-transform: uppercase; letter-spacing: 1px;
-            text-align: center; margin-bottom: 8px;
-        }
-        /* Tab switcher nella modal highlights */
-        .hl-tabs {
-            display: flex; gap: 6px; margin-bottom: 14px;
-            background: #0d0d0d; padding: 4px; border-radius: 10px;
-            border: 1px solid #1a1a1a;
-        }
-        .hl-tab {
-            flex: 1; padding: 8px 4px; border: none; border-radius: 8px;
-            background: transparent; color: #555; font-family: Oswald;
-            font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;
-            cursor: pointer; transition: all 0.2s;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .hl-tab.active {
-            background: var(--rosso); color: white;
-            box-shadow: 0 2px 8px rgba(198,28,35,0.4);
-        }
-
-        /* ── Toast feedback ── */
-        #toast {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(80px);
-            background: rgba(30,30,30,0.95); color: white;
-            font-family: Oswald; font-size: 13px; text-transform: uppercase;
-            letter-spacing: 1px; padding: 10px 22px; border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
-            z-index: 99999; transition: transform 0.3s ease, opacity 0.3s ease;
-            opacity: 0; pointer-events: none; white-space: nowrap;
-        }
-        #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-        #toast.error { border-color: var(--rosso); color: #ff6b6b; }
-
-        /* ── Loading screen ── */
-        #loading-screen {
-            position: fixed; inset: 0; background: #000;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            z-index: 9999; transition: opacity 0.5s ease;
-        }
-        #loading-screen.hidden { opacity: 0; pointer-events: none; }
-        .loading-spinner {
-            width: 40px; height: 40px;
-            border: 3px solid rgba(212,175,55,0.2);
-            border-top: 3px solid var(--oro);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin-bottom: 16px;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .loading-text {
-            font-family: Oswald; font-size: 11px; color: #444;
-            text-transform: uppercase; letter-spacing: 3px;
-        }
-
-        /* ── Exit confirm modal ── */
-        #exit-modal {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.92);
-            z-index: 99998; display: none; align-items: center;
-            justify-content: center; backdrop-filter: blur(8px);
-        }
-        .exit-box {
-            background: linear-gradient(160deg, #111, #050505);
-            border: 2px solid var(--rosso); border-radius: 22px;
-            padding: 30px 24px; width: 85%; max-width: 300px;
-            text-align: center;
-        }
-        .exit-icon { font-size: 40px; margin-bottom: 10px; }
-        .exit-title { font-family: Teko; font-size: 28px; color: white; text-transform: uppercase; margin-bottom: 6px; }
-        .exit-sub { font-family: Oswald; font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 24px; }
-        .exit-btns { display: flex; gap: 10px; }
-        .exit-btn-cancel { flex:1; padding:14px; background:#1a1a1a; border:1px solid #333; color:#888; border-radius:12px; font-family:Oswald; font-size:13px; text-transform:uppercase; cursor:pointer; }
-        .exit-btn-confirm { flex:1; padding:14px; background:var(--rosso); border:none; color:white; border-radius:12px; font-family:Oswald; font-size:13px; text-transform:uppercase; cursor:pointer; font-weight:700; }
     </style>
 </head>
 <body>
-<!-- LOADING SCREEN -->
-<div id="loading-screen">
-    <div class="loading-spinner"></div>
-    <div class="loading-text">Caricamento...</div>
-</div>
-
-<!-- TOAST -->
-<div id="toast"></div>
-
-<!-- EXIT MODAL -->
-<div id="exit-modal" style="display:none;align-items:center;justify-content:center;">
-    <div class="exit-box">
-        <div class="exit-icon">👋</div>
-        <div class="exit-title">Uscire dall'app?</div>
-        <div class="exit-sub">Tornerai alla schermata home</div>
-        <div class="exit-btns">
-            <button class="exit-btn-cancel" onclick="document.getElementById('exit-modal').style.display='none'">Annulla</button>
-            <button class="exit-btn-confirm" onclick="window.close(); history.go(-(history.length-1));">Esci</button>
-        </div>
-    </div>
-</div>
-
 <!-- INTRO -->
 <div id="intro">
     <div class="intro-container">
@@ -1005,14 +894,7 @@
     </div>
 </div>
 <header>
-    <div onclick="document.getElementById('exit-modal').style.display='flex'" style="cursor:pointer;padding:7px 14px;border-radius:20px;background:linear-gradient(135deg,rgba(198,28,35,0.22),rgba(198,28,35,0.08));border:1px solid rgba(198,28,35,0.45);display:flex;align-items:center;gap:6px;box-shadow:0 2px 8px rgba(198,28,35,0.18);" ontouchstart="this.style.transform='scale(0.95)'" ontouchend="this.style.transform='scale(1)'">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#C61C23" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        <span style="font-family:Oswald;font-size:11px;color:rgba(220,60,60,0.95);text-transform:uppercase;letter-spacing:1.5px;font-weight:600;">Esci</span>
-    </div>
-    <div style="font-weight:900; color:var(--rosso); font-size:22px; font-family: 'Oswald';position:relative;">
-        MILANAC
-        <span id="notif-badge" style="display:none;position:absolute;top:-6px;right:-14px;background:var(--rosso);color:white;font-size:9px;font-family:Oswald;font-weight:900;border-radius:50%;width:16px;height:16px;display:none;align-items:center;justify-content:center;border:2px solid #000;" id="notif-badge">0</span>
-    </div>
+    <div style="font-weight:900; color:var(--rosso); font-size:22px; font-family: 'Oswald';">MILANAC</div>
     <div onclick="document.querySelector('.sidebar').classList.add('active')" style="font-size:30px; cursor:pointer; color:var(--rosso)">☰</div>
 </header>
 <nav class="sidebar">
@@ -1350,37 +1232,10 @@
         <!-- Form aggiunta (solo admin) -->
         <div id="hl-add-form-wrap" style="display:none;">
             <div class="hl-add-form">
-                <div class="hl-add-title">+ Aggiungi highlight</div>
-                <!-- Tab switcher -->
-                <div class="hl-tabs">
-                    <button class="hl-tab active" id="hl-tab-link" onclick="switchHlTab('link')">🔗 Link</button>
-                    <button class="hl-tab" id="hl-tab-upload" onclick="switchHlTab('upload')">📱 Dal Telefono</button>
-                </div>
-                <!-- Tab Link -->
-                <div id="hl-section-link">
-                    <input class="hl-input" id="hl-label-input" placeholder="Titolo (es. Gol di Fabio...)">
-                    <input class="hl-input" id="hl-url-input" placeholder="Link YouTube, Instagram o TikTok...">
-                    <button class="btn-main" onclick="addHighlight()" style="border-radius:10px;">📹 AGGIUNGI LINK</button>
-                </div>
-                <!-- Tab Upload -->
-                <div id="hl-section-upload" style="display:none;">
-                    <input class="hl-input" id="hl-upload-label" placeholder="Titolo (es. Gol di Fabio...)">
-                    <div style="margin-bottom:10px;">
-                        <label for="hl-file-input" style="display:block;background:rgba(255,255,255,0.06);border:1.5px dashed #333;border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all 0.2s;" id="hl-file-label">
-                            <div style="font-size:32px;margin-bottom:6px;">🎬</div>
-                            <div style="font-family:Oswald;font-size:12px;color:#888;text-transform:uppercase;letter-spacing:1px;">Tocca per scegliere un video</div>
-                            <div style="font-family:Oswald;font-size:10px;color:#444;margin-top:4px;">MP4, MOV · max 100MB</div>
-                        </label>
-                        <input type="file" id="hl-file-input" accept="video/*" style="display:none;" onchange="onVideoFileSelected(this)">
-                    </div>
-                    <div id="hl-upload-progress-wrap" style="display:none;">
-                        <div class="upload-status" id="hl-upload-status">Caricamento...</div>
-                        <div class="upload-progress-wrap">
-                            <div class="upload-progress-bar" id="hl-upload-bar"></div>
-                        </div>
-                    </div>
-                    <button class="btn-main" id="hl-upload-btn" onclick="uploadVideoHighlight()" style="border-radius:10px;display:none;">⬆ CARICA VIDEO</button>
-                </div>
+                <div class="hl-add-title">+ Aggiungi video highlight</div>
+                <input class="hl-input" id="hl-label-input" placeholder="Titolo (es. Gol di Fabio, Highlights completi...)">
+                <input class="hl-input" id="hl-url-input" placeholder="Link YouTube, Instagram o TikTok...">
+                <button class="btn-main" onclick="addHighlight()" style="border-radius:10px;">📹 AGGIUNGI VIDEO</button>
             </div>
         </div>
         <!-- Lista video -->
@@ -1395,101 +1250,25 @@
     const firebaseConfig = { apiKey: "AIzaSyDbO_AxHKz1avQpYscoSSLpEfmFaL8MRGg", authDomain: "milanac-proclub.firebaseapp.com", projectId: "milanac-proclub", storageBucket: "milanac-proclub.firebasestorage.app", messagingSenderId: "61702234008", appId: "1:61702234008:web:aa597d8600d0a8251895ed" };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
-    const storage = firebase.storage();
-    // Persistenza offline — solo se supportata (evita crash su WebView Android/Appilix)
-    const isWebView = /wv|WebView/.test(navigator.userAgent) || 
-                      (navigator.userAgent.includes('Android') && !navigator.userAgent.includes('Chrome/'));
-    if(!isWebView) {
-        db.enablePersistence({ synchronizeTabs: false }).catch(err => {
-            if(err.code !== 'failed-precondition' && err.code !== 'unimplemented') {
-                console.warn('Persistence error:', err);
-            }
-        });
-    }
     let data = { ps: [], mod: '4-4-2', matches: [], news: [], calendar: [], voteHistory: [], pagelle: [] };
     let viewDate = new Date();
-    // ---- ADMIN AUTH — credenziali su Firestore (non più in chiaro nel JS) ----
-    // Le credenziali vengono caricate da Firebase al primo avvio
-    // e memorizzate in RAM solo per la sessione corrente.
-    // Per cambiarle: vai su Firebase Console → milanac/config → adminCreds
-    let ADMIN_CREDS = {}; // verrà popolato da loadAdminCreds()
-
-    async function loadAdminCreds() {
-        try {
-            const doc = await db.collection('milanac').doc('config').get();
-            if(doc.exists && doc.data().adminCreds) {
-                ADMIN_CREDS = doc.data().adminCreds;
-            } else {
-                // Prima volta: salva le credenziali di default su Firestore
-                const defaults = {
-                    'Fabio':    { pin: btoa('1111'), pwd: btoa('fabio123') },
-                    'Beppe':    { pin: btoa('2222'), pwd: btoa('beppe123') },
-                    'Christian':{ pin: btoa('3333'), pwd: btoa('christian123') },
-                    'Vicio':    { pin: btoa('4444'), pwd: btoa('vicio123') },
-                    'Martin':   { pin: btoa('5555'), pwd: btoa('martin123') }
-                };
-                await db.collection('milanac').doc('config').set({ adminCreds: defaults });
-                ADMIN_CREDS = defaults;
-            }
-        } catch(e) {
-            // Fallback locale se offline
-            ADMIN_CREDS = {
-                'Fabio':    { pin: btoa('1111'), pwd: btoa('fabio123') },
-                'Beppe':    { pin: btoa('2222'), pwd: btoa('beppe123') },
-                'Christian':{ pin: btoa('3333'), pwd: btoa('christian123') },
-                'Vicio':    { pin: btoa('4444'), pwd: btoa('vicio123') },
-                'Martin':   { pin: btoa('5555'), pwd: btoa('martin123') }
-            };
-        }
-    }
+    // ---- ADMIN AUTH ----
+    // Credenziali per ogni admin: { pin: '1234', pwd: 'password' }
+    // IMPORTANTE: cambia questi valori prima di distribuire l'app!
+    const ADMIN_CREDS = {
+        'Fabio':    { pin: '1111', pwd: 'fabio123' },
+        'Beppe':    { pin: '2222', pwd: 'beppe123' },
+        'Christian':{ pin: '3333', pwd: 'christian123' },
+        'Vicio':    { pin: '4444', pwd: 'vicio123' },
+        'Martin':   { pin: '5555', pwd: 'martin123' }
+    };
     let currentAdmin = null;   // admin loggato
     let currentVoteSession = null; // { matchId, matchLabel } sessione voto aperta
     let loginTarget = null;    // admin selezionato nel login modal
     let pinBuffer = '';
     let loginMode = 'pin';     // 'pin' | 'pwd'
-    // Funzione toast
-    let _toastTimer = null;
-    function showToast(msg, isError=false) {
-        const t = document.getElementById('toast');
-        if(!t) return;
-        clearTimeout(_toastTimer);
-        t.textContent = msg;
-        t.className = 'show' + (isError ? ' error' : '');
-        _toastTimer = setTimeout(() => { t.className = ''; }, 2200);
-    }
-
-    // Nascondi loading screen
-    function hideLoading() {
-        const ls = document.getElementById('loading-screen');
-        if(ls) { ls.classList.add('hidden'); setTimeout(()=>ls.style.display='none', 500); }
-    }
-
-    // Carica credenziali admin sicure da Firestore
-    loadAdminCreds();
-
-    // Ascolta dati real-time
-    db.collection("milanac").doc("v84_final").onSnapshot(doc => {
-        if(doc.exists) {
-            data = doc.data();
-            if(!data.voteHistory) data.voteHistory=[];
-            if(!data.pagelle) data.pagelle=[];
-            render();
-        }
-        hideLoading(); // nasconde il loader appena arrivano i dati
-    }, err => {
-        hideLoading();
-        showToast("⚠ Connessione assente — modalità offline", true);
-    });
-    let _syncTimeout = null;
-    function sync() {
-        // Debounce: aspetta 400ms prima di scrivere, evita scritture multiple ravvicinate
-        clearTimeout(_syncTimeout);
-        _syncTimeout = setTimeout(() => {
-            db.collection("milanac").doc("v84_final").set(data)
-                .then(() => { /* ok */ })
-                .catch(e => showToast("⚠ Errore salvataggio", true));
-        }, 400);
-    }
+    db.collection("milanac").doc("v84_final").onSnapshot(doc => { if(doc.exists) { data = doc.data(); if(!data.voteHistory) data.voteHistory=[]; if(!data.pagelle) data.pagelle=[]; render(); } });
+    function sync() { db.collection("milanac").doc("v84_final").set(data); }
     /* ============================================================
        NAVIGAZIONE
     ============================================================ */
@@ -1500,10 +1279,6 @@
         render();
         if (p === 'tattica') { setTimeout(initHeatmapCanvas, 100); }
         if (p === 'premi') { setTimeout(renderPremi, 50); }
-        // Segna come visto se apri news o pagelle
-        if(p === 'news' || p === 'mercato') {
-            localStorage.setItem('milanac_last_visit', Date.now().toString());
-        }
     }
     function goAdmin() {
         openAdminLogin();
@@ -1573,10 +1348,10 @@
         const creds = ADMIN_CREDS[loginTarget];
         let ok = false;
         if(loginMode === 'pin') {
-            ok = btoa(pinBuffer) === creds.pin;
+            ok = pinBuffer === creds.pin;
         } else {
             const pwd = document.getElementById('pwd-input').value;
-            ok = btoa(pwd) === creds.pwd;
+            ok = pwd === creds.pwd;
             document.getElementById('pwd-input').value = '';
         }
         if(ok) {
@@ -1964,36 +1739,22 @@
     ============================================================ */
     async function shareSquad() {
         const pitch = document.getElementById('pitch');
-        showToast("📸 Generazione immagine...");
         try {
-            const canvas = await html2canvas(pitch, {
-                useCORS: true, backgroundColor: '#2e7d32', scale: 2,
-                ignoreElements: el => el.id === 'heatmap-canvas' // evita problemi con canvas annidato
-            });
-            const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
-            // Conversione data URL → Blob senza fetch (più compatibile)
-            const byteStr = atob(dataUrl.split(',')[1]);
-            const arr = new Uint8Array(byteStr.length);
-            for(let i=0; i<byteStr.length; i++) arr[i] = byteStr.charCodeAt(i);
-            const blob = new Blob([arr], { type: 'image/jpeg' });
+            const canvas = await html2canvas(pitch, { useCORS: true, backgroundColor: '#2e7d32', scale: 2 });
+            const dataUrl = canvas.toDataURL("image/jpeg", 0.8);
+            const blob = await (await fetch(dataUrl)).blob();
             const file = new File([blob], 'formazione-milanac.jpg', { type: 'image/jpeg' });
             if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                await navigator.share({ files: [file], title: 'Formazione Milanac', text: '📋 Formazione Milanac' });
-                showToast("✓ Condiviso!");
+                await navigator.share({ files: [file], title: 'Formazione Milanac', text: `📋 Formazione Milanac` });
             } else {
                 const link = document.createElement('a');
                 link.download = 'formazione-milanac.jpg';
                 link.href = dataUrl;
-                document.body.appendChild(link);
                 link.click();
-                document.body.removeChild(link);
-                showToast("✓ Immagine salvata!");
             }
         } catch (err) {
-            console.error('shareSquad error:', err);
-            showToast("⚠ Impossibile condividere", true);
             const conv = data.ps.filter(p => p.convocato).map(p => `${p.m}. ${p.n}`).join('\n');
-            if(conv) alert("Formazione:\n\n" + conv);
+            alert("Impossibile generare la grafica.\n\n" + conv);
         }
     }
     /* ============================================================
@@ -2051,7 +1812,7 @@
     }
     function addNews() {
         const txt = document.getElementById('news-text').value;
-        if (txt) { if (!data.news) data.news = []; data.news.unshift({ txt, d: new Date().toLocaleString(), ts: Date.now() }); sync(); document.getElementById('news-text').value = ''; showToast('📢 Comunicato pubblicato!'); }
+        if (txt) { if (!data.news) data.news = []; data.news.unshift({ txt, d: new Date().toLocaleString() }); sync(); document.getElementById('news-text').value = ''; }
     }
     /* ============================================================
        CALENDARIO NAVIGAZIONE
@@ -2335,92 +2096,6 @@
     ══════════════════════════════════════════ */
     let currentMatchId = null;
 
-    /* ── Highlights tab switcher ── */
-    function switchHlTab(tab) {
-        document.getElementById('hl-section-link').style.display   = tab==='link'   ? 'block' : 'none';
-        document.getElementById('hl-section-upload').style.display = tab==='upload' ? 'block' : 'none';
-        document.getElementById('hl-tab-link').classList.toggle('active',   tab==='link');
-        document.getElementById('hl-tab-upload').classList.toggle('active', tab==='upload');
-    }
-
-    let selectedVideoFile = null;
-
-    function onVideoFileSelected(input) {
-        const file = input.files[0];
-        if(!file) return;
-        if(file.size > 100 * 1024 * 1024) {
-            showToast('⚠ Video troppo grande (max 100MB)', true);
-            input.value = '';
-            return;
-        }
-        selectedVideoFile = file;
-        const label = document.getElementById('hl-file-label');
-        if(label) {
-            label.innerHTML = `<div style="font-size:28px;margin-bottom:6px;">✅</div>
-                <div style="font-family:Oswald;font-size:12px;color:#4caf50;text-transform:uppercase;">${file.name}</div>
-                <div style="font-family:Oswald;font-size:10px;color:#555;margin-top:3px;">${(file.size/1024/1024).toFixed(1)} MB</div>`;
-        }
-        const uploadBtn = document.getElementById('hl-upload-btn');
-        if(uploadBtn) uploadBtn.style.display = 'block';
-    }
-
-    async function uploadVideoHighlight() {
-        if(!currentAdmin) return;
-        if(!selectedVideoFile) { showToast('⚠ Seleziona prima un video', true); return; }
-        const label = document.getElementById('hl-upload-label').value.trim() || selectedVideoFile.name;
-        const match = (data.matches||[]).find(m => (m.id||m.avv+m.d) == currentMatchId);
-        if(!match) return;
-        const progressWrap = document.getElementById('hl-upload-progress-wrap');
-        const progressBar  = document.getElementById('hl-upload-bar');
-        const statusTxt    = document.getElementById('hl-upload-status');
-        const uploadBtn    = document.getElementById('hl-upload-btn');
-        progressWrap.style.display = 'block';
-        uploadBtn.disabled = true;
-        uploadBtn.textContent = '⏳ Caricamento...';
-        // Path su Firebase Storage
-        const path = `highlights/${currentMatchId}/${Date.now()}_${selectedVideoFile.name}`;
-        const ref = storage.ref(path);
-        const task = ref.put(selectedVideoFile);
-        task.on('state_changed',
-            snap => {
-                const pct = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
-                progressBar.style.width = pct + '%';
-                statusTxt.textContent = `Caricamento ${pct}%...`;
-            },
-            err => {
-                showToast('⚠ Errore caricamento: ' + err.code, true);
-                uploadBtn.disabled = false;
-                uploadBtn.textContent = '⬆ CARICA VIDEO';
-                progressWrap.style.display = 'none';
-            },
-            async () => {
-                const downloadUrl = await task.snapshot.ref.getDownloadURL();
-                if(!match.highlights) match.highlights = [];
-                match.highlights.push({
-                    id: Date.now(), label,
-                    url: downloadUrl,
-                    type: 'upload',
-                    addedBy: currentAdmin
-                });
-                sync();
-                showToast('✓ Video caricato!');
-                // Reset form
-                selectedVideoFile = null;
-                document.getElementById('hl-file-input').value = '';
-                document.getElementById('hl-upload-label').value = '';
-                uploadBtn.style.display = 'none';
-                uploadBtn.disabled = false;
-                uploadBtn.textContent = '⬆ CARICA VIDEO';
-                progressWrap.style.display = 'none';
-                progressBar.style.width = '0%';
-                const lbl = document.getElementById('hl-file-label');
-                if(lbl) lbl.innerHTML = '<div style="font-size:32px;margin-bottom:6px;">🎬</div><div style="font-family:Oswald;font-size:12px;color:#888;text-transform:uppercase;">Tocca per scegliere un video</div><div style="font-family:Oswald;font-size:10px;color:#444;margin-top:4px;">MP4, MOV · max 100MB</div>';
-                renderHighlightVideos();
-                render();
-            }
-        );
-    }
-
     function openHighlights(matchId) {
         const match = (data.matches||[]).find(m => (m.id||m.avv+m.d) == matchId);
         if(!match) return;
@@ -2504,15 +2179,7 @@
             const embed = extractVideoEmbed(hl.url);
             const canDel = currentAdmin === hl.addedBy || currentAdmin;
             let videoHtml = '';
-            if(hl.type === 'upload') {
-                // Video caricato direttamente su Firebase Storage
-                videoHtml = `<div class="video-container" style="background:#000;">
-                    <video controls playsinline style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;background:#000;">
-                        <source src="${hl.url}" type="video/mp4">
-                        Il tuo browser non supporta il video.
-                    </video>
-                </div>`;
-            } else if(embed?.type === 'youtube') {
+            if(embed?.type === 'youtube') {
                 videoHtml = `<div class="video-container">
                     <iframe src="${embed.src}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
                 </div>`;
@@ -2540,20 +2207,6 @@
     }
 
     function render() {
-        // ── Notifiche in-app: conta novità rispetto all'ultima visita ──
-        const lastVisit = parseInt(localStorage.getItem('milanac_last_visit') || '0');
-        const newNews = (data.news||[]).filter(n => (n.ts||0) > lastVisit).length;
-        const newPagelle = (data.pagelle||[]).filter(p => (p.ts||0) > lastVisit).length;
-        const notifCount = newNews + newPagelle;
-        const badge = document.getElementById('notif-badge');
-        if(badge) {
-            if(notifCount > 0) {
-                badge.style.display = 'inline-flex';
-                badge.textContent = notifCount > 9 ? '9+' : notifCount;
-            } else {
-                badge.style.display = 'none';
-            }
-        }
         let hR = "", hA = "", hMk = "", hP = "", hMatch = "", hNews = "", hConv = "";
         const activeAdm = document.getElementById('active-admin').value;
         let maxMedia = -1, topPlayerId = null, maxMvp = -1, kingId = null, maxDefMedia = -1, wallId = null;
