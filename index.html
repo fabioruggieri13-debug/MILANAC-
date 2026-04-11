@@ -974,7 +974,11 @@
 <!-- LOADING SCREEN -->
 <div id="loading-screen">
     <div class="loading-spinner"></div>
-    <div class="loading-text">Caricamento...</div>
+    <div class="loading-text" id="loading-text">Caricamento...</div>
+    <div id="loading-retry" style="display:none;margin-top:24px;text-align:center;">
+        <div style="font-family:Oswald;font-size:10px;color:#444;letter-spacing:2px;margin-bottom:12px;">CONNESSIONE LENTA</div>
+        <button onclick="hideLoading();render();" style="background:linear-gradient(135deg,rgba(198,28,35,0.3),rgba(198,28,35,0.1));border:1px solid rgba(198,28,35,0.5);color:rgba(220,60,60,0.9);font-family:Oswald;font-size:12px;letter-spacing:2px;padding:10px 24px;border-radius:20px;cursor:pointer;text-transform:uppercase;">Entra comunque</button>
+    </div>
 </div>
 
 <!-- TOAST -->
@@ -1467,8 +1471,27 @@
     // Carica credenziali admin sicure da Firestore
     loadAdminCreds();
 
+    // Timeout di sicurezza: se Firebase non risponde entro 8s mostra pulsante, dopo 15s sblocca
+    let _loadingDone = false;
+    let _loadingTimeout = setTimeout(() => {
+        if(_loadingDone) return;
+        const retry = document.getElementById('loading-retry');
+        const lt = document.getElementById('loading-text');
+        if(retry) retry.style.display='block';
+        if(lt) lt.textContent = 'Problema di connessione...';
+    }, 8000);
+    let _loadingForceTimeout = setTimeout(() => {
+        if(_loadingDone) return;
+        hideLoading();
+        render();
+        showToast("⚠ Modalità offline — dati non aggiornati", true);
+    }, 15000);
+
     // Ascolta dati real-time
     db.collection("milanac").doc("v84_final").onSnapshot(doc => {
+        clearTimeout(_loadingTimeout);
+        clearTimeout(_loadingForceTimeout);
+        _loadingDone = true;
         if(doc.exists) {
             data = doc.data();
             if(!data.voteHistory) data.voteHistory=[];
@@ -1477,6 +1500,9 @@
         }
         hideLoading(); // nasconde il loader appena arrivano i dati
     }, err => {
+        clearTimeout(_loadingTimeout);
+        clearTimeout(_loadingForceTimeout);
+        _loadingDone = true;
         hideLoading();
         showToast("⚠ Connessione assente — modalità offline", true);
     });
