@@ -788,6 +788,96 @@
             margin: 16px 0 10px; display: flex; align-items: center; gap: 8px;
         }
         .section-label::after { content: ''; flex: 1; height: 1px; background: #1a1a1a; }
+
+        /* ══════════════════════════════════════════════
+           HIGHLIGHTS VIDEO
+        ══════════════════════════════════════════════ */
+        .highlight-modal {
+            position: fixed; inset: 0; z-index: 7000;
+            background: rgba(0,0,0,0.97);
+            display: none; flex-direction: column;
+            align-items: center; justify-content: flex-start;
+            padding: 0; overflow-y: auto;
+        }
+        .highlight-modal.open { display: flex; }
+        .hl-modal-header {
+            width: 100%; display: flex; align-items: center;
+            justify-content: space-between; padding: 16px 20px;
+            background: #000; border-bottom: 2px solid var(--rosso);
+            box-sizing: border-box; flex-shrink: 0;
+        }
+        .hl-modal-title { font-family: Teko; font-size: 24px; color: white; text-transform: uppercase; }
+        .hl-modal-close {
+            background: none; border: none; color: #888;
+            font-size: 28px; cursor: pointer; padding: 0 4px;
+        }
+        .hl-modal-body { width: 100%; padding: 16px; box-sizing: border-box; }
+
+        /* Video embed container 16:9 */
+        .video-container {
+            position: relative; width: 100%;
+            padding-top: 56.25%; /* 16:9 */
+            border-radius: 14px; overflow: hidden;
+            background: #0a0a0a; margin-bottom: 12px;
+        }
+        .video-container iframe {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; border: none;
+        }
+        .video-placeholder {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 8px;
+        }
+        .hl-add-form {
+            background: linear-gradient(145deg,#111,#0a0a0a);
+            border: 1px solid rgba(212,175,55,0.25);
+            border-radius: 14px; padding: 14px; margin-bottom: 14px;
+        }
+        .hl-add-title {
+            font-family: Oswald; font-size: 10px; color: var(--oro);
+            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px;
+        }
+        .hl-input {
+            width: 100%; padding: 11px 14px; background: #1a1a1a;
+            border: 1px solid #2a2a2a; color: white; border-radius: 10px;
+            font-family: Oswald; font-size: 14px; box-sizing: border-box;
+            margin-bottom: 8px;
+        }
+        .hl-input:focus { outline: none; border-color: var(--oro); }
+
+        /* Badge highlight sulla card partita */
+        .hl-badge {
+            display: inline-flex; align-items: center; gap: 4px;
+            background: rgba(198,28,35,0.2); border: 1px solid rgba(198,28,35,0.5);
+            border-radius: 8px; padding: 4px 8px;
+            font-family: Oswald; font-size: 10px; color: #ff6b6b;
+            text-transform: uppercase; letter-spacing: 1px; cursor: pointer;
+            transition: all 0.2s; flex-shrink: 0;
+        }
+        .hl-badge.has-video {
+            background: rgba(198,28,35,0.3);
+            border-color: var(--rosso);
+            color: white;
+            box-shadow: 0 0 8px rgba(198,28,35,0.4);
+        }
+        .hl-badge:active { transform: scale(0.95); }
+
+        /* Lista video nella modal */
+        .hl-video-item {
+            background: #111; border: 1px solid #222;
+            border-radius: 12px; padding: 12px; margin-bottom: 10px;
+        }
+        .hl-video-meta {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 8px;
+        }
+        .hl-video-label { font-family: Teko; font-size: 18px; color: white; }
+        .hl-video-source {
+            font-family: Oswald; font-size: 9px; color: #555;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
@@ -1121,6 +1211,30 @@
         <button class="btn-main" style="margin-top:20px; border-radius:15px; margin-bottom:10px;" onclick="document.getElementById('modal-player').style.display='none'">CHIUDI</button>
     </div>
 </div>
+<!-- MODAL HIGHLIGHTS -->
+<div class="highlight-modal" id="highlight-modal">
+    <div class="hl-modal-header">
+        <div>
+            <div style="font-family:Oswald;font-size:10px;color:#666;text-transform:uppercase;letter-spacing:2px;">🎬 Highlights</div>
+            <div class="hl-modal-title" id="hl-modal-match-title">vs Avversario</div>
+        </div>
+        <button class="hl-modal-close" onclick="closeHighlights()">✕</button>
+    </div>
+    <div class="hl-modal-body">
+        <!-- Form aggiunta (solo admin) -->
+        <div id="hl-add-form-wrap" style="display:none;">
+            <div class="hl-add-form">
+                <div class="hl-add-title">+ Aggiungi video highlight</div>
+                <input class="hl-input" id="hl-label-input" placeholder="Titolo (es. Gol di Fabio, Highlights completi...)">
+                <input class="hl-input" id="hl-url-input" placeholder="Link YouTube, Instagram o TikTok...">
+                <button class="btn-main" onclick="addHighlight()" style="border-radius:10px;">📹 AGGIUNGI VIDEO</button>
+            </div>
+        </div>
+        <!-- Lista video -->
+        <div id="hl-videos-list"></div>
+    </div>
+</div>
+
 <script>
     /* ============================================================
        FIREBASE
@@ -1964,6 +2078,116 @@
         return html;
     }
 
+    /* ══════════════════════════════════════════
+       HIGHLIGHTS ENGINE
+    ══════════════════════════════════════════ */
+    let currentMatchId = null;
+
+    function openHighlights(matchId) {
+        const match = (data.matches||[]).find(m => (m.id||m.avv+m.d) == matchId);
+        if(!match) return;
+        currentMatchId = matchId;
+        document.getElementById('hl-modal-match-title').innerText = `vs ${match.avv} (${match.d})`;
+        // Mostra form solo se admin
+        const formWrap = document.getElementById('hl-add-form-wrap');
+        if(formWrap) formWrap.style.display = currentAdmin ? 'block' : 'none';
+        renderHighlightVideos();
+        document.getElementById('highlight-modal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeHighlights() {
+        document.getElementById('highlight-modal').classList.remove('open');
+        document.body.style.overflow = '';
+        currentMatchId = null;
+    }
+
+    function extractVideoEmbed(url) {
+        if(!url) return null;
+        url = url.trim();
+        // YouTube — vari formati
+        let yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
+        if(yt) return { type: 'youtube', id: yt[1], src: `https://www.youtube.com/embed/${yt[1]}?autoplay=0&rel=0` };
+        // YouTube Shorts
+        let yts = url.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/);
+        if(yts) return { type: 'youtube', id: yts[1], src: `https://www.youtube.com/embed/${yts[1]}?autoplay=0&rel=0` };
+        // Instagram — non supporta embed diretto, mostra link
+        if(url.includes('instagram.com')) return { type: 'instagram', src: url };
+        // TikTok — non supporta embed diretto, mostra link
+        if(url.includes('tiktok.com')) return { type: 'tiktok', src: url };
+        // URL generico
+        return { type: 'link', src: url };
+    }
+
+    function addHighlight() {
+        if(!currentAdmin) return;
+        const label = document.getElementById('hl-label-input').value.trim() || 'Highlight';
+        const url = document.getElementById('hl-url-input').value.trim();
+        if(!url) { alert('Inserisci un link video.'); return; }
+        const match = (data.matches||[]).find(m => (m.id||m.avv+m.d) == currentMatchId);
+        if(!match) return;
+        if(!match.highlights) match.highlights = [];
+        match.highlights.push({ id: Date.now(), label, url, addedBy: currentAdmin });
+        sync();
+        document.getElementById('hl-label-input').value = '';
+        document.getElementById('hl-url-input').value = '';
+        renderHighlightVideos();
+        render(); // aggiorna badge sulla card
+    }
+
+    function deleteHighlight(matchId, hlId) {
+        const match = (data.matches||[]).find(m => (m.id||m.avv+m.d) == matchId);
+        if(!match || !match.highlights) return;
+        match.highlights = match.highlights.filter(h => h.id != hlId);
+        sync();
+        renderHighlightVideos();
+        render();
+    }
+
+    function renderHighlightVideos() {
+        const container = document.getElementById('hl-videos-list');
+        if(!container) return;
+        const match = (data.matches||[]).find(m => (m.id||m.avv+m.d) == currentMatchId);
+        const highlights = match?.highlights || [];
+        if(highlights.length === 0) {
+            container.innerHTML = `<div style="text-align:center;padding:40px 20px;">
+                <div style="font-size:48px;margin-bottom:12px;">🎬</div>
+                <div style="font-family:Oswald;font-size:13px;color:#444;text-transform:uppercase;letter-spacing:1px;">Nessun highlight ancora</div>
+                ${currentAdmin ? '<div style="font-family:Oswald;font-size:11px;color:#333;margin-top:6px;">Aggiungi il primo video qui sopra</div>' : ''}
+            </div>`;
+            return;
+        }
+        container.innerHTML = highlights.map(hl => {
+            const embed = extractVideoEmbed(hl.url);
+            const canDel = currentAdmin === hl.addedBy || currentAdmin;
+            let videoHtml = '';
+            if(embed?.type === 'youtube') {
+                videoHtml = `<div class="video-container">
+                    <iframe src="${embed.src}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                </div>`;
+            } else {
+                // Instagram, TikTok, link generico — apre esternamente
+                videoHtml = `<a href="${hl.url}" target="_blank" style="display:block;text-decoration:none;">
+                    <div style="background:linear-gradient(135deg,#1a0a0a,#0a0a0a);border:1px solid rgba(198,28,35,0.3);border-radius:12px;padding:16px;text-align:center;margin-bottom:12px;">
+                        <div style="font-size:32px;margin-bottom:6px;">${embed?.type==='instagram'?'📸':embed?.type==='tiktok'?'🎵':'🔗'}</div>
+                        <div style="font-family:Oswald;font-size:12px;color:var(--oro);text-transform:uppercase;letter-spacing:1px;">Apri ${embed?.type==='instagram'?'Instagram':embed?.type==='tiktok'?'TikTok':'Link'}</div>
+                        <div style="font-family:Oswald;font-size:10px;color:#444;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${hl.url}</div>
+                    </div>
+                </a>`;
+            }
+            return `<div class="hl-video-item">
+                <div class="hl-video-meta">
+                    <span class="hl-video-label">${hl.label}</span>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span class="hl-video-source">${embed?.type?.toUpperCase()||'VIDEO'}</span>
+                        ${canDel ? `<button onclick="deleteHighlight('${currentMatchId}',${hl.id})" style="background:none;border:none;color:#444;font-size:16px;cursor:pointer;">🗑️</button>` : ''}
+                    </div>
+                </div>
+                ${videoHtml}
+            </div>`;
+        }).join('');
+    }
+
     function render() {
         let hR = "", hA = "", hMk = "", hP = "", hMatch = "", hNews = "", hConv = "";
         const activeAdm = document.getElementById('active-admin').value;
@@ -2131,14 +2355,24 @@
             const esito = gF > gA ? { label:'V', color:'#2e7d32', bg:'rgba(46,125,50,0.15)' }
                         : gF < gA ? { label:'S', color:'#c62828', bg:'rgba(198,40,40,0.15)' }
                         : { label:'P', color:'#f57f17', bg:'rgba(245,127,23,0.15)' };
-            hMatch += `<div style="background:linear-gradient(135deg,#111 0%,#0a0a0a 100%);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:12px;position:relative;overflow:hidden;">
-                <div style="width:36px;height:36px;border-radius:10px;background:${esito.bg};border:1.5px solid ${esito.color};display:flex;align-items:center;justify-content:center;font-family:Oswald;font-size:16px;font-weight:900;color:${esito.color};flex-shrink:0;">${esito.label}</div>
-                <div style="flex:1;min-width:0;">
-                    <div style="font-family:Teko;font-size:20px;color:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">vs ${m.avv}</div>
-                    <div style="font-size:11px;color:#555;font-family:Oswald;">${m.d}</div>
+            const hlCount = (m.highlights||[]).length;
+            const matchIdVal = m.id || (m.avv+m.d);
+            hMatch += `<div style="background:linear-gradient(135deg,#111 0%,#0a0a0a 100%);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:12px 14px;margin-bottom:10px;position:relative;overflow:hidden;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:36px;height:36px;border-radius:10px;background:${esito.bg};border:1.5px solid ${esito.color};display:flex;align-items:center;justify-content:center;font-family:Oswald;font-size:16px;font-weight:900;color:${esito.color};flex-shrink:0;">${esito.label}</div>
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-family:Teko;font-size:20px;color:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">vs ${m.avv}</div>
+                        <div style="font-size:11px;color:#555;font-family:Oswald;">${m.d}</div>
+                    </div>
+                    <div style="font-family:Oswald;font-size:24px;font-weight:900;color:white;letter-spacing:2px;flex-shrink:0;">${m.ris}</div>
+                    <button style="background:none;border:none;color:#333;font-size:16px;cursor:pointer;padding:4px;flex-shrink:0;" onclick="data.matches.splice(${idx},1); sync()">🗑️</button>
                 </div>
-                <div style="font-family:Oswald;font-size:26px;font-weight:900;color:white;letter-spacing:2px;">${m.ris}</div>
-                <button style="background:none;border:none;color:#444;font-size:18px;cursor:pointer;padding:4px;flex-shrink:0;" onclick="data.matches.splice(${idx},1); sync()">🗑️</button>
+                <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between;">
+                    <div onclick="openHighlights('${matchIdVal}')" class="hl-badge ${hlCount>0?'has-video':''}">
+                        🎬 ${hlCount>0 ? hlCount+' highlight'+(hlCount>1?'s':'') : 'Aggiungi highlight'}
+                    </div>
+                    ${hlCount>0 ? `<div style="font-family:Oswald;font-size:9px;color:#555;text-transform:uppercase;letter-spacing:1px;">Tap per vedere</div>` : ''}
+                </div>
             </div>`;
         });
         (data.news || []).forEach((n, idx) => { hNews += `<div class="card" style="display:block"><small>${n.d}</small><p>${n.txt}</p><button style="background:none; border:none; color:red" onclick="data.news.splice(${idx},1); sync()">🗑️ Elimina</button></div>`; });
