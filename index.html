@@ -1966,10 +1966,38 @@
         const pitch = document.getElementById('pitch');
         showToast("📸 Generazione immagine...");
         try {
+            // Salva stili originali di tutti i container che potrebbero tagliare il campo
+            const container = document.querySelector('.container');
+            const tacticaPage = document.getElementById('p-tattica') || pitch.closest('.page');
+            const origContainerOverflow = container ? container.style.overflow : null;
+            const origContainerHeight = container ? container.style.height : null;
+            const origPageOverflow = tacticaPage ? tacticaPage.style.overflow : null;
+
+            // Rimuovi temporaneamente clipping per cattura completa
+            if (container) { container.style.overflow = 'visible'; container.style.height = 'auto'; }
+            if (tacticaPage) tacticaPage.style.overflow = 'visible';
+
+            // Scorri il pitch in vista completa prima di scattare
+            pitch.scrollIntoView({ block: 'start' });
+            await new Promise(r => setTimeout(r, 100)); // aspetta render
+
+            const pitchRect = pitch.getBoundingClientRect();
             const canvas = await html2canvas(pitch, {
-                useCORS: true, backgroundColor: '#2e7d32', scale: 2,
-                ignoreElements: el => el.id === 'heatmap-canvas' // evita problemi con canvas annidato
+                useCORS: true,
+                backgroundColor: '#2e7d32',
+                scale: 2,
+                width: pitch.offsetWidth,
+                height: pitch.offsetHeight,
+                x: 0,
+                y: 0,
+                scrollX: 0,
+                scrollY: 0,
+                ignoreElements: el => el.id === 'heatmap-canvas'
             });
+
+            // Ripristina stili originali
+            if (container) { container.style.overflow = origContainerOverflow || ''; container.style.height = origContainerHeight || ''; }
+            if (tacticaPage) tacticaPage.style.overflow = origPageOverflow || '';
             const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
             // Conversione data URL → Blob senza fetch (più compatibile)
             const byteStr = atob(dataUrl.split(',')[1]);
