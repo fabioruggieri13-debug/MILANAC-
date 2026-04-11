@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Teko:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root { --rosso: #C61C23; --oro: #D4AF37; --nero: #000; --erba-scura: #1b5e20; --erba-chiara: #2e7d32; --linee: rgba(255,255,255,0.9); }
@@ -879,6 +880,38 @@
             font-family: Oswald; font-size: 9px; color: #555;
             text-transform: uppercase; letter-spacing: 1px;
         }
+        /* Upload progress */
+        .upload-progress-wrap {
+            background: #111; border-radius: 10px; overflow: hidden;
+            height: 6px; margin: 10px 0;
+        }
+        .upload-progress-bar {
+            height: 100%; background: linear-gradient(90deg, var(--rosso), var(--oro));
+            border-radius: 10px; transition: width 0.3s ease;
+            width: 0%;
+        }
+        .upload-status {
+            font-family: Oswald; font-size: 11px; color: #888;
+            text-transform: uppercase; letter-spacing: 1px;
+            text-align: center; margin-bottom: 8px;
+        }
+        /* Tab switcher nella modal highlights */
+        .hl-tabs {
+            display: flex; gap: 6px; margin-bottom: 14px;
+            background: #0d0d0d; padding: 4px; border-radius: 10px;
+            border: 1px solid #1a1a1a;
+        }
+        .hl-tab {
+            flex: 1; padding: 8px 4px; border: none; border-radius: 8px;
+            background: transparent; color: #555; font-family: Oswald;
+            font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;
+            cursor: pointer; transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hl-tab.active {
+            background: var(--rosso); color: white;
+            box-shadow: 0 2px 8px rgba(198,28,35,0.4);
+        }
 
         /* ── Toast feedback ── */
         #toast {
@@ -971,8 +1004,9 @@
     </div>
 </div>
 <header>
-    <div onclick="document.getElementById('exit-modal').style.display='flex'" style="cursor:pointer;padding:4px 8px;border-radius:8px;background:rgba(198,28,35,0.1);border:1px solid rgba(198,28,35,0.3);">
-        <span style="font-size:18px;">⏻</span>
+    <div onclick="document.getElementById('exit-modal').style.display='flex'" style="cursor:pointer;padding:6px 12px;border-radius:8px;background:rgba(198,28,35,0.15);border:1.5px solid var(--rosso);display:flex;align-items:center;gap:5px;-webkit-tap-highlight-color:transparent;">
+        <span style="font-size:14px;color:var(--rosso);">✕</span>
+        <span style="font-family:Oswald;font-size:11px;color:var(--rosso);text-transform:uppercase;letter-spacing:1px;font-weight:700;">ESCI</span>
     </div>
     <div style="font-weight:900; color:var(--rosso); font-size:22px; font-family: 'Oswald';position:relative;">
         MILANAC
@@ -1316,10 +1350,37 @@
         <!-- Form aggiunta (solo admin) -->
         <div id="hl-add-form-wrap" style="display:none;">
             <div class="hl-add-form">
-                <div class="hl-add-title">+ Aggiungi video highlight</div>
-                <input class="hl-input" id="hl-label-input" placeholder="Titolo (es. Gol di Fabio, Highlights completi...)">
-                <input class="hl-input" id="hl-url-input" placeholder="Link YouTube, Instagram o TikTok...">
-                <button class="btn-main" onclick="addHighlight()" style="border-radius:10px;">📹 AGGIUNGI VIDEO</button>
+                <div class="hl-add-title">+ Aggiungi highlight</div>
+                <!-- Tab switcher -->
+                <div class="hl-tabs">
+                    <button class="hl-tab active" id="hl-tab-link" onclick="switchHlTab('link')">🔗 Link</button>
+                    <button class="hl-tab" id="hl-tab-upload" onclick="switchHlTab('upload')">📱 Dal Telefono</button>
+                </div>
+                <!-- Tab Link -->
+                <div id="hl-section-link">
+                    <input class="hl-input" id="hl-label-input" placeholder="Titolo (es. Gol di Fabio...)">
+                    <input class="hl-input" id="hl-url-input" placeholder="Link YouTube, Instagram o TikTok...">
+                    <button class="btn-main" onclick="addHighlight()" style="border-radius:10px;">📹 AGGIUNGI LINK</button>
+                </div>
+                <!-- Tab Upload -->
+                <div id="hl-section-upload" style="display:none;">
+                    <input class="hl-input" id="hl-upload-label" placeholder="Titolo (es. Gol di Fabio...)">
+                    <div style="margin-bottom:10px;">
+                        <label for="hl-file-input" style="display:block;background:rgba(255,255,255,0.06);border:1.5px dashed #333;border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all 0.2s;" id="hl-file-label">
+                            <div style="font-size:32px;margin-bottom:6px;">🎬</div>
+                            <div style="font-family:Oswald;font-size:12px;color:#888;text-transform:uppercase;letter-spacing:1px;">Tocca per scegliere un video</div>
+                            <div style="font-family:Oswald;font-size:10px;color:#444;margin-top:4px;">MP4, MOV · max 100MB</div>
+                        </label>
+                        <input type="file" id="hl-file-input" accept="video/*" style="display:none;" onchange="onVideoFileSelected(this)">
+                    </div>
+                    <div id="hl-upload-progress-wrap" style="display:none;">
+                        <div class="upload-status" id="hl-upload-status">Caricamento...</div>
+                        <div class="upload-progress-wrap">
+                            <div class="upload-progress-bar" id="hl-upload-bar"></div>
+                        </div>
+                    </div>
+                    <button class="btn-main" id="hl-upload-btn" onclick="uploadVideoHighlight()" style="border-radius:10px;display:none;">⬆ CARICA VIDEO</button>
+                </div>
             </div>
         </div>
         <!-- Lista video -->
@@ -1334,11 +1395,17 @@
     const firebaseConfig = { apiKey: "AIzaSyDbO_AxHKz1avQpYscoSSLpEfmFaL8MRGg", authDomain: "milanac-proclub.firebaseapp.com", projectId: "milanac-proclub", storageBucket: "milanac-proclub.firebasestorage.app", messagingSenderId: "61702234008", appId: "1:61702234008:web:aa597d8600d0a8251895ed" };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
-    // Persistenza offline — l'app funziona anche senza connessione
-    db.enablePersistence({ synchronizeTabs: true }).catch(err => {
-        if(err.code === 'failed-precondition') console.warn('Offline: più tab aperte');
-        else if(err.code === 'unimplemented') console.warn('Browser non supporta offline');
-    });
+    const storage = firebase.storage();
+    // Persistenza offline — solo se supportata (evita crash su WebView Android/Appilix)
+    const isWebView = /wv|WebView/.test(navigator.userAgent) || 
+                      (navigator.userAgent.includes('Android') && !navigator.userAgent.includes('Chrome/'));
+    if(!isWebView) {
+        db.enablePersistence({ synchronizeTabs: false }).catch(err => {
+            if(err.code !== 'failed-precondition' && err.code !== 'unimplemented') {
+                console.warn('Persistence error:', err);
+            }
+        });
+    }
     let data = { ps: [], mod: '4-4-2', matches: [], news: [], calendar: [], voteHistory: [], pagelle: [] };
     let viewDate = new Date();
     // ---- ADMIN AUTH — credenziali su Firestore (non più in chiaro nel JS) ----
@@ -2268,6 +2335,92 @@
     ══════════════════════════════════════════ */
     let currentMatchId = null;
 
+    /* ── Highlights tab switcher ── */
+    function switchHlTab(tab) {
+        document.getElementById('hl-section-link').style.display   = tab==='link'   ? 'block' : 'none';
+        document.getElementById('hl-section-upload').style.display = tab==='upload' ? 'block' : 'none';
+        document.getElementById('hl-tab-link').classList.toggle('active',   tab==='link');
+        document.getElementById('hl-tab-upload').classList.toggle('active', tab==='upload');
+    }
+
+    let selectedVideoFile = null;
+
+    function onVideoFileSelected(input) {
+        const file = input.files[0];
+        if(!file) return;
+        if(file.size > 100 * 1024 * 1024) {
+            showToast('⚠ Video troppo grande (max 100MB)', true);
+            input.value = '';
+            return;
+        }
+        selectedVideoFile = file;
+        const label = document.getElementById('hl-file-label');
+        if(label) {
+            label.innerHTML = `<div style="font-size:28px;margin-bottom:6px;">✅</div>
+                <div style="font-family:Oswald;font-size:12px;color:#4caf50;text-transform:uppercase;">${file.name}</div>
+                <div style="font-family:Oswald;font-size:10px;color:#555;margin-top:3px;">${(file.size/1024/1024).toFixed(1)} MB</div>`;
+        }
+        const uploadBtn = document.getElementById('hl-upload-btn');
+        if(uploadBtn) uploadBtn.style.display = 'block';
+    }
+
+    async function uploadVideoHighlight() {
+        if(!currentAdmin) return;
+        if(!selectedVideoFile) { showToast('⚠ Seleziona prima un video', true); return; }
+        const label = document.getElementById('hl-upload-label').value.trim() || selectedVideoFile.name;
+        const match = (data.matches||[]).find(m => (m.id||m.avv+m.d) == currentMatchId);
+        if(!match) return;
+        const progressWrap = document.getElementById('hl-upload-progress-wrap');
+        const progressBar  = document.getElementById('hl-upload-bar');
+        const statusTxt    = document.getElementById('hl-upload-status');
+        const uploadBtn    = document.getElementById('hl-upload-btn');
+        progressWrap.style.display = 'block';
+        uploadBtn.disabled = true;
+        uploadBtn.textContent = '⏳ Caricamento...';
+        // Path su Firebase Storage
+        const path = `highlights/${currentMatchId}/${Date.now()}_${selectedVideoFile.name}`;
+        const ref = storage.ref(path);
+        const task = ref.put(selectedVideoFile);
+        task.on('state_changed',
+            snap => {
+                const pct = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
+                progressBar.style.width = pct + '%';
+                statusTxt.textContent = `Caricamento ${pct}%...`;
+            },
+            err => {
+                showToast('⚠ Errore caricamento: ' + err.code, true);
+                uploadBtn.disabled = false;
+                uploadBtn.textContent = '⬆ CARICA VIDEO';
+                progressWrap.style.display = 'none';
+            },
+            async () => {
+                const downloadUrl = await task.snapshot.ref.getDownloadURL();
+                if(!match.highlights) match.highlights = [];
+                match.highlights.push({
+                    id: Date.now(), label,
+                    url: downloadUrl,
+                    type: 'upload',
+                    addedBy: currentAdmin
+                });
+                sync();
+                showToast('✓ Video caricato!');
+                // Reset form
+                selectedVideoFile = null;
+                document.getElementById('hl-file-input').value = '';
+                document.getElementById('hl-upload-label').value = '';
+                uploadBtn.style.display = 'none';
+                uploadBtn.disabled = false;
+                uploadBtn.textContent = '⬆ CARICA VIDEO';
+                progressWrap.style.display = 'none';
+                progressBar.style.width = '0%';
+                const lbl = document.getElementById('hl-file-label');
+                if(lbl) lbl.innerHTML = '<div style="font-size:32px;margin-bottom:6px;">🎬</div><div style="font-family:Oswald;font-size:12px;color:#888;text-transform:uppercase;">Tocca per scegliere un video</div><div style="font-family:Oswald;font-size:10px;color:#444;margin-top:4px;">MP4, MOV · max 100MB</div>';
+                renderHighlightVideos();
+                render();
+            }
+        );
+    }
+
     function openHighlights(matchId) {
         const match = (data.matches||[]).find(m => (m.id||m.avv+m.d) == matchId);
         if(!match) return;
@@ -2351,7 +2504,15 @@
             const embed = extractVideoEmbed(hl.url);
             const canDel = currentAdmin === hl.addedBy || currentAdmin;
             let videoHtml = '';
-            if(embed?.type === 'youtube') {
+            if(hl.type === 'upload') {
+                // Video caricato direttamente su Firebase Storage
+                videoHtml = `<div class="video-container" style="background:#000;">
+                    <video controls playsinline style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;background:#000;">
+                        <source src="${hl.url}" type="video/mp4">
+                        Il tuo browser non supporta il video.
+                    </video>
+                </div>`;
+            } else if(embed?.type === 'youtube') {
                 videoHtml = `<div class="video-container">
                     <iframe src="${embed.src}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
                 </div>`;
