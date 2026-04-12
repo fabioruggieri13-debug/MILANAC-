@@ -2033,155 +2033,45 @@
        CONDIVISIONE
     ============================================================ */
     async function shareSquad() {
-        showToast("📸 Generazione immagine...");
+        showToast("📸 Screenshot in corso...");
         try {
             const pitch = document.getElementById('pitch');
-            const W = pitch.offsetWidth;
-            const H = pitch.offsetHeight;
-            const SCALE = 2;
-            const CW = W * SCALE;
-            const CH = H * SCALE;
 
-            const canvas = document.createElement('canvas');
-            canvas.width = CW;
-            canvas.height = CH;
-            const ctx = canvas.getContext('2d');
-            ctx.scale(SCALE, SCALE);
+            // Nascondi temporaneamente elementi non necessari nello screenshot
+            const hc = pitch.querySelector('#heatmap-canvas');
+            const savedHc = hc ? hc.style.display : null;
 
-            // ── Sfondo campo con strisce ──
-            const stripes = 10;
-            const stripeH = H / stripes;
-            for (let i = 0; i < stripes; i++) {
-                ctx.fillStyle = i % 2 === 0 ? '#1b5e20' : '#2e7d32';
-                ctx.fillRect(0, i * stripeH, W, stripeH);
-            }
+            // Usa html2canvas per catturare il campo ESATTAMENTE come appare
+            const canvas = await html2canvas(pitch, {
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: '#2e7d32',
+                scale: window.devicePixelRatio || 2,
+                logging: false,
+                imageTimeout: 0,
+                removeContainer: true
+            });
 
-            // ── Bordo campo ──
-            ctx.strokeStyle = 'rgba(255,255,255,0.9)';
-            ctx.lineWidth = 3;
-            ctx.strokeRect(1.5, 1.5, W - 3, H - 3);
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
 
-            // ── Linea di metà campo ──
-            ctx.beginPath();
-            ctx.moveTo(0, H / 2);
-            ctx.lineTo(W, H / 2);
-            ctx.stroke();
-
-            // ── Cerchio di centrocampo ──
-            const cr = W * 0.125; // 25%/2 del W
-            ctx.beginPath();
-            ctx.arc(W / 2, H / 2, cr, 0, Math.PI * 2);
-            ctx.stroke();
-
-            // ── Punto centrale ──
-            ctx.fillStyle = '#fff';
-            ctx.beginPath();
-            ctx.arc(W / 2, H / 2, 3, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Funzione helper area
-            function drawBox(cx, yEdge, bw, bh, isTop) {
-                const x = cx - bw / 2;
-                const y = isTop ? yEdge : yEdge - bh;
-                ctx.strokeRect(x, y, bw, bh);
-                // copri lato esterno campo
-                ctx.fillStyle = ctx.createLinearGradient ? null : null;
-                ctx.clearRect(x, isTop ? y - 2 : y + bh, bw, 4);
-            }
-
-            // ── Area grande top ──
-            const lgW = W * 0.66, lgH = H * 0.18;
-            ctx.strokeStyle = 'rgba(255,255,255,0.9)';
-            ctx.strokeRect(W/2 - lgW/2, -1, lgW, lgH + 1);
-
-            // ── Area piccola top ──
-            const smW = W * 0.32, smH = H * 0.06;
-            ctx.strokeRect(W/2 - smW/2, -1, smW, smH + 1);
-
-            // ── Punto rigore top ──
-            ctx.fillStyle = '#fff';
-            ctx.beginPath();
-            ctx.arc(W / 2, H * 0.13, 2.5, 0, Math.PI * 2);
-            ctx.fill();
-
-            // ── Arco top ──
-            ctx.beginPath();
-            ctx.arc(W / 2, H * 0.18, W * 0.125, 0, Math.PI);
-            ctx.stroke();
-
-            // ── Area grande bottom ──
-            ctx.strokeRect(W/2 - lgW/2, H - lgH, lgW, lgH + 1);
-
-            // ── Area piccola bottom ──
-            ctx.strokeRect(W/2 - smW/2, H - smH, smW, smH + 1);
-
-            // ── Punto rigore bottom ──
-            ctx.beginPath();
-            ctx.arc(W / 2, H * 0.87, 2.5, 0, Math.PI * 2);
-            ctx.fill();
-
-            // ── Arco bottom ──
-            ctx.beginPath();
-            ctx.arc(W / 2, H * 0.82, W * 0.125, Math.PI, Math.PI * 2);
-            ctx.stroke();
-
-            // ── Giocatori ──
-            const players = (data.ps || []).filter(p => p.convocato === true || p.convocato === 'true');
-            for (const p of players) {
-                const px = (p.x / 100) * W + (W * 0.07); // offset center (jersey is ~14% wide)
-                const py = (p.y / 100) * H + (H * 0.05);
-
-                // Cerchio jersey
-                const r = 22;
-                ctx.beginPath();
-                ctx.arc(px, py, r, 0, Math.PI * 2);
-                ctx.fillStyle = '#000';
-                ctx.fill();
-                ctx.strokeStyle = '#C61C23';
-                ctx.lineWidth = 3;
-                ctx.stroke();
-
-                // Numero maglia
-                ctx.fillStyle = '#D4AF37';
-                ctx.font = 'bold 16px Oswald, sans-serif';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(String(p.m || ''), px, py);
-
-                // Nome
-                const nameY = py + r + 14;
-                ctx.fillStyle = 'rgba(0,0,0,0.85)';
-                const nameW = ctx.measureText(p.n || '').width + 12;
-                ctx.beginPath();
-                ctx.roundRect
-                    ? ctx.roundRect(px - nameW/2, nameY - 9, nameW, 18, 9)
-                    : ctx.rect(px - nameW/2, nameY - 9, nameW, 18);
-                ctx.fill();
-                ctx.fillStyle = '#fff';
-                ctx.font = 'bold 10px Oswald, sans-serif';
-                ctx.fillText((p.n || '').toUpperCase(), px, nameY);
-            }
-
-            // ── Esporta e condividi ──
-            const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+            // Mostra anteprima nel modal
+            window._shareDataUrl = dataUrl;
             const byteStr = atob(dataUrl.split(',')[1]);
             const arr = new Uint8Array(byteStr.length);
             for (let i = 0; i < byteStr.length; i++) arr[i] = byteStr.charCodeAt(i);
             const blob = new Blob([arr], { type: 'image/jpeg' });
-            const file = new File([blob], 'formazione-milanac.jpg', { type: 'image/jpeg' });
+            window._shareFile = new File([blob], 'formazione-milanac.jpg', { type: 'image/jpeg' });
 
-            // Mostra anteprima con pulsante condividi
-            window._shareDataUrl = dataUrl;
-            window._shareFile = file;
-            window._shareCanvas = canvas;
             const previewImg = document.getElementById('share-preview-img');
             previewImg.src = dataUrl;
             document.getElementById('share-preview-modal').classList.add('active');
+
         } catch (err) {
             console.error('shareSquad error:', err);
-            showToast("⚠ Impossibile generare l'immagine", true);
+            showToast("⚠ Errore screenshot", true);
         }
     }
+    
     
     /* ============================================================
        CRUD DATI
@@ -3271,9 +3161,9 @@
     async function sharePreviewImage() {
         const dataUrl = window._shareDataUrl;
         const file = window._shareFile;
-        if (!dataUrl || !file) return;
+        if (!dataUrl) return;
 
-        // Metodo 1: Web Share API con file
+        // 1. Web Share API con file (Chrome browser, HTTPS)
         if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
             try {
                 await navigator.share({ files: [file], title: 'Formazione Milanac', text: '📋 Formazione Milanac' });
@@ -3285,32 +3175,39 @@
             }
         }
 
-        // Metodo 2: Web Share senza file (Appilix)
-        if (navigator.share) {
-            try {
-                await navigator.share({ files: [file], title: 'Formazione Milanac', text: '📋 Formazione Milanac' });
-                document.getElementById('share-preview-modal').classList.remove('active');
-                showToast("✓ Condiviso!");
-                return;
-            } catch (e) {
-                if (e.name === 'AbortError') return;
-            }
-        }
-
-        // Metodo 3: Blob download
+        // 2. Apri il dataUrl direttamente come pagina — funziona in WebView/APK
+        // L'utente vede l'immagine e usa il pulsante condividi nativo Android
         try {
-            const blobUrl = URL.createObjectURL(file);
-            const a = document.createElement('a');
-            a.href = blobUrl;
-            a.download = 'formazione-milanac.jpg';
-            document.body.appendChild(a);
-            a.click();
-            setTimeout(() => { URL.revokeObjectURL(blobUrl); document.body.removeChild(a); }, 2000);
-            document.getElementById('share-preview-modal').classList.remove('active');
-            showToast("✓ Salvata nei Download!");
-        } catch(e) {
-            showToast("Tieni premuto sull'immagine per salvarla");
-        }
+            const w = window.open('', '_blank');
+            if (w) {
+                w.document.write(`<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Formazione Milanac</title>
+<style>
+  body{margin:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:sans-serif;}
+  img{max-width:100%;border-radius:8px;}
+  p{color:#888;font-size:13px;margin-top:12px;text-align:center;padding:0 20px;}
+</style>
+</head>
+<body>
+<img src="${dataUrl}" alt="Formazione Milanac">
+<p>Tieni premuto sull'immagine → "Condividi immagine" o "Salva immagine"</p>
+</body>
+</html>`);
+                w.document.close();
+                document.getElementById('share-preview-modal').classList.remove('active');
+                return;
+            }
+        } catch(e) {}
+
+        // 3. Fallback finale: sostituisci la pagina corrente con l'immagine
+        document.getElementById('share-preview-modal').classList.remove('active');
+        const img = document.getElementById('share-preview-img');
+        img.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;object-fit:contain;z-index:999999;background:#000;';
+        document.body.appendChild(img);
+        showToast("Tieni premuto sull'immagine per salvarla");
     }
 </script>
 </body>
