@@ -679,9 +679,11 @@
         .vsb-label { font-family: 'Oswald'; font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
         .vsb-match { font-family: 'Teko'; font-size: 20px; color: white; }
         .vsb-btn { background: var(--rosso); border: none; color: white; font-family: 'Oswald'; font-size: 11px; padding: 6px 12px; border-radius: 8px; cursor: pointer; text-transform: uppercase; }
+
         /* ═══════════════════════════════════════════
            SEZIONE PREMI — CLASSIFICA STAGIONALE
         ═══════════════════════════════════════════ */
+
         /* Tab switcher */
         .premi-tabs {
             display: flex; gap: 6px; margin-bottom: 16px;
@@ -698,6 +700,7 @@
             background: var(--rosso); color: white;
             box-shadow: 0 2px 10px rgba(198,28,35,0.5);
         }
+
         /* PODIO */
         .podio-wrap {
             display: flex; align-items: flex-end; justify-content: center;
@@ -740,6 +743,7 @@
         .podio-slot:nth-child(1) .podio-block { animation-delay: 0.3s; }
         .podio-slot:nth-child(2) .podio-block { animation-delay: 0.1s; }
         .podio-slot:nth-child(3) .podio-block { animation-delay: 0.5s; }
+
         /* CLASSIFICA lista */
         .rank-list { display: flex; flex-direction: column; gap: 8px; }
         .rank-row {
@@ -766,6 +770,7 @@
         .rank-name { font-family: Teko; font-size: 20px; color: white; flex: 1; text-transform: uppercase; }
         .rank-role { font-family: Oswald; font-size: 9px; color: #555; margin-left: 4px; }
         .rank-val { font-family: Oswald; font-size: 20px; font-weight: 900; }
+
         /* TROFEI categoria */
         .trofeo-card {
             background: linear-gradient(135deg, #111 0%, #080808 100%);
@@ -778,6 +783,7 @@
         .trofeo-title { font-family: Oswald; font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 2px; }
         .trofeo-winner { font-family: Teko; font-size: 28px; color: white; text-transform: uppercase; line-height: 1; }
         .trofeo-stat { font-family: Oswald; font-size: 13px; font-weight: 900; margin-left: auto; }
+
         /* Sezioni titolo */
         .section-label {
             font-family: Oswald; font-size: 10px; color: #444;
@@ -785,6 +791,7 @@
             margin: 16px 0 10px; display: flex; align-items: center; gap: 8px;
         }
         .section-label::after { content: ''; flex: 1; height: 1px; background: #1a1a1a; }
+
         /* ══════════════════════════════════════════════
            HIGHLIGHTS VIDEO
         ══════════════════════════════════════════════ */
@@ -809,6 +816,7 @@
             font-size: 28px; cursor: pointer; padding: 0 4px;
         }
         .hl-modal-body { width: 100%; padding: 16px; box-sizing: border-box; }
+
         /* Video embed container 16:9 */
         .video-container {
             position: relative; width: 100%;
@@ -842,6 +850,7 @@
             margin-bottom: 8px;
         }
         .hl-input:focus { outline: none; border-color: var(--oro); }
+
         /* Badge highlight sulla card partita */
         .hl-badge {
             display: inline-flex; align-items: center; gap: 4px;
@@ -858,6 +867,7 @@
             box-shadow: 0 0 8px rgba(198,28,35,0.4);
         }
         .hl-badge:active { transform: scale(0.95); }
+
         /* Lista video nella modal */
         .hl-video-item {
             background: #111; border: 1px solid #222;
@@ -889,6 +899,7 @@
             background: var(--rosso); color: white;
             box-shadow: 0 2px 8px rgba(198,28,35,0.4);
         }
+
         /* ── Toast feedback ── */
         #toast {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(80px);
@@ -902,6 +913,7 @@
         }
         #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
         #toast.error { border-color: var(--rosso); color: #ff6b6b; }
+
         /* ── Loading screen ── */
         #loading-screen {
             position: fixed; inset: 0; background: #000;
@@ -919,12 +931,22 @@
             margin-bottom: 16px;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes bounceUp {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        @keyframes hintPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.85; }
+        }
         /* ── Share Preview Modal ── */
+        /* ── Screenshot guidato ── */
         #share-preview-modal {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+            position: fixed; inset: 0; background: #000;
             z-index: 99999; display: none; flex-direction: column;
-            align-items: center; justify-content: center; padding: 20px;
-            box-sizing: border-box;
+            align-items: stretch; justify-content: flex-start;
+            padding: 0; box-sizing: border-box;
+            overflow: hidden;
         }
         #share-preview-modal.active { display: flex; }
         #share-preview-title {
@@ -970,6 +992,7 @@
             font-family: Oswald; font-size: 11px; color: #444;
             text-transform: uppercase; letter-spacing: 3px;
         }
+
         /* ── Exit confirm modal ── */
         #exit-modal {
             position: fixed; inset: 0; background: rgba(0,0,0,0.92);
@@ -996,20 +1019,47 @@
     <div class="loading-spinner"></div>
     <div class="loading-text">Caricamento...</div>
 </div>
+
 <!-- TOAST -->
 <div id="toast"></div>
+
 <!-- SHARE PREVIEW MODAL -->
 <div id="share-preview-modal">
-    <div id="share-preview-title">📋 Formazione Milanac</div>
-    <img id="share-preview-img" src="" alt="Formazione" style="max-width:100%;max-height:52vh;border-radius:12px;border:2px solid #222;box-shadow:0 8px 32px rgba(0,0,0,0.8);">
-    <div style="font-family:Oswald;font-size:10px;color:#444;text-transform:uppercase;letter-spacing:1px;margin-top:10px;">
-        ☝ Tieni premuto sull'immagine per salvarla
+    <!-- Header screenshot -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#000;flex-shrink:0;border-bottom:1px solid #111;">
+        <div>
+            <div style="font-family:Oswald;font-size:9px;color:#555;text-transform:uppercase;letter-spacing:2px;">📋 Formazione Milanac</div>
+            <div style="font-family:Teko;font-size:20px;color:white;">Fai uno screenshot!</div>
+        </div>
+        <button onclick="closeShareModal()" style="background:rgba(255,255,255,0.08);border:none;color:#888;font-size:22px;width:36px;height:36px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
     </div>
-    <div id="share-preview-btns">
-        <button class="share-btn share-btn-primary" onclick="sharePreviewImage()">📲 Condividi</button>
-        <button class="share-btn share-btn-secondary" onclick="document.getElementById('share-preview-modal').classList.remove('active')">Chiudi</button>
+    <!-- Immagine campo a schermo intero -->
+    <div style="flex:1;position:relative;display:flex;align-items:center;justify-content:center;background:#000;overflow:hidden;">
+        <img id="share-preview-img" src="" alt="Formazione"
+            style="max-width:100%;max-height:100%;object-fit:contain;display:block;-webkit-touch-callout:default;touch-action:auto;user-select:auto;-webkit-user-select:auto;">
+        <!-- Overlay istruzione animata -->
+        <div id="screenshot-hint" style="
+            position:absolute;bottom:0;left:0;right:0;
+            background:linear-gradient(transparent,rgba(0,0,0,0.92));
+            padding:28px 20px 20px;
+            display:flex;flex-direction:column;align-items:center;gap:8px;
+            animation:hintPulse 2s ease-in-out infinite;
+        ">
+            <div style="font-size:28px;animation:bounceUp 1.2s ease-in-out infinite;">📸</div>
+            <div style="font-family:Oswald;font-size:16px;color:white;text-transform:uppercase;letter-spacing:2px;text-align:center;">
+                Fai uno screenshot
+            </div>
+            <div style="font-family:Oswald;font-size:11px;color:#888;text-align:center;letter-spacing:1px;">
+                Poi condividi l'immagine su WhatsApp
+            </div>
+            <div style="display:flex;gap:8px;margin-top:4px;">
+                <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:6px 14px;font-family:Oswald;font-size:10px;color:#666;text-transform:uppercase;">Android: Vol− + Power</div>
+                <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:6px 14px;font-family:Oswald;font-size:10px;color:#666;text-transform:uppercase;">iPhone: Power + Vol+</div>
+            </div>
+        </div>
     </div>
 </div>
+
 <!-- NOTIFICATION PANEL -->
 <div id="notif-panel">
     <div id="notif-panel-header">
@@ -1018,6 +1068,7 @@
     </div>
     <div id="notif-list"><div id="notif-empty">Nessuna notifica</div></div>
 </div>
+
 <!-- EXIT MODAL -->
 <div id="exit-modal" style="display:none;align-items:center;justify-content:center;">
     <div class="exit-box">
@@ -1030,6 +1081,7 @@
         </div>
     </div>
 </div>
+
 <!-- INTRO -->
 <div id="intro">
     <div class="intro-container">
@@ -1425,12 +1477,14 @@
                     <input class="hl-input" id="hl-url-input" placeholder="Link YouTube, Instagram o TikTok...">
                     <button class="btn-main" onclick="addHighlight()" style="border-radius:10px;">📹 AGGIUNGI LINK</button>
                 </div>
+
             </div>
         </div>
         <!-- Lista video -->
         <div id="hl-videos-list"></div>
     </div>
 </div>
+
 <script>
     /* ============================================================
        FIREBASE
@@ -1454,6 +1508,7 @@
     // e memorizzate in RAM solo per la sessione corrente.
     // Per cambiarle: vai su Firebase Console → milanac/config → adminCreds
     let ADMIN_CREDS = {}; // verrà popolato da loadAdminCreds()
+
     async function loadAdminCreds() {
         try {
             const doc = await db.collection('milanac').doc('config').get();
@@ -1497,13 +1552,16 @@
         t.className = 'show' + (isError ? ' error' : '');
         _toastTimer = setTimeout(() => { t.className = ''; }, 2200);
     }
+
     // Nascondi loading screen
     function hideLoading() {
         const ls = document.getElementById('loading-screen');
         if(ls) { ls.classList.add('hidden'); setTimeout(()=>ls.style.display='none', 500); }
     }
+
     // Carica credenziali admin sicure da Firestore
     loadAdminCreds();
+
     // Ascolta dati real-time
     db.collection("milanac").doc("v84_final").onSnapshot(doc => {
         if(doc.exists) {
@@ -2017,11 +2075,13 @@
             const SCALE = 2;
             const CW = W * SCALE;
             const CH = H * SCALE;
+
             const canvas = document.createElement('canvas');
             canvas.width = CW;
             canvas.height = CH;
             const ctx = canvas.getContext('2d');
             ctx.scale(SCALE, SCALE);
+
             // ── Sfondo campo con strisce ──
             const stripes = 10;
             const stripeH = H / stripes;
@@ -2029,25 +2089,30 @@
                 ctx.fillStyle = i % 2 === 0 ? '#1b5e20' : '#2e7d32';
                 ctx.fillRect(0, i * stripeH, W, stripeH);
             }
+
             // ── Bordo campo ──
             ctx.strokeStyle = 'rgba(255,255,255,0.9)';
             ctx.lineWidth = 3;
             ctx.strokeRect(1.5, 1.5, W - 3, H - 3);
+
             // ── Linea di metà campo ──
             ctx.beginPath();
             ctx.moveTo(0, H / 2);
             ctx.lineTo(W, H / 2);
             ctx.stroke();
+
             // ── Cerchio di centrocampo ──
             const cr = W * 0.125; // 25%/2 del W
             ctx.beginPath();
             ctx.arc(W / 2, H / 2, cr, 0, Math.PI * 2);
             ctx.stroke();
+
             // ── Punto centrale ──
             ctx.fillStyle = '#fff';
             ctx.beginPath();
             ctx.arc(W / 2, H / 2, 3, 0, Math.PI * 2);
             ctx.fill();
+
             // Funzione helper area
             function drawBox(cx, yEdge, bw, bh, isTop) {
                 const x = cx - bw / 2;
@@ -2057,39 +2122,49 @@
                 ctx.fillStyle = ctx.createLinearGradient ? null : null;
                 ctx.clearRect(x, isTop ? y - 2 : y + bh, bw, 4);
             }
+
             // ── Area grande top ──
             const lgW = W * 0.66, lgH = H * 0.18;
             ctx.strokeStyle = 'rgba(255,255,255,0.9)';
             ctx.strokeRect(W/2 - lgW/2, -1, lgW, lgH + 1);
+
             // ── Area piccola top ──
             const smW = W * 0.32, smH = H * 0.06;
             ctx.strokeRect(W/2 - smW/2, -1, smW, smH + 1);
+
             // ── Punto rigore top ──
             ctx.fillStyle = '#fff';
             ctx.beginPath();
             ctx.arc(W / 2, H * 0.13, 2.5, 0, Math.PI * 2);
             ctx.fill();
+
             // ── Arco top ──
             ctx.beginPath();
             ctx.arc(W / 2, H * 0.18, W * 0.125, 0, Math.PI);
             ctx.stroke();
+
             // ── Area grande bottom ──
             ctx.strokeRect(W/2 - lgW/2, H - lgH, lgW, lgH + 1);
+
             // ── Area piccola bottom ──
             ctx.strokeRect(W/2 - smW/2, H - smH, smW, smH + 1);
+
             // ── Punto rigore bottom ──
             ctx.beginPath();
             ctx.arc(W / 2, H * 0.87, 2.5, 0, Math.PI * 2);
             ctx.fill();
+
             // ── Arco bottom ──
             ctx.beginPath();
             ctx.arc(W / 2, H * 0.82, W * 0.125, Math.PI, Math.PI * 2);
             ctx.stroke();
+
             // ── Giocatori ──
             const players = (data.ps || []).filter(p => p.convocato === true || p.convocato === 'true');
             for (const p of players) {
                 const px = (p.x / 100) * W + (W * 0.07); // offset center (jersey is ~14% wide)
                 const py = (p.y / 100) * H + (H * 0.05);
+
                 // Cerchio jersey
                 const r = 22;
                 ctx.beginPath();
@@ -2099,12 +2174,14 @@
                 ctx.strokeStyle = '#C61C23';
                 ctx.lineWidth = 3;
                 ctx.stroke();
+
                 // Numero maglia
                 ctx.fillStyle = '#D4AF37';
                 ctx.font = 'bold 16px Oswald, sans-serif';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText(String(p.m || ''), px, py);
+
                 // Nome
                 const nameY = py + r + 14;
                 ctx.fillStyle = 'rgba(0,0,0,0.85)';
@@ -2118,6 +2195,7 @@
                 ctx.font = 'bold 10px Oswald, sans-serif';
                 ctx.fillText((p.n || '').toUpperCase(), px, nameY);
             }
+
             // ── Esporta e condividi ──
             const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
             const byteStr = atob(dataUrl.split(',')[1]);
@@ -2125,13 +2203,12 @@
             for (let i = 0; i < byteStr.length; i++) arr[i] = byteStr.charCodeAt(i);
             const blob = new Blob([arr], { type: 'image/jpeg' });
             const file = new File([blob], 'formazione-milanac.jpg', { type: 'image/jpeg' });
-            // Mostra anteprima con pulsante condividi
-            window._shareDataUrl = dataUrl;
-            window._shareFile = file;
-            window._shareCanvas = canvas;
+
+            // Mostra immagine a schermo intero per screenshot
             const previewImg = document.getElementById('share-preview-img');
             previewImg.src = dataUrl;
             document.getElementById('share-preview-modal').classList.add('active');
+            showToast('📸 Ora fai uno screenshot!');
         } catch (err) {
             console.error('shareSquad error:', err);
             showToast("⚠ Impossibile generare l'immagine", true);
@@ -2288,12 +2365,14 @@
        PREMI ENGINE
     ══════════════════════════════════════════ */
     let premiTab = 'trofei';
+
     function switchPremiTab(tab, btn) {
         premiTab = tab;
         document.querySelectorAll('.premi-tab').forEach(b => b.classList.remove('active'));
         if(btn) btn.classList.add('active');
         renderPremi();
     }
+
     function getPlayerStats(p) {
         // Media combinata voteHistory + pagelle
         const votiFlat = [];
@@ -2317,6 +2396,7 @@
         const media = votiFlat.length ? votiFlat.reduce((a,b)=>a+b,0)/votiFlat.length : 0;
         return { presenze, media: parseFloat(media.toFixed(2)), votiFlat };
     }
+
     function renderPremi() {
         const el = document.getElementById('l-premi');
         if(!el) return;
@@ -2324,8 +2404,10 @@
             el.innerHTML = '<p style="color:#444;text-align:center;font-family:Oswald;padding:40px 0;font-size:13px;">Nessun giocatore ancora.</p>';
             return;
         }
+
         // Arricchisci ogni giocatore con stats calcolate
         const players = data.ps.map(p => ({ ...p, _s: getPlayerStats(p) }));
+
         if(premiTab === 'trofei') {
             el.innerHTML = renderTrofei(players);
             // Triggera barre animate dopo render
@@ -2350,6 +2432,7 @@
             });
         }
     }
+
     function buildPodio(sorted, valFn, unit) {
         if(sorted.length === 0) return '<p style="color:#444;text-align:center;font-family:Oswald;padding:20px;font-size:12px;">Nessun dato disponibile.</p>';
         const top3 = sorted.slice(0,3);
@@ -2360,6 +2443,7 @@
         const colors = ['#a0a0a0','#D4AF37','#cd7f32'];
         const avatarSizes = ['52px','64px','46px'];
         const borders = [`3px solid #a0a0a0`,`3px solid #D4AF37`,`3px solid #cd7f32`];
+
         let html = '<div class="podio-wrap">';
         order.forEach((p, i) => {
             const realRank = order === top3 ? i : (i===0?1:i===1?0:2);
@@ -2379,6 +2463,7 @@
         html += '</div>';
         return html;
     }
+
     function buildRankList(sorted, valFn, unit, barColor) {
         if(sorted.length === 0) return '';
         const maxVal = valFn(sorted[0]) || 1;
@@ -2400,6 +2485,7 @@
             </div>`;
         }).join('') + '</div>';
     }
+
     function renderTrofei(players) {
         // Calcola vincitori per categoria
         const byGoals   = [...players].sort((a,b)=>(b.g||0)-(a.g||0));
@@ -2409,8 +2495,10 @@
         const byYellow  = [...players].sort((a,b)=>(b.yl||0)-(a.yl||0));
         const byMedia   = [...players].filter(p=>p._s.votiFlat.length>0).sort((a,b)=>b._s.media-a._s.media);
         const byPres    = [...players].sort((a,b)=>b._s.presenze-a._s.presenze);
+
         // Migliore difensore: DIF con media voto più alta
         const byDefMedia = [...players].filter(p => p.r === 'DIF' && p._s.votiFlat.length > 0).sort((a,b) => b._s.media - a._s.media);
+
         const trofei = [
             { icon:'⚽', title:'Capocannoniere', player: byGoals[0], val: byGoals[0]?.g||0, unit:' GOL', color:'#C61C23', bg:'rgba(198,28,35,0.1)' },
             { icon:'👟', title:'Re degli Assist', player: byAssist[0], val: byAssist[0]?.a||0, unit:' ASS', color:'#4caf50', bg:'rgba(76,175,80,0.08)' },
@@ -2421,6 +2509,7 @@
             { icon:'🏟️', title:'Giocatore Più Presente', player: byPres[0], val: byPres[0]?._s.presenze||0, unit:' pres.', color:'#ff9800', bg:'rgba(255,152,0,0.08)' },
             { icon:'🟨', title:'Fair Play (meno gialli)', player: byYellow[byYellow.length-1], val: byYellow[byYellow.length-1]?.yl||0, unit:' gialli', color:'#ffd600', bg:'rgba(255,214,0,0.08)' },
         ];
+
         return trofei.map(t => {
             if(!t.player) return '';
             return `<div class="trofeo-card" style="border:1px solid ${t.color}22;">
@@ -2436,6 +2525,7 @@
             </div>`;
         }).join('');
     }
+
     function renderClassifica(players) {
         let html = '';
         // Classifica Gol
@@ -2450,6 +2540,7 @@
         html += buildRankList(byAssist, p=>p.a||0, '', '#4caf50');
         return html;
     }
+
     function renderMediaVoto(players) {
         let html = '';
         const withVotes = [...players].filter(p=>p._s.votiFlat.length>0).sort((a,b)=>b._s.media-a._s.media);
@@ -2461,11 +2552,14 @@
         html += buildRankList(byPres.filter(p=>p._s.presenze>0), p=>p._s.presenze, ' pres.', '#ff9800');
         return html;
     }
+
     /* ══════════════════════════════════════════
        HIGHLIGHTS ENGINE
     ══════════════════════════════════════════ */
     let currentMatchId = null;
+
     /* ── Highlights tab switcher ── */
+
     function openHighlights(matchId) {
         const match = (data.matches||[]).find(m => (m.id||m.avv+m.d) == matchId);
         if(!match) return;
@@ -2476,17 +2570,20 @@
         document.getElementById('highlight-modal').classList.add('open');
         document.body.style.overflow = 'hidden';
     }
+
     function updateHighlightFormVisibility() {
         const formWrap  = document.getElementById('hl-add-form-wrap');
         const loginPrompt = document.getElementById('hl-login-prompt');
         if(formWrap)    formWrap.style.display    = currentAdmin ? 'block' : 'none';
         if(loginPrompt) loginPrompt.style.display = currentAdmin ? 'none'  : 'block';
     }
+
     function closeHighlights() {
         document.getElementById('highlight-modal').classList.remove('open');
         document.body.style.overflow = '';
         currentMatchId = null;
     }
+
     function extractVideoEmbed(url) {
         if(!url) return null;
         url = url.trim();
@@ -2503,6 +2600,7 @@
         // URL generico
         return { type: 'link', src: url };
     }
+
     function addHighlight() {
         if(!currentAdmin) return;
         const label = document.getElementById('hl-label-input').value.trim() || 'Highlight';
@@ -2518,6 +2616,7 @@
         renderHighlightVideos();
         render(); // aggiorna badge sulla card
     }
+
     function deleteHighlight(matchId, hlId) {
         const match = (data.matches||[]).find(m => (m.id||m.avv+m.d) == matchId);
         if(!match || !match.highlights) return;
@@ -2526,6 +2625,7 @@
         renderHighlightVideos();
         render();
     }
+
     function renderHighlightVideos() {
         const container = document.getElementById('hl-videos-list');
         if(!container) return;
@@ -2577,6 +2677,7 @@
             </div>`;
         }).join('');
     }
+
     function render() {
         // ── Notifiche in-app: conta novità rispetto all'ultima visita ──
         buildNotifications();
@@ -3072,11 +3173,13 @@
             initHeatmapCanvas();
         }
     });
+
     // ============================================================
     // SISTEMA NOTIFICHE
     // ============================================================
     let _notifData = [];
     let _notifOpen = false;
+
     function toggleNotifPanel() {
         const panel = document.getElementById('notif-panel');
         _notifOpen = !_notifOpen;
@@ -3094,6 +3197,7 @@
             }, 100);
         }
     }
+
     function closeNotifOutside(e) {
         const panel = document.getElementById('notif-panel');
         const btn = document.getElementById('notif-btn');
@@ -3102,13 +3206,16 @@
             _notifOpen = false;
         }
     }
+
     function updateNotifDot(show) {
         const dot = document.getElementById('notif-dot');
         if (dot) dot.style.display = show ? 'block' : 'none';
     }
+
     function buildNotifications() {
         const lastVisit = parseInt(localStorage.getItem('milanac_last_visit') || '0');
         _notifData = [];
+
         // News non lette
         (data.news || []).slice(0, 10).forEach(n => {
             _notifData.push({
@@ -3119,6 +3226,7 @@
                 unread: (n.ts || 0) > lastVisit
             });
         });
+
         // Nuove pagelle
         (data.pagelle || []).slice(0, 10).forEach(p => {
             _notifData.push({
@@ -3129,6 +3237,7 @@
                 unread: (p.id || 0) > lastVisit
             });
         });
+
         // Convocazioni recenti
         const convocati = (data.ps || []).filter(p => p.convocato);
         if (convocati.length > 0) {
@@ -3141,12 +3250,16 @@
                 unread: convTs > lastVisit
             });
         }
+
         // Ordina per data
         _notifData.sort((a, b) => b.ts - a.ts);
+
         const hasUnread = _notifData.some(n => n.unread);
         updateNotifDot(hasUnread);
+
         if (_notifOpen) renderNotifList();
     }
+
     function renderNotifList() {
         const list = document.getElementById('notif-list');
         if (!list) return;
@@ -3166,12 +3279,14 @@
             </div>`;
         }).join('');
     }
+
     function clearNotifications() {
         localStorage.setItem('milanac_last_visit', Date.now().toString());
         updateNotifDot(false);
         _notifData = _notifData.map(n => ({ ...n, unread: false }));
         renderNotifList();
     }
+
     function timeAgo(ts) {
         const diff = Date.now() - ts;
         const m = Math.floor(diff / 60000);
@@ -3183,54 +3298,18 @@
         if (d < 7) return `${d} giorni fa`;
         return new Date(ts).toLocaleDateString('it-IT');
     }
+
     // ── Condividi da modal anteprima ──
     async function sharePreviewImage() {
-        const dataUrl = window._shareDataUrl;
-        const file = window._shareFile;
-        if (!dataUrl) return;
-        // 1. Web Share API con file (Chrome browser, HTTPS)
-        if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-            try {
-                await navigator.share({ files: [file], title: 'Formazione Milanac', text: '📋 Formazione Milanac' });
-                document.getElementById('share-preview-modal').classList.remove('active');
-                showToast("✓ Condiviso!");
-                return;
-            } catch (e) {
-                if (e.name === 'AbortError') return;
-            }
-        }
-        // 2. Apri il dataUrl direttamente come pagina — funziona in WebView/APK
-        // L'utente vede l'immagine e usa il pulsante condividi nativo Android
-        try {
-            const w = window.open('', '_blank');
-            if (w) {
-                w.document.write(`<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Formazione Milanac</title>
-<style>
-  body{margin:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:sans-serif;}
-  img{max-width:100%;border-radius:8px;}
-  p{color:#888;font-size:13px;margin-top:12px;text-align:center;padding:0 20px;}
-</style>
-</head>
-<body>
-<img src="${dataUrl}" alt="Formazione Milanac">
-<p>Tieni premuto sull'immagine → "Condividi immagine" o "Salva immagine"</p>
-</body>
-</html>`);
-                w.document.close();
-                document.getElementById('share-preview-modal').classList.remove('active');
-                return;
-            }
-        } catch(e) {}
-        // 3. Fallback finale: sostituisci la pagina corrente con l'immagine
+        // Questa funzione non viene più usata — tasto rimosso
+        // Mantenuta per compatibilità
+    }
+
+    function closeShareModal() {
         document.getElementById('share-preview-modal').classList.remove('active');
-        const img = document.getElementById('share-preview-img');
-        img.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;object-fit:contain;z-index:999999;background:#000;';
-        document.body.appendChild(img);
-        showToast("Tieni premuto sull'immagine per salvarla");
+        // Riabilita lo scroll dell'app
+        document.body.style.overflow = '';
+        document.querySelector('.container') && (document.querySelector('.container').style.overflow = '');
     }
 </script>
 </body>
