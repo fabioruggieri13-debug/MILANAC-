@@ -1021,7 +1021,7 @@
         ☝ Tieni premuto sull'immagine per salvarla
     </div>
     <div id="share-preview-btns">
-        <button class="share-btn share-btn-primary" onclick="sharePreviewImage()">📲 Salva / Condividi</button>
+        <button class="share-btn share-btn-primary" onclick="sharePreviewImage()">📲 Condividi</button>
         <button class="share-btn share-btn-secondary" onclick="document.getElementById('share-preview-modal').classList.remove('active')">Chiudi</button>
     </div>
 </div>
@@ -1164,7 +1164,7 @@
         <!-- Azioni formazione -->
         <div class="tactic-controls">
             <button class="btn-tactic-action" onclick="document.getElementById('convocati-modal').style.display='block'">👥 Convocati</button>
-            <button class="btn-tactic-action" style="background:#C61C23; border-color:white;" onclick="shareSquad()">📲 Salva / Condividi</button>
+            <button class="btn-tactic-action" style="background:#C61C23; border-color:white;" onclick="shareSquad()">📲 Condividi</button>
         </div>
         <!-- CAMPO -->
         <div id="pitch">
@@ -3273,7 +3273,7 @@
         const file = window._shareFile;
         if (!dataUrl || !file) return;
 
-        // METODO 1: Web Share API con file (Chrome standard)
+        // Metodo 1: Web Share API con file
         if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
             try {
                 await navigator.share({ files: [file], title: 'Formazione Milanac', text: '📋 Formazione Milanac' });
@@ -3285,32 +3285,32 @@
             }
         }
 
-        // METODO 2: Blob URL + <a download> — WebView Android moderne
+        // Metodo 2: Web Share senza file (Appilix)
+        if (navigator.share) {
+            try {
+                await navigator.share({ files: [file], title: 'Formazione Milanac', text: '📋 Formazione Milanac' });
+                document.getElementById('share-preview-modal').classList.remove('active');
+                showToast("✓ Condiviso!");
+                return;
+            } catch (e) {
+                if (e.name === 'AbortError') return;
+            }
+        }
+
+        // Metodo 3: Blob download
         try {
             const blobUrl = URL.createObjectURL(file);
             const a = document.createElement('a');
             a.href = blobUrl;
             a.download = 'formazione-milanac.jpg';
-            a.style.display = 'none';
             document.body.appendChild(a);
             a.click();
             setTimeout(() => { URL.revokeObjectURL(blobUrl); document.body.removeChild(a); }, 2000);
             document.getElementById('share-preview-modal').classList.remove('active');
             showToast("✓ Salvata nei Download!");
-            return;
-        } catch(e2) { /* continua */ }
-
-        // METODO 3: Apri pagina con immagine — tieni premuto per salvare
-        try {
-            const html = '<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:16px;}img{max-width:100%;border-radius:8px;}p{color:#aaa;font-size:14px;text-align:center;padding:0 20px;font-family:sans-serif;}</style></head><body><img src="' + dataUrl + '"><p>📲 Tieni premuto sull'immagine → "Salva" o "Condividi"</p></body></html>';
-            const blob2 = new Blob([html], { type: 'text/html' });
-            const url2 = URL.createObjectURL(blob2);
-            window.location.href = url2;
-            return;
-        } catch(e3) { /* continua */ }
-
-        // METODO 4: Naviga direttamente al dataUrl — sempre funziona
-        window.location.href = dataUrl;
+        } catch(e) {
+            showToast("Tieni premuto sull'immagine per salvarla");
+        }
     }
 </script>
 </body>
