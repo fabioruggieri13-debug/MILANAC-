@@ -1016,10 +1016,13 @@
 <!-- SHARE PREVIEW MODAL -->
 <div id="share-preview-modal">
     <div id="share-preview-title">📋 Formazione Milanac</div>
-    <img id="share-preview-img" src="" alt="Formazione" style="max-width:100%;max-height:50vh;border-radius:12px;border:2px solid #222;box-shadow:0 8px 32px rgba(0,0,0,0.8);">
-    <div id="share-preview-btns" style="flex-direction:column;gap:10px;">
-        <button class="share-btn share-btn-primary" style="font-size:15px;padding:16px;" onclick="sharePreviewImage()">📲 Condividi su WhatsApp / Social</button>
-        <button class="share-btn share-btn-secondary" onclick="document.getElementById('share-preview-modal').classList.remove('active')">✕ Chiudi</button>
+    <img id="share-preview-img" src="" alt="Formazione" style="max-width:100%;max-height:52vh;border-radius:12px;border:2px solid #222;box-shadow:0 8px 32px rgba(0,0,0,0.8);">
+    <div style="font-family:Oswald;font-size:10px;color:#444;text-transform:uppercase;letter-spacing:1px;margin-top:10px;">
+        ☝ Tieni premuto sull'immagine per salvarla
+    </div>
+    <div id="share-preview-btns">
+        <button class="share-btn share-btn-primary" onclick="sharePreviewImage()">📲 Salva / Condividi</button>
+        <button class="share-btn share-btn-secondary" onclick="document.getElementById('share-preview-modal').classList.remove('active')">Chiudi</button>
     </div>
 </div>
 
@@ -1161,7 +1164,7 @@
         <!-- Azioni formazione -->
         <div class="tactic-controls">
             <button class="btn-tactic-action" onclick="document.getElementById('convocati-modal').style.display='block'">👥 Convocati</button>
-            <button class="btn-tactic-action" style="background:#C61C23; border-color:white;" onclick="shareSquad()">📲 Condividi</button>
+            <button class="btn-tactic-action" style="background:#C61C23; border-color:white;" onclick="shareSquad()">📲 Salva / Condividi</button>
         </div>
         <!-- CAMPO -->
         <div id="pitch">
@@ -3270,41 +3273,45 @@
         const file = window._shareFile;
         if (!dataUrl || !file) return;
 
-        // Tenta navigator.share con file — funziona in Appilix anche senza canShare
-        if (navigator.share) {
+        // METODO 1: Web Share API con file (Chrome standard)
+        if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
             try {
-                await navigator.share({
-                    files: [file],
-                    title: 'Formazione Milanac',
-                    text: '📋 Formazione Milanac'
-                });
+                await navigator.share({ files: [file], title: 'Formazione Milanac', text: '📋 Formazione Milanac' });
                 document.getElementById('share-preview-modal').classList.remove('active');
                 showToast("✓ Condiviso!");
                 return;
             } catch (e) {
-                if (e.name === 'AbortError') return; // utente ha annullato, ok
-                // Se files non supportato, riprova senza files
-                try {
-                    await navigator.share({ title: 'Formazione Milanac', text: '📋 Formazione Milanac' });
-                    document.getElementById('share-preview-modal').classList.remove('active');
-                    showToast("✓ Condiviso!");
-                    return;
-                } catch (e2) { /* continua */ }
+                if (e.name === 'AbortError') return;
             }
         }
 
-        // Fallback: apri dataUrl in nuova finestra (funziona in alcuni WebView)
+        // METODO 2: Blob URL + <a download> — WebView Android moderne
         try {
-            const w = window.open(dataUrl, '_blank');
-            if (w) {
-                document.getElementById('share-preview-modal').classList.remove('active');
-                return;
-            }
-        } catch(e) {}
+            const blobUrl = URL.createObjectURL(file);
+            const a = document.createElement('a');
+            a.href = blobUrl;
+            a.download = 'formazione-milanac.jpg';
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => { URL.revokeObjectURL(blobUrl); document.body.removeChild(a); }, 2000);
+            document.getElementById('share-preview-modal').classList.remove('active');
+            showToast("✓ Salvata nei Download!");
+            return;
+        } catch(e2) { /* continua */ }
 
-        // Ultimo fallback: mostra istruzione manuale
-        showToast("Tieni premuto sull'immagine → Salva / Condividi");
+        // METODO 3: Apri pagina con immagine — tieni premuto per salvare
+        try {
+            const html = '<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:16px;}img{max-width:100%;border-radius:8px;}p{color:#aaa;font-size:14px;text-align:center;padding:0 20px;font-family:sans-serif;}</style></head><body><img src="' + dataUrl + '"><p>📲 Tieni premuto sull'immagine → "Salva" o "Condividi"</p></body></html>';
+            const blob2 = new Blob([html], { type: 'text/html' });
+            const url2 = URL.createObjectURL(blob2);
+            window.location.href = url2;
+            return;
+        } catch(e3) { /* continua */ }
+
+        // METODO 4: Naviga direttamente al dataUrl — sempre funziona
+        window.location.href = dataUrl;
     }
 </script>
 </body>
-    </html>
+</html>
