@@ -1547,7 +1547,7 @@
                 db.collection("milanac").doc("v84_final").set(data)
                    .catch(e2 => showToast("⚠ Errore salvataggio", true));
             });
-        }, 400);
+        }, 150);
     }
     /* ============================================================
        NAVIGAZIONE
@@ -2002,7 +2002,7 @@
         const svg = document.getElementById('tactic-svg');
         if (!svg) return;
         svg.innerHTML = '';
-        const activePlayers = data.ps.filter(p => p.convocato);
+        const activePlayers = data.ps.filter(p => p.convocato === true || p.convocato === 'true');
         activePlayers.sort((a, b) => b.y - a.y);
         for (let i = 0; i < activePlayers.length; i++) {
             for (let j = i + 1; j < activePlayers.length; j++) {
@@ -2023,33 +2023,54 @@
     ============================================================ */
     async function shareSquad() {
         showToast("📸 Generazione immagine...");
+        const pitch = document.getElementById('pitch');
+        const hc = pitch.querySelector('#heatmap-canvas');
+        const arrowSvg = pitch.querySelector('#arrows-svg');
         try {
-            const pitch = document.getElementById('pitch');
-            // Nascondi temporaneamente il canvas heatmap per evitare CORS
-            const hc = pitch.querySelector('#heatmap-canvas');
-            if(hc) hc.style.visibility = 'hidden';
-            const arrowSvg = pitch.querySelector('#arrows-svg');
-            if(arrowSvg) arrowSvg.style.visibility = 'hidden';
+            if(hc) hc.style.display = 'none';
+            if(arrowSvg) arrowSvg.style.display = 'none';
+
+            // Calcola dimensioni CORRETTE rispettando il rapporto 2:3
+            // Il pitch ha aspect-ratio 2/3 (larghezza:altezza = 2:3)
+            // quindi H = W * 3/2
+            const W = pitch.offsetWidth;
+            const H = Math.round(W * 3 / 2); // rapporto corretto 2:3
 
             const canvas = await html2canvas(pitch, {
                 useCORS: true,
-                allowTaint: true,
+                allowTaint: false,
                 backgroundColor: '#2e7d32',
                 scale: 2,
+                width: W,
+                height: H,
                 logging: false,
-                onclone: (doc) => {
-                    // Nel clone assicurati che il pitch sia visibile per intero
-                    const p = doc.getElementById('pitch');
-                    if(p) {
-                        p.style.maxHeight = 'none';
-                        p.style.overflow = 'visible';
+                imageTimeout: 15000,
+                onclone: (clonedDoc) => {
+                    const cp = clonedDoc.getElementById('pitch');
+                    if(cp) {
+                        // Forza dimensioni pixel esatte, rimuove tutti i vincoli CSS
+                        cp.style.cssText = [
+                            'position:relative',
+                            'width:' + W + 'px',
+                            'height:' + H + 'px',
+                            'min-height:unset',
+                            'max-height:none',
+                            'aspect-ratio:unset',
+                            'overflow:hidden',
+                            'background:#2e7d32',
+                            'border:3px solid #fff',
+                            'background-image:repeating-linear-gradient(0deg,#1b5e20,#1b5e20 10%,#2e7d32 10%,#2e7d32 20%)',
+                            'box-sizing:border-box'
+                        ].join('!important;') + '!important';
+                        // Nascondi canvas heatmap anche nel clone
+                        const cloneHc = cp.querySelector('#heatmap-canvas');
+                        if(cloneHc) cloneHc.style.display = 'none';
                     }
                 }
             });
 
-            // Ripristina visibilità
-            if(hc) hc.style.visibility = '';
-            if(arrowSvg) arrowSvg.style.visibility = '';
+            if(hc) hc.style.display = '';
+            if(arrowSvg) arrowSvg.style.display = '';
 
             const dataUrl = canvas.toDataURL("image/jpeg", 0.92);
             const byteStr = atob(dataUrl.split(',')[1]);
@@ -2061,9 +2082,6 @@
             if (navigator.canShare && navigator.canShare({ files: [file] })) {
                 await navigator.share({ files: [file], title: 'Formazione Milanac', text: '📋 Formazione Milanac' });
                 showToast("✓ Condiviso!");
-            } else if (navigator.share) {
-                await navigator.share({ title: 'Formazione Milanac', text: '📋 Formazione Milanac', url: window.location.href });
-                showToast("✓ Condiviso!");
             } else {
                 const link = document.createElement('a');
                 link.download = 'formazione-milanac.jpg';
@@ -2074,8 +2092,10 @@
                 showToast("✓ Immagine salvata!");
             }
         } catch (err) {
-            console.error('shareSquad error:', err);
-            if(err.name !== 'AbortError') showToast("⚠ Errore condivisione", true);
+            if(hc) hc.style.display = '';
+            if(arrowSvg) arrowSvg.style.display = '';
+            console.error('shareSquad:', err);
+            if(err.name !== 'AbortError') showToast("⚠ Errore: " + err.message, true);
         }
     }
     
@@ -2457,55 +2477,86 @@
         const label = document.getElementById('hl-upload-label').value.trim() || selectedVideoFile.name;
         const match = (data.matches||[]).find(m => (m.id||m.avv+m.d) == currentMatchId);
         if(!match) return;
+
         const progressWrap = document.getElementById('hl-upload-progress-wrap');
         const progressBar  = document.getElementById('hl-upload-bar');
         const statusTxt    = document.getElementById('hl-upload-status');
         const uploadBtn    = document.getElementById('hl-upload-btn');
+
         progressWrap.style.display = 'block';
         uploadBtn.disabled = true;
         uploadBtn.textContent = '⏳ Caricamento...';
-        // Path su Firebase Storage
-        const path = `highlights/${currentMatchId}/${Date.now()}_${selectedVideoFile.name}`;
-        const ref = storage.ref(path);
-        const task = ref.put(selectedVideoFile);
-        task.on('state_changed',
-            snap => {
-                const pct = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
-                progressBar.style.width = pct + '%';
-                statusTxt.textContent = `Caricamento ${pct}%...`;
-            },
-            err => {
-                showToast('⚠ Errore caricamento: ' + err.code, true);
-                uploadBtn.disabled = false;
-                uploadBtn.textContent = '⬆ CARICA VIDEO';
-                progressWrap.style.display = 'none';
-            },
-            async () => {
-                const downloadUrl = await task.snapshot.ref.getDownloadURL();
-                if(!match.highlights) match.highlights = [];
-                match.highlights.push({
-                    id: Date.now(), label,
-                    url: downloadUrl,
-                    type: 'upload',
-                    addedBy: currentAdmin
-                });
-                sync();
-                showToast('✓ Video caricato!');
-                // Reset form
-                selectedVideoFile = null;
-                document.getElementById('hl-file-input').value = '';
-                document.getElementById('hl-upload-label').value = '';
-                uploadBtn.style.display = 'none';
-                uploadBtn.disabled = false;
-                uploadBtn.textContent = '⬆ CARICA VIDEO';
-                progressWrap.style.display = 'none';
-                progressBar.style.width = '0%';
-                const lbl = document.getElementById('hl-file-label');
-                if(lbl) lbl.innerHTML = '<div style="font-size:32px;margin-bottom:6px;">🎬</div><div style="font-family:Oswald;font-size:12px;color:#888;text-transform:uppercase;">Tocca per scegliere un video</div><div style="font-family:Oswald;font-size:10px;color:#444;margin-top:4px;">MP4, MOV · max 100MB</div>';
-                renderHighlightVideos();
-                render();
-            }
-        );
+        statusTxt.textContent = 'Preparazione...';
+
+        try {
+            // Usa Firebase Storage SDK con gestione token anonima
+            const fileName = `${Date.now()}_${selectedVideoFile.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
+            const path = `highlights/${currentMatchId}/${fileName}`;
+            const storageRef = storage.ref(path);
+
+            // Upload con XMLHttpRequest per tracking progress (più affidabile del SDK su GitHub Pages)
+            const uploadTask = storageRef.put(selectedVideoFile, {
+                contentType: selectedVideoFile.type || 'video/mp4'
+            });
+
+            uploadTask.on('state_changed',
+                (snap) => {
+                    const pct = snap.totalBytes > 0 
+                        ? Math.round((snap.bytesTransferred / snap.totalBytes) * 100) 
+                        : 0;
+                    progressBar.style.width = pct + '%';
+                    statusTxt.textContent = `Caricamento ${pct}%...`;
+                },
+                (err) => {
+                    console.error('Upload error:', err);
+                    let msg = 'Errore caricamento';
+                    if(err.code === 'storage/unauthorized') msg = 'Non autorizzato — controlla regole Firebase Storage';
+                    if(err.code === 'storage/quota-exceeded') msg = 'Spazio esaurito';
+                    if(err.code === 'storage/canceled') msg = 'Caricamento annullato';
+                    showToast('⚠ ' + msg, true);
+                    statusTxt.textContent = '❌ ' + msg;
+                    uploadBtn.disabled = false;
+                    uploadBtn.textContent = '⬆ CARICA VIDEO';
+                },
+                async () => {
+                    try {
+                        const downloadUrl = await uploadTask.snapshot.ref.getDownloadURL();
+                        if(!match.highlights) match.highlights = [];
+                        match.highlights.push({
+                            id: Date.now(), label,
+                            url: downloadUrl,
+                            type: 'upload',
+                            addedBy: currentAdmin
+                        });
+                        sync();
+                        showToast('✓ Video caricato!');
+                        // Reset UI
+                        selectedVideoFile = null;
+                        const fi = document.getElementById('hl-file-input');
+                        if(fi) fi.value = '';
+                        const ul = document.getElementById('hl-upload-label');
+                        if(ul) ul.value = '';
+                        uploadBtn.style.display = 'none';
+                        uploadBtn.disabled = false;
+                        uploadBtn.textContent = '⬆ CARICA VIDEO';
+                        progressWrap.style.display = 'none';
+                        progressBar.style.width = '0%';
+                        const lbl = document.getElementById('hl-file-label');
+                        if(lbl) lbl.innerHTML = '<div style="font-size:32px;margin-bottom:6px;">🎬</div><div style="font-family:Oswald;font-size:12px;color:#888;text-transform:uppercase;">Tocca per scegliere un video</div><div style="font-family:Oswald;font-size:10px;color:#444;margin-top:4px;">MP4, MOV · max 100MB</div>';
+                        renderHighlightVideos();
+                        render();
+                    } catch(urlErr) {
+                        showToast('⚠ Upload ok ma URL non disponibile', true);
+                    }
+                }
+            );
+        } catch(initErr) {
+            console.error('Upload init error:', initErr);
+            showToast('⚠ Firebase Storage non disponibile. Usa un link YouTube.', true);
+            progressWrap.style.display = 'none';
+            uploadBtn.disabled = false;
+            uploadBtn.textContent = '⬆ CARICA VIDEO';
+        }
     }
 
     function openHighlights(matchId) {
@@ -2691,7 +2742,7 @@
                         color:${p.convocato ? '#4caf50' : '#555'};
                         font-family:Oswald;font-size:10px;font-weight:700;cursor:pointer;
                         text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;"
-                        onclick="event.stopPropagation(); const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">
+                        onclick="event.stopPropagation(); const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; render(); sync()">
                         ${p.convocato ? 'DISPONIBILE' : 'NON DISP.'}
                     </button>
                 </div>
@@ -2701,7 +2752,7 @@
             else if (window.viewMode === p.r) { listaSemplice += playerCard; }
             hConv += `<div class="card" style="min-height:auto; padding:10px; margin-bottom:5px; border-left:5px solid ${p.convocato ? '#2e7d32' : '#222'}">
                 <b>${p.n}</b> (${p.r})
-                <button class="btn-status" style="float:right; width:auto; padding:5px 15px; background:${p.convocato ? '#C61C23' : '#2e7d32'}" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; sync()">${p.convocato ? 'RIMUOVI' : 'AGGIUNGI'}</button>
+                <button class="btn-status" style="float:right; width:auto; padding:5px 15px; background:${p.convocato ? '#C61C23' : '#2e7d32'}" onclick="const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; render(); sync()">${p.convocato ? 'RIMUOVI' : 'AGGIUNGI'}</button>
             </div>`;
             // hMk non più usato per mercato
             // hP: dati aggregati in premiData, renderati da renderPremi()
@@ -3010,7 +3061,7 @@
         // Giocatori sul campo
         const pl = document.getElementById('pitch-players');
         pl.innerHTML = "";
-        data.ps.filter(p => p.convocato).forEach(p => {
+        data.ps.filter(p => p.convocato === true || p.convocato === 'true').forEach(p => {
             let pBadge = "";
             if (p.id === kingId && maxMvp > 0) pBadge = "👑";
             else if (p.id === topPlayerId && maxMedia > 6.5) pBadge = "🔥";
