@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#C61C23">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon" href="icon-192.png">
     <title>MILANAC PRO CLUB</title>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Teko:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -2033,45 +2039,155 @@
        CONDIVISIONE
     ============================================================ */
     async function shareSquad() {
-        showToast("📸 Screenshot in corso...");
+        showToast("📸 Generazione immagine...");
         try {
             const pitch = document.getElementById('pitch');
+            const W = pitch.offsetWidth;
+            const H = pitch.offsetHeight;
+            const SCALE = 2;
+            const CW = W * SCALE;
+            const CH = H * SCALE;
 
-            // Nascondi temporaneamente elementi non necessari nello screenshot
-            const hc = pitch.querySelector('#heatmap-canvas');
-            const savedHc = hc ? hc.style.display : null;
+            const canvas = document.createElement('canvas');
+            canvas.width = CW;
+            canvas.height = CH;
+            const ctx = canvas.getContext('2d');
+            ctx.scale(SCALE, SCALE);
 
-            // Usa html2canvas per catturare il campo ESATTAMENTE come appare
-            const canvas = await html2canvas(pitch, {
-                useCORS: true,
-                allowTaint: true,
-                backgroundColor: '#2e7d32',
-                scale: window.devicePixelRatio || 2,
-                logging: false,
-                imageTimeout: 0,
-                removeContainer: true
-            });
+            // ── Sfondo campo con strisce ──
+            const stripes = 10;
+            const stripeH = H / stripes;
+            for (let i = 0; i < stripes; i++) {
+                ctx.fillStyle = i % 2 === 0 ? '#1b5e20' : '#2e7d32';
+                ctx.fillRect(0, i * stripeH, W, stripeH);
+            }
 
-            const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+            // ── Bordo campo ──
+            ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+            ctx.lineWidth = 3;
+            ctx.strokeRect(1.5, 1.5, W - 3, H - 3);
 
-            // Mostra anteprima nel modal
-            window._shareDataUrl = dataUrl;
+            // ── Linea di metà campo ──
+            ctx.beginPath();
+            ctx.moveTo(0, H / 2);
+            ctx.lineTo(W, H / 2);
+            ctx.stroke();
+
+            // ── Cerchio di centrocampo ──
+            const cr = W * 0.125; // 25%/2 del W
+            ctx.beginPath();
+            ctx.arc(W / 2, H / 2, cr, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // ── Punto centrale ──
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(W / 2, H / 2, 3, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Funzione helper area
+            function drawBox(cx, yEdge, bw, bh, isTop) {
+                const x = cx - bw / 2;
+                const y = isTop ? yEdge : yEdge - bh;
+                ctx.strokeRect(x, y, bw, bh);
+                // copri lato esterno campo
+                ctx.fillStyle = ctx.createLinearGradient ? null : null;
+                ctx.clearRect(x, isTop ? y - 2 : y + bh, bw, 4);
+            }
+
+            // ── Area grande top ──
+            const lgW = W * 0.66, lgH = H * 0.18;
+            ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+            ctx.strokeRect(W/2 - lgW/2, -1, lgW, lgH + 1);
+
+            // ── Area piccola top ──
+            const smW = W * 0.32, smH = H * 0.06;
+            ctx.strokeRect(W/2 - smW/2, -1, smW, smH + 1);
+
+            // ── Punto rigore top ──
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(W / 2, H * 0.13, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+
+            // ── Arco top ──
+            ctx.beginPath();
+            ctx.arc(W / 2, H * 0.18, W * 0.125, 0, Math.PI);
+            ctx.stroke();
+
+            // ── Area grande bottom ──
+            ctx.strokeRect(W/2 - lgW/2, H - lgH, lgW, lgH + 1);
+
+            // ── Area piccola bottom ──
+            ctx.strokeRect(W/2 - smW/2, H - smH, smW, smH + 1);
+
+            // ── Punto rigore bottom ──
+            ctx.beginPath();
+            ctx.arc(W / 2, H * 0.87, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+
+            // ── Arco bottom ──
+            ctx.beginPath();
+            ctx.arc(W / 2, H * 0.82, W * 0.125, Math.PI, Math.PI * 2);
+            ctx.stroke();
+
+            // ── Giocatori ──
+            const players = (data.ps || []).filter(p => p.convocato === true || p.convocato === 'true');
+            for (const p of players) {
+                const px = (p.x / 100) * W + (W * 0.07); // offset center (jersey is ~14% wide)
+                const py = (p.y / 100) * H + (H * 0.05);
+
+                // Cerchio jersey
+                const r = 22;
+                ctx.beginPath();
+                ctx.arc(px, py, r, 0, Math.PI * 2);
+                ctx.fillStyle = '#000';
+                ctx.fill();
+                ctx.strokeStyle = '#C61C23';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+                // Numero maglia
+                ctx.fillStyle = '#D4AF37';
+                ctx.font = 'bold 16px Oswald, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(String(p.m || ''), px, py);
+
+                // Nome
+                const nameY = py + r + 14;
+                ctx.fillStyle = 'rgba(0,0,0,0.85)';
+                const nameW = ctx.measureText(p.n || '').width + 12;
+                ctx.beginPath();
+                ctx.roundRect
+                    ? ctx.roundRect(px - nameW/2, nameY - 9, nameW, 18, 9)
+                    : ctx.rect(px - nameW/2, nameY - 9, nameW, 18);
+                ctx.fill();
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 10px Oswald, sans-serif';
+                ctx.fillText((p.n || '').toUpperCase(), px, nameY);
+            }
+
+            // ── Esporta e condividi ──
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
             const byteStr = atob(dataUrl.split(',')[1]);
             const arr = new Uint8Array(byteStr.length);
             for (let i = 0; i < byteStr.length; i++) arr[i] = byteStr.charCodeAt(i);
             const blob = new Blob([arr], { type: 'image/jpeg' });
-            window._shareFile = new File([blob], 'formazione-milanac.jpg', { type: 'image/jpeg' });
+            const file = new File([blob], 'formazione-milanac.jpg', { type: 'image/jpeg' });
 
+            // Mostra anteprima con pulsante condividi
+            window._shareDataUrl = dataUrl;
+            window._shareFile = file;
+            window._shareCanvas = canvas;
             const previewImg = document.getElementById('share-preview-img');
             previewImg.src = dataUrl;
             document.getElementById('share-preview-modal').classList.add('active');
-
         } catch (err) {
             console.error('shareSquad error:', err);
-            showToast("⚠ Errore screenshot", true);
+            showToast("⚠ Impossibile generare l'immagine", true);
         }
     }
-    
     
     /* ============================================================
        CRUD DATI
@@ -3209,6 +3325,13 @@
         document.body.appendChild(img);
         showToast("Tieni premuto sull'immagine per salvarla");
     }
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+}
 </script>
 </body>
 </html>
