@@ -1118,17 +1118,12 @@
     </div>
 </div>
 <header>
-    <!-- ESCI -->
-    <div onclick="document.getElementById('exit-modal').style.display='flex'" style="cursor:pointer;padding:7px 14px;border-radius:24px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.18);display:flex;align-items:center;gap:7px;" ontouchstart="this.style.opacity='0.6'" ontouchend="this.style.opacity='1'">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        <span style="font-family:Oswald;font-size:11px;color:white;text-transform:uppercase;letter-spacing:2px;font-weight:600;">Esci</span>
-    </div>
-    <!-- MILANAC centrato assoluto -->
-    <div style="position:absolute;left:50%;transform:translateX(-50%);font-weight:900;color:var(--rosso);font-size:22px;font-family:'Oswald';letter-spacing:1px;pointer-events:none;">
+    <!-- MILANAC centrato -->
+    <div style="flex:1;text-align:center;font-weight:900;color:var(--rosso);font-size:22px;font-family:'Oswald';letter-spacing:1px;">
         MILANAC
     </div>
     <!-- DESTRA: campanella + hamburger -->
-    <div style="display:flex;align-items:center;gap:8px;margin-left:auto;">
+    <div style="display:flex;align-items:center;gap:8px;">
         <button id="notif-btn" onclick="toggleNotifPanel()" style="position:relative;cursor:pointer;padding:8px;border-radius:50%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.18);color:white;display:flex;align-items:center;justify-content:center;" ontouchstart="this.style.opacity='0.6'" ontouchend="this.style.opacity='1'">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
             <span id="notif-dot"></span>
