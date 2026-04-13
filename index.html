@@ -679,9 +679,11 @@
         .vsb-label { font-family: 'Oswald'; font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
         .vsb-match { font-family: 'Teko'; font-size: 20px; color: white; }
         .vsb-btn { background: var(--rosso); border: none; color: white; font-family: 'Oswald'; font-size: 11px; padding: 6px 12px; border-radius: 8px; cursor: pointer; text-transform: uppercase; }
+
         /* ═══════════════════════════════════════════
            SEZIONE PREMI — CLASSIFICA STAGIONALE
         ═══════════════════════════════════════════ */
+
         /* Tab switcher */
         .premi-tabs {
             display: flex; gap: 6px; margin-bottom: 16px;
@@ -698,6 +700,7 @@
             background: var(--rosso); color: white;
             box-shadow: 0 2px 10px rgba(198,28,35,0.5);
         }
+
         /* PODIO */
         .podio-wrap {
             display: flex; align-items: flex-end; justify-content: center;
@@ -740,6 +743,7 @@
         .podio-slot:nth-child(1) .podio-block { animation-delay: 0.3s; }
         .podio-slot:nth-child(2) .podio-block { animation-delay: 0.1s; }
         .podio-slot:nth-child(3) .podio-block { animation-delay: 0.5s; }
+
         /* CLASSIFICA lista */
         .rank-list { display: flex; flex-direction: column; gap: 8px; }
         .rank-row {
@@ -766,6 +770,7 @@
         .rank-name { font-family: Teko; font-size: 20px; color: white; flex: 1; text-transform: uppercase; }
         .rank-role { font-family: Oswald; font-size: 9px; color: #555; margin-left: 4px; }
         .rank-val { font-family: Oswald; font-size: 20px; font-weight: 900; }
+
         /* TROFEI categoria */
         .trofeo-card {
             background: linear-gradient(135deg, #111 0%, #080808 100%);
@@ -778,6 +783,50 @@
         .trofeo-title { font-family: Oswald; font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 2px; }
         .trofeo-winner { font-family: Teko; font-size: 28px; color: white; text-transform: uppercase; line-height: 1; }
         .trofeo-stat { font-family: Oswald; font-size: 13px; font-weight: 900; margin-left: auto; }
+
+        /* ======================================================
+           SOCIAL PAGE
+        ====================================================== */
+        .social-card {
+            display: flex; align-items: center; gap: 16px;
+            background: linear-gradient(145deg, #111 0%, #0a0a0a 100%);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 20px; padding: 16px 18px;
+            text-decoration: none; color: white;
+            transition: all 0.25s ease;
+            position: relative; overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .social-card::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, var(--sc, #fff) 0%, transparent 60%);
+            opacity: 0.06; border-radius: 20px;
+            transition: opacity 0.25s;
+        }
+        .social-card:active { transform: scale(0.97); }
+        .social-card:active::before { opacity: 0.12; }
+        .social-icon-wrap {
+            width: 56px; height: 56px; border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+        }
+        .social-info { flex: 1; }
+        .social-name {
+            font-family: 'Oswald'; font-size: 18px; font-weight: 700;
+            color: white; text-transform: uppercase; letter-spacing: 0.5px;
+            line-height: 1;
+        }
+        .social-handle {
+            font-family: 'Oswald'; font-size: 12px; color: #666;
+            margin-top: 4px; letter-spacing: 0.5px;
+        }
+        .social-arrow {
+            font-size: 28px; color: #444; font-family: 'Oswald';
+            flex-shrink: 0; line-height: 1;
+        }
+
         /* Sezioni titolo */
         .section-label {
             font-family: Oswald; font-size: 10px; color: #444;
@@ -785,6 +834,7 @@
             margin: 16px 0 10px; display: flex; align-items: center; gap: 8px;
         }
         .section-label::after { content: ''; flex: 1; height: 1px; background: #1a1a1a; }
+
         /* ══════════════════════════════════════════════
            HIGHLIGHTS VIDEO
         ══════════════════════════════════════════════ */
@@ -809,6 +859,7 @@
             font-size: 28px; cursor: pointer; padding: 0 4px;
         }
         .hl-modal-body { width: 100%; padding: 16px; box-sizing: border-box; }
+
         /* Video embed container 16:9 */
         .video-container {
             position: relative; width: 100%;
@@ -842,6 +893,7 @@
             margin-bottom: 8px;
         }
         .hl-input:focus { outline: none; border-color: var(--oro); }
+
         /* Badge highlight sulla card partita */
         .hl-badge {
             display: inline-flex; align-items: center; gap: 4px;
@@ -858,6 +910,7 @@
             box-shadow: 0 0 8px rgba(198,28,35,0.4);
         }
         .hl-badge:active { transform: scale(0.95); }
+
         /* Lista video nella modal */
         .hl-video-item {
             background: #111; border: 1px solid #222;
@@ -889,6 +942,7 @@
             background: var(--rosso); color: white;
             box-shadow: 0 2px 8px rgba(198,28,35,0.4);
         }
+
         /* ── Toast feedback ── */
         #toast {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(80px);
@@ -902,6 +956,7 @@
         }
         #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
         #toast.error { border-color: var(--rosso); color: #ff6b6b; }
+
         /* ── Loading screen ── */
         #loading-screen {
             position: fixed; inset: 0; background: #000;
@@ -980,6 +1035,7 @@
             font-family: Oswald; font-size: 11px; color: #444;
             text-transform: uppercase; letter-spacing: 3px;
         }
+
         /* ── Exit confirm modal ── */
         #exit-modal {
             position: fixed; inset: 0; background: rgba(0,0,0,0.92);
@@ -1006,8 +1062,10 @@
     <div class="loading-spinner"></div>
     <div class="loading-text">Caricamento...</div>
 </div>
+
 <!-- TOAST -->
 <div id="toast"></div>
+
 <!-- SHARE PREVIEW MODAL -->
 <div id="share-preview-modal">
     <!-- Header screenshot -->
@@ -1022,8 +1080,10 @@
     <div style="flex:1;position:relative;display:flex;align-items:center;justify-content:center;background:#000;overflow:hidden;">
         <img id="share-preview-img" src="" alt="Formazione"
             style="max-width:100%;max-height:100%;object-fit:contain;display:block;-webkit-touch-callout:default;touch-action:auto;user-select:auto;-webkit-user-select:auto;">
+
     </div>
 </div>
+
 <!-- NOTIFICATION PANEL -->
 <div id="notif-panel">
     <div id="notif-panel-header">
@@ -1032,6 +1092,7 @@
     </div>
     <div id="notif-list"><div id="notif-empty">Nessuna notifica</div></div>
 </div>
+
 <!-- EXIT MODAL -->
 <div id="exit-modal" style="display:none;align-items:center;justify-content:center;">
     <div class="exit-box">
@@ -1044,6 +1105,7 @@
         </div>
     </div>
 </div>
+
 <!-- INTRO -->
 <div id="intro">
     <div class="intro-container">
@@ -1086,6 +1148,7 @@
     <button onclick="go('mercato')">📰 Pagelle Partita</button>
     <button onclick="go('partite')">🏟️ Risultati Partite</button>
     <button onclick="go('premi')">🏆 Premi</button>
+    <button onclick="go('social')">📲 Social</button>
     <button onclick="goAdmin()">⚙️ Area Admin</button>
     <button onclick="document.querySelector('.sidebar').classList.remove('active')">Chiudi</button>
 </nav>
@@ -1291,6 +1354,62 @@
         <div id="l-premi"></div>
     </div>
     
+    <!-- SOCIAL -->
+    <div id="p-social" class="page">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+            <div style="flex:1;">
+                <div style="font-family:Oswald;font-size:10px;color:#555;text-transform:uppercase;letter-spacing:2px;">Seguici su</div>
+                <h2 style="color:var(--oro);font-family:Oswald;margin:2px 0 0;font-size:26px;">📲 SOCIAL</h2>
+            </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+            <!-- TikTok -->
+            <a href="https://www.tiktok.com/@milanac.pro.club?_r=1&_t=ZN-95VhOBBJSQZ" target="_blank" class="social-card" style="--sc:#010101;--sc2:#1a1a1a;">
+                <div class="social-icon-wrap" style="background:linear-gradient(135deg,#010101,#333);">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.28 8.28 0 0 0 4.84 1.56V6.8a4.85 4.85 0 0 1-1.07-.11z"/></svg>
+                </div>
+                <div class="social-info">
+                    <div class="social-name">TikTok</div>
+                    <div class="social-handle">@milanac.pro.club</div>
+                </div>
+                <div class="social-arrow">›</div>
+            </a>
+            <!-- YouTube -->
+            <a href="https://youtube.com/@milanac-n4w2b?si=w42Aq6P4TFpb4ndD" target="_blank" class="social-card" style="--sc:#FF0000;--sc2:#1a0000;">
+                <div class="social-icon-wrap" style="background:linear-gradient(135deg,#FF0000,#cc0000);">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M23.49 6.19a3.02 3.02 0 0 0-2.12-2.13C19.51 3.5 12 3.5 12 3.5s-7.51 0-9.37.56A3.02 3.02 0 0 0 .51 6.19 31.7 31.7 0 0 0 0 12a31.7 31.7 0 0 0 .51 5.81A3.02 3.02 0 0 0 2.63 19.94C4.49 20.5 12 20.5 12 20.5s7.51 0 9.37-.56a3.02 3.02 0 0 0 2.12-2.13A31.7 31.7 0 0 0 24 12a31.7 31.7 0 0 0-.51-5.81zM9.75 15.52V8.48L15.82 12l-6.07 3.52z"/></svg>
+                </div>
+                <div class="social-info">
+                    <div class="social-name">YouTube</div>
+                    <div class="social-handle">@milanac-n4w2b</div>
+                </div>
+                <div class="social-arrow">›</div>
+            </a>
+            <!-- Twitch -->
+            <a href="https://www.twitch.tv/milanac_proclub" target="_blank" class="social-card" style="--sc:#9146FF;--sc2:#0e0019;">
+                <div class="social-icon-wrap" style="background:linear-gradient(135deg,#9146FF,#6441a5);">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M11.64 5.93h1.43v4.28h-1.43m3.93-4.28H17v4.28h-1.43M7 2L3.43 5.57v12.86h4.28V22l3.58-3.57h2.85L20.57 12V2m-1.43 9.29l-2.85 2.85h-2.86l-2.5 2.5v-2.5H7.71V3.43h11.43z"/></svg>
+                </div>
+                <div class="social-info">
+                    <div class="social-name">Twitch</div>
+                    <div class="social-handle">milanac_proclub</div>
+                </div>
+                <div class="social-arrow">›</div>
+            </a>
+            <!-- Discord -->
+            <a href="https://discord.gg/EUmxDwbSa" target="_blank" class="social-card" style="--sc:#5865F2;--sc2:#020318;">
+                <div class="social-icon-wrap" style="background:linear-gradient(135deg,#5865F2,#4752c4);">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.74 19.74 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.013.043.031.057a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                </div>
+                <div class="social-info">
+                    <div class="social-name">Discord</div>
+                    <div class="social-handle">Unisciti al server</div>
+                </div>
+                <div class="social-arrow">›</div>
+            </a>
+        </div>
+    </div>
+
     <!-- ADMIN -->
     <div id="p-admin" class="page">
         <div style="display:flex;align-items:center;justify-content:space-between;background:linear-gradient(90deg,rgba(198,28,35,0.15),transparent);border:1px solid rgba(198,28,35,0.3);border-radius:12px;padding:12px 16px;margin-bottom:14px;margin-top:4px;">
@@ -1439,12 +1558,14 @@
                     <input class="hl-input" id="hl-url-input" placeholder="Link YouTube, Instagram o TikTok...">
                     <button class="btn-main" onclick="addHighlight()" style="border-radius:10px;">📹 AGGIUNGI LINK</button>
                 </div>
+
             </div>
         </div>
         <!-- Lista video -->
         <div id="hl-videos-list"></div>
     </div>
 </div>
+
 <script>
     /* ============================================================
        FIREBASE
@@ -1468,6 +1589,7 @@
     // e memorizzate in RAM solo per la sessione corrente.
     // Per cambiarle: vai su Firebase Console → milanac/config → adminCreds
     let ADMIN_CREDS = {}; // verrà popolato da loadAdminCreds()
+
     async function loadAdminCreds() {
         try {
             const doc = await db.collection('milanac').doc('config').get();
@@ -1511,13 +1633,16 @@
         t.className = 'show' + (isError ? ' error' : '');
         _toastTimer = setTimeout(() => { t.className = ''; }, 2200);
     }
+
     // Nascondi loading screen
     function hideLoading() {
         const ls = document.getElementById('loading-screen');
         if(ls) { ls.classList.add('hidden'); setTimeout(()=>ls.style.display='none', 500); }
     }
+
     // Carica credenziali admin sicure da Firestore
     loadAdminCreds();
+
     // Ascolta dati real-time
     db.collection("milanac").doc("v84_final").onSnapshot(doc => {
         if(doc.exists) {
@@ -2031,11 +2156,13 @@
             const SCALE = 2;
             const CW = W * SCALE;
             const CH = H * SCALE;
+
             const canvas = document.createElement('canvas');
             canvas.width = CW;
             canvas.height = CH;
             const ctx = canvas.getContext('2d');
             ctx.scale(SCALE, SCALE);
+
             // ── Sfondo campo con strisce ──
             const stripes = 10;
             const stripeH = H / stripes;
@@ -2043,25 +2170,30 @@
                 ctx.fillStyle = i % 2 === 0 ? '#1b5e20' : '#2e7d32';
                 ctx.fillRect(0, i * stripeH, W, stripeH);
             }
+
             // ── Bordo campo ──
             ctx.strokeStyle = 'rgba(255,255,255,0.9)';
             ctx.lineWidth = 3;
             ctx.strokeRect(1.5, 1.5, W - 3, H - 3);
+
             // ── Linea di metà campo ──
             ctx.beginPath();
             ctx.moveTo(0, H / 2);
             ctx.lineTo(W, H / 2);
             ctx.stroke();
+
             // ── Cerchio di centrocampo ──
             const cr = W * 0.125; // 25%/2 del W
             ctx.beginPath();
             ctx.arc(W / 2, H / 2, cr, 0, Math.PI * 2);
             ctx.stroke();
+
             // ── Punto centrale ──
             ctx.fillStyle = '#fff';
             ctx.beginPath();
             ctx.arc(W / 2, H / 2, 3, 0, Math.PI * 2);
             ctx.fill();
+
             // Funzione helper area
             function drawBox(cx, yEdge, bw, bh, isTop) {
                 const x = cx - bw / 2;
@@ -2071,39 +2203,49 @@
                 ctx.fillStyle = ctx.createLinearGradient ? null : null;
                 ctx.clearRect(x, isTop ? y - 2 : y + bh, bw, 4);
             }
+
             // ── Area grande top ──
             const lgW = W * 0.66, lgH = H * 0.18;
             ctx.strokeStyle = 'rgba(255,255,255,0.9)';
             ctx.strokeRect(W/2 - lgW/2, -1, lgW, lgH + 1);
+
             // ── Area piccola top ──
             const smW = W * 0.32, smH = H * 0.06;
             ctx.strokeRect(W/2 - smW/2, -1, smW, smH + 1);
+
             // ── Punto rigore top ──
             ctx.fillStyle = '#fff';
             ctx.beginPath();
             ctx.arc(W / 2, H * 0.13, 2.5, 0, Math.PI * 2);
             ctx.fill();
+
             // ── Arco top ──
             ctx.beginPath();
             ctx.arc(W / 2, H * 0.18, W * 0.125, 0, Math.PI);
             ctx.stroke();
+
             // ── Area grande bottom ──
             ctx.strokeRect(W/2 - lgW/2, H - lgH, lgW, lgH + 1);
+
             // ── Area piccola bottom ──
             ctx.strokeRect(W/2 - smW/2, H - smH, smW, smH + 1);
+
             // ── Punto rigore bottom ──
             ctx.beginPath();
             ctx.arc(W / 2, H * 0.87, 2.5, 0, Math.PI * 2);
             ctx.fill();
+
             // ── Arco bottom ──
             ctx.beginPath();
             ctx.arc(W / 2, H * 0.82, W * 0.125, Math.PI, Math.PI * 2);
             ctx.stroke();
+
             // ── Giocatori ──
             const players = (data.ps || []).filter(p => p.convocato === true || p.convocato === 'true');
             for (const p of players) {
                 const px = (p.x / 100) * W + (W * 0.07); // offset center (jersey is ~14% wide)
                 const py = (p.y / 100) * H + (H * 0.05);
+
                 // Cerchio jersey
                 const r = 22;
                 ctx.beginPath();
@@ -2113,12 +2255,14 @@
                 ctx.strokeStyle = '#C61C23';
                 ctx.lineWidth = 3;
                 ctx.stroke();
+
                 // Numero maglia
                 ctx.fillStyle = '#D4AF37';
                 ctx.font = 'bold 16px Oswald, sans-serif';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText(String(p.m || ''), px, py);
+
                 // Nome
                 const nameY = py + r + 14;
                 ctx.fillStyle = 'rgba(0,0,0,0.85)';
@@ -2132,6 +2276,7 @@
                 ctx.font = 'bold 10px Oswald, sans-serif';
                 ctx.fillText((p.n || '').toUpperCase(), px, nameY);
             }
+
             // ── Esporta e condividi ──
             const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
             const byteStr = atob(dataUrl.split(',')[1]);
@@ -2139,6 +2284,7 @@
             for (let i = 0; i < byteStr.length; i++) arr[i] = byteStr.charCodeAt(i);
             const blob = new Blob([arr], { type: 'image/jpeg' });
             const file = new File([blob], 'formazione-milanac.jpg', { type: 'image/jpeg' });
+
             // Mostra immagine a schermo intero per screenshot
             const previewImg = document.getElementById('share-preview-img');
             previewImg.src = dataUrl;
@@ -2300,12 +2446,14 @@
        PREMI ENGINE
     ══════════════════════════════════════════ */
     let premiTab = 'trofei';
+
     function switchPremiTab(tab, btn) {
         premiTab = tab;
         document.querySelectorAll('.premi-tab').forEach(b => b.classList.remove('active'));
         if(btn) btn.classList.add('active');
         renderPremi();
     }
+
     function getPlayerStats(p) {
         // Media combinata voteHistory + pagelle
         const votiFlat = [];
@@ -2329,6 +2477,7 @@
         const media = votiFlat.length ? votiFlat.reduce((a,b)=>a+b,0)/votiFlat.length : 0;
         return { presenze, media: parseFloat(media.toFixed(2)), votiFlat };
     }
+
     function renderPremi() {
         const el = document.getElementById('l-premi');
         if(!el) return;
@@ -2336,8 +2485,10 @@
             el.innerHTML = '<p style="color:#444;text-align:center;font-family:Oswald;padding:40px 0;font-size:13px;">Nessun giocatore ancora.</p>';
             return;
         }
+
         // Arricchisci ogni giocatore con stats calcolate
         const players = data.ps.map(p => ({ ...p, _s: getPlayerStats(p) }));
+
         if(premiTab === 'trofei') {
             el.innerHTML = renderTrofei(players);
             // Triggera barre animate dopo render
@@ -2362,6 +2513,7 @@
             });
         }
     }
+
     function buildPodio(sorted, valFn, unit) {
         if(sorted.length === 0) return '<p style="color:#444;text-align:center;font-family:Oswald;padding:20px;font-size:12px;">Nessun dato disponibile.</p>';
         const top3 = sorted.slice(0,3);
@@ -2372,6 +2524,7 @@
         const colors = ['#a0a0a0','#D4AF37','#cd7f32'];
         const avatarSizes = ['52px','64px','46px'];
         const borders = [`3px solid #a0a0a0`,`3px solid #D4AF37`,`3px solid #cd7f32`];
+
         let html = '<div class="podio-wrap">';
         order.forEach((p, i) => {
             const realRank = order === top3 ? i : (i===0?1:i===1?0:2);
@@ -2391,6 +2544,7 @@
         html += '</div>';
         return html;
     }
+
     function buildRankList(sorted, valFn, unit, barColor) {
         if(sorted.length === 0) return '';
         const maxVal = valFn(sorted[0]) || 1;
@@ -2412,6 +2566,7 @@
             </div>`;
         }).join('') + '</div>';
     }
+
     function renderTrofei(players) {
         // Calcola vincitori per categoria
         const byGoals   = [...players].sort((a,b)=>(b.g||0)-(a.g||0));
@@ -2421,8 +2576,10 @@
         const byYellow  = [...players].sort((a,b)=>(b.yl||0)-(a.yl||0));
         const byMedia   = [...players].filter(p=>p._s.votiFlat.length>0).sort((a,b)=>b._s.media-a._s.media);
         const byPres    = [...players].sort((a,b)=>b._s.presenze-a._s.presenze);
+
         // Migliore difensore: DIF con media voto più alta
         const byDefMedia = [...players].filter(p => p.r === 'DIF' && p._s.votiFlat.length > 0).sort((a,b) => b._s.media - a._s.media);
+
         const trofei = [
             { icon:'⚽', title:'Capocannoniere', player: byGoals[0], val: byGoals[0]?.g||0, unit:' GOL', color:'#C61C23', bg:'rgba(198,28,35,0.1)' },
             { icon:'👟', title:'Re degli Assist', player: byAssist[0], val: byAssist[0]?.a||0, unit:' ASS', color:'#4caf50', bg:'rgba(76,175,80,0.08)' },
@@ -2433,6 +2590,7 @@
             { icon:'🏟️', title:'Giocatore Più Presente', player: byPres[0], val: byPres[0]?._s.presenze||0, unit:' pres.', color:'#ff9800', bg:'rgba(255,152,0,0.08)' },
             { icon:'🟨', title:'Fair Play (meno gialli)', player: byYellow[byYellow.length-1], val: byYellow[byYellow.length-1]?.yl||0, unit:' gialli', color:'#ffd600', bg:'rgba(255,214,0,0.08)' },
         ];
+
         return trofei.map(t => {
             if(!t.player) return '';
             return `<div class="trofeo-card" style="border:1px solid ${t.color}22;">
@@ -2448,6 +2606,7 @@
             </div>`;
         }).join('');
     }
+
     function renderClassifica(players) {
         let html = '';
         // Classifica Gol
@@ -2462,6 +2621,7 @@
         html += buildRankList(byAssist, p=>p.a||0, '', '#4caf50');
         return html;
     }
+
     function renderMediaVoto(players) {
         let html = '';
         const withVotes = [...players].filter(p=>p._s.votiFlat.length>0).sort((a,b)=>b._s.media-a._s.media);
@@ -2473,11 +2633,14 @@
         html += buildRankList(byPres.filter(p=>p._s.presenze>0), p=>p._s.presenze, ' pres.', '#ff9800');
         return html;
     }
+
     /* ══════════════════════════════════════════
        HIGHLIGHTS ENGINE
     ══════════════════════════════════════════ */
     let currentMatchId = null;
+
     /* ── Highlights tab switcher ── */
+
     function openHighlights(matchId) {
         const match = (data.matches||[]).find(m => (m.id||m.avv+m.d) == matchId);
         if(!match) return;
@@ -2488,17 +2651,20 @@
         document.getElementById('highlight-modal').classList.add('open');
         document.body.style.overflow = 'hidden';
     }
+
     function updateHighlightFormVisibility() {
         const formWrap  = document.getElementById('hl-add-form-wrap');
         const loginPrompt = document.getElementById('hl-login-prompt');
         if(formWrap)    formWrap.style.display    = currentAdmin ? 'block' : 'none';
         if(loginPrompt) loginPrompt.style.display = currentAdmin ? 'none'  : 'block';
     }
+
     function closeHighlights() {
         document.getElementById('highlight-modal').classList.remove('open');
         document.body.style.overflow = '';
         currentMatchId = null;
     }
+
     function extractVideoEmbed(url) {
         if(!url) return null;
         url = url.trim();
@@ -2515,6 +2681,7 @@
         // URL generico
         return { type: 'link', src: url };
     }
+
     function addHighlight() {
         if(!currentAdmin) return;
         const label = document.getElementById('hl-label-input').value.trim() || 'Highlight';
@@ -2530,6 +2697,7 @@
         renderHighlightVideos();
         render(); // aggiorna badge sulla card
     }
+
     function deleteHighlight(matchId, hlId) {
         const match = (data.matches||[]).find(m => (m.id||m.avv+m.d) == matchId);
         if(!match || !match.highlights) return;
@@ -2538,6 +2706,7 @@
         renderHighlightVideos();
         render();
     }
+
     function renderHighlightVideos() {
         const container = document.getElementById('hl-videos-list');
         if(!container) return;
@@ -2589,6 +2758,7 @@
             </div>`;
         }).join('');
     }
+
     function render() {
         // ── Notifiche in-app: conta novità rispetto all'ultima visita ──
         buildNotifications();
@@ -3084,11 +3254,13 @@
             initHeatmapCanvas();
         }
     });
+
     // ============================================================
     // SISTEMA NOTIFICHE
     // ============================================================
     let _notifData = [];
     let _notifOpen = false;
+
     function toggleNotifPanel() {
         const panel = document.getElementById('notif-panel');
         _notifOpen = !_notifOpen;
@@ -3106,6 +3278,7 @@
             }, 100);
         }
     }
+
     function closeNotifOutside(e) {
         const panel = document.getElementById('notif-panel');
         const btn = document.getElementById('notif-btn');
@@ -3114,13 +3287,16 @@
             _notifOpen = false;
         }
     }
+
     function updateNotifDot(show) {
         const dot = document.getElementById('notif-dot');
         if (dot) dot.style.display = show ? 'block' : 'none';
     }
+
     function buildNotifications() {
         const lastVisit = parseInt(localStorage.getItem('milanac_last_visit') || '0');
         _notifData = [];
+
         // News non lette
         (data.news || []).slice(0, 10).forEach(n => {
             _notifData.push({
@@ -3131,6 +3307,7 @@
                 unread: (n.ts || 0) > lastVisit
             });
         });
+
         // Nuove pagelle
         (data.pagelle || []).slice(0, 10).forEach(p => {
             _notifData.push({
@@ -3141,6 +3318,7 @@
                 unread: (p.id || 0) > lastVisit
             });
         });
+
         // Convocazioni recenti
         const convocati = (data.ps || []).filter(p => p.convocato);
         if (convocati.length > 0) {
@@ -3153,12 +3331,16 @@
                 unread: convTs > lastVisit
             });
         }
+
         // Ordina per data
         _notifData.sort((a, b) => b.ts - a.ts);
+
         const hasUnread = _notifData.some(n => n.unread);
         updateNotifDot(hasUnread);
+
         if (_notifOpen) renderNotifList();
     }
+
     function renderNotifList() {
         const list = document.getElementById('notif-list');
         if (!list) return;
@@ -3178,12 +3360,14 @@
             </div>`;
         }).join('');
     }
+
     function clearNotifications() {
         localStorage.setItem('milanac_last_visit', Date.now().toString());
         updateNotifDot(false);
         _notifData = _notifData.map(n => ({ ...n, unread: false }));
         renderNotifList();
     }
+
     function timeAgo(ts) {
         const diff = Date.now() - ts;
         const m = Math.floor(diff / 60000);
@@ -3195,17 +3379,20 @@
         if (d < 7) return `${d} giorni fa`;
         return new Date(ts).toLocaleDateString('it-IT');
     }
+
     // ── Condividi da modal anteprima ──
     async function sharePreviewImage() {
         // Questa funzione non viene più usata — tasto rimosso
         // Mantenuta per compatibilità
     }
+
     function closeShareModal() {
         document.getElementById('share-preview-modal').classList.remove('active');
         // Riabilita lo scroll dell'app
         document.body.style.overflow = '';
         document.querySelector('.container') && (document.querySelector('.container').style.overflow = '');
     }
+
     function exitApp() {
         document.getElementById('exit-modal').style.display = 'none';
         // Metodo più efficace per WebView Android
