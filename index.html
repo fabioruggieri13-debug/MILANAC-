@@ -1100,9 +1100,11 @@
         ">ENTRA NEL CLUB</button>
     </div>
 </div>
-<header style="justify-content:center;position:relative;">
-    <!-- MILANAC centrato -->
-    <div style="font-weight:900;color:var(--rosso);font-size:24px;font-family:'Oswald';letter-spacing:2px;">MILANAC</div>
+<header style="justify-content:space-between;position:relative;">
+    <!-- Placeholder sinistra per bilanciare -->
+    <div style="display:flex;align-items:center;gap:8px;visibility:hidden;padding:9px;width:80px;"></div>
+    <!-- MILANAC centrato assoluto -->
+    <div style="position:absolute;left:50%;transform:translateX(-50%);font-weight:900;color:var(--rosso);font-size:24px;font-family:'Oswald';letter-spacing:2px;pointer-events:none;">MILANAC</div>
     <!-- DESTRA: campanella + hamburger -->
     <div style="display:flex;align-items:center;gap:8px;position:absolute;right:16px;top:50%;transform:translateY(-50%);">
         <!-- Campanella notifiche -->
@@ -1139,6 +1141,7 @@
     <button onclick="go('partite')">🏟️ Risultati Partite</button>
     <button onclick="go('premi')">🏆 Premi</button>
     <button onclick="go('regolamento')">📜 Regolamento</button>
+    <button onclick="go('storia')">🏛️ Storia</button>
     <button onclick="go('social')">🌐 Social</button>
     <button onclick="goAdmin()">⚙️ Area Admin</button>
     <button onclick="document.querySelector('.sidebar').classList.remove('active')">✕ Chiudi</button>
@@ -1418,17 +1421,35 @@
         <div id="l-regolamento"></div>
     </div>
 
+    <!-- STORIA -->
+    <div id="p-storia" class="page">
+        <div style="margin-bottom:20px;">
+            <div style="font-family:Oswald;font-size:10px;color:#555;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;">MILANAC PRO CLUB</div>
+            <h2 style="font-family:Oswald;color:var(--oro);margin:0;font-size:26px;">🏛️ STORIA DEL CLUB</h2>
+        </div>
+        <!-- Form admin -->
+        <div id="storia-admin-form" style="display:none;margin-bottom:16px;">
+            <div style="background:linear-gradient(145deg,#111,#0a0a0a);border:1px solid rgba(212,175,55,0.25);border-radius:16px;padding:14px;">
+                <div style="font-family:Oswald;font-size:10px;color:var(--oro);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;">✍️ Aggiungi Capitolo</div>
+                <input type="text" id="storia-titolo" placeholder="Titolo (es. La Fondazione...)" style="margin-bottom:8px;font-family:Oswald;">
+                <textarea id="storia-testo" placeholder="Racconta la storia..." style="min-height:100px;resize:vertical;font-family:Segoe UI,sans-serif;font-size:14px;line-height:1.5;"></textarea>
+                <button class="btn-main" onclick="addStoria()" style="border-radius:10px;margin-top:8px;">🏛️ PUBBLICA CAPITOLO</button>
+            </div>
+        </div>
+        <div id="l-storia"></div>
+    </div>
+
     <!-- SOCIAL -->
-    <div id="p-social" class="page">
+    <div id="p-social" class="page" style="touch-action:auto;">
         <div style="margin-bottom:24px;">
             <div style="font-family:Oswald;font-size:10px;color:#555;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;">MILANAC PRO CLUB</div>
             <h2 style="font-family:Oswald;color:var(--oro);margin:0;font-size:26px;">🌐 SOCIAL</h2>
         </div>
         <div style="display:flex;flex-direction:column;gap:12px;">
-            <a href="https://www.tiktok.com/@milanac.pro.club" target="_blank" style="text-decoration:none;"><div style="background:linear-gradient(135deg,#111,#0a0a0a);border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:18px 20px;display:flex;align-items:center;gap:16px;" ontouchstart="this.style.transform='scale(0.97)'" ontouchend="this.style.transform=''"><div style="width:50px;height:50px;border-radius:14px;background:#000;border:1px solid #222;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:26px;">🎵</div><div style="flex:1;"><div style="font-family:Teko;font-size:22px;color:white;">TikTok</div><div style="font-family:Oswald;font-size:11px;color:#555;">@milanac.pro.club</div></div><span style="color:#333;font-size:20px;">›</span></div></a>
-            <a href="https://youtube.com/@milanac-n4w2b" target="_blank" style="text-decoration:none;"><div style="background:linear-gradient(135deg,#111,#0a0a0a);border:1px solid rgba(255,0,0,0.15);border-radius:18px;padding:18px 20px;display:flex;align-items:center;gap:16px;" ontouchstart="this.style.transform='scale(0.97)'" ontouchend="this.style.transform=''"><div style="width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,#1a0000,#2a0000);border:1px solid rgba(255,0,0,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:26px;">▶️</div><div style="flex:1;"><div style="font-family:Teko;font-size:22px;color:white;">YouTube</div><div style="font-family:Oswald;font-size:11px;color:#555;">@milanac-n4w2b</div></div><span style="color:#333;font-size:20px;">›</span></div></a>
+            <a href="https://www.tiktok.com/@milanac.pro.club" target="_blank" style="text-decoration:none;touch-action:auto;cursor:pointer;"><div style="background:linear-gradient(135deg,#111,#0a0a0a);border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:18px 20px;display:flex;align-items:center;gap:16px;" ontouchstart="this.style.transform='scale(0.97)'" ontouchend="this.style.transform=''"><div style="width:50px;height:50px;border-radius:14px;background:#000;border:1px solid #222;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:26px;">🎵</div><div style="flex:1;"><div style="font-family:Teko;font-size:22px;color:white;">TikTok</div><div style="font-family:Oswald;font-size:11px;color:#555;">@milanac.pro.club</div></div><span style="color:#333;font-size:20px;">›</span></div></a>
+            <a href="https://youtube.com/@milanac-n4w2b" target="_blank" style="text-decoration:none;touch-action:auto;cursor:pointer;"><div style="background:linear-gradient(135deg,#111,#0a0a0a);border:1px solid rgba(255,0,0,0.15);border-radius:18px;padding:18px 20px;display:flex;align-items:center;gap:16px;" ontouchstart="this.style.transform='scale(0.97)'" ontouchend="this.style.transform=''"><div style="width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,#1a0000,#2a0000);border:1px solid rgba(255,0,0,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:26px;">▶️</div><div style="flex:1;"><div style="font-family:Teko;font-size:22px;color:white;">YouTube</div><div style="font-family:Oswald;font-size:11px;color:#555;">@milanac-n4w2b</div></div><span style="color:#333;font-size:20px;">›</span></div></a>
             <a href="https://www.twitch.tv/milanac_proclub" target="_blank" style="text-decoration:none;"><div style="background:linear-gradient(135deg,#111,#0a0a0a);border:1px solid rgba(145,70,255,0.15);border-radius:18px;padding:18px 20px;display:flex;align-items:center;gap:16px;" ontouchstart="this.style.transform='scale(0.97)'" ontouchend="this.style.transform=''"><div style="width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,#0e0020,#1a0035);border:1px solid rgba(145,70,255,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:26px;">🟣</div><div style="flex:1;"><div style="font-family:Teko;font-size:22px;color:white;">Twitch</div><div style="font-family:Oswald;font-size:11px;color:#555;">milanac_proclub</div></div><span style="color:#333;font-size:20px;">›</span></div></a>
-            <a href="https://discord.gg/EUmxDwbSa" target="_blank" style="text-decoration:none;"><div style="background:linear-gradient(135deg,#111,#0a0a0a);border:1px solid rgba(88,101,242,0.15);border-radius:18px;padding:18px 20px;display:flex;align-items:center;gap:16px;" ontouchstart="this.style.transform='scale(0.97)'" ontouchend="this.style.transform=''"><div style="width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,#000820,#001035);border:1px solid rgba(88,101,242,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:26px;">💬</div><div style="flex:1;"><div style="font-family:Teko;font-size:22px;color:white;">Discord</div><div style="font-family:Oswald;font-size:11px;color:#555;">Entra nel server</div></div><span style="color:#333;font-size:20px;">›</span></div></a>
+            <a href="https://discord.gg/EUmxDwbSa" target="_blank" style="text-decoration:none;"touch-action:auto;cursor:pointer;"><div style="background:linear-gradient(135deg,#111,#0a0a0a);border:1px solid rgba(88,101,242,0.15);border-radius:18px;padding:18px 20px;display:flex;align-items:center;gap:16px;" ontouchstart="this.style.transform='scale(0.97)'" ontouchend="this.style.transform=''"><div style="width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,#000820,#001035);border:1px solid rgba(88,101,242,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:26px;">💬</div><div style="flex:1;"><div style="font-family:Teko;font-size:22px;color:white;">Discord</div><div style="font-family:Oswald;font-size:11px;color:#555;">Entra nel server</div></div><span style="color:#333;font-size:20px;">›</span></div></a>
         </div>
     </div>
 
@@ -1669,6 +1690,7 @@
         if (p === 'tattica') { setTimeout(initHeatmapCanvas, 100); }
         if (p === 'premi') { setTimeout(renderPremi, 50); }
         if (p === 'regolamento') { setTimeout(renderRegolamento, 50); }
+        if (p === 'storia') { setTimeout(renderStoria, 50); }
         // Segna come visto se apri news o pagelle
         if(p === 'news' || p === 'mercato') {
             localStorage.setItem('milanac_last_visit', Date.now().toString());
@@ -3450,6 +3472,41 @@
             try { location.href = 'about:blank'; } catch(e) {}
         }, 300);
     }
+
+    // ── STORIA DEL CLUB ──
+    function renderStoria() {
+        const el = document.getElementById('l-storia');
+        if(!el) return;
+        const form = document.getElementById('storia-admin-form');
+        if(form) form.style.display = currentAdmin ? 'block' : 'none';
+        const storia = data.storia || [];
+        if(storia.length === 0) {
+            el.innerHTML = '<div style="text-align:center;padding:40px 20px;"><div style="font-size:48px;margin-bottom:12px;">🏛️</div><div style="font-family:Oswald;font-size:13px;color:#444;text-transform:uppercase;letter-spacing:1px;">La storia del club verrà scritta qui</div></div>';
+            return;
+        }
+        el.innerHTML = storia.map((s, idx) => `
+            <div style="background:linear-gradient(145deg,#111,#0a0a0a);border:1px solid rgba(212,175,55,0.2);border-radius:18px;overflow:hidden;margin-bottom:14px;">
+                <div style="background:linear-gradient(90deg,rgba(212,175,55,0.1),transparent);padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between;">
+                    <div style="font-family:Teko;font-size:22px;color:white;text-transform:uppercase;">${s.t}</div>
+                    ${currentAdmin ? `<button onclick="data.storia.splice(${idx},1);sync();renderStoria()" style="background:none;border:none;color:#444;font-size:16px;cursor:pointer;">🗑️</button>` : ''}
+                </div>
+                <div style="padding:14px 16px;font-size:14px;color:#aaa;line-height:1.7;font-family:'Segoe UI',sans-serif;white-space:pre-wrap;">${s.txt}</div>
+            </div>`).join('');
+    }
+
+    function addStoria() {
+        if(!currentAdmin) return;
+        const titolo = document.getElementById('storia-titolo').value.trim();
+        const testo  = document.getElementById('storia-testo').value.trim();
+        if(!titolo || !testo) { showToast('⚠ Compila titolo e testo', true); return; }
+        if(!data.storia) data.storia = [];
+        data.storia.push({ id: Date.now(), t: titolo, txt: testo, d: new Date().toLocaleDateString(), admin: currentAdmin });
+        sync();
+        document.getElementById('storia-titolo').value = '';
+        document.getElementById('storia-testo').value = '';
+        renderStoria();
+        showToast('🏛️ Capitolo pubblicato!');
+    }
 </script>
 </body>
-</html>
+    </html>
