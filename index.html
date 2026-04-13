@@ -38,9 +38,9 @@
         .btn-entrance::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%); border-radius: 50px 50px 0 0; pointer-events: none; }
         .btn-entrance:hover, .btn-entrance:active { transform: translateY(-4px) scale(1.02); box-shadow: 0 15px 35px rgba(198, 28, 35, 0.6), inset 0 2px 5px rgba(255,255,255,0.4); background: linear-gradient(180deg, #ff333a 0%, #C61C23 100%); border-color: #fff; }
         header { height: 60px; border-bottom: 2px solid var(--rosso); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; background: #000; z-index: 2000; position: relative; }
-        .sidebar { position: fixed; top: 0; right: -100%; width: 280px; height: 100%; background: rgba(5,5,5,0.98); transition: 0.4s; z-index: 3000; border-left: 2px solid var(--rosso); padding-top: 60px; }
+        .sidebar { position: fixed; top: 0; right: -100%; width: 280px; height: 100%; background: rgba(5,5,5,0.98); transition: 0.4s; z-index: 3000; border-left: 2px solid var(--rosso); padding-top: 14px; }
         .sidebar.active { right: 0; }
-        .sidebar button { width: 100%; padding: 18px; background: none; border: none; color: white; text-align: left; font-weight: bold; border-bottom: 1px solid #222; text-transform: uppercase; cursor: pointer; font-family: 'Oswald'; }
+        .sidebar button { width: 100%; padding: 13px 18px; background: none; border: none; color: white; text-align: left; font-weight: bold; border-bottom: 1px solid #222; text-transform: uppercase; cursor: pointer; font-family: 'Oswald'; }
         .container { height: calc(100vh - 60px); overflow-y: auto; padding: 15px; box-sizing: border-box; padding-bottom: 60px; }
         .page { display: none; } .page.active { display: block; }
         /* ======================================================
@@ -1465,6 +1465,27 @@
         <div id="l-storico-voti"></div>
     </div>
 </div>
+<!-- MODAL MODIFICA GIOCATORE -->
+<div id="modal-edit-player" style="position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9500;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);">
+    <div style="background:linear-gradient(145deg,#111,#0a0a0a);border:1px solid rgba(212,175,55,0.4);border-radius:20px;padding:24px;width:85%;max-width:320px;box-shadow:0 20px 60px rgba(0,0,0,0.8);">
+        <div style="font-family:'Oswald';font-size:11px;color:var(--oro);text-transform:uppercase;letter-spacing:2px;margin-bottom:6px;">✏️ Modifica Giocatore</div>
+        <div style="font-family:'Teko';font-size:22px;color:white;margin-bottom:16px;">Nome e Numero</div>
+        <input type="hidden" id="edit-player-id">
+        <div style="margin-bottom:10px;">
+            <div style="font-family:'Oswald';font-size:10px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Nome</div>
+            <input type="text" id="edit-player-nome" placeholder="Nome giocatore" style="width:100%;padding:12px;background:#1a1a1a;border:1px solid rgba(212,175,55,0.3);color:white;border-radius:10px;font-family:'Oswald';font-size:16px;box-sizing:border-box;" onkeydown="if(event.key==='Enter')savePlayerEdit()">
+        </div>
+        <div style="margin-bottom:20px;">
+            <div style="font-family:'Oswald';font-size:10px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Numero</div>
+            <input type="number" id="edit-player-numero" placeholder="Numero maglia" min="1" max="99" style="width:100%;padding:12px;background:#1a1a1a;border:1px solid rgba(212,175,55,0.3);color:white;border-radius:10px;font-family:'Oswald';font-size:16px;box-sizing:border-box;" onkeydown="if(event.key==='Enter')savePlayerEdit()">
+        </div>
+        <div style="display:flex;gap:10px;">
+            <button onclick="document.getElementById('modal-edit-player').style.display='none'" style="flex:1;padding:13px;background:#1a1a1a;border:1px solid #333;color:#888;font-family:'Oswald';font-size:13px;border-radius:10px;cursor:pointer;text-transform:uppercase;">Annulla</button>
+            <button onclick="savePlayerEdit()" style="flex:2;padding:13px;background:linear-gradient(180deg,#e3262e,#a01115);border:1px solid var(--oro);color:white;font-family:'Oswald';font-size:13px;font-weight:bold;border-radius:10px;cursor:pointer;text-transform:uppercase;letter-spacing:1px;">💾 Salva</button>
+        </div>
+    </div>
+</div>
+
 <!-- MODAL LOGIN ADMIN -->
 <div id="modal-admin-login" style="position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:9000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(10px);">
     <div class="admin-login-box">
@@ -2314,6 +2335,29 @@
             document.getElementById('in-m').value = '';
         }
     }
+    function editPlayer(id) {
+        if(!currentAdmin){ alert('Devi essere loggato come admin.'); return; }
+        const p = data.ps.find(x => x.id == id);
+        if(!p) return;
+        document.getElementById('edit-player-id').value = id;
+        document.getElementById('edit-player-nome').value = p.n;
+        document.getElementById('edit-player-numero').value = p.m;
+        document.getElementById('modal-edit-player').style.display = 'flex';
+        setTimeout(() => document.getElementById('edit-player-nome').focus(), 100);
+    }
+    function savePlayerEdit() {
+        const id = parseInt(document.getElementById('edit-player-id').value);
+        const nuovoNome = document.getElementById('edit-player-nome').value.trim();
+        const nuovoNumero = document.getElementById('edit-player-numero').value.trim();
+        if(!nuovoNome || !nuovoNumero){ alert('Nome e numero sono obbligatori.'); return; }
+        const idx = data.ps.findIndex(x => x.id == id);
+        if(idx === -1) return;
+        data.ps[idx].n = nuovoNome;
+        data.ps[idx].m = nuovoNumero;
+        sync();
+        document.getElementById('modal-edit-player').style.display = 'none';
+    }
+
     function updateStat(id, key, val) {
         const i = data.ps.findIndex(x => x.id == id);
         data.ps[i][key] = Math.max(0, (data.ps[i][key] || 0) + val);
@@ -2858,7 +2902,10 @@
                 hA += `<div class="card" style="display:block">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
                         <b style="font-family:Teko;font-size:22px;">${p.n} <span style="font-size:14px;color:#666">${p.r}</span></b>
-                        <button style="color:red;border:none;background:none;font-size:18px;" onclick="if(confirm('Eliminare ' + '${p.n}'.replace(/'/g,'\\'') + '?')){data.ps=data.ps.filter(x=>x.id!==${p.id}); sync(); render()}">🗑️</button>
+                        <div style="display:flex;gap:6px;align-items:center;">
+                            <button style="color:var(--oro);border:1px solid rgba(212,175,55,0.4);background:rgba(212,175,55,0.08);border-radius:7px;font-size:15px;padding:4px 9px;cursor:pointer;" onclick="editPlayer(${p.id})">✏️</button>
+                            <button style="color:red;border:none;background:none;font-size:18px;" onclick="if(confirm('Eliminare ' + '${p.n}'.replace(/'/g,'\\'') + '?')){data.ps=data.ps.filter(x=>x.id!==${p.id}); sync(); render()}">🗑️</button>
+                        </div>
                     </div>
                     ${sessionVoteHtml}
                     <div class="stat-row" style="margin-top:8px;"><span>⚽ ${p.g||0} | 👟 ${p.a||0}</span>
