@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MILANAC PRO CLUB</title>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Teko:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Teko:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
@@ -1118,12 +1118,12 @@
     </div>
 </div>
 <header style="position:relative;">
-    <!-- MILANAC elegante -->
-    <div style="position:absolute;left:50%;transform:translateX(-50%);font-weight:900;font-size:30px;font-family:'Oswald';letter-spacing:7px;color:#C61C23;-webkit-text-stroke:1px rgba(255,255,255,0.85);text-shadow:0 0 30px rgba(198,28,35,0.5),0 1px 3px rgba(0,0,0,1);white-space:nowrap;text-transform:uppercase;">
-        MILANAC
+    <!-- MILANAC centrato con font elegante -->
+    <div style="position:absolute;left:0;right:0;display:flex;justify-content:center;pointer-events:none;">
+        <span style="font-family:'Bebas Neue',cursive;font-size:34px;font-weight:400;color:#C61C23;letter-spacing:8px;text-shadow:0 2px 12px rgba(198,28,35,0.45),0 1px 0 rgba(0,0,0,0.9);">MILANAC</span>
     </div>
     <!-- DESTRA: campanella + hamburger -->
-    <div style="display:flex;align-items:center;gap:18px;position:absolute;right:16px;">
+    <div style="display:flex;align-items:center;gap:18px;margin-left:auto;">
         <button id="notif-btn" onclick="toggleNotifPanel()" style="position:relative;cursor:pointer;padding:8px;border-radius:50%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.18);color:white;display:flex;align-items:center;justify-content:center;" ontouchstart="this.style.opacity='0.6'" ontouchend="this.style.opacity='1'">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
             <span id="notif-dot"></span>
