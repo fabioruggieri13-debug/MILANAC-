@@ -679,11 +679,9 @@
         .vsb-label { font-family: 'Oswald'; font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
         .vsb-match { font-family: 'Teko'; font-size: 20px; color: white; }
         .vsb-btn { background: var(--rosso); border: none; color: white; font-family: 'Oswald'; font-size: 11px; padding: 6px 12px; border-radius: 8px; cursor: pointer; text-transform: uppercase; }
-
         /* ═══════════════════════════════════════════
            SEZIONE PREMI — CLASSIFICA STAGIONALE
         ═══════════════════════════════════════════ */
-
         /* Tab switcher */
         .premi-tabs {
             display: flex; gap: 6px; margin-bottom: 16px;
@@ -700,7 +698,6 @@
             background: var(--rosso); color: white;
             box-shadow: 0 2px 10px rgba(198,28,35,0.5);
         }
-
         /* PODIO */
         .podio-wrap {
             display: flex; align-items: flex-end; justify-content: center;
@@ -743,7 +740,6 @@
         .podio-slot:nth-child(1) .podio-block { animation-delay: 0.3s; }
         .podio-slot:nth-child(2) .podio-block { animation-delay: 0.1s; }
         .podio-slot:nth-child(3) .podio-block { animation-delay: 0.5s; }
-
         /* CLASSIFICA lista */
         .rank-list { display: flex; flex-direction: column; gap: 8px; }
         .rank-row {
@@ -770,7 +766,6 @@
         .rank-name { font-family: Teko; font-size: 20px; color: white; flex: 1; text-transform: uppercase; }
         .rank-role { font-family: Oswald; font-size: 9px; color: #555; margin-left: 4px; }
         .rank-val { font-family: Oswald; font-size: 20px; font-weight: 900; }
-
         /* TROFEI categoria */
         .trofeo-card {
             background: linear-gradient(135deg, #111 0%, #080808 100%);
@@ -783,7 +778,6 @@
         .trofeo-title { font-family: Oswald; font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 2px; }
         .trofeo-winner { font-family: Teko; font-size: 28px; color: white; text-transform: uppercase; line-height: 1; }
         .trofeo-stat { font-family: Oswald; font-size: 13px; font-weight: 900; margin-left: auto; }
-
         /* Sezioni titolo */
         .section-label {
             font-family: Oswald; font-size: 10px; color: #444;
@@ -791,7 +785,6 @@
             margin: 16px 0 10px; display: flex; align-items: center; gap: 8px;
         }
         .section-label::after { content: ''; flex: 1; height: 1px; background: #1a1a1a; }
-
         /* ══════════════════════════════════════════════
            HIGHLIGHTS VIDEO
         ══════════════════════════════════════════════ */
@@ -816,7 +809,6 @@
             font-size: 28px; cursor: pointer; padding: 0 4px;
         }
         .hl-modal-body { width: 100%; padding: 16px; box-sizing: border-box; }
-
         /* Video embed container 16:9 */
         .video-container {
             position: relative; width: 100%;
@@ -850,7 +842,6 @@
             margin-bottom: 8px;
         }
         .hl-input:focus { outline: none; border-color: var(--oro); }
-
         /* Badge highlight sulla card partita */
         .hl-badge {
             display: inline-flex; align-items: center; gap: 4px;
@@ -867,7 +858,6 @@
             box-shadow: 0 0 8px rgba(198,28,35,0.4);
         }
         .hl-badge:active { transform: scale(0.95); }
-
         /* Lista video nella modal */
         .hl-video-item {
             background: #111; border: 1px solid #222;
@@ -899,7 +889,6 @@
             background: var(--rosso); color: white;
             box-shadow: 0 2px 8px rgba(198,28,35,0.4);
         }
-
         /* ── Toast feedback ── */
         #toast {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(80px);
@@ -913,7 +902,6 @@
         }
         #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
         #toast.error { border-color: var(--rosso); color: #ff6b6b; }
-
         /* ── Loading screen ── */
         #loading-screen {
             position: fixed; inset: 0; background: #000;
@@ -971,15 +959,7 @@
         /* ── Notification Bell ── */
         #notif-btn { background:none; border:none; padding:0; }
         #notif-btn:active { background:rgba(255,255,255,0.12); }
-        #notif-dot {
-            position:absolute; top:-4px; right:-4px;
-            min-width:18px; height:18px;
-            background:var(--rosso); border-radius:50%;
-            border:2px solid #000; display:none;
-            align-items:center; justify-content:center;
-            font-family:Oswald; font-size:10px; font-weight:900; color:white;
-            animation:pulse-red 1.5s infinite;
-        }
+        #notif-dot { position:absolute; top:3px; right:3px; width:8px; height:8px; background:var(--rosso); border-radius:50%; border:2px solid #000; display:none; animation:pulse-dot 1.5s infinite; }
         @keyframes pulse-dot { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.3);opacity:0.7} }
         /* ── Notification Panel ── */
         #notif-panel { position:fixed; top:60px; right:10px; width:300px; max-height:400px; background:#0d0d0d; border:1px solid rgba(198,28,35,0.4); border-radius:16px; z-index:5000; display:none; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.8); }
@@ -1000,7 +980,6 @@
             font-family: Oswald; font-size: 11px; color: #444;
             text-transform: uppercase; letter-spacing: 3px;
         }
-
         /* ── Exit confirm modal ── */
         #exit-modal {
             position: fixed; inset: 0; background: rgba(0,0,0,0.92);
@@ -1019,24 +998,6 @@
         .exit-btns { display: flex; gap: 10px; }
         .exit-btn-cancel { flex:1; padding:14px; background:#1a1a1a; border:1px solid #333; color:#888; border-radius:12px; font-family:Oswald; font-size:13px; text-transform:uppercase; cursor:pointer; }
         .exit-btn-confirm { flex:1; padding:14px; background:var(--rosso); border:none; color:white; border-radius:12px; font-family:Oswald; font-size:13px; text-transform:uppercase; cursor:pointer; font-weight:700; }
-
-        /* ── Modal modifica giocatore ── */
-        #edit-player-modal {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.92);
-            z-index: 8000; display: none; align-items: center;
-            justify-content: center; backdrop-filter: blur(8px);
-        }
-        #edit-player-modal.open { display: flex; }
-        .edit-modal-box {
-            background: linear-gradient(160deg,#111,#050505);
-            border: 2px solid rgba(212,175,55,0.4);
-            border-radius: 22px; padding: 24px 20px;
-            width: 88%; max-width: 340px;
-        }
-        .edit-modal-title {
-            font-family: Oswald; font-size: 11px; color: var(--oro);
-            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 14px;
-        }
     </style>
 </head>
 <body>
@@ -1045,10 +1006,8 @@
     <div class="loading-spinner"></div>
     <div class="loading-text">Caricamento...</div>
 </div>
-
 <!-- TOAST -->
 <div id="toast"></div>
-
 <!-- SHARE PREVIEW MODAL -->
 <div id="share-preview-modal">
     <!-- Header screenshot -->
@@ -1061,12 +1020,10 @@
     </div>
     <!-- Immagine campo a schermo intero -->
     <div style="flex:1;position:relative;display:flex;align-items:center;justify-content:center;background:#000;overflow:hidden;">
-        <img id="share-preview-img" src="" alt="Formazione" style="max-width:100%;max-height:100%;object-fit:contain;display:block;-webkit-touch-callout:default;touch-action:auto;user-select:auto;-webkit-user-select:auto;"
+        <img id="share-preview-img" src="" alt="Formazione"
             style="max-width:100%;max-height:100%;object-fit:contain;display:block;-webkit-touch-callout:default;touch-action:auto;user-select:auto;-webkit-user-select:auto;">
-
     </div>
 </div>
-
 <!-- NOTIFICATION PANEL -->
 <div id="notif-panel">
     <div id="notif-panel-header">
@@ -1075,7 +1032,6 @@
     </div>
     <div id="notif-list"><div id="notif-empty">Nessuna notifica</div></div>
 </div>
-
 <!-- EXIT MODAL -->
 <div id="exit-modal" style="display:none;align-items:center;justify-content:center;">
     <div class="exit-box">
@@ -1088,7 +1044,6 @@
         </div>
     </div>
 </div>
-
 <!-- INTRO -->
 <div id="intro">
     <div class="intro-container">
@@ -1101,29 +1056,22 @@
     </div>
 </div>
 <header>
-    <div style="width:80px;"></div>
-    <div style="position:absolute;left:50%;transform:translateX(-50%);font-weight:900;color:var(--rosso);font-size:24px;font-family:'Oswald';letter-spacing:2px;pointer-events:none;">MILANAC</div>
+    <!-- ESCI -->
+    <div onclick="document.getElementById('exit-modal').style.display='flex'" style="cursor:pointer;padding:7px 14px;border-radius:24px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.18);display:flex;align-items:center;gap:7px;" ontouchstart="this.style.opacity='0.6'" ontouchend="this.style.opacity='1'">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        <span style="font-family:Oswald;font-size:11px;color:white;text-transform:uppercase;letter-spacing:2px;font-weight:600;">Esci</span>
+    </div>
+    <!-- MILANAC centrato assoluto -->
+    <div style="position:absolute;left:50%;transform:translateX(-50%);font-weight:900;color:var(--rosso);font-size:22px;font-family:'Oswald';letter-spacing:1px;pointer-events:none;">
+        MILANAC
+    </div>
     <!-- DESTRA: campanella + hamburger -->
-    <div style="display:flex;align-items:center;gap:8px;position:absolute;right:16px;top:50%;transform:translateY(-50%);">
-        <!-- Campanella notifiche -->
-        <button id="notif-btn" onclick="toggleNotifPanel()"
-            style="position:relative;cursor:pointer;padding:9px;border-radius:50%;
-            background:linear-gradient(135deg,rgba(212,175,55,0.2),rgba(212,175,55,0.05));
-            border:1.5px solid rgba(212,175,55,0.5);color:var(--oro);
-            display:flex;align-items:center;justify-content:center;
-            box-shadow:0 0 12px rgba(212,175,55,0.15);
-            -webkit-tap-highlight-color:transparent;"
-            ontouchstart="this.style.transform='scale(0.92)'" ontouchend="this.style.transform='scale(1)'">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-            </svg>
+    <div style="display:flex;align-items:center;gap:8px;margin-left:auto;">
+        <button id="notif-btn" onclick="toggleNotifPanel()" style="position:relative;cursor:pointer;padding:8px;border-radius:50%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.18);color:white;display:flex;align-items:center;justify-content:center;" ontouchstart="this.style.opacity='0.6'" ontouchend="this.style.opacity='1'">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
             <span id="notif-dot"></span>
         </button>
-        <!-- Hamburger -->
-        <div onclick="document.querySelector('.sidebar').classList.add('active')"
-            style="display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:6px;-webkit-tap-highlight-color:transparent;"
-            ontouchstart="this.style.opacity='0.6'" ontouchend="this.style.opacity='1'">
+        <div onclick="document.querySelector('.sidebar').classList.add('active')" style="display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:6px;" ontouchstart="this.style.opacity='0.6'" ontouchend="this.style.opacity='1'">
             <span style="display:block;width:22px;height:2px;background:white;border-radius:2px;"></span>
             <span style="display:block;width:22px;height:2px;background:white;border-radius:2px;"></span>
             <span style="display:block;width:22px;height:2px;background:white;border-radius:2px;"></span>
@@ -1138,11 +1086,8 @@
     <button onclick="go('mercato')">📰 Pagelle Partita</button>
     <button onclick="go('partite')">🏟️ Risultati Partite</button>
     <button onclick="go('premi')">🏆 Premi</button>
-    <button onclick="go('regolamento')">📜 Regolamento</button>
-    <button onclick="go('storia')">🏛️ Storia</button>
-    <button onclick="go('social')">🌐 Social</button>
     <button onclick="goAdmin()">⚙️ Area Admin</button>
-    <button onclick="document.querySelector('.sidebar').classList.remove('active')">✕ Chiudi</button>
+    <button onclick="document.querySelector('.sidebar').classList.remove('active')">Chiudi</button>
 </nav>
 <div class="container">
     <!-- NEWS -->
@@ -1163,7 +1108,7 @@
                 <div style="font-family:Oswald;font-size:10px;color:var(--oro);text-transform:uppercase;letter-spacing:2px;">✍️ Nuovo Comunicato</div>
             </div>
             <div style="padding:14px;">
-                <textarea id="news-text" placeholder="Scrivi il comunicato..." style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);color:white;border-radius:12px;padding:12px;font-size:14px;line-height:1.5;resize:none;min-height:80px;font-family:Segoe UI,sans-serif;width:100%;box-sizing:border-box;"></textarea>
+                <textarea id="news-text" placeholder="Scrivi il comunicato..." style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);color:white;border-radius:12px;padding:12px;font-size:14px;line-height:1.5;resize:none;min-height:80px;font-family:'Segoe UI',sans-serif;width:100%;box-sizing:border-box;"></textarea>
                 <button class="btn-main" onclick="addNews()" style="border-radius:10px;margin-top:10px;">📢 PUBBLICA</button>
             </div>
         </div>
@@ -1381,15 +1326,15 @@
   </optgroup>
   <optgroup label="⚙️ Centrocampisti">
     <option value="CEN|CDC">CEN — Centrocampista Centrale</option>
-    <option value="CEN|CDC">CEN — Centrocampista Difensivo</option>
-    <option value="CEN|COC">CEN — Centrocampista Offensivo</option>
+    <option value="CEN|CDM">CEN — Mediano/Davanti difesa</option>
+    <option value="CEN|CAM">CEN — Trequartista</option>
     <option value="CEN|AD">CEN — Ala Destra</option>
     <option value="CEN|AS">CEN — Ala Sinistra</option>
     <option value="CEN|MEZ">CEN — Mezzala</option>
   </optgroup>
   <optgroup label="⚽ Attaccanti">
-    <option value="ATT|P">ATT — Prima Punta</option>
-    <option value="ATT|SP">ATT — Seconda Punta</option>
+    <option value="ATT|CF">ATT — Centravanti</option>
+    <option value="ATT|SS">ATT — Seconda Punta</option>
     <option value="ATT|FP">ATT — Falso 9</option>
   </optgroup>
 </select>
@@ -1401,55 +1346,6 @@
         <div id="l-storico-voti"></div>
     </div>
 </div>
-
-    <!-- REGOLAMENTO -->
-    <div id="p-regolamento" class="page">
-        <div style="margin-bottom:20px;">
-            <div style="font-family:Oswald;font-size:10px;color:#555;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;">MILANAC PRO CLUB</div>
-            <h2 style="font-family:Oswald;color:var(--oro);margin:0;font-size:26px;">📜 REGOLAMENTO</h2>
-        </div>
-        <div id="reg-admin-form" style="display:none;margin-bottom:16px;">
-            <div style="background:linear-gradient(145deg,#111,#0a0a0a);border:1px solid rgba(212,175,55,0.25);border-radius:16px;padding:14px;">
-                <div style="font-family:Oswald;font-size:10px;color:var(--oro);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;">✍️ Aggiungi Articolo</div>
-                <input type="text" id="reg-titolo" placeholder="Titolo (es. Art. 1 — Rispetto)" style="margin-bottom:8px;font-family:Oswald;">
-                <textarea id="reg-testo" placeholder="Testo dell'articolo..." style="min-height:80px;resize:vertical;font-family:Segoe UI,sans-serif;font-size:14px;line-height:1.5;"></textarea>
-                <button class="btn-main" onclick="addRegolamento()" style="border-radius:10px;margin-top:8px;">📜 PUBBLICA ARTICOLO</button>
-            </div>
-        </div>
-        <div id="l-regolamento"></div>
-    </div>
-
-    <!-- STORIA -->
-    <div id="p-storia" class="page">
-        <div style="margin-bottom:20px;">
-            <div style="font-family:Oswald;font-size:10px;color:#555;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;">MILANAC PRO CLUB</div>
-            <h2 style="font-family:Oswald;color:var(--oro);margin:0;font-size:26px;">🏛️ STORIA DEL CLUB</h2>
-        </div>
-        <div id="storia-admin-form" style="display:none;margin-bottom:16px;">
-            <div style="background:linear-gradient(145deg,#111,#0a0a0a);border:1px solid rgba(212,175,55,0.25);border-radius:16px;padding:14px;">
-                <div style="font-family:Oswald;font-size:10px;color:var(--oro);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;">✍️ Aggiungi Capitolo</div>
-                <input type="text" id="storia-titolo" placeholder="Titolo capitolo..." style="margin-bottom:8px;font-family:Oswald;">
-                <textarea id="storia-testo" placeholder="Racconta la storia..." style="min-height:100px;resize:vertical;font-size:14px;line-height:1.5;"></textarea>
-                <button class="btn-main" onclick="addStoria()" style="border-radius:10px;margin-top:8px;">🏛️ PUBBLICA CAPITOLO</button>
-            </div>
-        </div>
-        <div id="l-storia"></div>
-    </div>
-
-    <!-- SOCIAL -->
-    <div id="p-social" class="page">
-        <div style="margin-bottom:24px;">
-            <div style="font-family:Oswald;font-size:10px;color:#555;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;">MILANAC PRO CLUB</div>
-            <h2 style="font-family:Oswald;color:var(--oro);margin:0;font-size:26px;">🌐 SOCIAL</h2>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:12px;">
-            <div onclick="window.open('https://www.tiktok.com/@milanac.pro.club','_blank')" style="text-decoration:none;cursor:pointer;"><div style="background:linear-gradient(135deg,#111,#0a0a0a);border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:18px 20px;display:flex;align-items:center;gap:16px;" ontouchstart="this.style.transform='scale(0.97)'" ontouchend="this.style.transform=''"><div style="width:50px;height:50px;border-radius:14px;background:#000;border:1px solid #222;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:26px;">🎵</div><div style="flex:1;"><div style="font-family:Teko;font-size:22px;color:white;">TikTok</div><div style="font-family:Oswald;font-size:11px;color:#555;">@milanac.pro.club</div></div><span style="color:#333;font-size:20px;">›</span></div></div>
-            <div onclick="window.open('https://youtube.com/@milanac-n4w2b','_blank')" style="text-decoration:none;cursor:pointer;"><div style="background:linear-gradient(135deg,#111,#0a0a0a);border:1px solid rgba(255,0,0,0.15);border-radius:18px;padding:18px 20px;display:flex;align-items:center;gap:16px;" ontouchstart="this.style.transform='scale(0.97)'" ontouchend="this.style.transform=''"><div style="width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,#1a0000,#2a0000);border:1px solid rgba(255,0,0,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:26px;">▶️</div><div style="flex:1;"><div style="font-family:Teko;font-size:22px;color:white;">YouTube</div><div style="font-family:Oswald;font-size:11px;color:#555;">@milanac-n4w2b</div></div><span style="color:#333;font-size:20px;">›</span></div></div>
-            <div onclick="window.open('https://www.twitch.tv/milanac_proclub','_blank')" style="text-decoration:none;cursor:pointer;"><div style="background:linear-gradient(135deg,#111,#0a0a0a);border:1px solid rgba(145,70,255,0.15);border-radius:18px;padding:18px 20px;display:flex;align-items:center;gap:16px;" ontouchstart="this.style.transform='scale(0.97)'" ontouchend="this.style.transform=''"><div style="width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,#0e0020,#1a0035);border:1px solid rgba(145,70,255,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:26px;">🟣</div><div style="flex:1;"><div style="font-family:Teko;font-size:22px;color:white;">Twitch</div><div style="font-family:Oswald;font-size:11px;color:#555;">milanac_proclub</div></div><span style="color:#333;font-size:20px;">›</span></div></div>
-            <div onclick="window.open('https://discord.gg/EUmxDwbSa','_blank')" style="text-decoration:none;cursor:pointer;"><div style="background:linear-gradient(135deg,#111,#0a0a0a);border:1px solid rgba(88,101,242,0.15);border-radius:18px;padding:18px 20px;display:flex;align-items:center;gap:16px;" ontouchstart="this.style.transform='scale(0.97)'" ontouchend="this.style.transform=''"><div style="width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,#000820,#001035);border:1px solid rgba(88,101,242,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:26px;">💬</div><div style="flex:1;"><div style="font-family:Teko;font-size:22px;color:white;">Discord</div><div style="font-family:Oswald;font-size:11px;color:#555;">Entra nel server</div></div><span style="color:#333;font-size:20px;">›</span></div></div>
-        </div>
-    </div>
-
 <!-- MODAL LOGIN ADMIN -->
 <div id="modal-admin-login" style="position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:9000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(10px);">
     <div class="admin-login-box">
@@ -1543,30 +1439,12 @@
                     <input class="hl-input" id="hl-url-input" placeholder="Link YouTube, Instagram o TikTok...">
                     <button class="btn-main" onclick="addHighlight()" style="border-radius:10px;">📹 AGGIUNGI LINK</button>
                 </div>
-
             </div>
         </div>
         <!-- Lista video -->
         <div id="hl-videos-list"></div>
     </div>
 </div>
-
-<!-- MODAL MODIFICA GIOCATORE -->
-<div id="edit-player-modal">
-    <div class="edit-modal-box">
-        <div class="edit-modal-title">✏️ Modifica Giocatore</div>
-        <input type="hidden" id="edit-p-id">
-        <div style="font-family:Oswald;font-size:10px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Nome</div>
-        <input type="text" id="edit-p-name" style="margin-bottom:10px;font-family:Oswald;font-size:16px;">
-        <div style="font-family:Oswald;font-size:10px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Numero Maglia</div>
-        <input type="number" id="edit-p-num" style="margin-bottom:10px;font-family:Oswald;font-size:16px;text-align:center;">
-        <div style="display:flex;gap:10px;margin-top:6px;">
-            <button class="btn-main" onclick="savePlayerEdit()" style="border-radius:10px;flex:2;">💾 SALVA</button>
-            <button onclick="document.getElementById('edit-player-modal').classList.remove('open')" style="flex:1;background:#1a1a1a;border:1px solid #333;color:#888;border-radius:10px;font-family:Oswald;font-size:12px;text-transform:uppercase;cursor:pointer;">Annulla</button>
-        </div>
-    </div>
-</div>
-
 <script>
     /* ============================================================
        FIREBASE
@@ -1590,7 +1468,6 @@
     // e memorizzate in RAM solo per la sessione corrente.
     // Per cambiarle: vai su Firebase Console → milanac/config → adminCreds
     let ADMIN_CREDS = {}; // verrà popolato da loadAdminCreds()
-
     async function loadAdminCreds() {
         try {
             const doc = await db.collection('milanac').doc('config').get();
@@ -1634,22 +1511,19 @@
         t.className = 'show' + (isError ? ' error' : '');
         _toastTimer = setTimeout(() => { t.className = ''; }, 2200);
     }
-
     // Nascondi loading screen
     function hideLoading() {
         const ls = document.getElementById('loading-screen');
         if(ls) { ls.classList.add('hidden'); setTimeout(()=>ls.style.display='none', 500); }
     }
-
     // Carica credenziali admin sicure da Firestore
     loadAdminCreds();
-
     // Ascolta dati real-time
     db.collection("milanac").doc("v84_final").onSnapshot(doc => {
         if(doc.exists) {
             data = doc.data();
             if(!data.voteHistory) data.voteHistory=[];
-            if(!data.pagelle) data.pagelle=[]; if(!data.regolamento) data.regolamento=[];
+            if(!data.pagelle) data.pagelle=[];
             render();
         }
         hideLoading(); // nasconde il loader appena arrivano i dati
@@ -1686,8 +1560,6 @@
         render();
         if (p === 'tattica') { setTimeout(initHeatmapCanvas, 100); }
         if (p === 'premi') { setTimeout(renderPremi, 50); }
-        if (p === 'regolamento') { setTimeout(renderRegolamento, 50); }
-        if (p === 'storia') { setTimeout(renderStoria, 50); }
         // Segna come visto se apri news o pagelle
         if(p === 'news' || p === 'mercato') {
             localStorage.setItem('milanac_last_visit', Date.now().toString());
@@ -2159,13 +2031,11 @@
             const SCALE = 2;
             const CW = W * SCALE;
             const CH = H * SCALE;
-
             const canvas = document.createElement('canvas');
             canvas.width = CW;
             canvas.height = CH;
             const ctx = canvas.getContext('2d');
             ctx.scale(SCALE, SCALE);
-
             // ── Sfondo campo con strisce ──
             const stripes = 10;
             const stripeH = H / stripes;
@@ -2173,30 +2043,25 @@
                 ctx.fillStyle = i % 2 === 0 ? '#1b5e20' : '#2e7d32';
                 ctx.fillRect(0, i * stripeH, W, stripeH);
             }
-
             // ── Bordo campo ──
             ctx.strokeStyle = 'rgba(255,255,255,0.9)';
             ctx.lineWidth = 3;
             ctx.strokeRect(1.5, 1.5, W - 3, H - 3);
-
             // ── Linea di metà campo ──
             ctx.beginPath();
             ctx.moveTo(0, H / 2);
             ctx.lineTo(W, H / 2);
             ctx.stroke();
-
             // ── Cerchio di centrocampo ──
             const cr = W * 0.125; // 25%/2 del W
             ctx.beginPath();
             ctx.arc(W / 2, H / 2, cr, 0, Math.PI * 2);
             ctx.stroke();
-
             // ── Punto centrale ──
             ctx.fillStyle = '#fff';
             ctx.beginPath();
             ctx.arc(W / 2, H / 2, 3, 0, Math.PI * 2);
             ctx.fill();
-
             // Funzione helper area
             function drawBox(cx, yEdge, bw, bh, isTop) {
                 const x = cx - bw / 2;
@@ -2206,49 +2071,39 @@
                 ctx.fillStyle = ctx.createLinearGradient ? null : null;
                 ctx.clearRect(x, isTop ? y - 2 : y + bh, bw, 4);
             }
-
             // ── Area grande top ──
             const lgW = W * 0.66, lgH = H * 0.18;
             ctx.strokeStyle = 'rgba(255,255,255,0.9)';
             ctx.strokeRect(W/2 - lgW/2, -1, lgW, lgH + 1);
-
             // ── Area piccola top ──
             const smW = W * 0.32, smH = H * 0.06;
             ctx.strokeRect(W/2 - smW/2, -1, smW, smH + 1);
-
             // ── Punto rigore top ──
             ctx.fillStyle = '#fff';
             ctx.beginPath();
             ctx.arc(W / 2, H * 0.13, 2.5, 0, Math.PI * 2);
             ctx.fill();
-
             // ── Arco top ──
             ctx.beginPath();
             ctx.arc(W / 2, H * 0.18, W * 0.125, 0, Math.PI);
             ctx.stroke();
-
             // ── Area grande bottom ──
             ctx.strokeRect(W/2 - lgW/2, H - lgH, lgW, lgH + 1);
-
             // ── Area piccola bottom ──
             ctx.strokeRect(W/2 - smW/2, H - smH, smW, smH + 1);
-
             // ── Punto rigore bottom ──
             ctx.beginPath();
             ctx.arc(W / 2, H * 0.87, 2.5, 0, Math.PI * 2);
             ctx.fill();
-
             // ── Arco bottom ──
             ctx.beginPath();
             ctx.arc(W / 2, H * 0.82, W * 0.125, Math.PI, Math.PI * 2);
             ctx.stroke();
-
             // ── Giocatori ──
             const players = (data.ps || []).filter(p => p.convocato === true || p.convocato === 'true');
             for (const p of players) {
                 const px = (p.x / 100) * W + (W * 0.07); // offset center (jersey is ~14% wide)
                 const py = (p.y / 100) * H + (H * 0.05);
-
                 // Cerchio jersey
                 const r = 22;
                 ctx.beginPath();
@@ -2258,14 +2113,12 @@
                 ctx.strokeStyle = '#C61C23';
                 ctx.lineWidth = 3;
                 ctx.stroke();
-
                 // Numero maglia
                 ctx.fillStyle = '#D4AF37';
                 ctx.font = 'bold 16px Oswald, sans-serif';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText(String(p.m || ''), px, py);
-
                 // Nome
                 const nameY = py + r + 14;
                 ctx.fillStyle = 'rgba(0,0,0,0.85)';
@@ -2279,7 +2132,6 @@
                 ctx.font = 'bold 10px Oswald, sans-serif';
                 ctx.fillText((p.n || '').toUpperCase(), px, nameY);
             }
-
             // ── Esporta e condividi ──
             const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
             const byteStr = atob(dataUrl.split(',')[1]);
@@ -2287,7 +2139,6 @@
             for (let i = 0; i < byteStr.length; i++) arr[i] = byteStr.charCodeAt(i);
             const blob = new Blob([arr], { type: 'image/jpeg' });
             const file = new File([blob], 'formazione-milanac.jpg', { type: 'image/jpeg' });
-
             // Mostra immagine a schermo intero per screenshot
             const previewImg = document.getElementById('share-preview-img');
             previewImg.src = dataUrl;
@@ -2449,14 +2300,12 @@
        PREMI ENGINE
     ══════════════════════════════════════════ */
     let premiTab = 'trofei';
-
     function switchPremiTab(tab, btn) {
         premiTab = tab;
         document.querySelectorAll('.premi-tab').forEach(b => b.classList.remove('active'));
         if(btn) btn.classList.add('active');
         renderPremi();
     }
-
     function getPlayerStats(p) {
         // Media combinata voteHistory + pagelle
         const votiFlat = [];
@@ -2480,7 +2329,6 @@
         const media = votiFlat.length ? votiFlat.reduce((a,b)=>a+b,0)/votiFlat.length : 0;
         return { presenze, media: parseFloat(media.toFixed(2)), votiFlat };
     }
-
     function renderPremi() {
         const el = document.getElementById('l-premi');
         if(!el) return;
@@ -2488,10 +2336,8 @@
             el.innerHTML = '<p style="color:#444;text-align:center;font-family:Oswald;padding:40px 0;font-size:13px;">Nessun giocatore ancora.</p>';
             return;
         }
-
         // Arricchisci ogni giocatore con stats calcolate
         const players = data.ps.map(p => ({ ...p, _s: getPlayerStats(p) }));
-
         if(premiTab === 'trofei') {
             el.innerHTML = renderTrofei(players);
             // Triggera barre animate dopo render
@@ -2516,7 +2362,6 @@
             });
         }
     }
-
     function buildPodio(sorted, valFn, unit) {
         if(sorted.length === 0) return '<p style="color:#444;text-align:center;font-family:Oswald;padding:20px;font-size:12px;">Nessun dato disponibile.</p>';
         const top3 = sorted.slice(0,3);
@@ -2527,7 +2372,6 @@
         const colors = ['#a0a0a0','#D4AF37','#cd7f32'];
         const avatarSizes = ['52px','64px','46px'];
         const borders = [`3px solid #a0a0a0`,`3px solid #D4AF37`,`3px solid #cd7f32`];
-
         let html = '<div class="podio-wrap">';
         order.forEach((p, i) => {
             const realRank = order === top3 ? i : (i===0?1:i===1?0:2);
@@ -2547,7 +2391,6 @@
         html += '</div>';
         return html;
     }
-
     function buildRankList(sorted, valFn, unit, barColor) {
         if(sorted.length === 0) return '';
         const maxVal = valFn(sorted[0]) || 1;
@@ -2569,7 +2412,6 @@
             </div>`;
         }).join('') + '</div>';
     }
-
     function renderTrofei(players) {
         // Calcola vincitori per categoria
         const byGoals   = [...players].sort((a,b)=>(b.g||0)-(a.g||0));
@@ -2579,10 +2421,8 @@
         const byYellow  = [...players].sort((a,b)=>(b.yl||0)-(a.yl||0));
         const byMedia   = [...players].filter(p=>p._s.votiFlat.length>0).sort((a,b)=>b._s.media-a._s.media);
         const byPres    = [...players].sort((a,b)=>b._s.presenze-a._s.presenze);
-
         // Migliore difensore: DIF con media voto più alta
         const byDefMedia = [...players].filter(p => p.r === 'DIF' && p._s.votiFlat.length > 0).sort((a,b) => b._s.media - a._s.media);
-
         const trofei = [
             { icon:'⚽', title:'Capocannoniere', player: byGoals[0], val: byGoals[0]?.g||0, unit:' GOL', color:'#C61C23', bg:'rgba(198,28,35,0.1)' },
             { icon:'👟', title:'Re degli Assist', player: byAssist[0], val: byAssist[0]?.a||0, unit:' ASS', color:'#4caf50', bg:'rgba(76,175,80,0.08)' },
@@ -2593,7 +2433,6 @@
             { icon:'🏟️', title:'Giocatore Più Presente', player: byPres[0], val: byPres[0]?._s.presenze||0, unit:' pres.', color:'#ff9800', bg:'rgba(255,152,0,0.08)' },
             { icon:'🟨', title:'Fair Play (meno gialli)', player: byYellow[byYellow.length-1], val: byYellow[byYellow.length-1]?.yl||0, unit:' gialli', color:'#ffd600', bg:'rgba(255,214,0,0.08)' },
         ];
-
         return trofei.map(t => {
             if(!t.player) return '';
             return `<div class="trofeo-card" style="border:1px solid ${t.color}22;">
@@ -2609,7 +2448,6 @@
             </div>`;
         }).join('');
     }
-
     function renderClassifica(players) {
         let html = '';
         // Classifica Gol
@@ -2624,7 +2462,6 @@
         html += buildRankList(byAssist, p=>p.a||0, '', '#4caf50');
         return html;
     }
-
     function renderMediaVoto(players) {
         let html = '';
         const withVotes = [...players].filter(p=>p._s.votiFlat.length>0).sort((a,b)=>b._s.media-a._s.media);
@@ -2636,14 +2473,11 @@
         html += buildRankList(byPres.filter(p=>p._s.presenze>0), p=>p._s.presenze, ' pres.', '#ff9800');
         return html;
     }
-
     /* ══════════════════════════════════════════
        HIGHLIGHTS ENGINE
     ══════════════════════════════════════════ */
     let currentMatchId = null;
-
     /* ── Highlights tab switcher ── */
-
     function openHighlights(matchId) {
         const match = (data.matches||[]).find(m => (m.id||m.avv+m.d) == matchId);
         if(!match) return;
@@ -2654,20 +2488,17 @@
         document.getElementById('highlight-modal').classList.add('open');
         document.body.style.overflow = 'hidden';
     }
-
     function updateHighlightFormVisibility() {
         const formWrap  = document.getElementById('hl-add-form-wrap');
         const loginPrompt = document.getElementById('hl-login-prompt');
         if(formWrap)    formWrap.style.display    = currentAdmin ? 'block' : 'none';
         if(loginPrompt) loginPrompt.style.display = currentAdmin ? 'none'  : 'block';
     }
-
     function closeHighlights() {
         document.getElementById('highlight-modal').classList.remove('open');
         document.body.style.overflow = '';
         currentMatchId = null;
     }
-
     function extractVideoEmbed(url) {
         if(!url) return null;
         url = url.trim();
@@ -2684,7 +2515,6 @@
         // URL generico
         return { type: 'link', src: url };
     }
-
     function addHighlight() {
         if(!currentAdmin) return;
         const label = document.getElementById('hl-label-input').value.trim() || 'Highlight';
@@ -2700,7 +2530,6 @@
         renderHighlightVideos();
         render(); // aggiorna badge sulla card
     }
-
     function deleteHighlight(matchId, hlId) {
         const match = (data.matches||[]).find(m => (m.id||m.avv+m.d) == matchId);
         if(!match || !match.highlights) return;
@@ -2709,7 +2538,6 @@
         renderHighlightVideos();
         render();
     }
-
     function renderHighlightVideos() {
         const container = document.getElementById('hl-videos-list');
         if(!container) return;
@@ -2761,66 +2589,6 @@
             </div>`;
         }).join('');
     }
-
-    /* ── Modifica giocatore ── */
-    function openEditPlayer(id) {
-        const p = data.ps.find(x => x.id == id);
-        if(!p) return;
-        document.getElementById('edit-p-id').value = id;
-        document.getElementById('edit-p-name').value = p.n;
-        document.getElementById('edit-p-num').value = p.m;
-        document.getElementById('edit-player-modal').classList.add('open');
-    }
-    function savePlayerEdit() {
-        const id = parseInt(document.getElementById('edit-p-id').value);
-        const newName = document.getElementById('edit-p-name').value.trim();
-        const newNum = document.getElementById('edit-p-num').value;
-        if(!newName || !newNum) { showToast('⚠ Compila tutti i campi', true); return; }
-        const idx = data.ps.findIndex(x => x.id == id);
-        if(idx === -1) return;
-        data.ps[idx].n = newName;
-        data.ps[idx].m = newNum;
-        sync();
-        render();
-        document.getElementById('edit-player-modal').classList.remove('open');
-        showToast('✓ Giocatore aggiornato!');
-    }
-
-    /* ── Regolamento ── */
-    function addRegolamento() {
-        if(!currentAdmin) return;
-        const titolo = document.getElementById('reg-titolo').value.trim();
-        const testo  = document.getElementById('reg-testo').value.trim();
-        if(!titolo || !testo) { showToast('⚠ Compila titolo e testo', true); return; }
-        if(!data.regolamento) data.regolamento = [];
-        data.regolamento.push({ id: Date.now(), titolo, testo, author: currentAdmin });
-        sync();
-        document.getElementById('reg-titolo').value = '';
-        document.getElementById('reg-testo').value = '';
-        renderRegolamento();
-        showToast('📜 Articolo pubblicato!');
-    }
-
-    function renderRegolamento() {
-        const el = document.getElementById('l-regolamento');
-        if(!el) return;
-        const regForm = document.getElementById('reg-admin-form');
-        if(regForm) regForm.style.display = currentAdmin ? 'block' : 'none';
-        const reg = data.regolamento || [];
-        if(reg.length === 0) {
-            el.innerHTML = '<div style="text-align:center;padding:40px 20px;"><div style="font-size:40px;margin-bottom:12px;">📜</div><div style="font-family:Oswald;font-size:13px;color:#444;text-transform:uppercase;letter-spacing:1px;">Nessun articolo pubblicato</div></div>';
-            return;
-        }
-        el.innerHTML = reg.map((a, idx) => `
-            <div style="background:linear-gradient(145deg,#111,#0a0a0a);border:1px solid rgba(212,175,55,0.15);border-radius:16px;overflow:hidden;margin-bottom:10px;">
-                <div style="background:linear-gradient(90deg,rgba(212,175,55,0.08),transparent);padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between;">
-                    <div style="font-family:Teko;font-size:20px;color:var(--oro);">${a.titolo}</div>
-                    ${currentAdmin ? `<button onclick="data.regolamento.splice(${idx},1);sync();renderRegolamento()" style="background:none;border:none;color:#444;font-size:16px;cursor:pointer;">🗑️</button>` : ''}
-                </div>
-                <div style="padding:14px 16px;font-size:14px;color:#bbb;line-height:1.7;font-family:Segoe UI,sans-serif;">${a.testo}</div>
-            </div>`).join('');
-    }
-
     function render() {
         // ── Notifiche in-app: conta novità rispetto all'ultima visita ──
         buildNotifications();
@@ -2920,10 +2688,7 @@
                 hA += `<div class="card" style="display:block">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
                         <b style="font-family:Teko;font-size:22px;">${p.n} <span style="font-size:14px;color:#666">${p.r}</span></b>
-                        <div style="display:flex;gap:8px;">
-                            <button style="background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);color:var(--oro);border-radius:8px;padding:5px 10px;font-family:Oswald;font-size:11px;cursor:pointer;text-transform:uppercase;" onclick="openEditPlayer(${p.id})">✏️ Modifica</button>
-                            <button style="color:red;border:none;background:none;font-size:18px;" onclick="if(confirm('Eliminare ' + '${p.n}'.replace(/'/g,'\\'') + '?')){data.ps=data.ps.filter(x=>x.id!==${p.id}); sync(); render()}">🗑️</button>
-                        </div>
+                        <button style="color:red;border:none;background:none;font-size:18px;" onclick="if(confirm('Eliminare ' + '${p.n}'.replace(/'/g,'\\'') + '?')){data.ps=data.ps.filter(x=>x.id!==${p.id}); sync(); render()}">🗑️</button>
                     </div>
                     ${sessionVoteHtml}
                     <div class="stat-row" style="margin-top:8px;"><span>⚽ ${p.g||0} | 👟 ${p.a||0}</span>
@@ -3230,9 +2995,9 @@
                 drawTacticLines();
             };
             const end = () => { if (isD) { isD = false; sync(); } };
-            d.addEventListener('touchstart', start, { passive: true });
-            d.addEventListener('touchmove', move, { passive: false });
-            d.addEventListener('touchend', end);
+            d.addEventListener('touchstart', start);
+            window.addEventListener('touchmove', move, { passive: false });
+            window.addEventListener('touchend', end);
             pl.appendChild(d);
         });
         drawTacticLines();
@@ -3269,8 +3034,8 @@
         const fullRoles = { 'POR': 'PORTIERE', 'DIF': 'DIFENSORE', 'CEN': 'CENTROCAMPISTA', 'ATT': 'ATTACCANTE' };
         const rsFullMap = {
             'POR':'Portiere','DC':'Difensore Centrale','TD':'Terzino Destro','TS':'Terzino Sinistro','LIB':'Libero',
-            'CDC':'Centrocampista','CDC_old':'Mediano','CDC':'Centrocampista Difensivo','COC':'Centrocampista Offensivo','CAM':'Trequartista','AD':'Ala Destra','AS':'Ala Sinistra','MEZ':'Mezzala',
-            'CF':'Centravanti','P':'Prima Punta','SP':'Seconda Punta','SS':'Seconda Punta','FP':'Falso 9'
+            'CDC':'Centrocampista','CDM':'Mediano','CAM':'Trequartista','AD':'Ala Destra','AS':'Ala Sinistra','MEZ':'Mezzala',
+            'CF':'Centravanti','SS':'Seconda Punta','FP':'Falso 9'
         };
         const ruoloLabel = p.rs ? (rsFullMap[p.rs] || p.rs) : (fullRoles[p.r] || p.r);
         document.getElementById('m-ruolo-txt').innerText = ruoloLabel;
@@ -3319,13 +3084,11 @@
             initHeatmapCanvas();
         }
     });
-
     // ============================================================
     // SISTEMA NOTIFICHE
     // ============================================================
     let _notifData = [];
     let _notifOpen = false;
-
     function toggleNotifPanel() {
         const panel = document.getElementById('notif-panel');
         _notifOpen = !_notifOpen;
@@ -3343,7 +3106,6 @@
             }, 100);
         }
     }
-
     function closeNotifOutside(e) {
         const panel = document.getElementById('notif-panel');
         const btn = document.getElementById('notif-btn');
@@ -3352,16 +3114,13 @@
             _notifOpen = false;
         }
     }
-
     function updateNotifDot(show) {
         const dot = document.getElementById('notif-dot');
         if (dot) dot.style.display = show ? 'block' : 'none';
     }
-
     function buildNotifications() {
         const lastVisit = parseInt(localStorage.getItem('milanac_last_visit') || '0');
         _notifData = [];
-
         // News non lette
         (data.news || []).slice(0, 10).forEach(n => {
             _notifData.push({
@@ -3372,7 +3131,6 @@
                 unread: (n.ts || 0) > lastVisit
             });
         });
-
         // Nuove pagelle
         (data.pagelle || []).slice(0, 10).forEach(p => {
             _notifData.push({
@@ -3383,7 +3141,6 @@
                 unread: (p.id || 0) > lastVisit
             });
         });
-
         // Convocazioni recenti
         const convocati = (data.ps || []).filter(p => p.convocato);
         if (convocati.length > 0) {
@@ -3396,16 +3153,12 @@
                 unread: convTs > lastVisit
             });
         }
-
         // Ordina per data
         _notifData.sort((a, b) => b.ts - a.ts);
-
         const hasUnread = _notifData.some(n => n.unread);
         updateNotifDot(hasUnread);
-
         if (_notifOpen) renderNotifList();
     }
-
     function renderNotifList() {
         const list = document.getElementById('notif-list');
         if (!list) return;
@@ -3425,14 +3178,12 @@
             </div>`;
         }).join('');
     }
-
     function clearNotifications() {
         localStorage.setItem('milanac_last_visit', Date.now().toString());
         updateNotifDot(false);
         _notifData = _notifData.map(n => ({ ...n, unread: false }));
         renderNotifList();
     }
-
     function timeAgo(ts) {
         const diff = Date.now() - ts;
         const m = Math.floor(diff / 60000);
@@ -3444,20 +3195,17 @@
         if (d < 7) return `${d} giorni fa`;
         return new Date(ts).toLocaleDateString('it-IT');
     }
-
     // ── Condividi da modal anteprima ──
     async function sharePreviewImage() {
         // Questa funzione non viene più usata — tasto rimosso
         // Mantenuta per compatibilità
     }
-
     function closeShareModal() {
         document.getElementById('share-preview-modal').classList.remove('active');
         // Riabilita lo scroll dell'app
         document.body.style.overflow = '';
         document.querySelector('.container') && (document.querySelector('.container').style.overflow = '');
     }
-
     function exitApp() {
         document.getElementById('exit-modal').style.display = 'none';
         // Metodo più efficace per WebView Android
@@ -3468,39 +3216,6 @@
         setTimeout(function() {
             try { location.href = 'about:blank'; } catch(e) {}
         }, 300);
-    }
-
-    function renderStoria() {
-        const el = document.getElementById('l-storia');
-        if(!el) return;
-        const form = document.getElementById('storia-admin-form');
-        if(form) form.style.display = currentAdmin ? 'block' : 'none';
-        const storia = data.storia || [];
-        if(storia.length === 0) {
-            el.innerHTML = '<div style="text-align:center;padding:40px 20px;"><div style="font-size:48px;margin-bottom:12px;">🏛️</div><div style="font-family:Oswald;font-size:13px;color:#444;text-transform:uppercase;letter-spacing:1px;">La storia del club verrà scritta qui</div></div>';
-            return;
-        }
-        el.innerHTML = storia.map((s, i) => `
-            <div style="background:linear-gradient(145deg,#111,#0a0a0a);border:1px solid rgba(212,175,55,0.2);border-radius:18px;overflow:hidden;margin-bottom:14px;">
-                <div style="background:linear-gradient(90deg,rgba(212,175,55,0.1),transparent);padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between;">
-                    <div style="font-family:Teko;font-size:22px;color:white;">${s.t}</div>
-                    ${currentAdmin ? `<button onclick="data.storia.splice(${i},1);sync();renderStoria()" style="background:none;border:none;color:#444;font-size:16px;cursor:pointer;">🗑️</button>` : ''}
-                </div>
-                <div style="padding:14px 16px;font-size:14px;color:#aaa;line-height:1.7;">${s.txt}</div>
-            </div>`).join('');
-    }
-    function addStoria() {
-        if(!currentAdmin) return;
-        const t = document.getElementById('storia-titolo').value.trim();
-        const txt = document.getElementById('storia-testo').value.trim();
-        if(!t || !txt) { showToast('⚠ Compila titolo e testo', true); return; }
-        if(!data.storia) data.storia = [];
-        data.storia.push({ id: Date.now(), t, txt, d: new Date().toLocaleDateString() });
-        sync();
-        document.getElementById('storia-titolo').value = '';
-        document.getElementById('storia-testo').value = '';
-        renderStoria();
-        showToast('🏛️ Capitolo pubblicato!');
     }
 </script>
 </body>
