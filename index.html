@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MILANAC PRO CLUB</title>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Teko:wght@400;700&family=Bebas+Neue&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Teko:wght@400;700&family=Bebas+Neue&family=Great+Vibes&family=Pinyon+Script&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
@@ -37,7 +37,7 @@
         .btn-entrance { padding: 16px 55px; margin-top: 50px; background: linear-gradient(180deg, #e3262e 0%, #a01115 50%, #8b1216 100%); color: white; border: 3px solid var(--oro); border-radius: 50px; font-family: 'Oswald'; font-weight: bold; font-size: 16px; text-transform: uppercase; letter-spacing: 2.5px; cursor: pointer; position: relative; overflow: hidden; z-index: 10; box-shadow: 0 10px 25px rgba(0,0,0,0.7), inset 0 2px 5px rgba(255,255,255,0.3); transition: all 0.3s ease-out; -webkit-tap-highlight-color: transparent; }
         .btn-entrance::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%); border-radius: 50px 50px 0 0; pointer-events: none; }
         .btn-entrance:hover, .btn-entrance:active { transform: translateY(-4px) scale(1.02); box-shadow: 0 15px 35px rgba(198, 28, 35, 0.6), inset 0 2px 5px rgba(255,255,255,0.4); background: linear-gradient(180deg, #ff333a 0%, #C61C23 100%); border-color: #fff; }
-        header { height: 64px; border-bottom: 1px solid rgba(212,175,55,0.3); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; z-index: 2000; position: relative;
+        header { height: 68px; border-bottom: 1px solid rgba(212,175,55,0.25); display: flex; align-items: center; padding: 0; z-index: 2000; position: relative;
             background: linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 40%, #111 100%);
             box-shadow: 0 2px 20px rgba(0,0,0,0.8), inset 0 1px 0 rgba(212,175,55,0.15); }
         .sidebar { position: fixed; top: 0; right: -100%; width: 280px; height: 100%; background: rgba(5,5,5,0.98); transition: 0.4s; z-index: 3000; border-left: 2px solid var(--rosso); padding-top: 14px; }
@@ -1128,63 +1128,68 @@
         ">ENTRA NEL CLUB</button>
     </div>
 </div>
-<header style="position:relative;">
-    <!-- MILANAC oro 3D centrato -->
-    <div style="position:absolute;left:0;right:0;display:flex;justify-content:center;align-items:center;pointer-events:none;height:100%;">
+<header style="display:flex;align-items:center;justify-content:space-between;padding:0 16px 0 18px;">
+    <!-- SINISTRA: scritta Milanac corsiva oro -->
+    <div style="display:flex;align-items:center;flex:1;min-width:0;">
         <span style="
-            font-family:'Great Vibes', cursive;
-            font-size:42px;
+            font-family:'Pinyon Script','Great Vibes',cursive;
+            font-size:48px;
             font-weight:400;
-            letter-spacing:2px;
+            line-height:1;
+            letter-spacing:1px;
             background: linear-gradient(
                 180deg,
                 #fffbe6 0%,
-                #f5d97a 15%,
-                #D4AF37 35%,
-                #c9921a 50%,
-                #D4AF37 65%,
-                #f5d97a 80%,
-                #fffbe6 95%,
-                #c9821a 100%
+                #f5e87a 12%,
+                #D4AF37 30%,
+                #c9821a 48%,
+                #D4AF37 62%,
+                #f5d97a 78%,
+                #fffbe6 92%,
+                #a06010 100%
             );
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.9)) drop-shadow(0 1px 1px rgba(0,0,0,0.8));
-            text-shadow: none;
+            filter:
+                drop-shadow(0 3px 4px rgba(0,0,0,0.95))
+                drop-shadow(0 1px 1px rgba(0,0,0,0.9))
+                drop-shadow(1px 1px 0px rgba(0,0,0,0.5));
+            white-space: nowrap;
+            display: block;
         ">Milanac</span>
     </div>
-    <!-- DESTRA: campanella oro + hamburger oro -->
-    <div style="display:flex;align-items:center;gap:14px;margin-left:auto;">
+    <!-- DESTRA: campanella + hamburger, allineati verticalmente al testo -->
+    <div style="display:flex;align-items:center;gap:14px;flex-shrink:0;">
         <!-- Campanella oro -->
         <button id="notif-btn" onclick="toggleNotifPanel()"
-            style="position:relative;cursor:pointer;padding:8px;border-radius:50%;
+            style="position:relative;cursor:pointer;padding:8px;
             background:transparent;border:none;
             display:flex;align-items:center;justify-content:center;
             -webkit-tap-highlight-color:transparent;"
-            ontouchstart="this.style.opacity='0.6'" ontouchend="this.style.opacity='1'">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            ontouchstart="this.style.opacity='0.55'" ontouchend="this.style.opacity='1'">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
                 <defs>
                     <linearGradient id="goldBell" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="#fffbe6"/>
-                        <stop offset="20%" stop-color="#f5d97a"/>
-                        <stop offset="50%" stop-color="#c9921a"/>
-                        <stop offset="80%" stop-color="#f5d97a"/>
-                        <stop offset="100%" stop-color="#8b6010"/>
+                        <stop offset="0%"   stop-color="#fffbe6"/>
+                        <stop offset="20%"  stop-color="#f5d97a"/>
+                        <stop offset="50%"  stop-color="#c9821a"/>
+                        <stop offset="80%"  stop-color="#f5d97a"/>
+                        <stop offset="100%" stop-color="#8b5c10"/>
                     </linearGradient>
                 </defs>
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="url(#goldBell)" fill="rgba(212,175,55,0.08)"/>
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="url(#goldBell)" fill="rgba(212,175,55,0.07)"/>
                 <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="url(#goldBell)"/>
             </svg>
             <span id="notif-dot"></span>
         </button>
         <!-- Hamburger oro -->
         <div onclick="document.querySelector('.sidebar').classList.add('active')"
-            style="display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:6px;-webkit-tap-highlight-color:transparent;"
+            style="display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:5px;-webkit-tap-highlight-color:transparent;"
             ontouchstart="this.style.opacity='0.5'" ontouchend="this.style.opacity='1'">
-            <span style="display:block;width:22px;height:2px;border-radius:2px;background:linear-gradient(90deg,#f5d97a,#D4AF37,#c9921a);box-shadow:0 1px 3px rgba(0,0,0,0.6);"></span>
-            <span style="display:block;width:18px;height:2px;border-radius:2px;background:linear-gradient(90deg,#f5d97a,#D4AF37,#c9921a);box-shadow:0 1px 3px rgba(0,0,0,0.6);"></span>
-            <span style="display:block;width:22px;height:2px;border-radius:2px;background:linear-gradient(90deg,#f5d97a,#D4AF37,#c9921a);box-shadow:0 1px 3px rgba(0,0,0,0.6);"></span>
+            <span style="display:block;width:22px;height:2px;border-radius:2px;background:linear-gradient(90deg,#fffbe6,#D4AF37,#c9821a);box-shadow:0 1px 3px rgba(0,0,0,0.7);"></span>
+            <span style="display:block;width:16px;height:2px;border-radius:2px;background:linear-gradient(90deg,#f5d97a,#D4AF37,#c9821a);box-shadow:0 1px 3px rgba(0,0,0,0.7);"></span>
+            <span style="display:block;width:22px;height:2px;border-radius:2px;background:linear-gradient(90deg,#fffbe6,#D4AF37,#c9821a);box-shadow:0 1px 3px rgba(0,0,0,0.7);"></span>
         </div>
     </div>
 </header>
@@ -1197,6 +1202,7 @@
     <button onclick="go('partite')">🏟️ Risultati Partite</button>
     <button onclick="go('premi')">🏆 Premi</button>
     <button onclick="go('social')">📲 Social</button>
+    <button onclick="go('storia')">📖 Cenni Storici</button>
     <button onclick="go('regolamento')">📜 Regolamento</button>
     <button onclick="goAdmin()">⚙️ Area Admin</button>
     <button onclick="document.querySelector('.sidebar').classList.remove('active')">Chiudi</button>
@@ -1571,6 +1577,24 @@
     </div>
 </div>
 
+    <!-- CENNI STORICI -->
+    <div id="p-storia" class="page">
+        <div style="margin-bottom:20px;">
+            <div style="font-family:Oswald;font-size:10px;color:#555;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;">MILANAC PRO CLUB</div>
+            <h2 style="font-family:Oswald;color:var(--oro);margin:0;font-size:26px;">📖 CENNI STORICI</h2>
+        </div>
+        <!-- Form admin -->
+        <div id="storia-admin-form" style="display:none;margin-bottom:16px;">
+            <div style="background:linear-gradient(145deg,#111,#0a0a0a);border:1px solid rgba(212,175,55,0.25);border-radius:16px;padding:14px;">
+                <div style="font-family:Oswald;font-size:10px;color:var(--oro);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;">✍️ Scrivi la storia del club</div>
+                <input type="text" id="storia-titolo" placeholder="Titolo capitolo (es. Le origini...)" style="margin-bottom:8px;font-family:Oswald;">
+                <textarea id="storia-testo" placeholder="Racconta la storia del Milanac..." style="min-height:120px;resize:vertical;font-size:14px;line-height:1.6;"></textarea>
+                <button class="btn-main" onclick="addStoria()" style="border-radius:10px;margin-top:8px;">📖 PUBBLICA CAPITOLO</button>
+            </div>
+        </div>
+        <div id="l-storia"></div>
+    </div>
+
 <!-- MODAL LOGIN ADMIN -->
 <div id="modal-admin-login" style="position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:9000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(10px);">
     <div class="admin-login-box">
@@ -1792,6 +1816,7 @@
         if (p === 'tattica') { setTimeout(initHeatmapCanvas, 100); }
         if (p === 'premi') { setTimeout(renderPremi, 50); }
         if (p === 'regolamento') { setTimeout(renderRegolamento, 50); }
+        if (p === 'storia') { setTimeout(renderStoria, 50); }
         // Segna come visto se apri news o pagelle
         if(p === 'news' || p === 'mercato') {
             localStorage.setItem('milanac_last_visit', Date.now().toString());
@@ -2947,6 +2972,48 @@
                 ${videoHtml}
             </div>`;
         }).join('');
+    }
+
+    /* ── Cenni Storici ── */
+    function addStoria() {
+        if(!currentAdmin) return;
+        const titolo = document.getElementById('storia-titolo').value.trim();
+        const testo  = document.getElementById('storia-testo').value.trim();
+        if(!titolo || !testo) { showToast('⚠ Compila titolo e testo', true); return; }
+        if(!data.storia) data.storia = [];
+        data.storia.push({ id: Date.now(), titolo, testo, author: currentAdmin, d: new Date().toLocaleDateString() });
+        sync();
+        document.getElementById('storia-titolo').value = '';
+        document.getElementById('storia-testo').value = '';
+        renderStoria();
+        showToast('📖 Capitolo pubblicato!');
+    }
+
+    function renderStoria() {
+        const el = document.getElementById('l-storia');
+        if(!el) return;
+        const form = document.getElementById('storia-admin-form');
+        if(form) form.style.display = currentAdmin ? 'block' : 'none';
+        const capitoli = data.storia || [];
+        if(capitoli.length === 0) {
+            el.innerHTML = `<div style="text-align:center;padding:50px 20px;">
+                <div style="font-size:48px;margin-bottom:14px;">📖</div>
+                <div style="font-family:Oswald;font-size:13px;color:#444;text-transform:uppercase;letter-spacing:1px;">La storia del club deve ancora essere scritta</div>
+                ${currentAdmin ? '<div style="font-family:Oswald;font-size:11px;color:#333;margin-top:8px;">Aggiungi il primo capitolo qui sopra</div>' : ''}
+            </div>`;
+            return;
+        }
+        el.innerHTML = capitoli.map((c, idx) => `
+            <div style="background:linear-gradient(145deg,#111,#0a0a0a);border:1px solid rgba(212,175,55,0.12);border-radius:18px;overflow:hidden;margin-bottom:14px;">
+                <div style="background:linear-gradient(90deg,rgba(212,175,55,0.1),transparent);padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
+                    <div>
+                        <div style="font-family:Teko;font-size:22px;color:var(--oro);line-height:1;">${c.titolo}</div>
+                        <div style="font-family:Oswald;font-size:9px;color:#444;margin-top:3px;text-transform:uppercase;letter-spacing:1px;">📅 ${c.d}</div>
+                    </div>
+                    ${currentAdmin ? `<button onclick="data.storia.splice(${idx},1);sync();renderStoria()" style="background:none;border:none;color:#333;font-size:16px;cursor:pointer;flex-shrink:0;padding:2px;">🗑️</button>` : ''}
+                </div>
+                <div style="padding:16px 18px;font-size:14px;color:#ccc;line-height:1.8;font-family:Georgia,serif;white-space:pre-wrap;">${c.testo}</div>
+            </div>`).join('');
     }
 
     function render() {
