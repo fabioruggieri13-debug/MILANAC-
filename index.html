@@ -1017,16 +1017,23 @@
         #notif-btn { background:none; border:none; padding:0; }
         #notif-btn:active { background:rgba(255,255,255,0.12); }
         #notif-dot {
-            position:absolute; top:-3px; right:-3px;
-            min-width:16px; height:16px; padding:0 3px;
-            background:var(--rosso);
-            border-radius:50%; border:1.5px solid #000;
-            display:none; align-items:center; justify-content:center;
-            font-family:Oswald; font-size:9px; font-weight:900; color:white;
-            box-shadow:0 0 6px rgba(198,28,35,0.7);
-            animation:pulse-red 2s infinite;
+            position: absolute; top: -7px; right: -7px;
+            min-width: 20px; height: 20px; padding: 0 4px;
+            background: linear-gradient(135deg, #ff5252 0%, #C61C23 55%, #8b0000 100%);
+            border-radius: 50%;
+            border: 2.5px solid #000;
+            display: none; align-items: center; justify-content: center;
+            font-family: Oswald; font-size: 10px; font-weight: 900; color: white;
+            letter-spacing: 0;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(198,28,35,0.9), 0 0 0 0 rgba(198,28,35,0.5);
+            animation: pulse-notif 2s ease-in-out infinite;
         }
-        @keyframes pulse-dot { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.3);opacity:0.7} }
+        @keyframes pulse-notif {
+            0%   { transform: scale(1);   box-shadow: 0 2px 10px rgba(198,28,35,0.9), 0 0 0 0   rgba(198,28,35,0.5); }
+            50%  { transform: scale(1.22);box-shadow: 0 2px 16px rgba(198,28,35,1),   0 0 0 8px  rgba(198,28,35,0);   }
+            100% { transform: scale(1);   box-shadow: 0 2px 10px rgba(198,28,35,0.9), 0 0 0 0   rgba(198,28,35,0);   }
+        }
         /* ── Notification Panel ── */
         #notif-panel { position:fixed; top:60px; right:10px; width:300px; max-height:400px; background:#0d0d0d; border:1px solid rgba(198,28,35,0.4); border-radius:16px; z-index:5000; display:none; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.8); }
         #notif-panel-header { display:flex; align-items:center; justify-content:space-between; padding:14px 16px 10px; border-bottom:1px solid rgba(255,255,255,0.06); }
@@ -3123,8 +3130,8 @@
         const activeAdm = document.getElementById('active-admin').value;
         let maxMedia = -1, topPlayerId = null, maxMvp = -1, kingId = null, maxDefMedia = -1, wallId = null;
         data.ps.forEach(p => {
-            const voti = Object.values(p.v_adm || {});
-            const media = parseFloat((voti.reduce((a, b) => a + b, 0) / (voti.length || 1)).toFixed(1));
+            const _st = getPlayerStats(p);
+            const media = _st.presenze > 0 ? _st.media : 0;
             if (media > maxMedia) { maxMedia = media; topPlayerId = p.id; }
             if ((p.mvp || 0) > maxMvp) { maxMvp = p.mvp; kingId = p.id; }
             if (p.r === 'DIF' && media > maxDefMedia) { maxDefMedia = media; wallId = p.id; }
@@ -3144,8 +3151,8 @@
         const gruppi = { 'POR': '', 'DIF': '', 'CEN': '', 'ATT': '' };
         let listaSemplice = "";
         data.ps.forEach(p => {
-            const voti = Object.values(p.v_adm || {});
-            const media = (voti.reduce((a, b) => a + b, 0) / (voti.length || 1)).toFixed(1);
+            const _pStats = getPlayerStats(p);
+            const media = _pStats.presenze > 0 ? _pStats.media.toFixed(1) : '—';
             let bIcons = "";
             if (p.id === kingId && maxMvp > 0) bIcons += "👑";
             if (p.id === topPlayerId && maxMedia > 6) bIcons += "🔥";
@@ -3181,7 +3188,7 @@
                         color:${p.convocato ? '#4caf50' : '#555'};
                         font-family:Oswald;font-size:10px;font-weight:700;cursor:pointer;
                         text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;"
-                        onclick="event.stopPropagation(); const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; render(); sync()">
+                        onclick="event.stopPropagation(); const i=data.ps.findIndex(x=>x.id==${p.id}); data.ps[i].convocato=!data.ps[i].convocato; data._lastConvTs=Date.now(); render(); sync()">
                         ${p.convocato ? 'DISPONIBILE' : 'NON DISP.'}
                     </button>
                 </div>
@@ -3648,55 +3655,138 @@
         }
     }
 
-    function updateNotifDot(show) {
+    function updateNotifDot(showOrCount) {
         const dot = document.getElementById('notif-dot');
-        if (dot) dot.style.display = show ? 'block' : 'none';
+        if (!dot) return;
+        if (typeof showOrCount === 'number' && showOrCount > 0) {
+            dot.style.display = 'flex';
+            dot.textContent = showOrCount > 9 ? '9+' : String(showOrCount);
+        } else if (showOrCount === true) {
+            dot.style.display = 'flex';
+            dot.textContent = '';
+        } else {
+            dot.style.display = 'none';
+            dot.textContent = '';
+        }
     }
 
     function buildNotifications() {
         const lastVisit = parseInt(localStorage.getItem('milanac_last_visit') || '0');
         _notifData = [];
 
-        // News non lette
-        (data.news || []).slice(0, 10).forEach(n => {
+        // 📢 Comunicati
+        (data.news || []).slice(0, 8).forEach(n => {
             _notifData.push({
-                icon: '📰',
+                icon: '📢',
                 title: 'Nuovo comunicato',
-                desc: n.txt ? n.txt.substring(0, 60) + (n.txt.length > 60 ? '...' : '') : '',
+                desc: n.txt ? n.txt.substring(0, 65) + (n.txt.length > 65 ? '...' : '') : '',
                 ts: n.ts || 0,
                 unread: (n.ts || 0) > lastVisit
             });
         });
 
-        // Nuove pagelle
-        (data.pagelle || []).slice(0, 10).forEach(p => {
+        // 📋 Pagelle pubblicate
+        (data.pagelle || []).slice(0, 8).forEach(pg => {
             _notifData.push({
-                icon: '📊',
-                title: 'Pagella pubblicata',
-                desc: p.matchLabel || 'Nuova pagella disponibile',
-                ts: p.id || 0,
-                unread: (p.id || 0) > lastVisit
+                icon: '📋',
+                title: `Pagella di ${pg.author}`,
+                desc: pg.matchLabel || 'Nuova pagella disponibile',
+                ts: pg.id || 0,
+                unread: (pg.id || 0) > lastVisit
             });
         });
 
-        // Convocazioni recenti
+        // ⚽ Risultati partite
+        (data.matches || []).slice(0, 6).forEach(m => {
+            const mTs = typeof m.id === 'number' ? m.id : 0;
+            const parts = (m.ris || '0-0').split('-').map(s => parseInt(s.trim()) || 0);
+            const esito = parts[0] > parts[1] ? '✅ Vittoria' : parts[0] < parts[1] ? '❌ Sconfitta' : '🤝 Pareggio';
+            _notifData.push({
+                icon: '⚽',
+                title: `${esito} — vs ${m.avv}`,
+                desc: `Risultato: ${m.ris} · ${m.d}`,
+                ts: mTs,
+                unread: mTs > lastVisit
+            });
+        });
+
+        // 🆕 Nuovi giocatori aggiunti (p.id è timestamp)
+        (data.ps || []).forEach(p => {
+            const pTs = typeof p.id === 'number' ? p.id : 0;
+            if (pTs > 0) {
+                _notifData.push({
+                    icon: '🆕',
+                    title: 'Nuovo giocatore aggiunto',
+                    desc: `${p.n} — #${p.m} · ${p.rs || p.r}`,
+                    ts: pTs,
+                    unread: pTs > lastVisit
+                });
+            }
+        });
+
+        // 🗳️ Sessioni di voto
+        (data.voteHistory || []).slice(0, 5).forEach(sess => {
+            const sTs = sess.id || 0;
+            _notifData.push({
+                icon: '🗳️',
+                title: 'Sessione voto aperta',
+                desc: sess.matchLabel || 'Nuovi voti disponibili',
+                ts: sTs,
+                unread: sTs > lastVisit
+            });
+        });
+
+        // 🎬 Highlight aggiunti
+        (data.matches || []).forEach(m => {
+            (m.highlights || []).forEach(hl => {
+                const hlTs = hl.id || 0;
+                _notifData.push({
+                    icon: '🎬',
+                    title: 'Highlight aggiunto',
+                    desc: `${hl.label} — vs ${m.avv} (da ${hl.addedBy || 'Admin'})`,
+                    ts: hlTs,
+                    unread: hlTs > lastVisit
+                });
+            });
+        });
+
+        // 📅 Prossime partite in calendario
+        const nowMs = Date.now();
+        (data.calendar || [])
+            .filter(c => new Date(c.dt).getTime() > nowMs)
+            .slice(0, 3)
+            .forEach(c => {
+                const cTs = c.id || 0;
+                const dataStr = new Date(c.dt).toLocaleDateString('it-IT', { day: '2-digit', month: 'short' });
+                const oraStr  = new Date(c.dt).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+                _notifData.push({
+                    icon: '📅',
+                    title: `Prossima partita: ${c.tipo}`,
+                    desc: `vs ${c.avv} — ${dataStr} alle ${oraStr}`,
+                    ts: cTs,
+                    unread: cTs > lastVisit
+                });
+            });
+
+        // 👥 Convocazioni aggiornate
         const convocati = (data.ps || []).filter(p => p.convocato);
         if (convocati.length > 0) {
             const convTs = data._lastConvTs || 0;
             _notifData.push({
                 icon: '👥',
-                title: 'Convocazioni aggiornate',
-                desc: convocati.map(p => p.n).join(', ').substring(0, 60),
+                title: `Convocati aggiornati (${convocati.length})`,
+                desc: convocati.map(p => p.n).join(', ').substring(0, 65),
                 ts: convTs,
                 unread: convTs > lastVisit
             });
         }
 
-        // Ordina per data
+        // Ordina per data (più recenti prima), limita a 25
         _notifData.sort((a, b) => b.ts - a.ts);
+        _notifData = _notifData.slice(0, 25);
 
-        const hasUnread = _notifData.some(n => n.unread);
-        updateNotifDot(hasUnread);
+        const unreadCount = _notifData.filter(n => n.unread).length;
+        updateNotifDot(unreadCount);
 
         if (_notifOpen) renderNotifList();
     }
@@ -3723,7 +3813,7 @@
 
     function clearNotifications() {
         localStorage.setItem('milanac_last_visit', Date.now().toString());
-        updateNotifDot(false);
+        updateNotifDot(0);
         _notifData = _notifData.map(n => ({ ...n, unread: false }));
         renderNotifList();
     }
