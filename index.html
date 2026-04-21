@@ -1529,6 +1529,18 @@
             <select id="sel-partita-voto" style="margin-bottom:8px;"><option value="">— Seleziona partita —</option></select>
             <button class="btn-main" onclick="openVoteSession()" style="background:#2e7d32;">✅ APRI SESSIONE VOTO</button>
         </div>
+        <!-- RESET DISPONIBILITÀ -->
+        <div class="card" style="display:block;margin-bottom:12px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                <span style="font-size:22px;">🔄</span>
+                <div>
+                    <h4 style="font-family:'Oswald';color:var(--oro);margin:0;font-size:15px;text-transform:uppercase;letter-spacing:1px;">Reset Disponibilità</h4>
+                    <div style="font-family:'Oswald';font-size:10px;color:#555;margin-top:2px;" id="last-reset-label">Ultimo reset: —</div>
+                </div>
+            </div>
+            <p style="font-size:12px;color:#888;margin:0 0 10px;line-height:1.5;">La disponibilità si azzera <b style="color:#ccc;">automaticamente ogni giorno</b>. Puoi anche forzare un reset manuale adesso.</p>
+            <button class="btn-main" onclick="manualResetConvocati()" style="background:linear-gradient(180deg,#c9821a,#8b5c10);border:1px solid var(--oro);border-radius:10px;">⚠️ AZZERA DISPONIBILITÀ ORA</button>
+        </div>
         <div class="card" style="display:block;margin-bottom:12px;">
             <h4 style="font-family:'Oswald';margin-top:0;">NUOVO GIOCATORE</h4>
             <input type="text" id="in-n" placeholder="Nome">
@@ -1835,6 +1847,7 @@
             data = doc.data();
             if(!data.voteHistory) data.voteHistory=[];
             if(!data.pagelle) data.pagelle=[];
+            checkDailyReset(); // ← controlla reset giornaliero
             render();
         }
         hideLoading(); // nasconde il loader appena arrivano i dati
@@ -1861,6 +1874,44 @@
             });
         }, 150);
     }
+    /* ============================================================
+       RESET GIORNALIERO DISPONIBILITÀ
+    ============================================================ */
+    function todayString() {
+        // Restituisce la data odierna come stringa "YYYY-MM-DD"
+        const d = new Date();
+        return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    }
+
+    function checkDailyReset() {
+        const today = todayString();
+        const lastReset = data._lastResetDate || '';
+        if (lastReset === today) return; // già resettato oggi, niente da fare
+        // Nuovo giorno → azzera tutte le disponibilità
+        let changed = false;
+        (data.ps || []).forEach(p => {
+            if (p.convocato) { p.convocato = false; changed = true; }
+        });
+        data._lastResetDate = today;
+        data._lastConvTs = Date.now();
+        // Salva solo se c'è qualcosa da aggiornare (evita write inutili al primo avvio)
+        sync(['ps', '_lastResetDate', '_lastConvTs']);
+        if (changed) {
+            showToast('🔄 Disponibilità azzerata — nuovo giorno!');
+        }
+    }
+
+    function manualResetConvocati() {
+        if (!currentAdmin) { alert('Devi essere loggato come admin.'); return; }
+        if (!confirm('Azzerare la disponibilità di tutti i giocatori?')) return;
+        (data.ps || []).forEach(p => { p.convocato = false; });
+        data._lastResetDate = todayString();
+        data._lastConvTs = Date.now();
+        sync(['ps', '_lastResetDate', '_lastConvTs']);
+        render();
+        showToast('✅ Disponibilità azzerata!');
+    }
+
     /* ============================================================
        NAVIGAZIONE
     ============================================================ */
@@ -3417,6 +3468,19 @@
         // Aggiorna nome admin loggato
         const adminNameEl = document.getElementById('admin-logged-name');
         if(adminNameEl) adminNameEl.innerText = currentAdmin || '—';
+        // Aggiorna etichetta ultimo reset
+        const resetLbl = document.getElementById('last-reset-label');
+        if(resetLbl) {
+            const lr = data._lastResetDate;
+            if(lr) {
+                const [y,m,d] = lr.split('-');
+                const oggi = todayString();
+                const isToday = lr === oggi;
+                resetLbl.innerHTML = `Ultimo reset: <b style="color:${isToday?'#4caf50':'#aaa'}">${d}/${m}/${y}${isToday?' (oggi)':''}</b>`;
+            } else {
+                resetLbl.textContent = 'Ultimo reset: mai effettuato';
+            }
+        }
         // Render pagelle con accordion
         const pagelleEl = document.getElementById('l-mercato');
         if(pagelleEl) {
