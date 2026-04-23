@@ -2621,7 +2621,7 @@
                     </div>
                     ${currentAdmin ? `<button onclick="deleteRegolamento(${r.id})" style="flex-shrink:0;background:rgba(198,28,35,0.1);border:1px solid rgba(198,28,35,0.2);color:#c62828;border-radius:8px;padding:4px 10px;font-family:Oswald;font-size:10px;text-transform:uppercase;cursor:pointer;">✕</button>` : ''}
                 </div>
-                <div style="padding:14px 16px;font-size:18px;color:#d4b86a;line-height:1.75;font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;white-space:pre-wrap;letter-spacing:0.3px;">${r.testo}</div>
+                <div style="padding:14px 16px;font-size:18px;color:#d4b86a;line-height:1.75;font-family:'Cormorant Garamond',Georgia,serif;white-space:pre-wrap;letter-spacing:0.3px;">${r.testo}</div>
             </div>`).join('');
     }
 
@@ -3332,7 +3332,7 @@
                     </div>
                     <button style="background:rgba(198,28,35,0.1);border:1px solid rgba(198,28,35,0.2);color:#c62828;border-radius:8px;padding:4px 10px;font-family:Oswald;font-size:10px;text-transform:uppercase;cursor:pointer;" onclick="data.news.splice(${idx},1); sync()">✕ Elimina</button>
                 </div>
-                <div style="padding:14px 16px;font-size:15px;color:${isFirst?'#f5e6b0':'#d4b86a'};line-height:1.75;font-family:'Cormorant Garamond',Georgia,serif;font-size:17px;letter-spacing:0.3px;">${n.txt}</div>
+                <div style="padding:14px 16px;font-size:17px;color:${isFirst?'#f5e6b0':'#d4b86a'};line-height:1.75;font-family:'Cormorant Garamond',Georgia,serif;letter-spacing:0.3px;">${n.txt}</div>
             </div>`;
         });
         // Calendario
