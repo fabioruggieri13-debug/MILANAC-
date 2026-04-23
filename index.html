@@ -681,9 +681,11 @@
         .vsb-label { font-family: 'Oswald'; font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
         .vsb-match { font-family: 'Teko'; font-size: 20px; color: white; }
         .vsb-btn { background: var(--rosso); border: none; color: white; font-family: 'Oswald'; font-size: 11px; padding: 6px 12px; border-radius: 8px; cursor: pointer; text-transform: uppercase; }
+
         /* ═══════════════════════════════════════════
            SEZIONE PREMI — CLASSIFICA STAGIONALE
         ═══════════════════════════════════════════ */
+
         /* Tab switcher */
         .premi-tabs {
             display: flex; gap: 6px; margin-bottom: 16px;
@@ -700,6 +702,7 @@
             background: var(--rosso); color: white;
             box-shadow: 0 2px 10px rgba(198,28,35,0.5);
         }
+
         /* PODIO */
         .podio-wrap {
             display: flex; align-items: flex-end; justify-content: center;
@@ -742,6 +745,7 @@
         .podio-slot:nth-child(1) .podio-block { animation-delay: 0.3s; }
         .podio-slot:nth-child(2) .podio-block { animation-delay: 0.1s; }
         .podio-slot:nth-child(3) .podio-block { animation-delay: 0.5s; }
+
         /* CLASSIFICA lista */
         .rank-list { display: flex; flex-direction: column; gap: 8px; }
         .rank-row {
@@ -768,6 +772,7 @@
         .rank-name { font-family: Teko; font-size: 20px; color: white; flex: 1; text-transform: uppercase; }
         .rank-role { font-family: Oswald; font-size: 9px; color: #555; margin-left: 4px; }
         .rank-val { font-family: Oswald; font-size: 20px; font-weight: 900; }
+
         /* TROFEI categoria */
         .trofeo-card {
             background: linear-gradient(135deg, #111 0%, #080808 100%);
@@ -780,6 +785,7 @@
         .trofeo-title { font-family: Oswald; font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 2px; }
         .trofeo-winner { font-family: Teko; font-size: 28px; color: white; text-transform: uppercase; line-height: 1; }
         .trofeo-stat { font-family: Oswald; font-size: 13px; font-weight: 900; margin-left: auto; }
+
         /* ======================================================
            SOCIAL PAGE
         ====================================================== */
@@ -822,6 +828,7 @@
             font-size: 28px; color: #444; font-family: 'Oswald';
             flex-shrink: 0; line-height: 1;
         }
+
         /* Sezioni titolo */
         .section-label {
             font-family: Oswald; font-size: 10px; color: #444;
@@ -829,6 +836,7 @@
             margin: 16px 0 10px; display: flex; align-items: center; gap: 8px;
         }
         .section-label::after { content: ''; flex: 1; height: 1px; background: #1a1a1a; }
+
         /* ══════════════════════════════════════════════
            HIGHLIGHTS VIDEO
         ══════════════════════════════════════════════ */
@@ -853,6 +861,7 @@
             font-size: 28px; cursor: pointer; padding: 0 4px;
         }
         .hl-modal-body { width: 100%; padding: 16px; box-sizing: border-box; }
+
         /* Video embed container 16:9 */
         .video-container {
             position: relative; width: 100%;
@@ -886,6 +895,7 @@
             margin-bottom: 8px;
         }
         .hl-input:focus { outline: none; border-color: var(--oro); }
+
         /* Badge highlight sulla card partita */
         .hl-badge {
             display: inline-flex; align-items: center; gap: 4px;
@@ -902,6 +912,7 @@
             box-shadow: 0 0 8px rgba(198,28,35,0.4);
         }
         .hl-badge:active { transform: scale(0.95); }
+
         /* Lista video nella modal */
         .hl-video-item {
             background: #111; border: 1px solid #222;
@@ -933,6 +944,7 @@
             background: var(--rosso); color: white;
             box-shadow: 0 2px 8px rgba(198,28,35,0.4);
         }
+
         /* ── Toast feedback ── */
         #toast {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(80px);
@@ -946,6 +958,7 @@
         }
         #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
         #toast.error { border-color: var(--rosso); color: #ff6b6b; }
+
         /* ── Loading screen ── */
         #loading-screen {
             position: fixed; inset: 0; background: #000;
@@ -1040,6 +1053,7 @@
             font-family: Oswald; font-size: 11px; color: #444;
             text-transform: uppercase; letter-spacing: 3px;
         }
+
         /* ── Exit confirm modal ── */
         #exit-modal {
             position: fixed; inset: 0; background: rgba(0,0,0,0.92);
@@ -1066,8 +1080,10 @@
     <div class="loading-spinner"></div>
     <div class="loading-text">Caricamento...</div>
 </div>
+
 <!-- TOAST -->
 <div id="toast"></div>
+
 <!-- SHARE PREVIEW MODAL -->
 <div id="share-preview-modal">
     <!-- Header screenshot -->
@@ -1082,8 +1098,10 @@
     <div style="flex:1;position:relative;display:flex;align-items:center;justify-content:center;background:#000;overflow:hidden;">
         <img id="share-preview-img" src="" alt="Formazione"
             style="max-width:100%;max-height:100%;object-fit:contain;display:block;-webkit-touch-callout:default;touch-action:auto;user-select:auto;-webkit-user-select:auto;">
+
     </div>
 </div>
+
 <!-- NOTIFICATION PANEL -->
 <div id="notif-panel">
     <div id="notif-panel-header">
@@ -1092,6 +1110,7 @@
     </div>
     <div id="notif-list"><div id="notif-empty">Nessuna notifica</div></div>
 </div>
+
 <!-- EXIT MODAL -->
 <div id="exit-modal" style="display:none;align-items:center;justify-content:center;">
     <div class="exit-box">
@@ -1104,6 +1123,7 @@
         </div>
     </div>
 </div>
+
 <!-- INTRO -->
 <div id="intro">
     <div class="intro-container">
@@ -1451,6 +1471,7 @@
             </a>
         </div>
     </div>
+
     <!-- REGOLAMENTO -->
     <div id="p-regolamento" class="page">
         <!-- Header -->
@@ -1464,6 +1485,7 @@
                 <div style="font-family:Oswald;font-size:8px;color:#555;text-transform:uppercase;letter-spacing:1px;">articoli</div>
             </div>
         </div>
+
         <!-- Form scrittura (solo admin) -->
         <div id="reg-admin-form" style="display:none;background:linear-gradient(145deg,#111,#0a0a0a);border:1px solid rgba(212,175,55,0.25);border-radius:18px;overflow:hidden;margin-bottom:16px;">
             <div style="background:linear-gradient(90deg,rgba(212,175,55,0.08),transparent);padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.05);">
@@ -1475,14 +1497,17 @@
                 <button class="btn-main" onclick="addRegolamento()" style="border-radius:10px;">📜 PUBBLICA ARTICOLO</button>
             </div>
         </div>
+
         <!-- Lock prompt (non admin) -->
         <div id="reg-lock-prompt" style="display:none;background:#111;border:1px solid rgba(198,28,35,0.3);border-radius:14px;padding:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px;">
             <div style="font-family:'Oswald';font-size:12px;color:#666;text-transform:uppercase;letter-spacing:1px;">🔒 Solo gli admin possono modificare</div>
             <button onclick="closeRegLock()" style="background:none;border:none;color:#444;font-size:18px;cursor:pointer;">✕</button>
         </div>
+
         <!-- Lista articoli -->
         <div id="l-regolamento"></div>
     </div>
+
     <!-- ADMIN -->
     <div id="p-admin" class="page">
         <div style="display:flex;align-items:center;justify-content:space-between;background:linear-gradient(90deg,rgba(198,28,35,0.15),transparent);border:1px solid rgba(198,28,35,0.3);border-radius:12px;padding:12px 16px;margin-bottom:14px;margin-top:4px;">
@@ -1537,6 +1562,7 @@
         <h4 style="font-family:'Oswald';color:var(--oro);margin-top:20px;border-top:1px solid #222;padding-top:15px;">📊 STORICO VOTI</h4>
         <div id="l-storico-voti"></div>
     </div>
+
     <!-- CENNI STORICI -->
     <div id="p-storia" class="page">
         <!-- Header sezione -->
@@ -1547,6 +1573,7 @@
             </div>
             <div id="storia-save-badge" style="display:none;background:rgba(76,175,80,0.15);border:1px solid rgba(76,175,80,0.3);border-radius:8px;padding:4px 10px;font-family:Oswald;font-size:10px;color:#4caf50;text-transform:uppercase;letter-spacing:1px;">✓ Salvato</div>
         </div>
+
         <!-- Toolbar admin -->
         <div id="storia-toolbar" style="display:none;margin-bottom:10px;">
             <div style="display:flex;gap:8px;align-items:center;background:rgba(212,175,55,0.06);border:1px solid rgba(212,175,55,0.15);border-radius:10px;padding:8px 12px;">
@@ -1555,17 +1582,19 @@
                 <button onclick="storiaSync()" style="background:rgba(76,175,80,0.2);border:1px solid rgba(76,175,80,0.4);color:#4caf50;font-family:Oswald;font-size:11px;padding:6px 14px;border-radius:7px;cursor:pointer;text-transform:uppercase;letter-spacing:1px;">💾 Salva</button>
             </div>
         </div>
+
         <!-- Lock prompt (non admin) -->
         <div id="storia-lock-prompt" style="display:none;background:#111;border:1px solid rgba(198,28,35,0.3);border-radius:14px;padding:14px;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px;">
             <div style="font-family:'Oswald';font-size:12px;color:#666;text-transform:uppercase;letter-spacing:1px;">🔒 Solo gli admin possono modificare</div>
             <button onclick="document.getElementById('storia-lock-prompt').style.display='none'" style="background:none;border:none;color:#444;font-size:18px;cursor:pointer;">✕</button>
         </div>
+
         <!-- Contenuto — textarea in edit, div in lettura -->
         <div style="position:relative;">
             <div id="storia-view"
-                style="font-family:Georgia,serif;font-size:15px;color:#d4c5a0;
-                line-height:1.9;white-space:pre-wrap;min-height:200px;
-                padding:20px 4px;letter-spacing:0.2px;">
+                style="font-family:'Pinyon Script','Great Vibes',cursive;font-size:20px;color:#d4b86a;
+                line-height:2;white-space:pre-wrap;min-height:200px;
+                padding:20px 4px;letter-spacing:0.3px;">
             </div>
             <textarea id="storia-editor"
                 placeholder="Scrivi qui la storia del Milanac Pro Club..."
@@ -1577,10 +1606,10 @@
                     background:rgba(255,255,255,0.03);
                     border:1px solid rgba(212,175,55,0.25);
                     border-radius:12px;
-                    color:#f0e6c8;
-                    font-family:Georgia,serif;
-                    font-size:15px;
-                    line-height:1.9;
+                    color:#d4b86a;
+                    font-family:'Pinyon Script','Great Vibes',cursive;
+                    font-size:20px;
+                    line-height:2;
                     padding:18px 16px;
                     resize:vertical;
                     outline:none;
@@ -1621,6 +1650,7 @@
         </div>
     </div>
 </div>
+
 <!-- MODAL LOGIN ADMIN -->
 <div id="modal-admin-login" style="position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:9000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(10px);">
     <div class="admin-login-box">
@@ -1714,12 +1744,14 @@
                     <input class="hl-input" id="hl-url-input" placeholder="Link YouTube, Instagram o TikTok...">
                     <button class="btn-main" onclick="addHighlight()" style="border-radius:10px;">📹 AGGIUNGI LINK</button>
                 </div>
+
             </div>
         </div>
         <!-- Lista video -->
         <div id="hl-videos-list"></div>
     </div>
 </div>
+
 <script>
     /* ============================================================
        FIREBASE
@@ -1743,6 +1775,7 @@
     // e memorizzate in RAM solo per la sessione corrente.
     // Per cambiarle: vai su Firebase Console → milanac/config → adminCreds
     let ADMIN_CREDS = {}; // verrà popolato da loadAdminCreds()
+
     async function loadAdminCreds() {
         try {
             const doc = await db.collection('milanac').doc('config').get();
@@ -1786,13 +1819,16 @@
         t.className = 'show' + (isError ? ' error' : '');
         _toastTimer = setTimeout(() => { t.className = ''; }, 2200);
     }
+
     // Nascondi loading screen
     function hideLoading() {
         const ls = document.getElementById('loading-screen');
         if(ls) { ls.classList.add('hidden'); setTimeout(()=>ls.style.display='none', 500); }
     }
+
     // Carica credenziali admin sicure da Firestore
     loadAdminCreds();
+
     // Ascolta dati real-time
     db.collection("milanac").doc("v84_final").onSnapshot(doc => {
         if(doc.exists) {
@@ -2310,11 +2346,13 @@
             const SCALE = 2;
             const CW = W * SCALE;
             const CH = H * SCALE;
+
             const canvas = document.createElement('canvas');
             canvas.width = CW;
             canvas.height = CH;
             const ctx = canvas.getContext('2d');
             ctx.scale(SCALE, SCALE);
+
             // ── Sfondo campo con strisce ──
             const stripes = 10;
             const stripeH = H / stripes;
@@ -2322,25 +2360,30 @@
                 ctx.fillStyle = i % 2 === 0 ? '#1b5e20' : '#2e7d32';
                 ctx.fillRect(0, i * stripeH, W, stripeH);
             }
+
             // ── Bordo campo ──
             ctx.strokeStyle = 'rgba(255,255,255,0.9)';
             ctx.lineWidth = 3;
             ctx.strokeRect(1.5, 1.5, W - 3, H - 3);
+
             // ── Linea di metà campo ──
             ctx.beginPath();
             ctx.moveTo(0, H / 2);
             ctx.lineTo(W, H / 2);
             ctx.stroke();
+
             // ── Cerchio di centrocampo ──
             const cr = W * 0.125; // 25%/2 del W
             ctx.beginPath();
             ctx.arc(W / 2, H / 2, cr, 0, Math.PI * 2);
             ctx.stroke();
+
             // ── Punto centrale ──
             ctx.fillStyle = '#fff';
             ctx.beginPath();
             ctx.arc(W / 2, H / 2, 3, 0, Math.PI * 2);
             ctx.fill();
+
             // Funzione helper area
             function drawBox(cx, yEdge, bw, bh, isTop) {
                 const x = cx - bw / 2;
@@ -2350,39 +2393,49 @@
                 ctx.fillStyle = ctx.createLinearGradient ? null : null;
                 ctx.clearRect(x, isTop ? y - 2 : y + bh, bw, 4);
             }
+
             // ── Area grande top ──
             const lgW = W * 0.66, lgH = H * 0.18;
             ctx.strokeStyle = 'rgba(255,255,255,0.9)';
             ctx.strokeRect(W/2 - lgW/2, -1, lgW, lgH + 1);
+
             // ── Area piccola top ──
             const smW = W * 0.32, smH = H * 0.06;
             ctx.strokeRect(W/2 - smW/2, -1, smW, smH + 1);
+
             // ── Punto rigore top ──
             ctx.fillStyle = '#fff';
             ctx.beginPath();
             ctx.arc(W / 2, H * 0.13, 2.5, 0, Math.PI * 2);
             ctx.fill();
+
             // ── Arco top ──
             ctx.beginPath();
             ctx.arc(W / 2, H * 0.18, W * 0.125, 0, Math.PI);
             ctx.stroke();
+
             // ── Area grande bottom ──
             ctx.strokeRect(W/2 - lgW/2, H - lgH, lgW, lgH + 1);
+
             // ── Area piccola bottom ──
             ctx.strokeRect(W/2 - smW/2, H - smH, smW, smH + 1);
+
             // ── Punto rigore bottom ──
             ctx.beginPath();
             ctx.arc(W / 2, H * 0.87, 2.5, 0, Math.PI * 2);
             ctx.fill();
+
             // ── Arco bottom ──
             ctx.beginPath();
             ctx.arc(W / 2, H * 0.82, W * 0.125, Math.PI, Math.PI * 2);
             ctx.stroke();
+
             // ── Giocatori ──
             const players = (data.ps || []).filter(p => p.convocato === true || p.convocato === 'true');
             for (const p of players) {
                 const px = (p.x / 100) * W + (W * 0.07); // offset center (jersey is ~14% wide)
                 const py = (p.y / 100) * H + (H * 0.05);
+
                 // Cerchio jersey
                 const r = 22;
                 ctx.beginPath();
@@ -2392,12 +2445,14 @@
                 ctx.strokeStyle = '#C61C23';
                 ctx.lineWidth = 3;
                 ctx.stroke();
+
                 // Numero maglia
                 ctx.fillStyle = '#D4AF37';
                 ctx.font = 'bold 16px Oswald, sans-serif';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText(String(p.m || ''), px, py);
+
                 // Nome
                 const nameY = py + r + 14;
                 ctx.fillStyle = 'rgba(0,0,0,0.85)';
@@ -2411,6 +2466,7 @@
                 ctx.font = 'bold 10px Oswald, sans-serif';
                 ctx.fillText((p.n || '').toUpperCase(), px, nameY);
             }
+
             // ── Esporta e condividi ──
             const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
             const byteStr = atob(dataUrl.split(',')[1]);
@@ -2418,6 +2474,7 @@
             for (let i = 0; i < byteStr.length; i++) arr[i] = byteStr.charCodeAt(i);
             const blob = new Blob([arr], { type: 'image/jpeg' });
             const file = new File([blob], 'formazione-milanac.jpg', { type: 'image/jpeg' });
+
             // Mostra immagine a schermo intero per screenshot
             const previewImg = document.getElementById('share-preview-img');
             previewImg.src = dataUrl;
@@ -2469,6 +2526,7 @@
         sync();
         document.getElementById('modal-edit-player').style.display = 'none';
     }
+
     function updateStat(id, key, val) {
         const i = data.ps.findIndex(x => x.id == id);
         data.ps[i][key] = Math.max(0, (data.ps[i][key] || 0) + val);
@@ -2562,9 +2620,10 @@
                     </div>
                     ${currentAdmin ? `<button onclick="deleteRegolamento(${r.id})" style="flex-shrink:0;background:rgba(198,28,35,0.1);border:1px solid rgba(198,28,35,0.2);color:#c62828;border-radius:8px;padding:4px 10px;font-family:Oswald;font-size:10px;text-transform:uppercase;cursor:pointer;">✕</button>` : ''}
                 </div>
-                <div style="padding:14px 16px;font-size:14px;color:#bbb;line-height:1.7;font-family:Segoe UI,sans-serif;white-space:pre-wrap;">${r.testo}</div>
+                <div style="padding:14px 16px;font-size:18px;color:#d4b86a;line-height:1.75;font-family:'Pinyon Script','Great Vibes',cursive;white-space:pre-wrap;letter-spacing:0.3px;">${r.testo}</div>
             </div>`).join('');
     }
+
     /* ============================================================
        CALENDARIO NAVIGAZIONE
     ============================================================ */
@@ -2658,12 +2717,14 @@
        PREMI ENGINE
     ══════════════════════════════════════════ */
     let premiTab = 'trofei';
+
     function switchPremiTab(tab, btn) {
         premiTab = tab;
         document.querySelectorAll('.premi-tab').forEach(b => b.classList.remove('active'));
         if(btn) btn.classList.add('active');
         renderPremi();
     }
+
     function getPlayerStats(p) {
         // Media combinata voteHistory + pagelle
         const votiFlat = [];
@@ -2687,6 +2748,7 @@
         const media = votiFlat.length ? votiFlat.reduce((a,b)=>a+b,0)/votiFlat.length : 0;
         return { presenze, media: parseFloat(media.toFixed(2)), votiFlat };
     }
+
     function renderPremi() {
         const el = document.getElementById('l-premi');
         if(!el) return;
@@ -2694,8 +2756,10 @@
             el.innerHTML = '<p style="color:#444;text-align:center;font-family:Oswald;padding:40px 0;font-size:13px;">Nessun giocatore ancora.</p>';
             return;
         }
+
         // Arricchisci ogni giocatore con stats calcolate
         const players = data.ps.map(p => ({ ...p, _s: getPlayerStats(p) }));
+
         if(premiTab === 'trofei') {
             el.innerHTML = renderTrofei(players);
             // Triggera barre animate dopo render
@@ -2720,6 +2784,7 @@
             });
         }
     }
+
     function buildPodio(sorted, valFn, unit) {
         if(sorted.length === 0) return '<p style="color:#444;text-align:center;font-family:Oswald;padding:20px;font-size:12px;">Nessun dato disponibile.</p>';
         const top3 = sorted.slice(0,3);
@@ -2730,6 +2795,7 @@
         const colors = ['#a0a0a0','#D4AF37','#cd7f32'];
         const avatarSizes = ['52px','64px','46px'];
         const borders = [`3px solid #a0a0a0`,`3px solid #D4AF37`,`3px solid #cd7f32`];
+
         let html = '<div class="podio-wrap">';
         order.forEach((p, i) => {
             const realRank = order === top3 ? i : (i===0?1:i===1?0:2);
@@ -2749,6 +2815,7 @@
         html += '</div>';
         return html;
     }
+
     function buildRankList(sorted, valFn, unit, barColor) {
         if(sorted.length === 0) return '';
         const maxVal = valFn(sorted[0]) || 1;
@@ -2770,6 +2837,7 @@
             </div>`;
         }).join('') + '</div>';
     }
+
     function renderTrofei(players) {
         // Calcola vincitori per categoria
         const byGoals   = [...players].sort((a,b)=>(b.g||0)-(a.g||0));
@@ -2779,8 +2847,10 @@
         const byYellow  = [...players].sort((a,b)=>(b.yl||0)-(a.yl||0));
         const byMedia   = [...players].filter(p=>p._s.votiFlat.length>0).sort((a,b)=>b._s.media-a._s.media);
         const byPres    = [...players].sort((a,b)=>b._s.presenze-a._s.presenze);
+
         // Migliore difensore: DIF con media voto più alta
         const byDefMedia = [...players].filter(p => p.r === 'DIF' && p._s.votiFlat.length > 0).sort((a,b) => b._s.media - a._s.media);
+
         const trofei = [
             { icon:'⚽', title:'Capocannoniere', player: byGoals[0], val: byGoals[0]?.g||0, unit:' GOL', color:'#C61C23', bg:'rgba(198,28,35,0.1)' },
             { icon:'👟', title:'Re degli Assist', player: byAssist[0], val: byAssist[0]?.a||0, unit:' ASS', color:'#4caf50', bg:'rgba(76,175,80,0.08)' },
@@ -2791,6 +2861,7 @@
             { icon:'🏟️', title:'Giocatore Più Presente', player: byPres[0], val: byPres[0]?._s.presenze||0, unit:' pres.', color:'#ff9800', bg:'rgba(255,152,0,0.08)' },
             { icon:'🟨', title:'Fair Play (meno gialli)', player: byYellow[byYellow.length-1], val: byYellow[byYellow.length-1]?.yl||0, unit:' gialli', color:'#ffd600', bg:'rgba(255,214,0,0.08)' },
         ];
+
         return trofei.map(t => {
             if(!t.player) return '';
             return `<div class="trofeo-card" style="border:1px solid ${t.color}22;">
@@ -2806,6 +2877,7 @@
             </div>`;
         }).join('');
     }
+
     function renderClassifica(players) {
         let html = '';
         // Classifica Gol
@@ -2820,6 +2892,7 @@
         html += buildRankList(byAssist, p=>p.a||0, '', '#4caf50');
         return html;
     }
+
     function renderMediaVoto(players) {
         let html = '';
         const withVotes = [...players].filter(p=>p._s.votiFlat.length>0).sort((a,b)=>b._s.media-a._s.media);
@@ -2831,11 +2904,14 @@
         html += buildRankList(byPres.filter(p=>p._s.presenze>0), p=>p._s.presenze, ' pres.', '#ff9800');
         return html;
     }
+
     /* ══════════════════════════════════════════
        HIGHLIGHTS ENGINE
     ══════════════════════════════════════════ */
     let currentMatchId = null;
+
     /* ── Highlights tab switcher ── */
+
     function openHighlights(matchId) {
         const match = (data.matches||[]).find(m => (m.id||m.avv+m.d) == matchId);
         if(!match) return;
@@ -2846,17 +2922,20 @@
         document.getElementById('highlight-modal').classList.add('open');
         document.body.style.overflow = 'hidden';
     }
+
     function updateHighlightFormVisibility() {
         const formWrap  = document.getElementById('hl-add-form-wrap');
         const loginPrompt = document.getElementById('hl-login-prompt');
         if(formWrap)    formWrap.style.display    = currentAdmin ? 'block' : 'none';
         if(loginPrompt) loginPrompt.style.display = currentAdmin ? 'none'  : 'block';
     }
+
     function closeHighlights() {
         document.getElementById('highlight-modal').classList.remove('open');
         document.body.style.overflow = '';
         currentMatchId = null;
     }
+
     function extractVideoEmbed(url) {
         if(!url) return null;
         url = url.trim();
@@ -2873,6 +2952,7 @@
         // URL generico
         return { type: 'link', src: url };
     }
+
     function addHighlight() {
         if(!currentAdmin) return;
         const label = document.getElementById('hl-label-input').value.trim() || 'Highlight';
@@ -2888,6 +2968,7 @@
         renderHighlightVideos();
         render(); // aggiorna badge sulla card
     }
+
     function deleteHighlight(matchId, hlId) {
         const match = (data.matches||[]).find(m => (m.id||m.avv+m.d) == matchId);
         if(!match || !match.highlights) return;
@@ -2896,6 +2977,7 @@
         renderHighlightVideos();
         render();
     }
+
     function renderHighlightVideos() {
         const container = document.getElementById('hl-videos-list');
         if(!container) return;
@@ -2947,6 +3029,7 @@
             </div>`;
         }).join('');
     }
+
     /* ── Cenni Storici ── */
     /* ══════════════════════════════════════
        CENNI STORICI — Editor unico
@@ -2954,6 +3037,7 @@
     const STORIA_LS_KEY = 'milanac_storia_draft';
     let storiaEditMode = false;
     let storiaAutoSaveTimer = null;
+
     function renderStoria() {
         const toolbar  = document.getElementById('storia-toolbar');
         const viewEl   = document.getElementById('storia-view');
@@ -2961,13 +3045,17 @@
         const emptyEl  = document.getElementById('storia-empty');
         const lockEl   = document.getElementById('storia-lock-prompt');
         if(!viewEl) return;
+
         if(toolbar) toolbar.style.display = currentAdmin ? 'block' : 'none';
         if(lockEl) lockEl.style.display = currentAdmin ? 'none' : 'flex';
+
         const savedText = data.storiaText || '';
         const draftText = localStorage.getItem(STORIA_LS_KEY) || '';
         const displayText = savedText || draftText;
+
         if(editor) editor.value = displayText;
         if(viewEl)  viewEl.textContent = displayText;
+
         if(displayText.trim()) {
             if(viewEl)  viewEl.style.display = 'block';
             if(emptyEl) emptyEl.style.display = 'none';
@@ -2975,6 +3063,7 @@
             if(viewEl)  viewEl.style.display = 'none';
             if(emptyEl) emptyEl.style.display = 'block';
         }
+
         if(storiaEditMode && currentAdmin) {
             if(editor) { editor.style.display = 'block'; }
             if(viewEl) viewEl.style.display = 'none';
@@ -2983,6 +3072,7 @@
             if(editor) editor.style.display = 'none';
         }
     }
+
     function storiaToggleEdit() {
         if(!currentAdmin) return;
         storiaEditMode = !storiaEditMode;
@@ -3003,6 +3093,7 @@
             if(emptyEl) emptyEl.style.display = txt.trim() ? 'none' : 'block';
         }
     }
+
     function storiaOnInput(textarea) {
         const txt = textarea.value;
         // Salva subito in localStorage
@@ -3015,6 +3106,7 @@
             storiaSync(true);
         }, 2000);
     }
+
     function storiaSync(silent) {
         if(!currentAdmin) return;
         const editor = document.getElementById('storia-editor');
@@ -3027,8 +3119,10 @@
         if(badge) { badge.style.display = 'flex'; setTimeout(() => badge.style.display = 'none', 2500); }
         if(!silent) showToast('📖 Storia salvata!');
     }
+
     // addStoria mantenuta per compatibilità ma non usata
     function addStoria() { storiaSync(); }
+
     function render() {
         // ── Notifiche in-app: conta novità rispetto all'ultima visita ──
         buildNotifications();
@@ -3231,13 +3325,13 @@
                     <div style="display:flex;align-items:center;gap:8px;">
                         <span style="font-size:14px;">${isFirst?'🔴':'📄'}</span>
                         <div>
-                            <div style="font-family:Oswald;font-size:9px;color:${isFirst?'var(--oro)':'#555'};text-transform:uppercase;letter-spacing:1.5px;">${isFirst?'ULTIMO COMUNICATO':'COMUNICATO'}</div>
+                            <div style="font-family:'Pinyon Script','Great Vibes',cursive;font-size:14px;color:${isFirst?'var(--oro)':'#b8952a'};letter-spacing:1px;">${isFirst?'Ultimo Comunicato':'Comunicato'}</div>
                             <div style="font-family:Oswald;font-size:10px;color:#444;">${n.d}</div>
                         </div>
                     </div>
                     <button style="background:rgba(198,28,35,0.1);border:1px solid rgba(198,28,35,0.2);color:#c62828;border-radius:8px;padding:4px 10px;font-family:Oswald;font-size:10px;text-transform:uppercase;cursor:pointer;" onclick="data.news.splice(${idx},1); sync()">✕ Elimina</button>
                 </div>
-                <div style="padding:14px 16px;font-size:14px;color:${isFirst?'#ddd':'#aaa'};line-height:1.6;font-family:Segoe UI,sans-serif;">${n.txt}</div>
+                <div style="padding:14px 16px;font-size:15px;color:${isFirst?'#f5e6b0':'#d4b86a'};line-height:1.75;font-family:'Pinyon Script','Great Vibes',cursive;letter-spacing:0.4px;">${n.txt}</div>
             </div>`;
         });
         // Calendario
@@ -3527,11 +3621,13 @@
             initHeatmapCanvas();
         }
     });
+
     // ============================================================
     // SISTEMA NOTIFICHE
     // ============================================================
     let _notifData = [];
     let _notifOpen = false;
+
     function toggleNotifPanel() {
         const panel = document.getElementById('notif-panel');
         _notifOpen = !_notifOpen;
@@ -3549,6 +3645,7 @@
             }, 100);
         }
     }
+
     function closeNotifOutside(e) {
         const panel = document.getElementById('notif-panel');
         const btn = document.getElementById('notif-btn');
@@ -3557,6 +3654,7 @@
             _notifOpen = false;
         }
     }
+
     function updateNotifDot(showOrCount) {
         const dot = document.getElementById('notif-dot');
         if (!dot) return;
@@ -3571,9 +3669,11 @@
             dot.textContent = '';
         }
     }
+
     function buildNotifications() {
         const lastVisit = parseInt(localStorage.getItem('milanac_last_visit') || '0');
         _notifData = [];
+
         // 📢 Comunicati
         (data.news || []).slice(0, 8).forEach(n => {
             _notifData.push({
@@ -3584,6 +3684,7 @@
                 unread: (n.ts || 0) > lastVisit
             });
         });
+
         // 📋 Pagelle pubblicate
         (data.pagelle || []).slice(0, 8).forEach(pg => {
             _notifData.push({
@@ -3594,6 +3695,7 @@
                 unread: (pg.id || 0) > lastVisit
             });
         });
+
         // ⚽ Risultati partite
         (data.matches || []).slice(0, 6).forEach(m => {
             const mTs = typeof m.id === 'number' ? m.id : 0;
@@ -3607,6 +3709,7 @@
                 unread: mTs > lastVisit
             });
         });
+
         // 🆕 Nuovi giocatori aggiunti (p.id è timestamp)
         (data.ps || []).forEach(p => {
             const pTs = typeof p.id === 'number' ? p.id : 0;
@@ -3620,6 +3723,7 @@
                 });
             }
         });
+
         // 🗳️ Sessioni di voto
         (data.voteHistory || []).slice(0, 5).forEach(sess => {
             const sTs = sess.id || 0;
@@ -3631,6 +3735,7 @@
                 unread: sTs > lastVisit
             });
         });
+
         // 🎬 Highlight aggiunti
         (data.matches || []).forEach(m => {
             (m.highlights || []).forEach(hl => {
@@ -3644,6 +3749,7 @@
                 });
             });
         });
+
         // 📅 Prossime partite in calendario
         const nowMs = Date.now();
         (data.calendar || [])
@@ -3661,6 +3767,7 @@
                     unread: cTs > lastVisit
                 });
             });
+
         // 👥 Convocazioni aggiornate
         const convocati = (data.ps || []).filter(p => p.convocato);
         if (convocati.length > 0) {
@@ -3673,13 +3780,17 @@
                 unread: convTs > lastVisit
             });
         }
+
         // Ordina per data (più recenti prima), limita a 25
         _notifData.sort((a, b) => b.ts - a.ts);
         _notifData = _notifData.slice(0, 25);
+
         const unreadCount = _notifData.filter(n => n.unread).length;
         updateNotifDot(unreadCount);
+
         if (_notifOpen) renderNotifList();
     }
+
     function renderNotifList() {
         const list = document.getElementById('notif-list');
         if (!list) return;
@@ -3699,12 +3810,14 @@
             </div>`;
         }).join('');
     }
+
     function clearNotifications() {
         localStorage.setItem('milanac_last_visit', Date.now().toString());
         updateNotifDot(0);
         _notifData = _notifData.map(n => ({ ...n, unread: false }));
         renderNotifList();
     }
+
     function timeAgo(ts) {
         const diff = Date.now() - ts;
         const m = Math.floor(diff / 60000);
@@ -3716,17 +3829,46 @@
         if (d < 7) return `${d} giorni fa`;
         return new Date(ts).toLocaleDateString('it-IT');
     }
+
     // ── Condividi da modal anteprima ──
     async function sharePreviewImage() {
         // Questa funzione non viene più usata — tasto rimosso
         // Mantenuta per compatibilità
     }
+
     function closeShareModal() {
         document.getElementById('share-preview-modal').classList.remove('active');
         // Riabilita lo scroll dell'app
         document.body.style.overflow = '';
         document.querySelector('.container') && (document.querySelector('.container').style.overflow = '');
     }
+
+    /* ============================================================
+       AUTO-RESET DISPONIBILITÀ ALLE 21:00
+       Azzera solo il campo convocato (DISPONIBILE/NON DISP.) di tutti i
+       giocatori nella rosa, ogni giorno alle 21:00.
+       Non tocca voti, pagelle o voteHistory.
+    ============================================================ */
+    function checkAutoResetPresenze() {
+        const now = new Date();
+        const resetHour = 21;
+        const todayKey = `milanac_conv_reset_${now.getFullYear()}_${now.getMonth()}_${now.getDate()}`;
+        if (localStorage.getItem(todayKey)) return; // già resettato oggi
+        if (now.getHours() === resetHour && now.getMinutes() === 0) {
+            // Rimette tutti i giocatori a NON DISPONIBILE
+            data.ps.forEach(p => { p.convocato = false; });
+            data._lastConvTs = Date.now();
+            sync(['ps', '_lastConvTs']);
+            localStorage.setItem(todayKey, '1');
+            showToast('🔄 Presenze azzerate (21:00)');
+            render();
+        }
+    }
+    // Controlla ogni 30 secondi
+    setInterval(checkAutoResetPresenze, 30000);
+    // Controlla anche all'avvio (se l'app si apre dopo le 21:00 e non è stato ancora resettato)
+    setTimeout(checkAutoResetPresenze, 3000);
+
     function exitApp() {
         document.getElementById('exit-modal').style.display = 'none';
         // Metodo più efficace per WebView Android
