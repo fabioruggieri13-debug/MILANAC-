@@ -139,7 +139,7 @@
         .pagella-player-comm {
             font-size: 16px;
             font-family: 'Cormorant Garamond', Georgia, serif;
-            color: #bbb;
+            color: #d4b86a;
             font-style: normal;
             margin-top: 4px;
             line-height: 1.65;
@@ -2619,9 +2619,18 @@
                             <div style="font-family:Oswald;font-size:9px;color:#444;margin-top:1px;">${r.d} · ${r.autore || 'Admin'}</div>
                         </div>
                     </div>
-                    ${currentAdmin ? `<button onclick="deleteRegolamento(${r.id})" style="flex-shrink:0;background:rgba(198,28,35,0.1);border:1px solid rgba(198,28,35,0.2);color:#c62828;border-radius:8px;padding:4px 10px;font-family:Oswald;font-size:10px;text-transform:uppercase;cursor:pointer;">✕</button>` : ''}
+                    ${currentAdmin ? `<button onclick="deleteRegolamento(${r.id})" style="flex-shrink:0;background:rgba(198,28,35,0.1);border:1px solid rgba(198,28,35,0.2);color:#c62828;border-radius:8px;padding:4px 10px;font-family:Oswald;font-size:10px;text-transform:uppercase;cursor:pointer;">✕</button>
+                        <button onclick="editReg(${i})" style="background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.3);color:var(--oro);border-radius:8px;padding:4px 10px;font-family:Oswald;font-size:10px;text-transform:uppercase;cursor:pointer;">✏️ Modifica</button>` : ''}
                 </div>
-                <div style="padding:14px 16px;font-size:18px;color:#d4b86a;line-height:1.75;font-family:'Cormorant Garamond',Georgia,serif;white-space:pre-wrap;letter-spacing:0.3px;">${r.testo}</div>
+                <div id="reg-text-${i}" style="padding:14px 16px;font-size:18px;color:#d4b86a;line-height:1.75;font-family:'Cormorant Garamond',Georgia,serif;white-space:pre-wrap;letter-spacing:0.3px;">${r.testo}</div>
+                ${currentAdmin ? `
+                <div id="reg-edit-${i}" style="display:none;padding:0 14px 14px;">
+                    <textarea id="reg-edit-ta-${i}" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(212,175,55,0.3);color:#d4b86a;font-family:'Cormorant Garamond',Georgia,serif;font-size:17px;line-height:1.75;border-radius:8px;padding:10px;min-height:80px;box-sizing:border-box;resize:vertical;">${r.testo}</textarea>
+                    <div style="display:flex;gap:8px;margin-top:8px;">
+                        <button onclick="saveRegEdit(${i})" style="flex:1;padding:10px;background:#2e7d32;border:none;color:white;font-family:Oswald;font-size:12px;text-transform:uppercase;letter-spacing:1px;border-radius:8px;cursor:pointer;">✓ Salva</button>
+                        <button onclick="cancelRegEdit(${i})" style="padding:10px 16px;background:#1a1a1a;border:1px solid #333;color:#888;font-family:Oswald;font-size:12px;text-transform:uppercase;letter-spacing:1px;border-radius:8px;cursor:pointer;">Annulla</button>
+                    </div>
+                </div>` : ''}
             </div>`).join('');
     }
 
@@ -3326,13 +3335,13 @@
                     <div style="display:flex;align-items:center;gap:8px;">
                         <span style="font-size:14px;">${isFirst?'🔴':'📄'}</span>
                         <div>
-                            <div style="font-family:'Pinyon Script','Great Vibes',cursive;font-size:14px;color:${isFirst?'var(--oro)':'#b8952a'};letter-spacing:1px;">${isFirst?'Ultimo Comunicato':'Comunicato'}</div>
+                            <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;color:${isFirst?'var(--oro)':'#b8952a'};letter-spacing:1px;">${isFirst?'Ultimo Comunicato':'Comunicato'}</div>
                             <div style="font-family:Oswald;font-size:10px;color:#444;">${n.d}</div>
                         </div>
                     </div>
                     <button style="background:rgba(198,28,35,0.1);border:1px solid rgba(198,28,35,0.2);color:#c62828;border-radius:8px;padding:4px 10px;font-family:Oswald;font-size:10px;text-transform:uppercase;cursor:pointer;" onclick="data.news.splice(${idx},1); sync()">✕ Elimina</button>
                 </div>
-                <div style="padding:14px 16px;font-size:17px;color:${isFirst?'#f5e6b0':'#d4b86a'};line-height:1.75;font-family:'Cormorant Garamond',Georgia,serif;letter-spacing:0.3px;">${n.txt}</div>
+                <div style="padding:14px 16px;font-size:15px;color:${isFirst?'#f5e6b0':'#d4b86a'};line-height:1.75;font-family:'Cormorant Garamond',Georgia,serif;font-size:17px;letter-spacing:0.3px;">${n.txt}</div>
             </div>`;
         });
         // Calendario
@@ -3881,6 +3890,26 @@
             try { location.href = 'about:blank'; } catch(e) {}
         }, 300);
     }
+
+    // ── Regolamento modifica ──
+    function editReg(i) {
+        document.getElementById('reg-text-' + i).style.display = 'none';
+        const editDiv = document.getElementById('reg-edit-' + i);
+        if (editDiv) editDiv.style.display = 'block';
+    }
+    function cancelRegEdit(i) {
+        document.getElementById('reg-text-' + i).style.display = 'block';
+        const editDiv = document.getElementById('reg-edit-' + i);
+        if (editDiv) editDiv.style.display = 'none';
+    }
+    function saveRegEdit(i) {
+        const ta = document.getElementById('reg-edit-ta-' + i);
+        if (!ta || !data.regolamento || !data.regolamento[i]) return;
+        data.regolamento[i].testo = ta.value.trim();
+        sync();
+        renderRegolamento();
+        showToast('✓ Articolo aggiornato!');
+    }
 </script>
 </body>
-    </html>
+</html>
