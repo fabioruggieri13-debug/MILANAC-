@@ -3852,32 +3852,6 @@
         document.querySelector('.container') && (document.querySelector('.container').style.overflow = '');
     }
 
-    /* ============================================================
-       AUTO-RESET DISPONIBILITÀ ALLE 21:00
-       Azzera solo il campo convocato (DISPONIBILE/NON DISP.) di tutti i
-       giocatori nella rosa, ogni giorno alle 21:00.
-       Non tocca voti, pagelle o voteHistory.
-    ============================================================ */
-    function checkAutoResetPresenze() {
-        const now = new Date();
-        const resetHour = 21;
-        const todayKey = `milanac_conv_reset_${now.getFullYear()}_${now.getMonth()}_${now.getDate()}`;
-        if (localStorage.getItem(todayKey)) return; // già resettato oggi
-        if (now.getHours() === resetHour && now.getMinutes() === 0) {
-            // Rimette tutti i giocatori a NON DISPONIBILE
-            data.ps.forEach(p => { p.convocato = false; });
-            data._lastConvTs = Date.now();
-            sync(['ps', '_lastConvTs']);
-            localStorage.setItem(todayKey, '1');
-            showToast('🔄 Presenze azzerate (21:00)');
-            render();
-        }
-    }
-    // Controlla ogni 30 secondi
-    setInterval(checkAutoResetPresenze, 30000);
-    // Controlla anche all'avvio (se l'app si apre dopo le 21:00 e non è stato ancora resettato)
-    setTimeout(checkAutoResetPresenze, 3000);
-
     function exitApp() {
         document.getElementById('exit-modal').style.display = 'none';
         // Metodo più efficace per WebView Android
